@@ -15,76 +15,93 @@
  */
 package com.smartbt.vtsuite.mock;
 
+import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
 import com.smartbt.girocheck.servercommon.enums.ResultMessage;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
+import com.smartbt.vtsuite.boundary.PCA;
 import com.smartbt.vtsuite.boundary.PCARequest;
+import com.smartbt.vtsuite.boundary.PCAResponse;
 import com.smartbt.vtsuite.boundary.PCAReverseRequest;
+import com.smartbt.vtsuite.boundary.PCAReverseResponse;
+import com.smartbt.vtsuite.manager.CertegyBusinessLogic;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Mpowa Business Logic Class
  */
 public class MockCertegyBusinessLogic {
- 
+
     private static MockCertegyBusinessLogic INSTANCE;
- 
+
     public static synchronized MockCertegyBusinessLogic get() {
         if (INSTANCE == null) {
             INSTANCE = new MockCertegyBusinessLogic();
         }
         return INSTANCE;
-    } 
+    }
 
     public DirexTransactionResponse process(DirexTransactionRequest request) throws Exception {
+
         Map transactionData = request.getTransactionData();
         DirexTransactionResponse direxTransactionResponse = new DirexTransactionResponse();
 
         TransactionType transactionType = request.getTransactionType();
 
-        CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CertegyBusinessLogic] proccessing:: " + transactionType, null);
+        CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[MockCertegyBusinessLogic] proccessing:: " + transactionType, null);
 
-        String resultCode = "";
+        Map result = new HashMap();
+
         switch (transactionType) {
             case CERTEGY_AUTHENTICATION:
-                resultCode = combinedEnrollmentAuthentication(transactionData);
+                result = combinedEnrollmentAuthentication(transactionData);
                 break;
             case CERTEGY_REVERSE_REQUEST:
-                resultCode = reverseRequest(transactionData);
+                result = reverseRequest(transactionData);
                 break;
         }
 
-        if (resultCode == null || !resultCode.equals("00")) {
+        Boolean success = (Boolean) result.get(ParameterName.SUCESSFULL_PROCESSING);
+        String resultCode = (String) result.get(ParameterName.RESULT_CODE);
+
+        System.out.println("[MockCertegyBusinessLogic] :: resultCode = " + resultCode);
+
+        if (!success) {
             direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.CERTEGY_DENY, ResultMessage.CERTEGY_DENY);
             direxTransactionResponse.setErrorCode(resultCode);
             return direxTransactionResponse;
+        } else {
+            direxTransactionResponse = DirexTransactionResponse.forSuccess();
+            direxTransactionResponse.getTransactionData().putAll(result);
         }
 
-        CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CertegyBusinessLogic] Finish " + transactionType, null);
-
-        direxTransactionResponse = DirexTransactionResponse.forSuccess();
+        CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[MockCertegyBusinessLogic] Finish " + transactionType, null);
 
         return direxTransactionResponse;
     }
 
-    public String combinedEnrollmentAuthentication(Map params) {
-        CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CertegyBusinessLogic] Calling method insertTransaction", null);
+    public Map combinedEnrollmentAuthentication(Map params) {
+        CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[MockCertegyBusinessLogic] Calling method insertTransaction", null);
 
-        PCARequest request = PCARequest.build(params);
-        
-        System.out.println(request.toString()); 
-        
-        return "00";
+        Map map = new HashMap();
+        map.put(ParameterName.DEPOSIT_ID, "12345");
+        map.put(ParameterName.RESULT_CODE, "00");
+        map.put(ParameterName.SUCESSFULL_PROCESSING, true);
+        return map;
     }
 
-    public String reverseRequest(Map params) {
-        CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CertegyBusinessLogic] Calling method cancelationRequest", null);
+    public Map reverseRequest(Map params) {
+        CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[MockCertegyBusinessLogic] Calling method cancelationRequest", null);
 
-        PCAReverseRequest request = PCAReverseRequest.build(params);
-        return "00";
+        Map map = new HashMap();
+        map.put(ParameterName.RESULT_CODE, "13");
+        map.put(ParameterName.SUCESSFULL_PROCESSING, true);
+        return map;
     }
 
 }

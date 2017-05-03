@@ -28,6 +28,7 @@ License Type: Evaluation
 		<property name="single" column="single" type="boolean" length="1" not-null="false" lazy="false"/>
 		<property name="transactionFinished" column="transaction_finished" type="boolean" length="1" not-null="true" lazy="false"/>
 		<property name="errorCode" column="errorCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="certegyApprovalNumber" column="certegy_approval_number" type="string" length="100" not-null="false" lazy="false"/>
 		<property name="orderExpressId" column="order_express_id" type="string" length="255" not-null="false" lazy="false"/>
 		<property name="ammount" column="ammount" type="double"  not-null="false" lazy="false"/>
                 <property name="truncatedCheck" column="truncated_check" type="blob" not-null="false" lazy="false"/>

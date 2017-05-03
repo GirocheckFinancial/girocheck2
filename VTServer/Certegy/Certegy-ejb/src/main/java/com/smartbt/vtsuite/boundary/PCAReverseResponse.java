@@ -1,19 +1,23 @@
-
 package com.smartbt.vtsuite.boundary;
 
+import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for PCAReverseResponse complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for PCAReverseResponse complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ *
  * <pre>
  * &lt;complexType name="PCAReverseResponse">
  *   &lt;complexContent>
@@ -29,8 +33,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PCAReverseResponse", propOrder = {
@@ -53,13 +57,18 @@ public class PCAReverseResponse {
     @XmlElement(name = "CertegyUID")
     protected String certegyUID;
 
+    public Map toMap() {
+        Map map = new HashMap();
+        map.put(ParameterName.RESULT_CODE, responseCode);
+        map.put(ParameterName.SUCESSFULL_PROCESSING, responseCode != null && responseCode.equals("13"));
+        return map;
+    }
+
     /**
      * Gets the value of the transID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getTransID() {
         return transID;
@@ -67,11 +76,9 @@ public class PCAReverseResponse {
 
     /**
      * Sets the value of the transID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setTransID(String value) {
         this.transID = value;
@@ -79,11 +86,9 @@ public class PCAReverseResponse {
 
     /**
      * Gets the value of the responseCode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getResponseCode() {
         return responseCode;
@@ -91,11 +96,9 @@ public class PCAReverseResponse {
 
     /**
      * Sets the value of the responseCode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setResponseCode(String value) {
         this.responseCode = value;
@@ -103,25 +106,24 @@ public class PCAReverseResponse {
 
     /**
      * Gets the value of the roundtrip property.
-     * 
+     *
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the roundtrip property.
-     * 
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the roundtrip property.
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getRoundtrip().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * Objects of the following type(s) are allowed in the list {@link String }
+     *
+     *
      */
     public List<String> getRoundtrip() {
         if (roundtrip == null) {
@@ -132,25 +134,24 @@ public class PCAReverseResponse {
 
     /**
      * Gets the value of the custom property.
-     * 
+     *
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the custom property.
-     * 
+     * This accessor method returns a reference to the live list, not a
+     * snapshot. Therefore any modification you make to the returned list will
+     * be present inside the JAXB object. This is why there is not a
+     * <CODE>set</CODE> method for the custom property.
+     *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getCustom().add(newItem);
      * </pre>
-     * 
-     * 
+     *
+     *
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Custom }
-     * 
-     * 
+     * Objects of the following type(s) are allowed in the list {@link Custom }
+     *
+     *
      */
     public List<Custom> getCustom() {
         if (custom == null) {
@@ -161,11 +162,9 @@ public class PCAReverseResponse {
 
     /**
      * Gets the value of the certegyUID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getCertegyUID() {
         return certegyUID;
@@ -173,11 +172,9 @@ public class PCAReverseResponse {
 
     /**
      * Sets the value of the certegyUID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setCertegyUID(String value) {
         this.certegyUID = value;

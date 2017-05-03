@@ -38,41 +38,39 @@ public class TransactionsDS extends BaseDatasource {
      *
      */
     public TransactionsDS() {
-        
+
         DataSourceIntegerField typeField = new DataSourceIntegerField("transactionType");
-        
+
         DataSourceDateField createdAtField = new DataSourceDateField("createdAt");
-        
+
         DataSourceTextField operationField = new DataSourceTextField("operation");
-        
+
         DataSourceIntegerField accountSuffixField = new DataSourceIntegerField("accountSuffix");
-        
+
         DataSourceFloatField ammountField = new DataSourceFloatField("ammount");
         DataSourceFloatField feeAmmountField = new DataSourceFloatField("feeAmmount");
         DataSourceFloatField payoutAmmountField = new DataSourceFloatField("payoutAmmount");
-        
+
         DataSourceBooleanField singleField = new DataSourceBooleanField("single");
-        
+
+        DataSourceTextField certegyApprovalNumberField= new DataSourceTextField("certegyApprovalNumber");
         DataSourceIntegerField resultCodeField = new DataSourceIntegerField("resultCode");
         DataSourceTextField resultMessageField = new DataSourceTextField("resultMessage");
-        
+
         DataSourceTextField merchantField = new DataSourceTextField("merchant");
         DataSourceTextField terminalField = new DataSourceTextField("terminal");
         DataSourceTextField clientFirstNameField = new DataSourceTextField("clientFirstName");
         DataSourceTextField clientLastNameField = new DataSourceTextField("clientLastName");
         DataSourceTextField transactionFinishedField = new DataSourceTextField("transactionFinished");
-        
-      
+
 //         DataSourceField merchantField = new DataSourceField("merchant", FieldType.ANY);
 //        merchantField.setTypeAsDataSource(new MerchantDS());
 //        
 //         DataSourceField terminalField = new DataSourceField("terminal", FieldType.ANY);
 //        terminalField.setTypeAsDataSource(new TerminalDS());
 //        
-       
 //        DataSourceField clientField = new DataSourceField("client", FieldType.ANY);
 //        clientField.setTypeAsDataSource(new UserDS(EntityType.CLERK));
-        
         setFetchDataURL(Properties.SEARCH_TRANSACTIONS_WS);
 
         setFields(typeField,
@@ -88,6 +86,7 @@ public class TransactionsDS extends BaseDatasource {
                 merchantField,
                 terminalField,
                 clientFirstNameField,
+                certegyApprovalNumberField,
                 clientLastNameField,
                 transactionFinishedField);
     }
