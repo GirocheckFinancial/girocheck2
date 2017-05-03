@@ -103,6 +103,7 @@ public class IDScanner {
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[IDScanner]::: text = " + text, null);
             map = parseIdLocally(text);
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         if (!validateOutput(map)) {
