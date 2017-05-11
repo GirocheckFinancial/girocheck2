@@ -47,10 +47,8 @@
           <value>state,System.String</value>
           <value>city,System.String</value>
           <value>phone,System.String</value>
-          <value>idPosOrderExp,System.String</value>
-          <value>idTellerOrderExp,System.String</value>
-          <value>customerName,System.String</value>
-          <value>oEAgentNumber,System.String</value>
+          <value>certegyApprovalNumber,System.String</value> 
+          <value>customerName,System.String</value> 
         </Columns>
         <Dictionary isRef="1"/>
         <Name>Merchant</Name>
@@ -82,6 +80,7 @@
           <value>feeAmount,System.String</value>
           <value>amount,System.String</value>
           <value>dateTime,System.String</value>
+          <value>clientAddress,System.String</value> 
           <value>resultCode,System.String</value>
           <value>type,System.String</value>
           <value>checkNumber,System.String</value>
@@ -90,11 +89,9 @@
           <value>clientFirstName,System.String</value>
           <value>clientLastName,System.String</value>
           <value>clientPhone,System.String</value>
-          <value>idPosOrderExp,System.String</value>
+          <value>certegyApprovalNumber,System.String</value>
           <value>merchantName,System.String</value>
-          <value>terminalSerial,System.String</value> 
-          <value>idTellerOrderExp,System.String</value> 
-          <value>oEAgentNumber,System.String</value> 
+          <value>terminalSerial,System.String</value>   
         </Columns>
         <Dictionary isRef="1"/>
         <Name>Transaction</Name>
@@ -185,7 +182,7 @@
           <Components isList="true" count="21">
             <Date type="Text" isKey="true" Ref="15">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>20.2,0.1,1.4,0.2</ClientRectangle>
+              <ClientRectangle>17.5,0.1,1.4,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <HorAlignment>Center</HorAlignment>
@@ -198,9 +195,24 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Date>
+            <Address type="Text" isKey="true" Ref="15">
+              <Brush>[230:230:230]</Brush>
+              <ClientRectangle>18.9,0.1,2.7,0.2</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Arial,9</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Address</Name>
+              <Page isRef="11"/>
+              <Parent isRef="14"/>
+              <Text>Address</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+              <VertAlignment>Center</VertAlignment>
+            </Address>
             <MaskCardNumber type="Text" isKey="true" Ref="16">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>5.1,0.1,1.2,0.2</ClientRectangle>
+              <ClientRectangle>4.5,0.1,1.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <HorAlignment>Center</HorAlignment>
@@ -215,7 +227,7 @@
             </MaskCardNumber>
             <Amount type="Text" isKey="true" Ref="17">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>8,0.1,0.7,0.2</ClientRectangle>
+              <ClientRectangle>7.6,0.1,0.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <HorAlignment>Center</HorAlignment>
@@ -230,7 +242,7 @@
             </Amount>
             <Operation type="Text" isKey="true" Ref="18">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>6.3,0.1,0.4,0.2</ClientRectangle>
+              <ClientRectangle>5.7,0.1,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <Guid>06aedd5eb85bf141017d0df1b034c732</Guid>
@@ -246,7 +258,7 @@
             </Operation>
             <Fee type="Text" isKey="true" Ref="19">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>7.4,0.1,0.6,0.2</ClientRectangle>
+              <ClientRectangle>7,0.1,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <Guid>5e066b7384a5dc8d40660e68cb453b1d</Guid>
@@ -262,7 +274,7 @@
             </Fee>
             <Payout type="Text" isKey="true" Ref="20">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>6.7,0.1,0.7,0.2</ClientRectangle>
+              <ClientRectangle>6.3,0.1,0.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <Guid>c39370314c19eac4aa2b0e68df6b3400</Guid>
@@ -278,7 +290,7 @@
             </Payout>
             <Transaction_x0020_Type type="Text" isKey="true" Ref="21">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>3.9,0.1,1.2,0.2</ClientRectangle>
+              <ClientRectangle>3.3,0.1,1.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <Guid>cf4cdcf495d9300c9e0e120880a9a129</Guid>
@@ -294,7 +306,7 @@
             </Transaction_x0020_Type>
             <Client_x0020_Name type="Text" isKey="true" Ref="22">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>8.7,0.1,1.4,0.2</ClientRectangle>
+              <ClientRectangle>8.3,0.1,1.4,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <Guid>296db285d8ed1958e0c756652fd0cbd0</Guid>
@@ -310,7 +322,7 @@
             </Client_x0020_Name>
             <Client_x0020_Last_x0020_Name type="Text" isKey="true" Ref="23">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>10.1,0.1,1.5,0.2</ClientRectangle>
+              <ClientRectangle>9.7,0.1,1.5,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <Guid>daa0f18d7a4d231edb395665404f3581</Guid>
@@ -326,7 +338,7 @@
             </Client_x0020_Last_x0020_Name>
             <RCode type="Text" isKey="true" Ref="24">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>12.6,0.1,0.7,0.2</ClientRectangle>
+              <ClientRectangle>12.2,0.1,0.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <Guid>37e7579f831c95e82e4f7045234e747d</Guid>
@@ -340,7 +352,7 @@
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </RCode>
-            <IdPos type="Text" isKey="true" Ref="25">
+            <CertegyNumber type="Text" isKey="true" Ref="25">
               <Brush>[230:230:230]</Brush>
               <ClientRectangle>0.7,0.1,0.5,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -348,14 +360,14 @@
               <Guid>37d24adbad316c6fb67a7a5bbc9701d1</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
-              <Name>IdPos</Name>
+              <Name>CertegyNumber</Name>
               <Page isRef="11"/>
               <Parent isRef="14"/>
-              <Text>IdPos</Text>
+              <Text>Certegy #</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </IdPos>
+            </CertegyNumber>
             <MLegalName type="Text" isKey="true" Ref="26">
               <Brush>[230:230:230]</Brush>
               <ClientRectangle>1.2,0.1,1.1,0.2</ClientRectangle>
@@ -371,26 +383,10 @@
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </MLegalName>
-            <IdTeller type="Text" isKey="true" Ref="27">
-              <Brush>[230:230:230]</Brush>
-              <ClientRectangle>2.3,0.1,0.6,0.2</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,9</Font>
-              <Guid>6b38384f85d8286c11737a5bbb05fa4d</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>IdTeller</Name>
-              <Page isRef="11"/>
-              <Parent isRef="14"/>
-              <Text>IdTeller</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </IdTeller>
+            </MLegalName> 
             <TSerialNumber type="Text" isKey="true" Ref="28">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>2.9,0.1,1,0.2</ClientRectangle>
+              <ClientRectangle>2.3,0.1,1,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <Guid>8a7a87f6e1a9e9a7fbb47a5bb9144c37</Guid>
@@ -406,7 +402,7 @@
             </TSerialNumber>
             <Client_x0020_Phone type="Text" isKey="true" Ref="29">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>11.6,0.1,1,0.2</ClientRectangle>
+              <ClientRectangle>11.2,0.1,1,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <Guid>dc4f977ed855f0a41fd584875fb63023</Guid>
@@ -435,26 +431,10 @@
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
-            </IdTrans>
-            <Text2 type="Text" isKey="true" Ref="31">
-              <Brush>[230:230:230]</Brush>
-              <ClientRectangle>13.3,0.1,1.3,0.2</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,9</Font>
-              <Guid>d54cb50eea31d2df842d0c1d1f37d055</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text2</Name>
-              <Page isRef="11"/>
-              <Parent isRef="14"/>
-              <Text>OE #</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-              <VertAlignment>Center</VertAlignment>
-            </Text2>
+            </IdTrans> 
             <Text3 type="Text" isKey="true" Ref="32">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>14.6,0.1,1.3,0.2</ClientRectangle>
+              <ClientRectangle>12.9,0.1,1.3,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <Guid>ff7bc549e911f7f461970c1dcdc7aed6</Guid>
@@ -470,7 +450,7 @@
             </Text3>
             <Text4 type="Text" isKey="true" Ref="33">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>15.9,0.1,1.3,0.2</ClientRectangle>
+              <ClientRectangle>14.2,0.1,1.3,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <Guid>91a2ef904b30642592f20c1dda6be4ff</Guid>
@@ -486,7 +466,7 @@
             </Text4>
             <Text6 type="Text" isKey="true" Ref="34">
               <Brush>[230:230:230]</Brush>
-              <ClientRectangle>17.2,0.1,3,0.2</ClientRectangle>
+              <ClientRectangle>15.5,0.1,2,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <Guid>543775acde0f7bbec5a722128484069e</Guid>
@@ -526,7 +506,7 @@
           <Components isList="true" count="21">
             <Mask_x0020_Card_x0020_Number type="Text" isKey="true" Ref="39">
               <Brush>Transparent</Brush>
-              <ClientRectangle>5.1,0.1,1.2,0.2</ClientRectangle>
+              <ClientRectangle>4.5,0.1,1.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <HorAlignment>Center</HorAlignment>
@@ -540,7 +520,7 @@
             </Mask_x0020_Card_x0020_Number>
             <Operation type="Text" isKey="true" Ref="40">
               <Brush>Transparent</Brush>
-              <ClientRectangle>6.3,0.1,0.4,0.2</ClientRectangle>
+              <ClientRectangle>5.7,0.1,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <HorAlignment>Center</HorAlignment>
@@ -554,7 +534,7 @@
             </Operation>
             <Amount type="Text" isKey="true" Ref="41">
               <Brush>Transparent</Brush>
-              <ClientRectangle>8,0.1,0.7,0.2</ClientRectangle>
+              <ClientRectangle>7.6,0.1,0.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <HorAlignment>Center</HorAlignment>
@@ -574,7 +554,7 @@
             </Amount>
             <Fee type="Text" isKey="true" Ref="43">
               <Brush>Transparent</Brush>
-              <ClientRectangle>7.4,0.1,0.6,0.2</ClientRectangle>
+              <ClientRectangle>7,0.1,0.6,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
@@ -594,7 +574,7 @@
             </Fee>
             <Payout type="Text" isKey="true" Ref="45">
               <Brush>Transparent</Brush>
-              <ClientRectangle>6.7,0.1,0.7,0.2</ClientRectangle>
+              <ClientRectangle>6.3,0.1,0.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
@@ -614,7 +594,7 @@
             </Payout>
             <Transaction_x0020_Type type="Text" isKey="true" Ref="47">
               <Brush>Transparent</Brush>
-              <ClientRectangle>3.9,0.1,1.2,0.2</ClientRectangle>
+              <ClientRectangle>3.3,0.1,1.2,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
@@ -628,7 +608,7 @@
             </Transaction_x0020_Type>
             <Date type="Text" isKey="true" Ref="48">
               <Brush>Transparent</Brush>
-              <ClientRectangle>20.2,0.1,1.4,0.2</ClientRectangle>
+              <ClientRectangle>17.5,0.1,1.4,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,9</Font>
               <HorAlignment>Center</HorAlignment>
@@ -640,9 +620,23 @@
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
             </Date>
+            <Address type="Text" isKey="true" Ref="48">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.9,0.1,2.7,0.2</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Arial,9</Font>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Address</Name>
+              <Page isRef="11"/>
+              <Parent isRef="38"/>
+              <Text>{Transaction.clientAddress}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>DataColumn</Type>
+            </Address>
             <Client_x0020_First_x0020_Name type="Text" isKey="true" Ref="49">
               <Brush>Transparent</Brush>
-              <ClientRectangle>8.7,0.1,1.4,0.2</ClientRectangle>
+              <ClientRectangle>8.3,0.1,1.4,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
@@ -656,7 +650,7 @@
             </Client_x0020_First_x0020_Name>
             <Client_x0020_Last_x0020_Name type="Text" isKey="true" Ref="50">
               <Brush>Transparent</Brush>
-              <ClientRectangle>10.1,0.1,1.5,0.2</ClientRectangle>
+              <ClientRectangle>9.7,0.1,1.5,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
@@ -670,7 +664,7 @@
             </Client_x0020_Last_x0020_Name>
             <RCode type="Text" isKey="true" Ref="51">
               <Brush>Transparent</Brush>
-              <ClientRectangle>12.6,0.1,0.7,0.2</ClientRectangle>
+              <ClientRectangle>12.2,0.1,0.7,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
@@ -698,7 +692,7 @@
             </Merchant_x0020_Legal_x0020_Name>
             <Terminal_x0020_Serial_x0020_Number type="Text" isKey="true" Ref="53">
               <Brush>Transparent</Brush>
-              <ClientRectangle>2.9,0.1,1,0.2</ClientRectangle>
+              <ClientRectangle>2.3,0.1,1,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
@@ -712,7 +706,7 @@
             </Terminal_x0020_Serial_x0020_Number>
             <Client_x0020_Phone type="Text" isKey="true" Ref="54">
               <Brush>Transparent</Brush>
-              <ClientRectangle>11.6,0.1,1,0.2</ClientRectangle>
+              <ClientRectangle>11.2,0.1,1,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
@@ -731,27 +725,13 @@
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
-              <Name>ID Pos</Name>
+              <Name>CertegyNumber</Name>
               <Page isRef="11"/>
               <Parent isRef="38"/>
-              <Text>{Transaction.idPosOrderExp}</Text>
+              <Text>{Transaction.certegyApprovalNumber}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
-            </ID_x0020_Pos>
-            <ID_x0020_Teller type="Text" isKey="true" Ref="56">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>2.3,0.1,0.6,0.2</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>ID Teller</Name>
-              <Page isRef="11"/>
-              <Parent isRef="38"/>
-              <Text>{Transaction.idTellerOrderExp}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </ID_x0020_Teller>
+            </ID_x0020_Pos> 
             <Transaction_x0020_ID type="Text" isKey="true" Ref="57">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0.1,0.7,0.2</ClientRectangle>
@@ -765,24 +745,10 @@
               <Text>{Transaction.requestId}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
-            </Transaction_x0020_ID>
-            <OEAgentNumber type="Text" isKey="true" Ref="58">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>13.3,0.1,1.3,0.2</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>OEAgentNumber</Name>
-              <Page isRef="11"/>
-              <Parent isRef="38"/>
-              <Text>{Transaction.oEAgentNumber}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>DataColumn</Type>
-            </OEAgentNumber>
+            </Transaction_x0020_ID> 
             <Maker_x0020_Name type="Text" isKey="true" Ref="59">
               <Brush>Transparent</Brush>
-              <ClientRectangle>14.6,0.1,1.3,0.2</ClientRectangle>
+              <ClientRectangle>12.9,0.1,1.3,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
@@ -796,7 +762,7 @@
             </Maker_x0020_Name>
             <Check_x0020_Number type="Text" isKey="true" Ref="60">
               <Brush>Transparent</Brush>
-              <ClientRectangle>15.9,0.1,1.3,0.2</ClientRectangle>
+              <ClientRectangle>14.2,0.1,1.3,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
@@ -810,7 +776,7 @@
             </Check_x0020_Number>
             <Result_x0020_Message type="Text" isKey="true" Ref="61">
               <Brush>Transparent</Brush>
-              <ClientRectangle>17.2,0.1,3,0.2</ClientRectangle>
+              <ClientRectangle>15.5,0.1,2,0.2</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>

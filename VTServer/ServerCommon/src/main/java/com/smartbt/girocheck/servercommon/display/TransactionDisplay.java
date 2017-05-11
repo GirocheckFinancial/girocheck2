@@ -59,8 +59,7 @@ public class TransactionDisplay implements Serializable {
     private String merchant;
     private String terminal;
     private String clientFirstName;
-    private String clientLastName;
-    private String certegyApprovalNumber;
+    private String clientLastName; 
     private boolean transactionFinished;
 
     /**
@@ -318,19 +317,6 @@ public class TransactionDisplay implements Serializable {
     public void setTransactionFinished(boolean transactionFinished) {
         this.transactionFinished = transactionFinished;
     }
-
-    /**
-     * @return the certegyApprovalNumber
-     */
-    public String getCertegyApprovalNumber() {
-        return certegyApprovalNumber;
-    }
-
-    /**
-     * @param certegyApprovalNumber the certegyApprovalNumber to set
-     */
-    public void setCertegyApprovalNumber(String certegyApprovalNumber) {
-        this.certegyApprovalNumber = certegyApprovalNumber;
-    }
+ 
 
 }

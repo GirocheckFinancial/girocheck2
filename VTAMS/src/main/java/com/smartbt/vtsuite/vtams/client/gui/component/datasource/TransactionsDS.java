@@ -52,8 +52,6 @@ public class TransactionsDS extends BaseDatasource {
         DataSourceFloatField payoutAmmountField = new DataSourceFloatField("payoutAmmount");
 
         DataSourceBooleanField singleField = new DataSourceBooleanField("single");
-
-        DataSourceTextField certegyApprovalNumberField= new DataSourceTextField("certegyApprovalNumber");
         DataSourceIntegerField resultCodeField = new DataSourceIntegerField("resultCode");
         DataSourceTextField resultMessageField = new DataSourceTextField("resultMessage");
 
@@ -85,8 +83,7 @@ public class TransactionsDS extends BaseDatasource {
                 resultMessageField,
                 merchantField,
                 terminalField,
-                clientFirstNameField,
-                certegyApprovalNumberField,
+                clientFirstNameField, 
                 clientLastNameField,
                 transactionFinishedField);
     }

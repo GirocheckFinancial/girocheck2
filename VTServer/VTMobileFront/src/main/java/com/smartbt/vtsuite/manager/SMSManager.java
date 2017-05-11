@@ -36,11 +36,9 @@ public class SMSManager {
         try {
             if (recipentNumber != null && !recipentNumber.isEmpty() && messageKeyword != null && !messageKeyword.isEmpty()) {
                 if (messageKeyword.contains("STOP") || messageKeyword.contains("stop")) {
-                    MobileClient mobileClient = MobileClientDao.get().getMobileClientByTelphone(recipentNumber);
-                    if (mobileClient != null) {
-                        mobileClient.getClient().setExcludeSms(Boolean.TRUE);
-                        MobileClientDao.get().saveOrUpdate(mobileClient);
-                    }
+                     MobileClientDao.get().updateExcludeSMS(recipentNumber);
+//                    MobileClient mobileClient = MobileClientDao.get().getMobileClientByTelphone(recipentNumber);
+//                   
                 }
             }
         } catch (Exception e) {

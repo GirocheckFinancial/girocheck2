@@ -273,8 +273,7 @@ public class TransactionDAO extends BaseDAO<Transaction> {
                 .add(Projections.property("merchant.legalName").as("merchant"))
                 .add(Projections.property("terminal.serialNumber").as("terminal"))
                 .add(Projections.property("client.firstName").as("clientFirstName"))
-                .add(Projections.property("client.lastName").as("clientLastName"))
-                .add(Projections.property("certegyApprovalNumber").as("certegyApprovalNumber"))
+                .add(Projections.property("client.lastName").as("clientLastName")) 
                 .add(Projections.property("transactionFinished").as("transactionFinished"));
         cri.setProjection(projectionList);
         cri.setResultTransformer(new TransformerComplexBeans(TransactionDisplay.class));

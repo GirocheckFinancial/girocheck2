@@ -10,7 +10,6 @@ package com.smartbt.vtsuite.manager;
 import com.smartbt.girocheck.servercommon.enums.CheckStatus;
 import com.smartbt.vtsuite.util.CoreTransactionUtil;
 import com.smartbt.girocheck.servercommon.enums.EnumCountry;
-import com.smartbt.girocheck.servercommon.enums.EnumState;
 import com.smartbt.girocheck.servercommon.jms.JMSManager;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
@@ -25,7 +24,6 @@ import com.smartbt.girocheck.servercommon.manager.StateManager;
 import com.smartbt.girocheck.servercommon.messageFormat.IdType;
 import com.smartbt.girocheck.servercommon.model.Address;
 import com.smartbt.girocheck.servercommon.model.Check;
-import com.smartbt.girocheck.servercommon.model.Country;
 import com.smartbt.girocheck.servercommon.model.PersonalIdentification;
 import com.smartbt.girocheck.servercommon.model.State;
 import com.smartbt.girocheck.servercommon.model.Transaction;
@@ -49,7 +47,6 @@ import javax.jms.Queue;
 import javax.sql.rowset.serial.SerialBlob;
 import static com.smartbt.vtsuite.util.CoreTransactionUtil.*;
 import com.smartbt.vtsuite.util.TransactionalException;
-import com.smartbt.vtsuite.vtcommon.nomenclators.NomState;
 import java.util.Arrays;
 
 @TransactionManagement(value = TransactionManagementType.BEAN)

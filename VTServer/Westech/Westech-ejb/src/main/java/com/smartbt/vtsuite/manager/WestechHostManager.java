@@ -51,8 +51,8 @@ public class WestechHostManager {
         subTransaction.setHost(NomHost.WESTECH.getId());
 
         try {
-            String prodProperty = System.getProperty("PROD");
-            Boolean isProd = prodProperty != null && prodProperty.equalsIgnoreCase("true");
+//            String prodProperty = System.getProperty("PROD");
+            Boolean isProd = true;// prodProperty != null && prodProperty.equalsIgnoreCase("true");
             System.out.println("WestechHostManager -> isProd = " + isProd);
             
             if (isProd) {

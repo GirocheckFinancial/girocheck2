@@ -21,14 +21,7 @@ import com.smartbt.girocheck.servercommon.enums.ResultMessage;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
-import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
-import com.smartbt.vtsuite.boundary.PCA;
-import com.smartbt.vtsuite.boundary.PCARequest;
-import com.smartbt.vtsuite.boundary.PCAResponse;
-import com.smartbt.vtsuite.boundary.PCAReverseRequest;
-import com.smartbt.vtsuite.boundary.PCAReverseResponse;
-import com.smartbt.vtsuite.manager.CertegyBusinessLogic;
-import java.math.BigDecimal;
+import com.smartbt.girocheck.servercommon.utils.CustomeLogger; 
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +38,7 @@ public class MockCertegyBusinessLogic {
         }
         return INSTANCE;
     }
-
+ 
     public DirexTransactionResponse process(DirexTransactionRequest request) throws Exception {
 
         Map transactionData = request.getTransactionData();
@@ -71,13 +64,13 @@ public class MockCertegyBusinessLogic {
 
         System.out.println("[MockCertegyBusinessLogic] :: resultCode = " + resultCode);
 
-        if (!success) {
-            direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.CERTEGY_DENY, ResultMessage.CERTEGY_DENY);
-            direxTransactionResponse.setErrorCode(resultCode);
-            return direxTransactionResponse;
-        } else {
+        if (success) {
             direxTransactionResponse = DirexTransactionResponse.forSuccess();
             direxTransactionResponse.getTransactionData().putAll(result);
+            return direxTransactionResponse;
+        } else {
+            direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.CERTEGY_DENY, ResultMessage.CERTEGY_DENY);
+            direxTransactionResponse.setErrorCode(resultCode);
         }
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[MockCertegyBusinessLogic] Finish " + transactionType, null);

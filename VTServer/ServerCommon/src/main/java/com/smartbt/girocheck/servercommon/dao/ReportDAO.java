@@ -52,6 +52,8 @@ public class ReportDAO extends BaseDAO<Transaction> {
                 .createAlias("terminal", "terminal", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("terminal.merchant", "merchant", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("client", "client", JoinType.LEFT_OUTER_JOIN)
+                .createAlias("client.address", "address", JoinType.LEFT_OUTER_JOIN)
+                .createAlias("address.state", "state", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("check", "check", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("data_sc1", "data_sc1", JoinType.LEFT_OUTER_JOIN)
                 .addOrder(Order.desc("dateTime"));
@@ -172,9 +174,8 @@ public class ReportDAO extends BaseDAO<Transaction> {
                 .add(Projections.property("payoutAmmount").as("payoutAmount"))
                 .add(Projections.property("id").as("requestId"))
                 .add(Projections.property("resultCode").as("resultCode"))
-                .add(Projections.property("merchant.legalName").as("merchantName"))
-                .add(Projections.property("merchant.idTellerOrderExp").as("idTellerOrderExp"))
-                .add(Projections.property("merchant.oEAgentNumber").as("oEAgentNumber"))
+                .add(Projections.property("merchant.legalName").as("merchantName")) 
+                .add(Projections.property("certegyApprovalNumber").as("certegyApprovalNumber"))
                 .add(Projections.property("terminal.serialNumber").as("terminalSerial"))
                 .add(Projections.property("merchant.idPosOrderExp").as("idPosOrderExp"))
                 .add(Projections.property("client.firstName").as("clientFirstName"))
@@ -182,9 +183,12 @@ public class ReportDAO extends BaseDAO<Transaction> {
                 .add(Projections.property("client.telephone").as("clientPhone"))
                 .add(Projections.property("check.paymentCheck").as("checkNumber"))
                 .add(Projections.property("resultMessage").as("resultMessage"))
+                .add(Projections.property("address.address").as("clientStreet"))
+                .add(Projections.property("address.city").as("clientCity"))
+                .add(Projections.property("address.zipcode").as("clientZipCode"))
+                .add(Projections.property("state.abbreviation").as("clientState"))
                 .add(Projections.property("check.makerName").as("makerName"));
-        cri.setProjection(projectionList);
-
+        cri.setProjection(projectionList); 
         cri.setResultTransformer(new TransformerComplexBeans(TransactionDetailReportDisplay.class));
 
         String str = objectMapper.writeValueAsString(cri.list());

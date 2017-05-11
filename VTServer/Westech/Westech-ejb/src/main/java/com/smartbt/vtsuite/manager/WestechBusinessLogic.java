@@ -18,14 +18,11 @@ package com.smartbt.vtsuite.manager;
 import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
-import com.smartbt.girocheck.servercommon.utils.IMap;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.dev.CheckProcessResult;
-import com.smartbt.vtsuite.dev.CheckService;
-import com.smartbt.vtsuite.dev.CheckServiceSoap;
 import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -37,14 +34,8 @@ public class WestechBusinessLogic {
     public static final String WT_USERNAME = System.getProperty("GIROCHECK2WESTECH_USERNAME");//"Jacky";
     public static final  String WT_PASSWORD = System.getProperty("GIROCHECK2WESTECH_PASSWORD");//"12345";
     
-//     String WESTECH2GIROCHECK_USERNAME = System.getProperty("WESTECH2GIROCHECK_USERNAME");
-//                String WESTECH2GIROCHECK_PASSWORD = System.getProperty("WESTECH2GIROCHECK_PASSWORD");
-                
-    
     private static WestechBusinessLogic INSTANCE;
-
-//    private CheckService service;
-//    private CheckServiceSoap port;
+ 
     private Proxy proxy;
 
     public static synchronized WestechBusinessLogic get() {
@@ -54,9 +45,7 @@ public class WestechBusinessLogic {
         return INSTANCE;
     }
 
-    public WestechBusinessLogic() {
-//        service = new CheckService();
-//        port = service.getCheckServiceSoap();
+    public WestechBusinessLogic() { 
         proxy = new Proxy();
     }
 

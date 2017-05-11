@@ -34,12 +34,14 @@ import java.util.Map;
 /**
  * Mpowa Business Logic Class
  */
-public class CertegyBusinessLogic { 
+public class CertegyBusinessLogic {
+
     public static final String CERTEGY_SITE_ID = "2897891071345202";
     public static final BigDecimal CERTEGY_VERSION = new BigDecimal("1.2");
     private static CertegyBusinessLogic INSTANCE;
-    private Proxy proxy; 
-    private PCA port;  
+    private Proxy proxy;
+    private PCA port;
+
     public static synchronized CertegyBusinessLogic get() {
         if (INSTANCE == null) {
             INSTANCE = new CertegyBusinessLogic();
@@ -49,7 +51,7 @@ public class CertegyBusinessLogic {
 
     public CertegyBusinessLogic() {
         proxy = new Proxy();
-        port = proxy.getPort(); 
+        port = proxy.getPort();
     }
 
     public DirexTransactionResponse process(DirexTransactionRequest request) throws Exception {
@@ -77,13 +79,13 @@ public class CertegyBusinessLogic {
 
         System.out.println("[CertegyBusinessLogic] :: resultCode = " + resultCode);
 
-        if (!success) {
-            direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.CERTEGY_DENY, ResultMessage.CERTEGY_DENY);
-            direxTransactionResponse.setErrorCode(resultCode);
-            return direxTransactionResponse;
-        } else {
+        if (success) {
             direxTransactionResponse = DirexTransactionResponse.forSuccess();
             direxTransactionResponse.getTransactionData().putAll(result);
+            return direxTransactionResponse;
+        } else {
+            direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.CERTEGY_DENY, ResultMessage.CERTEGY_DENY);
+            direxTransactionResponse.setErrorCode(resultCode);
         }
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CertegyBusinessLogic] Finish " + transactionType, null);
@@ -122,5 +124,5 @@ public class CertegyBusinessLogic {
             return null;
         }
     }
- 
+
 }

@@ -36,35 +36,34 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
     }
 
     public MobileClientDisplay getMobileClientDisplayByUserAndPassword(String userName, String password) {
-        
+
         Criteria criteria = HibernateUtil.getSession().createCriteria(MobileClient.class)
                 .createAlias("card", "card")
                 .createAlias("client", "client")
                 .add(Restrictions.eq("userName", userName))
                 .add(Restrictions.eq("password", password))
                 .setMaxResults(1);
-        
-         ProjectionList projectionList = Projections.projectionList()
+
+        ProjectionList projectionList = Projections.projectionList()
                 .add(Projections.property("id").as("clientId"))
                 .add(Projections.property("card.cardNumber").as("card"))
                 .add(Projections.property("client.firstName").as("clientName"))
                 .add(Projections.property("client.email").as("clientEmail"))
                 .add(Projections.property("client.telephone").as("clientPhone"))
                 .add(Projections.property("userName").as("mobileClientUserName"));
-                
-        
+
         criteria.setProjection(projectionList);
         criteria.setResultTransformer(Transformers.aliasToBean(MobileClientDisplay.class));
-         
-        return (MobileClientDisplay)criteria.uniqueResult();
+
+        return (MobileClientDisplay) criteria.uniqueResult();
     }
-    
-    public String getCardNumberByMobileClientId(Integer mobileClientId){
-        return (String)HibernateUtil.getSession().createCriteria(MobileClient.class)
+
+    public String getCardNumberByMobileClientId(Integer mobileClientId) {
+        return (String) HibernateUtil.getSession().createCriteria(MobileClient.class)
                 .createAlias("card", "card")
                 .add(Restrictions.eq("id", mobileClientId))
                 .setProjection(Projections.property("card.cardNumber"))
-                .uniqueResult(); 
+                .uniqueResult();
     }
 
     public MobileClient getMobileClientById(int clientId) {
@@ -77,49 +76,63 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
         HibernateUtil.getSession().saveOrUpdate(client);
         return client;
     }
-    
-    public Boolean existMobileClientBySSN(String ssn){
-        return (Long)HibernateUtil.getSession().createCriteria(MobileClient.class).
+
+    public Boolean existMobileClientBySSN(String ssn) {
+        return (Long) HibernateUtil.getSession().createCriteria(MobileClient.class).
                 createAlias("client", "client")
                 .add(Restrictions.eq("client.ssn", ssn))
                 .setProjection(Projections.rowCount())
                 .uniqueResult() > 0;
     }
-    
-    public Boolean existMobileClientByUsername(String userName){
-        return (Long)HibernateUtil.getSession().createCriteria(MobileClient.class) 
+
+    public Boolean existMobileClientByUsername(String userName) {
+        return (Long) HibernateUtil.getSession().createCriteria(MobileClient.class)
                 .add(Restrictions.eq("userName", userName))
                 .setProjection(Projections.rowCount())
                 .uniqueResult() > 0;
     }
-    
-    public Boolean existMobileAssociatedToCard(String cardNumber){
-        return (Long)HibernateUtil.getSession().createCriteria(MobileClient.class)
+
+    public Boolean existMobileAssociatedToCard(String cardNumber) {
+        return (Long) HibernateUtil.getSession().createCriteria(MobileClient.class)
                 .createAlias("card", "card")
                 .add(Restrictions.eq("card.cardNumber", cardNumber))
                 .setProjection(Projections.rowCount())
                 .uniqueResult() > 0;
     }
-    
-    public MobileClient getMobileClientByCardNumberAndMaskSSN(String maskSSN,String cardNumber) {
-        
+
+    public MobileClient getMobileClientByCardNumberAndMaskSSN(String maskSSN, String cardNumber) {
+
         Criteria criteria = HibernateUtil.getSession().createCriteria(MobileClient.class)
                 .createAlias("card", "card")
                 .createAlias("client", "client")
                 .add(Restrictions.eq("card.cardNumber", cardNumber))
                 .add(Restrictions.eq("client.maskSSN", maskSSN))
-                .setMaxResults(1);        
-         
-        return (MobileClient)criteria.uniqueResult();
+                .setMaxResults(1);
+
+        return (MobileClient) criteria.uniqueResult();
     }
-    
+
     public MobileClient getMobileClientByTelphone(String recipentNumber) {
-        
+
         Criteria criteria = HibernateUtil.getSession().createCriteria(MobileClient.class)
                 .createAlias("client", "client")
-                .add(Restrictions.eq("client.telephone", recipentNumber))               
-                .setMaxResults(1);        
-         
-        return (MobileClient)criteria.uniqueResult();
+                .add(Restrictions.eq("client.telephone", recipentNumber))
+                .setMaxResults(1);
+
+        return (MobileClient) criteria.uniqueResult();
+    }
+
+    public void updateExcludeSMS(String phoneNumber) {
+        System.out.println("Call #1");
+        try {
+            int r1 = HibernateUtil.getSession().createQuery("update Client set excludeSms = true where telephone like '" + phoneNumber + "'").executeUpdate();
+            System.out.println("r1 = " + r1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Call #2");
+            int r2 = HibernateUtil.getSession().createQuery("update Client set exclude_sms = 1 where telephone like '" + phoneNumber + "'").executeUpdate();
+            System.out.println("r2 = " + r2);
+        }
+
     }
 }

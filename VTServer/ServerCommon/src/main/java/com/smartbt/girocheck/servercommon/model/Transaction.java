@@ -51,6 +51,7 @@ public class Transaction implements Serializable {
     private String istream_id;
 
     private Boolean single;
+    private String certegyApprovalNumber;
 
     private String errorCode;
 
@@ -69,9 +70,7 @@ public class Transaction implements Serializable {
     private Boolean cancelated;
     private Boolean cancelable = true;
 
-    private String balanceAfterLoad;
-
-    private String certegyApprovalNumber;
+    private String balanceAfterLoad; 
 
     private java.util.Set<com.smartbt.girocheck.servercommon.model.SubTransaction> sub_Transaction = new java.util.HashSet<com.smartbt.girocheck.servercommon.model.SubTransaction>();
 
@@ -413,5 +412,6 @@ public class Transaction implements Serializable {
     public void setCertegyApprovalNumber(String certegyApprovalNumber) {
         this.certegyApprovalNumber = certegyApprovalNumber;
     }
+ 
 
 }
