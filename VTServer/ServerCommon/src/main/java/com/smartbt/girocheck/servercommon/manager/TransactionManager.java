@@ -165,4 +165,10 @@ public class TransactionManager {
     public List<Transaction> getAll() {
         return transactionDAO.getAll();
     }
+
+    public TransactionDAO getTransactionDAO() {
+        return transactionDAO;
+    }
+    
+    
 }
