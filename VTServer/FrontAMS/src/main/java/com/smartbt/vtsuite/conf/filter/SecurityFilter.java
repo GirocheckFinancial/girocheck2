@@ -59,8 +59,11 @@ public class SecurityFilter implements ContainerRequestFilter {
 //        CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[VTAMS] Incoming uri to the security filter" + uriInfo.getPath(),null);
     
         VTSession vTSession = null;
-        if (!uriInfo.getPath().contains("VTAMS/authenticateUser")) {
+        if (!uriInfo.getPath().contains("VTAMS/authenticateUser") ) {
             HibernateUtil.beginTransaction();
+            
+            if(uriInfo.getPath().contains("Image"))return;
+            
             BaseResponse baseResponse = new BaseResponse();
 
             String token = context.getRequestHeader("TOKEN") == null ? null : context.getRequestHeader("TOKEN").get(0);

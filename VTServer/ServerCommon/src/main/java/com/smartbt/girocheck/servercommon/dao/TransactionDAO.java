@@ -2,12 +2,14 @@ package com.smartbt.girocheck.servercommon.dao;
 
 import com.smartbt.girocheck.servercommon.display.ActivityReportTransactionDisplay;
 import com.smartbt.girocheck.servercommon.display.AddressImageFormDisplay;
-import com.smartbt.girocheck.servercommon.display.SubTransactionImageDisplay;
 import com.smartbt.girocheck.servercommon.display.TransactionDisplay;
+import com.smartbt.girocheck.servercommon.display.TransactionImagesDisplay;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.model.Client;
+import com.smartbt.girocheck.servercommon.model.IDImagePng;
+import com.smartbt.girocheck.servercommon.model.PersonalIdentification;
 import com.smartbt.girocheck.servercommon.model.Transaction;
 import com.smartbt.girocheck.servercommon.utils.ImgConvTiffToPng;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
@@ -15,15 +17,12 @@ import com.smartbt.girocheck.servercommon.utils.bd.TransformerComplexBeans;
 import com.smartbt.vtsuite.common.VTSuiteMessages;
 import com.smartbt.vtsuite.servercommon.utils.DateUtils;
 import com.smartbt.vtsuite.vtcommon.Constants;
-import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.activity.ActivityRequiredException;
 import javax.xml.bind.DatatypeConverter;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
@@ -54,7 +53,7 @@ public class TransactionDAO extends BaseDAO<Transaction> {
         }
         return dao;
     }
-    
+
     public Map activityReport(Map input) {
         Map output = new HashMap();
 
@@ -70,15 +69,21 @@ public class TransactionDAO extends BaseDAO<Transaction> {
             System.out.println("DAO checkTransactions.size = " + checkTransactions.size());
             System.out.println("DAO cashTransactions.size = " + cashTransactions.size());
             System.out.println("DAO card2MerchantTransactions.size = " + card2MerchantTransactions.size());
-            
+
             Double checkTotal = (Double) getActivityCriteriaCheckCash(terminalId, dateStart, dateEnd, "01", false).uniqueResult();
             Double cashTotal = (Double) getActivityCriteriaCheckCash(terminalId, dateStart, dateEnd, "02", false).uniqueResult();
             Double cardTotal = (Double) getActivityCriteriaCard2Bank(terminalId, dateStart, dateEnd, false).uniqueResult();
 
-            if(checkTotal == null) checkTotal = 0D;
-            if(cashTotal == null) cashTotal = 0D;
-            if(cardTotal == null) cardTotal = 0D;
-            
+            if (checkTotal == null) {
+                checkTotal = 0D;
+            }
+            if (cashTotal == null) {
+                cashTotal = 0D;
+            }
+            if (cardTotal == null) {
+                cardTotal = 0D;
+            }
+
             output.put(ParameterName.CHECK2CARD_TRANSACTIONS, checkTransactions);
             output.put(ParameterName.CASH2CARD_TRANSACTIONS, cashTransactions);
             output.put(ParameterName.CARD2MERCHANT_TRANSACTIONS, card2MerchantTransactions);
@@ -118,7 +123,7 @@ public class TransactionDAO extends BaseDAO<Transaction> {
                 .add(Restrictions.eq("terminal.serialNumber", terminalId))
                 .add(Restrictions.ge("dateTime", dateStart))
                 .add(Restrictions.le("dateTime", dateEnd));
-        
+
         criteria.add(Restrictions.eq("resultCode", 0));
 
         if (isList) {
@@ -216,7 +221,7 @@ public class TransactionDAO extends BaseDAO<Transaction> {
 
                         ImgConvTiffToPng convTiffToPng = new ImgConvTiffToPng();
                         byte[] addressF;
-                        String base64bytes;
+                        String base64bytes = "";
 
                         try {
                             addressF = convTiffToPng.convert(bdata);
@@ -226,12 +231,7 @@ public class TransactionDAO extends BaseDAO<Transaction> {
                                 base64bytes = DatatypeConverter.printBase64Binary(addressF);
                             }
                         } catch (Exception ex) {
-                            Logger.getLogger(TransactionDAO.class.getName()).log(Level.SEVERE, null, ex);
-                            if (rotate) {
-                                base64bytes = DatatypeConverter.printBase64Binary(convTiffToPng.rotate180(bdata));
-                            } else {
-                                base64bytes = DatatypeConverter.printBase64Binary(bdata);
-                            }
+                            ex.printStackTrace();
                         }
 
                         addressImage.setAddressImage("data:image/png;base64," + base64bytes);
@@ -250,14 +250,14 @@ public class TransactionDAO extends BaseDAO<Transaction> {
 
     public ResponseDataList searchTransactions(String searchFilter, Date startRangeDate, Date endRangeDate, int firstResult, int maxResult, int transactionType, String operation,
             boolean filterAmmount, int ammountType, int opType, String ammountString, boolean pending) {
-        Criteria cri = getSearchCriteria( searchFilter,  startRangeDate,  endRangeDate,  firstResult,  maxResult,  transactionType,  operation,
-             filterAmmount,  ammountType,  opType,  ammountString,  pending);
-        
+        Criteria cri = getSearchCriteria(searchFilter, startRangeDate, endRangeDate, firstResult, maxResult, transactionType, operation,
+                filterAmmount, ammountType, opType, ammountString, pending);
+
         if (firstResult >= 0) {
             cri.setFirstResult(firstResult);
             cri.setMaxResults(maxResult);
         }
- 
+
         ProjectionList projectionList = Projections.projectionList()
                 .add(Projections.property("id").as("id"))
                 .add(Projections.property("transactionType").as("transactionType"))
@@ -273,18 +273,17 @@ public class TransactionDAO extends BaseDAO<Transaction> {
                 .add(Projections.property("merchant.legalName").as("merchant"))
                 .add(Projections.property("terminal.serialNumber").as("terminal"))
                 .add(Projections.property("client.firstName").as("clientFirstName"))
-                .add(Projections.property("client.lastName").as("clientLastName")) 
+                .add(Projections.property("client.lastName").as("clientLastName"))
                 .add(Projections.property("transactionFinished").as("transactionFinished"));
         cri.setProjection(projectionList);
         cri.setResultTransformer(new TransformerComplexBeans(TransactionDisplay.class));
 
-        List<TransactionDisplay>  list = cri.list();
-        
+        List<TransactionDisplay> list = cri.list();
+
         Criteria countCriteria = getSearchCriteria(searchFilter, startRangeDate, endRangeDate, firstResult, maxResult, transactionType, operation, filterAmmount, ammountType, opType, ammountString, pending);
         countCriteria.setProjection(Projections.rowCount());
-        Long total = (Long)countCriteria.uniqueResult();
-        
-        
+        Long total = (Long) countCriteria.uniqueResult();
+
         ResponseDataList response = new ResponseDataList();
 
         response.setData(list);
@@ -292,36 +291,36 @@ public class TransactionDAO extends BaseDAO<Transaction> {
         response.setTotalPages((int) Math.ceil((float) total / (float) maxResult));
         response.setStatus(Constants.CODE_SUCCESS);
         response.setStatusMessage(VTSuiteMessages.SUCCESS);
-        
+
         return response;
     }
-    
+
     private Criteria getSearchCriteria(String searchFilter, Date startRangeDate, Date endRangeDate, int firstResult, int maxResult, int transactionType, String operation,
-            boolean filterAmmount, int ammountType, int opType, String ammountString, boolean pending){
-        
-         Criteria cri = HibernateUtil.getSession().createCriteria(Transaction.class)
+            boolean filterAmmount, int ammountType, int opType, String ammountString, boolean pending) {
+
+        Criteria cri = HibernateUtil.getSession().createCriteria(Transaction.class)
                 .createAlias("terminal", "terminal", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("terminal.merchant", "merchant", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("merchant.agrupation", "agrupation", JoinType.LEFT_OUTER_JOIN)
-                 .createAlias( "data_sc1", "data_sc1", JoinType.LEFT_OUTER_JOIN )
+                .createAlias("data_sc1", "data_sc1", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("client", "client", JoinType.LEFT_OUTER_JOIN)
                 .addOrder(Order.desc("dateTime"));
 
         System.out.println("startRangeDate + " + startRangeDate);
         System.out.println("endRangeDate + " + endRangeDate);
-        
-        if(startRangeDate != null){
+
+        if (startRangeDate != null) {
             startRangeDate.setHours(0);
             startRangeDate.setMinutes(0);
             startRangeDate.setSeconds(0);
         }
-        
-        if(endRangeDate != null){
+
+        if (endRangeDate != null) {
             endRangeDate.setHours(23);
             endRangeDate.setMinutes(59);
             endRangeDate.setSeconds(59);
         }
-         
+
         if (startRangeDate != null) {
             cri.add(Restrictions.ge("dateTime", startRangeDate));
         }
@@ -336,7 +335,7 @@ public class TransactionDAO extends BaseDAO<Transaction> {
 
         if (transactionType != 0) {
             cri.add(Restrictions.eq("transactionType", transactionType));
-        }else{
+        } else {
             cri.add(Restrictions.ne("transactionType", 5));
         }
 
@@ -389,7 +388,7 @@ public class TransactionDAO extends BaseDAO<Transaction> {
                     //  .add( Restrictions.like( "resultCode", searchFilter, MatchMode.ANYWHERE ).ignoreCase() )
                     .add(Restrictions.like("resultMessage", searchFilter, MatchMode.ANYWHERE).ignoreCase())
                     .add(Restrictions.like("account", searchFilter, MatchMode.ANYWHERE).ignoreCase())
-//                    .add(Restrictions.like("cardNumber", searchFilter, MatchMode.ANYWHERE).ignoreCase())
+                    //                    .add(Restrictions.like("cardNumber", searchFilter, MatchMode.ANYWHERE).ignoreCase())
                     .add(Restrictions.like("errorCode", searchFilter, MatchMode.ANYWHERE).ignoreCase())
                     .add(Restrictions.like("errorCode", searchFilter, MatchMode.ANYWHERE).ignoreCase())
                     .add(Restrictions.like("merchant.legalName", searchFilter, MatchMode.ANYWHERE).ignoreCase())
@@ -412,27 +411,80 @@ public class TransactionDAO extends BaseDAO<Transaction> {
             cri.add(disjunction);
 
         }
-        
+
         return cri;
     }
 
-    public SubTransactionImageDisplay getTransactionImage(int idTransaction) throws SQLException {
+    public TransactionImagesDisplay getTransactionImage(int transactionId, boolean showIdImages) throws Exception {
+        TransactionImagesDisplay transactionImagesDisplay = new TransactionImagesDisplay();
 
-        SubTransactionImageDisplay subTransactionImage = new SubTransactionImageDisplay();
-       return subTransactionImage;
+        try {
+            System.out.println("[TransactionDAO] getTransactionImages() - transactionId: " + transactionId);
 
-    }
+            ProjectionList projectionList = Projections.projectionList()
+                    .add(Projections.property("client.id").as("clientId"))
+                    .add(Projections.property("id").as("transactionId"))
+                    .add(Projections.property("check.checkFront").as("checkFront"))
+                    .add(Projections.property("check.checkBack").as("checkBack"));
 
-    public List<Transaction> getAll() {
-        Criteria criteria = HibernateUtil.getSession().createCriteria(Transaction.class)
-                .createAlias("terminal", "terminal", JoinType.LEFT_OUTER_JOIN)
-                .createAlias("terminal.merchant", "merchant", JoinType.LEFT_OUTER_JOIN)
-                .createAlias("merchant.agrupation", "agrupation", JoinType.LEFT_OUTER_JOIN)
-                // .createAlias( "data_sc1", "data_sc1", JoinType.LEFT_OUTER_JOIN )
-                .createAlias("client", "client", JoinType.LEFT_OUTER_JOIN)
-                .addOrder(Order.desc("dateTime"));
+            transactionImagesDisplay = (TransactionImagesDisplay) HibernateUtil.getSession().createCriteria(Transaction.class).
+                    createAlias("check", "check", JoinType.LEFT_OUTER_JOIN).
+                    createAlias("client", "client", JoinType.LEFT_OUTER_JOIN).
+                    add(Restrictions.eq("id", transactionId)).
+                    setProjection(projectionList).
+                    setResultTransformer(new TransformerComplexBeans(TransactionImagesDisplay.class)).
+                    uniqueResult();
 
-        return criteria.list();
+            System.out.println("result = " + (transactionImagesDisplay == null ? "NULL" : "HAS VAL"));
+
+            if (transactionImagesDisplay != null) {
+                transactionImagesDisplay.setShowIdImages(showIdImages);
+
+                if (showIdImages && transactionImagesDisplay.getClientId() != null) {
+                    IDImagePng imagesPNG = (IDImagePng) HibernateUtil.getSession().createCriteria(IDImagePng.class).
+                            add(Restrictions.eq("client", transactionImagesDisplay.getClientId())).
+                            setMaxResults(1).
+                            uniqueResult();
+
+                    transactionImagesDisplay.setImagesConverted(imagesPNG != null);
+                    System.out.println("transactionImagesDisplay.getImagesConverted = " + transactionImagesDisplay.isImagesConverted());
+
+                    if (imagesPNG != null) {
+                        transactionImagesDisplay.setIdFront(imagesPNG.getIdFront());
+                        transactionImagesDisplay.setIdBack(imagesPNG.getIdBack());
+                    } else {
+                        ProjectionList idImagesProjectionList = Projections.projectionList()
+                                .add(Projections.property("idFront").as("idFront"))
+                                .add(Projections.property("idBack").as("idBack"));
+
+                        TransactionImagesDisplay idImages = (TransactionImagesDisplay) HibernateUtil.getSession().createCriteria(PersonalIdentification.class).
+                                createAlias("client", "client").
+                                add(Restrictions.eq("client.id", transactionImagesDisplay.getClientId())).
+                                setMaxResults(1).
+                                setProjection(idImagesProjectionList).
+                                setResultTransformer(new TransformerComplexBeans(TransactionImagesDisplay.class)).
+                                uniqueResult();
+
+                        System.out.println("idImages = " + (idImages == null ? "NULL" : "HAS VAL"));
+
+                        if (idImages != null) {
+                            System.out.println("idImages.getIdFront() = " + (idImages.getIdFront() == null ? "NULL" : "HAS VAL"));
+                            System.out.println("idImages.getIdBack() = " + (idImages.getIdBack() == null ? "NULL" : "HAS VAL"));
+
+                            transactionImagesDisplay.setIdFront(idImages.getIdFront());
+                            transactionImagesDisplay.setIdBack(idImages.getIdBack());
+                        }
+                    }
+
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return transactionImagesDisplay;
     }
 
 }

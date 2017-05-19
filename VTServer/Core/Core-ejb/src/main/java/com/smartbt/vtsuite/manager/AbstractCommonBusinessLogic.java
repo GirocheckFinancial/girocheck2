@@ -505,6 +505,7 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
                 HibernateUtil.beginTransaction();
 
                 if (identification.getIdType() != null) {
+                    System.out.println("Removing Personal Identification");
                     personalIdentificationManager.removeByClientAndType(transaction.getClient().getId(), identification.getIdType(), identification.getId());
                 }
 

@@ -354,6 +354,7 @@ public class Properties {
     public static final String SAVE_OR_UPDATE_INVENTORY_WS = WS_URL + "saveOrUpdateInventory";
     public static final String LIST_COUNTRY_WS = WS_URL + "listCountry";
     public static final String GET_ADDRESS_IMAGE_FORM_WS = WS_URL + "getAddressFormImage";
+    public static final String GET_TRANSACTION_IMAGES_WS = WS_URL + "getTransactionImages";
     public static final String GET_TRANSACTION_IMAGE_WS = WS_URL + "getTransactionImage";
     public static final String DELETE_SESSION_WS = WS_URL + "deleteSession";
     public static final String CHANGE_PASSWORD_WS = WS_URL + "changePaswword";

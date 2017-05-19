@@ -16,11 +16,10 @@
 package com.smartbt.vtsuite.controller;
 
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
-import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
-import com.smartbt.girocheck.servercommon.manager.FeeBucketsManager;
+import com.smartbt.girocheck.servercommon.display.message.ResponseDataList; 
 import com.smartbt.girocheck.servercommon.manager.SubTransactionManager;
 import com.smartbt.girocheck.servercommon.manager.TransactionManager;
-import com.smartbt.vtsuite.servercommon.utils.DateUtils;
+import com.smartbt.vtsuite.servercommon.utils.DateUtils; 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
@@ -88,13 +87,15 @@ public class TransactionController {
     }
     
     @POST
-    @Path("getTransactionImage")
+//    @GET
+    @Path("getTransactionImages")
     @Produces(MediaType.APPLICATION_JSON)
-    public ResponseData getTransactionImage( @FormParam("idTransaction") int idTransaction) throws Exception {
-        
-//        log.info("TransactionController.getTransactionImage() :: Incoming parameters : \n  idTransaction: " + idTransaction);
+    public ResponseData getTransactionImages( @FormParam("idTransaction") int idTransaction,@FormParam("showIdImages") boolean showIdImages) throws Exception {
+        System.out.println("TransactionController.getTransactionImage() :: Incoming parameters : \n  idTransaction: " + idTransaction + ", showIdImages = " + showIdImages);
 
-        return manager.getTransactionImage(idTransaction);
+        return manager.getTransactionImage(idTransaction, showIdImages);
     }
+    
+     
     
 }

@@ -283,8 +283,8 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
         String pCardNumber = MapUtil.getStringValueFromMap(map, ParameterName.CARD_NUMBER, false);
         String pRequestID = MapUtil.getStringValueFromMap(map, ParameterName.REQUEST_ID, false);
 
-//        String validationResponse = "100011";
-        String validationResponse = "100017"; //Negative Case
+        String validationResponse = "100011";
+//        String validationResponse = "100017"; //Negative Case
 
         if (map.containsKey(ParameterName.TECNICARD_VALIDATION_RESPONSE)) {
             validationResponse = MapUtil.getStringValueFromMap(map, ParameterName.TECNICARD_VALIDATION_RESPONSE, false);
