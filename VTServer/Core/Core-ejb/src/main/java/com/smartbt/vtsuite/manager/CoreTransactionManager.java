@@ -287,9 +287,7 @@ public class CoreTransactionManager {
 
                 direxTransactionRequest.getTransactionData().put(ParameterName.STATE_ABBREVIATION, state.getAbbreviation());
                 direxTransactionRequest.getTransactionData().put(ParameterName.ZIPCODE, address.getZipcode());
-
-                Iterator it = direxTransactionRequest.getTransactionData().keySet().iterator();
-
+ 
             }
 
             Terminal terminal = terminalManager.findBySerialNumber(terminalId);

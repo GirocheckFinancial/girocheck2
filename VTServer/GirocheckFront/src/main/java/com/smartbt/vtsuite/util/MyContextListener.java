@@ -83,6 +83,7 @@ class ImageConvertionTask extends TimerTask {
             System.out.println("Excecution finish.");
         } catch (Exception ex) {
             ex.printStackTrace();
+            HibernateUtil.rollbackTransaction();
         }
     }
 

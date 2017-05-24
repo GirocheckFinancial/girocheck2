@@ -49,6 +49,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
 //        boolean sendOEDevolutionIfFails = false;
         // boolean sendIstreamCheckAuthSubmit = false;
         boolean sendCertegyReverseRequestIfFails = false;
+        boolean saveCheckIfFails = true;
         boolean sendWestechSendSingleICL = false;
 
         try {
@@ -114,6 +115,8 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
             //------ PROCESS PERSONAL INFO  ------
             processPersonalInfo(transaction, request, checkInfoRequestMap);
 
+            saveCheckIfFails = false;
+            
             System.out.println("[CheckBusinessLogic] After processPersonalInfo STATE = " + request.getTransactionData().get(ParameterName.STATE));
 
             //-------SEND TO CERTEGY ------
@@ -197,7 +200,11 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
             //     EXCEPTIONAL CASES
             //
         } catch (TransactionalException transactionalException) {
-            System.out.println("*********** TransactionalException ************");
+            System.out.println("*********** TransactionalException ************ saveCheckIfFails = " + saveCheckIfFails);
+            if(saveCheckIfFails){
+                System.out.println("Filling out check...");
+                fillOutCheck(request.getTransactionData(), transaction);
+            }
 
             if (sendCertegyReverseRequestIfFails) {
                 certegyReverseRequest(request, transaction);
