@@ -8,6 +8,6 @@ CREATE TABLE `balance_inquiry_log` (
   `date_time` datetime DEFAULT NULL,
   `creditcard` int(10) DEFAULT NULL,   
   `errorCode` varchar(255) DEFAULT NULL,
-  `ammount` double DEFAULT NULL,
+  `amount` double DEFAULT NULL,
   PRIMARY KEY (`id`) 
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;

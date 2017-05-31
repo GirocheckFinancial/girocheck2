@@ -156,11 +156,15 @@ public class TransactionManager {
 
         ResponseData response = new ResponseData();
 
-        TransactionImagesDisplay result = transactionDAO.getTransactionImage(idTransaction, showIdImages);
+        try {
+            TransactionImagesDisplay result = transactionDAO.getTransactionImage(idTransaction, showIdImages);
 
-        buildImages(result);
+            buildImages(result);
 
-        response.setData(result);
+            response.setData(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         response.setStatus(Constants.CODE_SUCCESS);
         response.setStatusMessage(VTSuiteMessages.SUCCESS);
@@ -185,15 +189,15 @@ public class TransactionManager {
                 idBack = ImgConvTiffToPng.convertGrayScaleImages(dto.getIdBack(), "idback_" + dto.getClientId());
 
                 IDImagePngDAO.get().save(idFront, idBack, dto.getClientId());
-             }
-            
+            }
+
             Long remainingConvertions = IDImagePngDAO.get().getRemainingConvertions();
             System.out.println("remainingConvertions = " + remainingConvertions);
             dto.setRemainingConvertions(remainingConvertions);
 
             dto.setIdFrontImage(getImageAsString(idFront));
             dto.setIdBackImage(getImageAsString(idBack));
-        } 
+        }
     }
 
     public String getImageAsString(byte[] image) {

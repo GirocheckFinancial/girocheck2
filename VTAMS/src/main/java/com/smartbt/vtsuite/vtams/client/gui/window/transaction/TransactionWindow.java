@@ -136,7 +136,7 @@ public class TransactionWindow extends BaseWindow {
         idImagesLayout.setMaxHeight(370);
         idImagesLayout.addMembers(idFrontImage, idBackImage);
 
-        checkImagesSectionStackSection.setExpanded(true);
+        checkImagesSectionStackSection.setExpanded(false);
         checkImagesSectionStackSection.setCanCollapse(true);
         checkImagesSectionStackSection.addItem(checkImagesLayout);
         checkImagesSectionStackSection.setCanReorder(true);

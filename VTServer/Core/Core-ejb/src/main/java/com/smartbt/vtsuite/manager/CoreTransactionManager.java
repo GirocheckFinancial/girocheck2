@@ -282,15 +282,16 @@ public class CoreTransactionManager {
                 direxTransactionRequest.getTransactionData().put(ParameterName.ADDRESS, address.getAddress());
                 direxTransactionRequest.getTransactionData().put(ParameterName.CITY, address.getCity());
                 direxTransactionRequest.getTransactionData().put(ParameterName.STATE, state.getCode());
-                System.out.println("CoreTransactionManager -> state.getCode() = " + state.getCode());
-                System.out.println("CoreTransactionManager -> state.getAbbreviation() = " + state.getAbbreviation());
-
+               
                 direxTransactionRequest.getTransactionData().put(ParameterName.STATE_ABBREVIATION, state.getAbbreviation());
                 direxTransactionRequest.getTransactionData().put(ParameterName.ZIPCODE, address.getZipcode());
  
             }
 
             Terminal terminal = terminalManager.findBySerialNumber(terminalId);
+            
+            transaction.setMerchant(terminal.getMerchant());
+            
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] (terminalId) :: " + terminalId, null);
             if (terminal == null) {
                 CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] Terminal with id : " + terminalId + " doesn't exist. ", null);

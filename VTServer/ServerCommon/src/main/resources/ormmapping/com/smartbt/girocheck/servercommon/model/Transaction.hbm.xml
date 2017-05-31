@@ -42,5 +42,7 @@ License Type: Evaluation
 			<one-to-many class="com.smartbt.girocheck.servercommon.model.SubTransaction"/>
 		</set>
 		<one-to-one name="check" class="com.smartbt.girocheck.servercommon.model.Check" cascade="save-update,lock" property-ref="transaction" lazy="proxy"/>
+                <many-to-one name="merchant" cascade="lock" column="merchant" class="com.smartbt.girocheck.servercommon.model.Merchant" not-null="true" lazy="proxy">
+		</many-to-one>
 	</class>
 </hibernate-mapping>

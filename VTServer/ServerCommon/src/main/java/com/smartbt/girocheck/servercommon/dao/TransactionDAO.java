@@ -20,9 +20,7 @@ import com.smartbt.vtsuite.vtcommon.Constants;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map; 
 import javax.xml.bind.DatatypeConverter;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
@@ -300,7 +298,7 @@ public class TransactionDAO extends BaseDAO<Transaction> {
 
         Criteria cri = HibernateUtil.getSession().createCriteria(Transaction.class)
                 .createAlias("terminal", "terminal", JoinType.LEFT_OUTER_JOIN)
-                .createAlias("terminal.merchant", "merchant", JoinType.LEFT_OUTER_JOIN)
+                .createAlias("merchant", "merchant", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("merchant.agrupation", "agrupation", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("data_sc1", "data_sc1", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("client", "client", JoinType.LEFT_OUTER_JOIN)

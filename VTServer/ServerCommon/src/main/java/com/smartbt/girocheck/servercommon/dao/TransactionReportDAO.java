@@ -5,36 +5,14 @@
  */
 package com.smartbt.girocheck.servercommon.dao;
 
-import com.smartbt.girocheck.servercommon.display.TransactionDisplay;
-import com.smartbt.girocheck.servercommon.display.TransactionReportDisplay;
 import com.smartbt.girocheck.servercommon.model.Transaction;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
-import com.smartbt.girocheck.servercommon.utils.bd.TransformerComplexBeans;
-import com.smartbt.vtsuite.servercommon.utils.DateUtils;
-import com.smartbt.vtsuite.vtcommon.enums.EntityType;
 import java.util.Date;
-import java.util.List;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.sql.JoinType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smartbt.girocheck.servercommon.display.ClientDisplay;
-import com.smartbt.girocheck.servercommon.display.MerchantDisplay;
-import com.smartbt.girocheck.servercommon.display.TerminalDisplay;
-import com.smartbt.girocheck.servercommon.model.Merchant;
 import com.smartbt.girocheck.servercommon.model.ReportFilters;
-import com.smartbt.girocheck.servercommon.model.Terminal;
 import com.smartbt.girocheck.servercommon.utils.Utils;
-import com.smartbt.vtsuite.vtcommon.enums.ClientTransactionType;
-import com.smartbt.vtsuite.vtcommon.nomenclators.NomOperation;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
 import org.hibernate.Session;
 
 /**

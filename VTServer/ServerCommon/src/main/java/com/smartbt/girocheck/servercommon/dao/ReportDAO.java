@@ -50,7 +50,7 @@ public class ReportDAO extends BaseDAO<Transaction> {
     public String detailListingTransactionReport(FiltersReport filters) throws JsonProcessingException {
         Criteria cri = HibernateUtil.getSession().createCriteria(Transaction.class)
                 .createAlias("terminal", "terminal", JoinType.LEFT_OUTER_JOIN)
-                .createAlias("terminal.merchant", "merchant", JoinType.LEFT_OUTER_JOIN)
+                .createAlias("merchant", "merchant", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("client", "client", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("client.address", "address", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("address.state", "state", JoinType.LEFT_OUTER_JOIN)
@@ -199,7 +199,7 @@ public class ReportDAO extends BaseDAO<Transaction> {
     public String detailTransactionReport(FiltersReport filters) throws JsonProcessingException {
         Criteria cri = HibernateUtil.getSession().createCriteria(Transaction.class)
                 .createAlias("terminal", "terminal", JoinType.LEFT_OUTER_JOIN)
-                .createAlias("terminal.merchant", "merchant", JoinType.LEFT_OUTER_JOIN)
+                .createAlias("merchant", "merchant", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("data_sc1", "data_sc1", JoinType.LEFT_OUTER_JOIN)
                 .createAlias("client", "client", JoinType.LEFT_OUTER_JOIN)
                 .addOrder(Order.desc("dateTime"));
