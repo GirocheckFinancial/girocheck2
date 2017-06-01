@@ -1,9 +1,12 @@
 
 package com.smartbt.vtsuite.boundary;
 
+import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -82,6 +85,14 @@ public class PCAResponse {
     @XmlElement(name = "Fee")
     protected BigDecimal fee;
     
+    
+    public Map toMap(){
+        Map map = new HashMap();
+        map.put(ParameterName.DEPOSIT_ID, approvalNumber);
+        map.put(ParameterName.RESULT_CODE, responseCode);
+        map.put(ParameterName.SUCESSFULL_PROCESSING, responseCode != null && responseCode.equals("00"));
+        return map;
+    }
     
 
     /**

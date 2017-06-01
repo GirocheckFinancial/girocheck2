@@ -34,6 +34,11 @@ public class SMSManagementContoller {
     public ResponseData optOut(HttpServletRequest request, HttpSession session) throws Exception {
         String recipentNumber = (String) request.getParameter("recipentNumber");
         String messageKeyword = (String) request.getParameter("messageKeyword"); 
+        
+        System.out.println("SMSManagementContoller -> optOut");
+        System.out.println("recipentNumber = " + recipentNumber);
+        System.out.println("messageKeyword = " + messageKeyword); 
+        
         ResponseData response = smsManager.optOut(recipentNumber, messageKeyword);        
         return response;
     }

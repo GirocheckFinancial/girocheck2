@@ -16,6 +16,7 @@
 package com.smartbt.vtsuite.manager;
 
 //import com.smartbt.vtsuite.servercommon.manager.AuditManager;
+import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
@@ -28,7 +29,7 @@ import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
  */
 public class CertegyHostManager {
 
-    private static CertegyHostManager INSTANCE; 
+    private static CertegyHostManager INSTANCE;
 
     public static synchronized CertegyHostManager get() {
         if (INSTANCE == null) {
@@ -36,7 +37,6 @@ public class CertegyHostManager {
         }
         return INSTANCE;
     }
- 
 
     /**
      * Process Direx Transaction Request.
@@ -51,21 +51,33 @@ public class CertegyHostManager {
         SubTransaction subTransaction = new SubTransaction();
         subTransaction.setType(request.getTransactionType().getCode());
         subTransaction.setHost(NomHost.CERTEGY.getId());
-        
+
 //        String prodProperty = System.getProperty("PROD");
-        Boolean isProd = true;// prodProperty != null && prodProperty.equalsIgnoreCase("true");
+        Boolean isProd = true;//prodProperty != null && prodProperty.equalsIgnoreCase("true");
         System.out.println("CertegyHostManager -> isProd = " + isProd);
-        
+
         if (isProd) {
             response = CertegyBusinessLogic.get().process(request);
         } else {
             response = MockCertegyBusinessLogic.get().process(request);
         }
 
-        try {  
+        try {
             if (response.wasApproved()) {
                 subTransaction.setResultCode(response.getResultCode().getCode());
                 subTransaction.setResultMessage(response.getResultMessage());
+
+                String depositId = (String) response.getTransactionData().get(ParameterName.DEPOSIT_ID);
+                if (depositId != null) {
+                    try {
+                        subTransaction.setResultCode(Integer.parseInt(depositId));
+                    } catch (Exception e) {
+                        System.out.println("Failed to parse Certegy resultCode = " + depositId);
+                        e.printStackTrace();
+                    }
+
+                }
+
             } else {
                 subTransaction.setResultCode(ResultCode.CERTEGY_HOST_ERROR.getCode());
                 subTransaction.setResultMessage(response.getResultMessage());

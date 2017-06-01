@@ -84,15 +84,18 @@ public class CoreLocalTransactionBusinessLogic extends CoreAbstractTransactionBu
 
         System.out.println("[CoreLocalTransactionBusinessLogic] persistTransaction:: " + transaction.getTransactionType());
         if (transaction.getTransactionType() == TransactionType.ISTREAM_CHECK_AUTH_LOCATION_CONFIG.getCode()) {
-            System.out.println("[CoreLocalTransactionBusinessLogic] ISTREAM_CHECK_AUTH_LOCATION_CONFIG:: Not persist");
+
             System.out.println("[CoreLocalTransactionBusinessLogic] ISTREAM_CHECK_AUTH_LOCATION_CONFIG::transaction.getResultCode() = " + transaction.getResultCode());
             if (transaction.getResultCode() == ResultCode.SUCCESS.getCode()) {
+                System.out.println("[CoreLocalTransactionBusinessLogic] ISTREAM_CHECK_AUTH_LOCATION_CONFIG:: Not persist");
                 return;
             }
         }
 
         HibernateUtil.beginTransaction();
-        transactionManager.saveOrUpdate(transaction);
+        System.out.println("CheckAuthLocationConfig persisting transaction.");
+        Integer id = transactionManager.getTransactionDAO().save(transaction);
+        System.out.println("Transaction persisted, id = " + id);
         HibernateUtil.commitTransaction();
     }
 

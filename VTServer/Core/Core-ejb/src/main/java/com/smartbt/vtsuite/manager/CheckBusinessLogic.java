@@ -49,6 +49,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
 //        boolean sendOEDevolutionIfFails = false;
         // boolean sendIstreamCheckAuthSubmit = false;
         boolean sendCertegyReverseRequestIfFails = false;
+        boolean saveCheckIfFails = true;
         boolean sendWestechSendSingleICL = false;
 
         try {
@@ -92,12 +93,11 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
 
             //TODO
             //When version 2 be stable, we can to send the answer to Westech from the Front
-           // sendResponseToIStreamFront(true, checkId);
-
+            // sendResponseToIStreamFront(true, checkId);
             Map checkInfoRequestMap = checkInfoRequest.getTransactionData();
 
             if (checkInfoRequestMap.containsKey(ParameterName.ID) && checkInfoRequestMap.get(ParameterName.ID).equals("0")) {
-                CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CheckBusinessLogic] ID = 0  (Westech Declined)" , null);
+                CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CheckBusinessLogic] ID = 0  (Westech Declined)", null);
                 throw new TransactionalException(ResultCode.WESTECH_DECLINED, TransactionType.CHECK_INFO, "Girocheck Decline-Please call customer service");
             }
 
@@ -115,25 +115,29 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
             //------ PROCESS PERSONAL INFO  ------
             processPersonalInfo(transaction, request, checkInfoRequestMap);
 
+            saveCheckIfFails = false;
+            
             System.out.println("[CheckBusinessLogic] After processPersonalInfo STATE = " + request.getTransactionData().get(ParameterName.STATE));
 
             //-------SEND TO CERTEGY ------
             request.setTransactionType(TransactionType.CERTEGY_AUTHENTICATION);
+            DirexTransactionResponse certegyResponse = null;
             try {
-                sendMessageToHost(request, NomHost.CERTEGY, CERTEGY_WAIT_TIME, transaction);
-            } catch (TransactionalException te) {
+                certegyResponse = sendMessageToHost(request, NomHost.CERTEGY, CERTEGY_WAIT_TIME, transaction);
+            } catch (Exception te) {
                 te.printStackTrace();
                 //TODO check here that it fails because Certegy denied the check
                 // and not any other technical issue
                 transaction.getCheck().setStatus(CheckStatus.DENIED.getStatus());
                 throw te;
             }
+ 
+            if (certegyResponse != null && certegyResponse.getTransactionData().containsKey(ParameterName.DEPOSIT_ID)) {
+                String depositId = (String) certegyResponse.getTransactionData().get(ParameterName.DEPOSIT_ID);
+                System.out.println("[CheckBusinessLogic] certegyApprovalNumber = " + depositId);
 
-            //TODO ask which output field from certegy should we put here.
-//              if (certegyInfoRequestMap.containsKey(ParameterName.DEPOSIT_ID)) {
-//                    String depositId = (String) certegyInfoRequestMap.get(ParameterName.DEPOSIT_ID);
-//                    transaction.setIstream_id(depositId);
-//                }
+                transaction.setCertegyApprovalNumber(depositId);
+            }
             sendCertegyReverseRequestIfFails = true;
 
             //----------  TECNICARD VALIDATON ------------------
@@ -196,7 +200,11 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
             //     EXCEPTIONAL CASES
             //
         } catch (TransactionalException transactionalException) {
-            System.out.println("*********** TransactionalException ************");
+            System.out.println("*********** TransactionalException ************ saveCheckIfFails = " + saveCheckIfFails);
+            if(saveCheckIfFails){
+                System.out.println("Filling out check...");
+                fillOutCheck(request.getTransactionData(), transaction);
+            }
 
             if (sendCertegyReverseRequestIfFails) {
                 certegyReverseRequest(request, transaction);

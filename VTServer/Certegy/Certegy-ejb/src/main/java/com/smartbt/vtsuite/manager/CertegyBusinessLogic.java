@@ -23,19 +23,13 @@ import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.boundary.PCA;
-import com.smartbt.vtsuite.boundary.PCAEchoRequest;
-import com.smartbt.vtsuite.boundary.PCAEchoResponse;
 import com.smartbt.vtsuite.boundary.PCARequest;
 import com.smartbt.vtsuite.boundary.PCAResponse;
 import com.smartbt.vtsuite.boundary.PCAReverseRequest;
 import com.smartbt.vtsuite.boundary.PCAReverseResponse;
-import com.smartbt.vtsuite.boundary.PCAService;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
 
 /**
  * Mpowa Business Logic Class
@@ -46,12 +40,7 @@ public class CertegyBusinessLogic {
     public static final BigDecimal CERTEGY_VERSION = new BigDecimal("1.2");
     private static CertegyBusinessLogic INSTANCE;
     private Proxy proxy;
-//    private PCAService secondaryService;
     private PCA port;
-    private com.smartbt.vtsuite.boundary.prod.PCAService primaryService;
-    Boolean isCertegyProdConnect = true;
-   
-
 
     public static synchronized CertegyBusinessLogic get() {
         if (INSTANCE == null) {
@@ -61,19 +50,12 @@ public class CertegyBusinessLogic {
     }
 
     public CertegyBusinessLogic() {
-        proxy = new Proxy(); 
+        proxy = new Proxy();
         port = proxy.getPort();
-//        isCertegyProdConnect = doConnectCertegyProdURL();
-//        if (!isCertegyProdConnect) {
-//            secondaryService = new PCAService();           
-//            port = secondaryService.getPCAPort();
-//            System.out.println("*************** CERTEGY SECONDARY URL CONNECTION GOT ***********************" + secondaryService.getWSDLDocumentLocation().getPath());
-//        }
     }
 
     public DirexTransactionResponse process(DirexTransactionRequest request) throws Exception {
-        
-               
+
         Map transactionData = request.getTransactionData();
         DirexTransactionResponse direxTransactionResponse = new DirexTransactionResponse();
 
@@ -81,35 +63,37 @@ public class CertegyBusinessLogic {
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CertegyBusinessLogic] proccessing:: " + transactionType, null);
 
-        String resultCode = "";
-        Boolean success = false;
+        Map result = new HashMap();
+
         switch (transactionType) {
             case CERTEGY_AUTHENTICATION:
-                resultCode = combinedEnrollmentAuthentication(transactionData);
-                success = (resultCode != null && resultCode.equals("00"));
+                result = combinedEnrollmentAuthentication(transactionData);
                 break;
             case CERTEGY_REVERSE_REQUEST:
-                resultCode = reverseRequest(transactionData);
-                success = (resultCode != null && resultCode.equals("13"));
+                result = reverseRequest(transactionData);
                 break;
         }
 
+        Boolean success = (Boolean) result.get(ParameterName.SUCESSFULL_PROCESSING);
+        String resultCode = (String) result.get(ParameterName.RESULT_CODE);
+
         System.out.println("[CertegyBusinessLogic] :: resultCode = " + resultCode);
 
-        if (!success) {
+        if (success) {
+            direxTransactionResponse = DirexTransactionResponse.forSuccess();
+            direxTransactionResponse.getTransactionData().putAll(result);
+            return direxTransactionResponse;
+        } else {
             direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.CERTEGY_DENY, ResultMessage.CERTEGY_DENY);
             direxTransactionResponse.setErrorCode(resultCode);
-            return direxTransactionResponse;
         }
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CertegyBusinessLogic] Finish " + transactionType, null);
 
-        direxTransactionResponse = DirexTransactionResponse.forSuccess();
-
         return direxTransactionResponse;
     }
 
-    public String combinedEnrollmentAuthentication(Map params) {
+    public Map combinedEnrollmentAuthentication(Map params) {
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CertegyBusinessLogic] Calling method insertTransaction", null);
 
         PCARequest request = PCARequest.build(params);
@@ -117,55 +101,28 @@ public class CertegyBusinessLogic {
         System.out.println(request.toString());
 
         PCAResponse response = port.authorize(request);
-        return response != null ? response.getResponseCode() : "";
+
+        if (response != null) {
+            return response.toMap();
+        } else {
+            return null;
+        }
     }
 
-    public String reverseRequest(Map params) {
+    public Map reverseRequest(Map params) {
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CertegyBusinessLogic] Calling method cancelationRequest", null);
 
         params.remove(ParameterName.CHECK_ISSUE_DATE);
-        
+
         PCAReverseRequest request = PCAReverseRequest.build(params);
         System.out.println(request.toString());
         PCAReverseResponse response = port.reverse(request);
-        return response != null ? response.getResponseCode() : "";
+
+        if (response != null) {
+            return response.toMap();
+        } else {
+            return null;
+        }
     }
 
-//    private Boolean doConnectCertegyProdURL() {
-//
-//        String prodURL = System.getProperty("CERTEGY_PRIMARY_PROD_WSDL");//add this property in glassfish domain if not present
-//        
-//        try {
-//
-//            if (prodURL != null && !prodURL.isEmpty()) {
-//                System.out.println("*************** CONNECTING TO CERTEGY PRODUCTION URL " + prodURL);                
-//                URL url = new URL("file:/"+prodURL);
-//                QName serviceName =new QName("http://fis.certegy.pca.com/","PCAService") ;
-//                
-//                QName portName =new QName("http://fis.certegy.pca.com/","PCAPort") ;
-//                
-//                
-//                Service ser= Service.create(url, serviceName);                        
-//                        
-//                port =ser.getPort(portName, PCA.class);  
-//                
-//                System.out.println("***************GOT CERTEGY PORT BINDING "+port);
-//                
-//                PCAEchoRequest request = new PCAEchoRequest();
-//                request.setSiteID(CERTEGY_SITE_ID);
-//                request.setEchoNumber(new BigInteger("1000"));
-//                PCAEchoResponse certegyResponse = port.echo(request);
-//                System.out.println("***************GOT CERTEGEY ECHO RESPONSE*****************"+" SITEID = "+certegyResponse.getSiteID()+" , ECHO NUMBER = "+certegyResponse.getEchoNumber());
-//
-//            } else {
-//                isCertegyProdConnect = false;
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("*************** UNABLE TO CONNECT CERTEGY PRODUCTION URL " + prodURL);
-//            isCertegyProdConnect = false;
-//        }
-//        return isCertegyProdConnect;
-//    }   
 }

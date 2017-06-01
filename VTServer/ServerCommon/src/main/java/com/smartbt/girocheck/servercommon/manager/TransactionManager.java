@@ -12,18 +12,21 @@
  */
 package com.smartbt.girocheck.servercommon.manager;
 
+import com.smartbt.girocheck.servercommon.dao.IDImagePngDAO;
 import com.smartbt.girocheck.servercommon.dao.TransactionDAO;
+import com.smartbt.girocheck.servercommon.display.TransactionImagesDisplay;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.model.Transaction;
+import com.smartbt.girocheck.servercommon.utils.ImgConvTiffToPng;
 import com.smartbt.vtsuite.common.VTSuiteMessages;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -54,22 +57,20 @@ public class TransactionManager {
             dateEnd = (Date) input.get(ParameterName.END_DATE);
         }
 
-        
-
         if (dateStart == null && dateEnd == null) {
             System.out.println("Both dates are NULL");
             dateEnd = new Date();
-            dateStart= new Date(); 
+            dateStart = new Date();
         } else {
             if (dateEnd == null) {
-                 System.out.println("dateEnd is NULL");
+                System.out.println("dateEnd is NULL");
                 dateEnd = getDateWithMonthDifference(dateStart, 1);
                 System.out.println("Setting dateEnd to " + dateEnd);
             } else {
                 if (dateStart == null) {
-                     System.out.println("dateStart is NULL");
+                    System.out.println("dateStart is NULL");
                     dateStart = getDateWithMonthDifference(dateEnd, -1);
-                      System.out.println("Setting dateStart to " + dateStart);
+                    System.out.println("Setting dateStart to " + dateStart);
                 } else {
                     if ((dateEnd.getTime() - dateStart.getTime()) / (1000 * 60 * 60 * 24) > 30) {
                         System.out.println("DateEnd < dateStart > 30 days");
@@ -79,7 +80,7 @@ public class TransactionManager {
                 }
             }
         }
-        
+
         dateEnd.setHours(23);
         dateEnd.setMinutes(59);
         dateEnd.setSeconds(59);
@@ -147,22 +148,69 @@ public class TransactionManager {
 
     public ResponseDataList searchTransactions(String searchFilter, Date startRangeDate, Date endRangeDate,
             int transactionType, String operation, int pageNumber, int rowsPerPage, boolean filterAmmount, int ammountType, int opType, String ammount, boolean pending) throws Exception {
-        
-        return transactionDAO.searchTransactions(searchFilter, startRangeDate, endRangeDate, pageNumber * rowsPerPage, rowsPerPage, transactionType, operation, filterAmmount, ammountType, opType, ammount, pending);
-   }
 
-    public ResponseData getTransactionImage(int idTransaction) throws SQLException {
+        return transactionDAO.searchTransactions(searchFilter, startRangeDate, endRangeDate, pageNumber * rowsPerPage, rowsPerPage, transactionType, operation, filterAmmount, ammountType, opType, ammount, pending);
+    }
+
+    public ResponseData getTransactionImage(int idTransaction, boolean showIdImages) throws Exception {
 
         ResponseData response = new ResponseData();
 
-        response.setData(transactionDAO.getTransactionImage(idTransaction));
+        try {
+            TransactionImagesDisplay result = transactionDAO.getTransactionImage(idTransaction, showIdImages);
+
+            buildImages(result);
+
+            response.setData(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         response.setStatus(Constants.CODE_SUCCESS);
         response.setStatusMessage(VTSuiteMessages.SUCCESS);
         return response;
     }
 
-    public List<Transaction> getAll() {
-        return transactionDAO.getAll();
+    private void buildImages(TransactionImagesDisplay dto) throws Exception {
+        dto.setCheckFrontImage(ImgConvTiffToPng.convertBlackAndWhiteImages(dto.getCheckFront()));
+        dto.setCheckBackImage(ImgConvTiffToPng.convertBlackAndWhiteImages(dto.getCheckBack()));
+
+        byte[] idFront = null, idBack = null;
+
+        System.out.println("TransactionManager.buildImages -> dto.isImagesConverted() = " + dto.isImagesConverted());
+        System.out.println("TransactionManager.buildImages -> dto.getShowIdImages() = " + dto.getShowIdImages());
+
+        if (dto.getShowIdImages()) {
+            if (dto.isImagesConverted()) {
+                idFront = ImgConvTiffToPng.getImage(dto.getIdFront());
+                idBack = ImgConvTiffToPng.getImage(dto.getIdBack());
+            } else {
+                idFront = ImgConvTiffToPng.convertGrayScaleImages(dto.getIdFront(), "idfront_" + dto.getClientId());
+                idBack = ImgConvTiffToPng.convertGrayScaleImages(dto.getIdBack(), "idback_" + dto.getClientId());
+
+                IDImagePngDAO.get().save(idFront, idBack, dto.getClientId());
+            }
+
+            Long remainingConvertions = IDImagePngDAO.get().getRemainingConvertions();
+            System.out.println("remainingConvertions = " + remainingConvertions);
+            dto.setRemainingConvertions(remainingConvertions);
+
+            dto.setIdFrontImage(getImageAsString(idFront));
+            dto.setIdBackImage(getImageAsString(idBack));
+        }
     }
+
+    public String getImageAsString(byte[] image) {
+        if (image != null) {
+            return "data:image/png;base64," + DatatypeConverter.printBase64Binary(image);
+        } else {
+            return "";
+        }
+
+    }
+
+    public TransactionDAO getTransactionDAO() {
+        return transactionDAO;
+    }
+
 }

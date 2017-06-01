@@ -2,10 +2,8 @@
 package com.smartbt.vtsuite.vtams.client.gui.window.transaction;
 
 import com.smartbt.vtsuite.vtams.client.gui.component.PaginationForm;
-import com.smartbt.vtsuite.vtams.client.gui.window.detail.TransactionDetailWindow;
+import com.smartbt.vtsuite.vtams.client.gui.listener.SimpleListener;
 import com.smartbt.vtsuite.vtams.client.gui.window.filter.DateTextFilterForm;
-import com.smartbt.vtsuite.vtams.client.utils.Utils;
-import com.smartbt.vtsuite.vtcommon.enums.EntityType;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
@@ -43,6 +41,10 @@ public class TransactionSection extends VLayout{
         addMember(listLayout);
         
 //        Utils.debug( "TransactionSection() 4");
+    }
+    
+    public void addOnShowIDsEventListener(SimpleListener listener){
+        filterForm.addSimpleListener(listener);
     }
 
     public DateTextFilterForm getFilterForm() {

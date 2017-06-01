@@ -1,6 +1,6 @@
 package com.smartbt.girocheck.servercommon.utils;
 
-
+import com.google.common.io.ByteStreams;
 import com.sun.media.jai.codec.ImageCodec;
 import com.sun.media.jai.codec.ImageDecoder;
 import com.sun.media.jai.codec.ImageEncoder;
@@ -10,50 +10,134 @@ import java.awt.image.RenderedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.sql.Blob;
+import javax.xml.bind.DatatypeConverter;
 import javaxt.io.Image;
+import org.aioobe.cloudconvert.CloudConvertService;
+import org.aioobe.cloudconvert.ConvertProcess;
+import org.aioobe.cloudconvert.ProcessStatus;
 
 public class ImgConvTiffToPng {
-    
-    public ImgConvTiffToPng(){};
-    
-    public byte[] convert(byte[] tiff) throws Exception{
-
-        byte[] out = new byte[0];
-        try {
-            InputStream inputStream = new ByteArrayInputStream(tiff);
-
-            TIFFDecodeParam param = null;
-
-            ImageDecoder dec = ImageCodec.createImageDecoder("tiff", inputStream, param);
-            RenderedImage op = dec.decodeAsRenderedImage(0);
-
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-            PNGEncodeParam jpgparam = null;
-            ImageEncoder en = ImageCodec.createImageEncoder("png", outputStream, jpgparam);
-            en.encode(op);
-            outputStream = (ByteArrayOutputStream) en.getOutputStream();
-            out = outputStream.toByteArray();
-            outputStream.flush();
-            outputStream.close();
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
+    //This key is granted for this vendor
+    //https://cloudconvert.com
+    private static String IMAGE_CONVERTION_KEY = System.getProperty("IMAGE_CONVERTION_KEY");
+ 
+    public static String convertBlackAndWhiteImages(Blob blob) throws Exception {
+        if (blob == null) {
+            return "";
         }
 
-        return out;
-        
-    }   
-    
-    public byte[] rotate180(byte[] imagee){
+        byte[] tiff = getImage(blob);
 
+        InputStream inputStream = new ByteArrayInputStream(tiff);
+
+        TIFFDecodeParam param = null;
+
+        ImageDecoder dec = ImageCodec.createImageDecoder("tiff", inputStream, param);
+        RenderedImage op = dec.decodeAsRenderedImage(0);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        PNGEncodeParam jpgparam = null;
+        ImageEncoder en = ImageCodec.createImageEncoder("png", outputStream, jpgparam);
+
+        en.encode(op);
+        outputStream = (ByteArrayOutputStream) en.getOutputStream();
+        byte[] out = outputStream.toByteArray();
+        outputStream.flush();
+        outputStream.close();
+
+        return "data:image/png;base64," + DatatypeConverter.printBase64Binary(out);
+
+    }
+
+    public static byte[] convertGrayScaleImages(Blob blob, String imageName) throws Exception {
+        System.out.println("convertGrayScaleImages :: imageName = " + imageName + "...");
+        
+        if (blob == null) {
+            return null;
+        }
+        
+        System.out.println("IMAGE_CONVERTION_KEY = " + IMAGE_CONVERTION_KEY);
+ 
+        if(IMAGE_CONVERTION_KEY == null){
+            IMAGE_CONVERTION_KEY = "oRkArXKrHfasWtL2VusjRWcqtyvYHd_F3AJvD44BROOajAo_iLWbhzu94wU2pV6qzV09jDQVhJvfH1iYsoid7g";
+        }
+       // String apiKey = "oRkArXKrHfasWtL2VusjRWcqtyvYHd_F3AJvD44BROOajAo_iLWbhzu94wU2pV6qzV09jDQVhJvfH1iYsoid7g";
+        CloudConvertService service = new CloudConvertService(IMAGE_CONVERTION_KEY);
+
+// Create conversion process
+        ConvertProcess process = service.startProcess("tif", "png");
+
+// Perform conversion 
+        ByteArrayInputStream bis = new ByteArrayInputStream( getImage(blob));
+        process.startConversion(bis, imageName + ".tif");
+
+// Wait for result
+        ProcessStatus status;
+        waitLoop:
+        while (true) {
+            status = process.getStatus();
+
+            switch (status.step) {
+                case FINISHED:
+                    break waitLoop;
+                case ERROR:
+                    throw new RuntimeException(status.message);
+            }
+
+            // Be gentle
+            Thread.sleep(200);
+        }
+
+        InputStream is = service.download(status.output.url);
+       
+// Clean up
+        process.delete();
+       System.out.println("convertGrayScaleImages :: imageName = " + imageName + ". Convertion end.");
+        return ByteStreams.toByteArray(is);
+    }
+
+    public byte[] rotate180(byte[] imagee) {
         Image image = new Image(imagee);
         image.rotate(180);
         image.rotateCounterClockwise();
         image.rotateClockwise();
-
         return image.getByteArray();
     }
+
+    public static byte[] convert(byte[] tiff) throws Exception {
+        System.out.println("ImgConvTiffToPng.convert -> tiff.length = " + tiff.length);
+//        byte[] out = new byte[0];
+        InputStream inputStream = new ByteArrayInputStream(tiff);
+
+        TIFFDecodeParam param = null;
+
+        ImageDecoder dec = ImageCodec.createImageDecoder("tiff", inputStream, param);
+        RenderedImage op = dec.decodeAsRenderedImage(0);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        PNGEncodeParam jpgparam = null;
+        ImageEncoder en = ImageCodec.createImageEncoder("png", outputStream, jpgparam);
+
+        en.encode(op);
+        outputStream = (ByteArrayOutputStream) en.getOutputStream();
+        byte[] out = outputStream.toByteArray();
+        outputStream.flush();
+        outputStream.close();
+
+        return out;
+
+    }
     
+    public static byte[] getImage(Blob blob) throws Exception {
+        if (blob == null) {
+            return null;
+        } 
+       return blob.getBytes(1, (int) blob.length());
+    }
+
 //    private BufferedImage createImageFromBytes(byte[] imageData) {
 //        ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
 //        try {
@@ -68,7 +152,6 @@ public class ImgConvTiffToPng {
 //        DataBufferByte buffer = (DataBufferByte) raster.getDataBuffer();
 //        return buffer.getData();
 //    }
-    
 //    public byte[] read(String imageName) throws IOException {
 //
 //        File file = new File(imageName+".png"); 
@@ -78,14 +161,4 @@ public class ImgConvTiffToPng {
 //        return fileContent;
 //    }
 //
-//    public void write(byte[] image, String imageName) throws IOException {
-//
-//        File frameJPG = new File(imageName+".png");
-//
-//        FileOutputStream outputStream = new FileOutputStream(frameJPG);
-//        outputStream.write(image);
-//        outputStream.flush();
-//        outputStream.close();
-//    }
-        
 }

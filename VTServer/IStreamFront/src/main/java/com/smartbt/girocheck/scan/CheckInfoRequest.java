@@ -1,6 +1,5 @@
 package com.smartbt.girocheck.scan;
 
-import com.smartbt.girocheck.servercommon.email.EmailUtils;
 import com.smartbt.girocheck.servercommon.email.GoogleMail;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
@@ -11,8 +10,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.MessagingException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -113,6 +110,7 @@ public class CheckInfoRequest implements IMap {
         map.put(ParameterName.STATE_ABBREVIATION, getState());
         map.put(ParameterName.FIRST_NAME, getFirstName());
         map.put(ParameterName.AMMOUNT, checkCAR);
+        map.put(ParameterName.PAYMENTCHECK, checkNumber);
 
         sb.append("CheckInfoRequest -> toMap() :: BORNDATE = " + getBornDate() + "<br>");
         Date bornD = getDateFromString(getBornDate());

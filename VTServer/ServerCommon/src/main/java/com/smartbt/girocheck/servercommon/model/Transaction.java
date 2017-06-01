@@ -13,6 +13,7 @@ package com.smartbt.girocheck.servercommon.model;
 
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -51,6 +52,7 @@ public class Transaction implements Serializable {
     private String istream_id;
 
     private Boolean single;
+    private String certegyApprovalNumber;
 
     private String errorCode;
 
@@ -68,13 +70,15 @@ public class Transaction implements Serializable {
 
     private Boolean cancelated;
     private Boolean cancelable = true;
-    
+
     private String balanceAfterLoad;
 
     private java.util.Set<com.smartbt.girocheck.servercommon.model.SubTransaction> sub_Transaction = new java.util.HashSet<com.smartbt.girocheck.servercommon.model.SubTransaction>();
 
     private com.smartbt.girocheck.servercommon.model.Check check;
-     
+    
+    private com.smartbt.girocheck.servercommon.model.Merchant merchant;
+	
 
     public void addSubTransaction(SubTransaction subTransaction) {
         if (sub_Transaction.isEmpty()) {
@@ -114,10 +118,10 @@ public class Transaction implements Serializable {
             sub_Transaction.add(subTransaction);
         }
     }
-    
-    public boolean containSubTransaction(TransactionType type){
+
+    public boolean containSubTransaction(TransactionType type) {
         for (SubTransaction sub_Transaction1 : sub_Transaction) {
-            if(sub_Transaction1.getType() == type.getCode()){
+            if (sub_Transaction1.getType() == type.getCode()) {
                 return true;
             }
         }
@@ -170,7 +174,6 @@ public class Transaction implements Serializable {
 //    public String getCardNumber() {
 //        return cardNumber;
 //    }
-
     public int getORMID() {
         return getId();
     }
@@ -355,7 +358,10 @@ public class Transaction implements Serializable {
      * @param feeAmmount the feeAmmount to set
      */
     public void setFeeAmmount(Double feeAmmount) {
-        this.feeAmmount = feeAmmount;
+        if (feeAmmount != null) {
+            BigDecimal bd = new BigDecimal(feeAmmount).setScale(2, BigDecimal.ROUND_HALF_UP);
+            this.feeAmmount = bd.doubleValue();
+        }
     }
 
     /**
@@ -369,7 +375,10 @@ public class Transaction implements Serializable {
      * @param payoutAmmount the payoutAmmount to set
      */
     public void setPayoutAmmount(Double payoutAmmount) {
-        this.payoutAmmount = payoutAmmount;
+        if (payoutAmmount != null) {
+            BigDecimal bd = new BigDecimal(payoutAmmount).setScale(2, BigDecimal.ROUND_HALF_UP);
+            this.payoutAmmount = bd.doubleValue();
+        }
     }
 
     /**
@@ -399,5 +408,33 @@ public class Transaction implements Serializable {
     public void setBalanceAfterLoad(String afterLoadBalance) {
         this.balanceAfterLoad = afterLoadBalance;
     }
-     
+
+    /**
+     * @return the certegyApprovalNumber
+     */
+    public String getCertegyApprovalNumber() {
+        return certegyApprovalNumber;
+    }
+
+    /**
+     * @param certegyApprovalNumber the certegyApprovalNumber to set
+     */
+    public void setCertegyApprovalNumber(String certegyApprovalNumber) {
+        this.certegyApprovalNumber = certegyApprovalNumber;
+    }
+
+    /**
+     * @return the merchant
+     */
+    public com.smartbt.girocheck.servercommon.model.Merchant getMerchant() {
+        return merchant;
+    }
+
+    /**
+     * @param merchant the merchant to set
+     */
+    public void setMerchant(com.smartbt.girocheck.servercommon.model.Merchant merchant) {
+        this.merchant = merchant;
+    }
+
 }

@@ -50,12 +50,7 @@ public class PersonalIdentificationDAO extends BaseDAO<PersonalIdentification> {
                 .addOrder(Order.desc("id"));
         criteria.setMaxResults(1);
 
-        PersonalIdentification identification = (PersonalIdentification) criteria.uniqueResult();
- 
-//        identification.getClient();
-//        identification.getState();
-
-        return identification;
+       return(PersonalIdentification) criteria.uniqueResult(); 
     }
 
     public void removeByClientAndType(int idClient, int idType, Integer currentIdentificationId) {

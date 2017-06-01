@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: 
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.smartbt.girocheck.servercommon.model.BalanceInquiryLog" table="`balance_inquiry_log`" lazy="false">
+		<id name="id" column="id" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id>
+		<property name="resultCode" column="result_code" type="integer" length="10" not-null="false" lazy="false"/>
+		<property name="resultMessage" column="result_message" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="dateTime" column="date_time" type="timestamp" not-null="false" lazy="false"/>
+		<many-to-one name="data_sc1" cascade="save-update,lock" column="creditcard" class="com.smartbt.girocheck.servercommon.model.CreditCard" not-null="false" lazy="proxy">
+		</many-to-one>
+		<property name="errorCode" column="errorCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="amount" column="amount" type="double"  not-null="false" lazy="false"/>
+                <property name="last4cc" column="last4cc" type="string" length="4" not-null="false" lazy="false"/>
+	</class>
+</hibernate-mapping>

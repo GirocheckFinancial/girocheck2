@@ -250,12 +250,14 @@ public class JSON2XMLParser {
         transactionData += tag("resultMessage", jsonObject.get("resultMessage"));
         transactionData += tagDateTime("dateTime", jsonObject.get("dateTime"));
          
-         transactionData += tag("idPosOrderExp", jsonObject.get("idPosOrderExp"));
+//         transactionData += tag("idPosOrderExp", jsonObject.get("idPosOrderExp"));
          transactionData += tag("terminalSerial",  jsonObject.get("terminalSerial"));
          transactionData += tag("merchantName", jsonObject.get("merchantName"));
          transactionData += tag("idTellerOrderExp", jsonObject.get("idTellerOrderExp"));
          transactionData += tag("clientPhone", jsonObject.get("clientPhone"));
          transactionData += tag("oEAgentNumber", jsonObject.get("oEAgentNumber"));
+         transactionData += tag("certegyApprovalNumber", jsonObject.get("certegyApprovalNumber"));
+         transactionData += tag("clientAddress", jsonObject.get("clientAddress"));
         
         return transactionData;
     }

@@ -50,7 +50,7 @@ public class TransactionListGrid extends BaseListGrid {
     private CurrencyListGridField ammountField = new CurrencyListGridField("ammount", "Amount", false);
     private CurrencyListGridField feeAmmountField = new CurrencyListGridField("feeAmmount", "Fee Amount", false);
     private CurrencyListGridField payoutAmmountField = new CurrencyListGridField("payoutAmmount", "Payout Amount", false);
-    
+     
     private TextListGridField resultCode = new TextListGridField("resultCode", "Result Code", false);
     private TextListGridField transactionFinished = new TextListGridField("transactionFinished", "Transaction Status", false);
   
@@ -160,7 +160,7 @@ public class TransactionListGrid extends BaseListGrid {
                 accountSuffixField,
                 ammountField,
                 feeAmmountField,
-                payoutAmmountField,
+                payoutAmmountField, 
                 resultCode,
                 transactionFinished);
    //     resizeField(2, 110);

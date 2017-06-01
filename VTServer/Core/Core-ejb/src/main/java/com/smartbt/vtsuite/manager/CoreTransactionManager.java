@@ -42,8 +42,7 @@ import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.girocheck.servercommon.utils.DirexException;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
-import java.sql.Blob;
-import java.text.DateFormat;
+import java.sql.Blob; 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -54,8 +53,6 @@ import java.util.Map;
  * The Core Manager Class
  */
 public class CoreTransactionManager {
-
-    private Boolean version2 = false;
 
     private static CoreAbstractTransactionBusinessLogic businessLogic;
     public static List SINGLE_TRANSACTION_LIST;
@@ -91,62 +88,28 @@ public class CoreTransactionManager {
      */
     public void processTransaction(DirexTransactionRequest direxTransactionRequest) throws Exception {
 
-        String versionProperty = System.getProperty("VERSION");
-        System.out.println(">>> CoreTransactionManager -> versionProperty = " + versionProperty);
-        version2 = versionProperty != null && versionProperty.equalsIgnoreCase("2");
-        System.out.println(">>> CoreTransactionManager -> version2 = " + version2);
-
         try {
             if (direxTransactionRequest.getTransactionData() != null && direxTransactionRequest.getTransactionData().containsKey(TransactionType.TRANSACTION_TYPE)) {
 
                 TransactionType transactionType = direxTransactionRequest.getTransactionType();
 
-                DateFormat df = DateFormat.getDateTimeInstance();
-                CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CoreTransactionManager] Processing: " + transactionType + " at " + df.format(new Date()), null);
-
-                Transaction transaction = createTransaction(direxTransactionRequest, transactionType);
-                if (transaction.getResultCode() != null) {
-                    if (transaction.getResultCode() == 3) {
-                        DirexTransactionResponse response = DirexTransactionResponse.forException(ResultCode.CARD_RELOAD_DATA_CANCELED, ResultMessage.CARD_RELOAD_DATA_CANCELED);
-                        JMSManager.get().send(response, JMSManager.get().getCoreOutQueue(), direxTransactionRequest.getCorrelation());
-                        return;
-                    }
-                    if (transaction.getResultCode() == 900) {
-                        DirexTransactionResponse response = DirexTransactionResponse.forException(ResultCode.CARD_UNAUTHORIZED_BY_MIDDLEWARE, ResultMessage.CARD_UNAUTHORIZED_BY_MIDDLEWARE);
-                        JMSManager.get().send(response, JMSManager.get().getCoreOutQueue(), direxTransactionRequest.getCorrelation());
-                        return;
-                    }
-                }
-                CustomeLogger.Output(CustomeLogger.OutputStates.Debug, ">[CoreTransactionManager] SWITCH: " + transactionType, null);
+                CustomeLogger.Output(CustomeLogger.OutputStates.Debug, ">[CoreTransactionManager] Processing: " + transactionType, null);
 
                 switch (transactionType) {
                     case TECNICARD_BALANCE_INQUIRY:
-                        businessLogic = new CoreSingleTransactionBusinessLogic();
+                        businessLogic = new BalanceInquiryBusinessLogic();
                         break;
                     case CARD_RELOAD:
                     case CARD_RELOAD_WITH_DATA:
                     case NEW_CARD_LOAD:
-//                        direxTransactionRequest.getTransactionData().put(ParameterName.CARDLOADTYPE, 1);
-                        if (transaction.getOperation().contains("02")) {
-
-                            if (version2) {
-                                CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] businessLogic = new CashBusinessLogic", null);
-                                businessLogic = new CashBusinessLogic();
-                            } else {
-                                CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] businessLogic = new CoreComplexCashTransactionBusinessLogic", null);
-                                businessLogic = new CoreComplexCashTransactionBusinessLogic();
-                            }
-
+                        String operation = (String) direxTransactionRequest.getTransactionData().get(ParameterName.OPERATION);
+                        
+                        if (operation.contains("02")) {
+                            businessLogic = new CashBusinessLogic();
                         } else {
-                            CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] businessLogic = new NewCoreComplexTransactionBusinessLogic(logger);", null);
-                            if (version2) {
-                                businessLogic = new CheckBusinessLogic();
-                            } else {
-                                businessLogic = new NewCoreComplexTransactionBusinessLogic();
-                            }
+                            businessLogic = new CheckBusinessLogic();
                         }
                         break;
-
                     case ISTREAM_CHECK_AUTH_LOCATION_CONFIG:
                         businessLogic = new CoreLocalTransactionBusinessLogic();
                         break;
@@ -160,7 +123,27 @@ public class CoreTransactionManager {
                         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] Exception: " + msg, null);
                         return;
                 }
+                
+                Transaction transaction = null;
 
+                if (transactionType != TransactionType.TECNICARD_BALANCE_INQUIRY) {
+                    
+                    transaction = createTransaction(direxTransactionRequest, transactionType);
+                    
+                    if (transaction.getResultCode() != null) {
+                        if (transaction.getResultCode() == 3) {
+                            DirexTransactionResponse response = DirexTransactionResponse.forException(ResultCode.CARD_RELOAD_DATA_CANCELED, ResultMessage.CARD_RELOAD_DATA_CANCELED);
+                            JMSManager.get().send(response, JMSManager.get().getCoreOutQueue(), direxTransactionRequest.getCorrelation());
+                            return;
+                        }
+                        if (transaction.getResultCode() == 900) {
+                            DirexTransactionResponse response = DirexTransactionResponse.forException(ResultCode.CARD_UNAUTHORIZED_BY_MIDDLEWARE, ResultMessage.CARD_UNAUTHORIZED_BY_MIDDLEWARE);
+                            JMSManager.get().send(response, JMSManager.get().getCoreOutQueue(), direxTransactionRequest.getCorrelation());
+                            return;
+                        }
+                    }
+                }
+                
                 businessLogic.process(direxTransactionRequest, transaction);
 
             } else {
@@ -174,7 +157,7 @@ public class CoreTransactionManager {
         } catch (CreditCardException ccException) {
             DirexTransactionResponse response = DirexTransactionResponse.forException(ResultCode.CORE_ERROR, ccException.getMessage());
             JMSManager.get().send(response, JMSManager.get().getCoreOutQueue(), direxTransactionRequest.getCorrelation());
-        }catch (AmountException amountException) {
+        } catch (AmountException amountException) {
             DirexTransactionResponse response = DirexTransactionResponse.forException(ResultCode.CORE_ERROR, amountException.getMessage());
             JMSManager.get().send(response, JMSManager.get().getCoreOutQueue(), direxTransactionRequest.getCorrelation());
         } catch (Exception ex) {
@@ -299,17 +282,16 @@ public class CoreTransactionManager {
                 direxTransactionRequest.getTransactionData().put(ParameterName.ADDRESS, address.getAddress());
                 direxTransactionRequest.getTransactionData().put(ParameterName.CITY, address.getCity());
                 direxTransactionRequest.getTransactionData().put(ParameterName.STATE, state.getCode());
-                System.out.println("CoreTransactionManager -> state.getCode() = " + state.getCode());
-                System.out.println("CoreTransactionManager -> state.getAbbreviation() = " + state.getAbbreviation());
-
+               
                 direxTransactionRequest.getTransactionData().put(ParameterName.STATE_ABBREVIATION, state.getAbbreviation());
                 direxTransactionRequest.getTransactionData().put(ParameterName.ZIPCODE, address.getZipcode());
-
-                Iterator it = direxTransactionRequest.getTransactionData().keySet().iterator();
-
+ 
             }
 
             Terminal terminal = terminalManager.findBySerialNumber(terminalId);
+            
+            transaction.setMerchant(terminal.getMerchant());
+            
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] (terminalId) :: " + terminalId, null);
             if (terminal == null) {
                 CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] Terminal with id : " + terminalId + " doesn't exist. ", null);
@@ -324,11 +306,9 @@ public class CoreTransactionManager {
             }
 
             direxTransactionRequest.getTransactionData().put(ParameterName.IDMERCHANT, terminal.getMerchant().getId());
-
-            if (version2) {
-                direxTransactionRequest.getTransactionData().put(ParameterName.LOCATION_ID, terminal.getMerchant().getIdIstreamTecnicardCheck());
-            }
-
+ 
+            direxTransactionRequest.getTransactionData().put(ParameterName.LOCATION_ID, terminal.getMerchant().getIdIstreamTecnicardCheck());
+          
             if (direxTransactionRequest.getTransactionData().containsKey(ParameterName.AMMOUNT)) {
                 double ammount = (Double) direxTransactionRequest.getTransactionData().get(ParameterName.AMMOUNT);
 
@@ -387,7 +367,7 @@ public class CoreTransactionManager {
 
             if (transactionType == TransactionType.ISTREAM_CHECK_AUTH_LOCATION_CONFIG) {
                 direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_ID_ISTREAM, terminal.getMerchant().getIdIstreamTecnicardCheck());
-                  //todo remove this for version 2 (We eill take this from System Properties)
+                //todo remove this for version 2 (We eill take this from System Properties)
                 direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_USER_ISTREAM, terminal.getMerchant().getIstreamUser());
                 direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_PASSWORD_ISTREAM, terminal.getMerchant().getIstreamPassword());
             }
