@@ -46,14 +46,20 @@ public class TransactionDetailReportDisplay implements Serializable {
     private String clientFirstName;
     private String clientLastName;
     private String clientPhone;
-
+    private String certegyApprovalNumber;
     private String idPosOrderExp;
     private String merchantName;
-    private String terminalSerial;
-    private String idTellerOrderExp;
-    private String oEAgentNumber;
+    private String terminalSerial; 
     private String checkNumber;
     private String makerName;
+    private String clientStreet;
+    private String clientCity;
+    private String clientState;
+    private String clientZipCode; 
+    
+    public String getClientAddress(){
+        return getClientStreet() + ", " + getClientCity() + ", " + getClientState() + ", " + getClientZipCode();
+    }
 
     /**
      * The default constructor
@@ -287,21 +293,7 @@ public class TransactionDetailReportDisplay implements Serializable {
     public void setTerminalSerial(String terminalSerial) {
         this.terminalSerial = terminalSerial;
     }
-
-    /**
-     * @return the idTellerOrderExp
-     */
-    public String getIdTellerOrderExp() {
-        return idTellerOrderExp;
-    }
-
-    /**
-     * @param idTellerOrderExp the idTellerOrderExp to set
-     */
-    public void setIdTellerOrderExp(String idTellerOrderExp) {
-        this.idTellerOrderExp = idTellerOrderExp;
-    }
-
+  
     /**
      * @return the clientPhone
      */
@@ -315,20 +307,7 @@ public class TransactionDetailReportDisplay implements Serializable {
     public void setClientPhone(String clientPhone) {
         this.clientPhone = clientPhone;
     }
-
-    /**
-     * @return the oEAgentNumber
-     */
-    public String getoEAgentNumber() {
-        return oEAgentNumber;
-    }
-
-    /**
-     * @param oEAgentNumber the oEAgentNumber to set
-     */
-    public void setoEAgentNumber(String oEAgentNumber) {
-        this.oEAgentNumber = oEAgentNumber;
-    }
+ 
 
     /**
      * @return the checkNumber
@@ -356,6 +335,76 @@ public class TransactionDetailReportDisplay implements Serializable {
      */
     public void setMakerName(String makerName) {
         this.makerName = makerName;
+    }
+
+    /**
+     * @return the certegyApprovalNumber
+     */
+    public String getCertegyApprovalNumber() {
+        return certegyApprovalNumber;
+    }
+
+    /**
+     * @param certegyApprovalNumber the certegyApprovalNumber to set
+     */
+    public void setCertegyApprovalNumber(String certegyApprovalNumber) {
+        this.certegyApprovalNumber = certegyApprovalNumber;
+    }
+
+    /**
+     * @return the clientStreet
+     */
+    public String getClientStreet() {
+        return clientStreet;
+    }
+
+    /**
+     * @param clientStreet the clientStreet to set
+     */
+    public void setClientStreet(String clientStreet) {
+        this.clientStreet = clientStreet;
+    }
+
+    /**
+     * @return the clientCity
+     */
+    public String getClientCity() {
+        return clientCity;
+    }
+
+    /**
+     * @param clientCity the clientCity to set
+     */
+    public void setClientCity(String clientCity) {
+        this.clientCity = clientCity;
+    }
+
+    /**
+     * @return the clientState
+     */
+    public String getClientState() {
+        return clientState;
+    }
+
+    /**
+     * @param clientState the clientState to set
+     */
+    public void setClientState(String clientState) {
+        this.clientState = clientState;
+    }
+
+    /**
+     * @return the clientZipCode
+     */
+    public String getClientZipCode() {
+        return clientZipCode;
+    }
+
+    /**
+     * @param clientZipCode the clientZipCode to set
+     */
+    public void setClientZipCode(String clientZipCode) {
+        this.clientZipCode = clientZipCode;
     }
 
 }
