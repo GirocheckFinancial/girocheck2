@@ -61,7 +61,8 @@ public class ImgConvTiffToPng {
         System.out.println("IMAGE_CONVERTION_KEY = " + IMAGE_CONVERTION_KEY);
  
         if(IMAGE_CONVERTION_KEY == null){
-            IMAGE_CONVERTION_KEY = "oRkArXKrHfasWtL2VusjRWcqtyvYHd_F3AJvD44BROOajAo_iLWbhzu94wU2pV6qzV09jDQVhJvfH1iYsoid7g";
+//            IMAGE_CONVERTION_KEY = "oRkArXKrHfasWtL2VusjRWcqtyvYHd_F3AJvD44BROOajAo_iLWbhzu94wU2pV6qzV09jDQVhJvfH1iYsoid7g";
+            IMAGE_CONVERTION_KEY = "elGTzBSfOT8J3mOKO2r9cHPtiLTf58IJOenMN5FE0qSF0F6lkhU4avZzej4EKqCYV4B1sgQx3xsjLOrCTFPtIw";
         }
        // String apiKey = "oRkArXKrHfasWtL2VusjRWcqtyvYHd_F3AJvD44BROOajAo_iLWbhzu94wU2pV6qzV09jDQVhJvfH1iYsoid7g";
         CloudConvertService service = new CloudConvertService(IMAGE_CONVERTION_KEY);

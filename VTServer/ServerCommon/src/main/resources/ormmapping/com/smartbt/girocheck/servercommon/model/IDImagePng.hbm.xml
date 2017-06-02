@@ -11,7 +11,7 @@ License Type: Evaluation
 			</generator>
 		</id> 
 		<property name="client" column="client" type="integer"  not-null="true" lazy="false"/>
-		<property name="createdAt" column="created_at" type="date" not-null="false" lazy="false"/>
+		<property name="createdAt" column="created_at" type="timestamp" not-null="false" lazy="false"/>
 		<property name="idFront" column="id_front" type="blob" not-null="false" lazy="false"/>
 		<property name="idBack" column="id_back" type="blob" not-null="false" lazy="false"/> 
 	</class>
