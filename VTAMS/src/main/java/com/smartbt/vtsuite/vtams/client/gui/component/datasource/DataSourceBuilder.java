@@ -3,6 +3,9 @@ package com.smartbt.vtsuite.vtams.client.gui.component.datasource;
 
 import com.smartbt.vtsuite.vtams.client.gui.base.BaseDatasource;
 import com.smartgwt.client.data.Record;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -186,4 +189,25 @@ public class DataSourceBuilder {
       return new BaseDatasource(item1,item2);
   } 
   
+      public static BaseDatasource getBlackListDS(boolean includeAll){
+      Record item0 = new Record();
+      item0.setAttribute( "id", 0);
+      item0.setAttribute( "name", "All Clients");
+     
+      Record item1 = new Record();
+      item1.setAttribute( "id", 1);
+      item1.setAttribute( "name", "Card 2 Bank " + (includeAll ? "Black List" : ""));
+      
+      Record item2 = new Record();
+      item2.setAttribute( "id", 2);
+      item2.setAttribute( "name", "All Transactions " + (includeAll ? "Black List" : ""));
+        
+      if(includeAll){
+         return new BaseDatasource(item0, item1, item2);
+      }else{
+          return new BaseDatasource( item1, item2);
+      } 
+      
+  }  
 }
+ 

@@ -44,7 +44,8 @@ public class ClientDS extends BaseDatasource {
 
         DataSourceTextField emailField = new DataSourceTextField("email");
         DataSourceTextField maskSSField = new DataSourceTextField("maskSS");
-        DataSourceBooleanField blackListField = new DataSourceBooleanField("blackList");
+        DataSourceBooleanField blacklistCard2bankField = new DataSourceBooleanField("blacklistCard2bank");
+        DataSourceBooleanField blackListAllField = new DataSourceBooleanField("blackListAll");
         DataSourceBooleanField optOutField = new DataSourceBooleanField("optOut");
 
         setFetchDataURL(Properties.SEARCH_CLIENTS_WS);
@@ -61,7 +62,8 @@ public class ClientDS extends BaseDatasource {
                 zipcodeField,
                 emailField,
                 maskSSField,
-                blackListField,
+                blacklistCard2bankField,
+                blackListAllField,
                 optOutField);
     }
 }

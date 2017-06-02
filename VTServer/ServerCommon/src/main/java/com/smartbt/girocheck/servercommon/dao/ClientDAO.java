@@ -91,12 +91,11 @@ public class ClientDAO extends BaseDAO<Client> {
         return client;
     }
 
-    public ResponseDataList searchClients(String searchFilter, int firstResult, int maxResult, Boolean blackList, Boolean optOut) {
+    public ResponseDataList searchClients(String searchFilter, int firstResult, int maxResult, Integer blackListCode, Boolean optOut) {
 
         List<ClientDisplay> clients;
 
-        Criteria criteria = getSearchCriteria(searchFilter, blackList, optOut);
-
+        Criteria criteria = getSearchCriteria(searchFilter, blackListCode, optOut);
 
         if (firstResult >= 0) {
             criteria.setFirstResult(firstResult);
@@ -106,7 +105,8 @@ public class ClientDAO extends BaseDAO<Client> {
         ProjectionList projectionList = Projections.projectionList()
                 .add(Projections.property("id").as("id"))
                 .add(Projections.property("firstName").as("firstName"))
-                .add(Projections.property("blacklistCard2bank").as("blackList"))
+                .add(Projections.property("blacklistCard2bank").as("blacklistCard2bank"))
+                .add(Projections.property("blackListAll").as("blackListAll"))
                 .add(Projections.property("excludeSms").as("optOut"))
                 .add(Projections.property("lastName").as("lastName"))
                 .add(Projections.property("telephone").as("telephone"))
@@ -122,7 +122,7 @@ public class ClientDAO extends BaseDAO<Client> {
 
         clients = criteria.list();
 
-        Criteria countCriteria = getSearchCriteria(searchFilter, blackList, optOut);
+        Criteria countCriteria = getSearchCriteria(searchFilter, blackListCode, optOut);
         countCriteria.setProjection(Projections.rowCount());
         Long totalTrans = (Long) countCriteria.uniqueResult();
 
@@ -136,9 +136,8 @@ public class ClientDAO extends BaseDAO<Client> {
         return response;
     }
 
-    private Criteria getSearchCriteria(String searchFilter, Boolean blackList, Boolean optOut) {
+    private Criteria getSearchCriteria(String searchFilter, Integer blackListCode, Boolean optOut) {
         Criteria criteria = HibernateUtil.getSession().createCriteria(Client.class);
-
 
         criteria.createAlias("address", "address", JoinType.LEFT_OUTER_JOIN);
         criteria.createAlias("address.state", "state", JoinType.LEFT_OUTER_JOIN);
@@ -155,19 +154,18 @@ public class ClientDAO extends BaseDAO<Client> {
                     .add(Restrictions.like("address.city", searchFilter, MatchMode.ANYWHERE).ignoreCase())
                     .add(Restrictions.like("address.address", searchFilter, MatchMode.ANYWHERE).ignoreCase());
 
-
             criteria.add(disjunction);
             criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         }
 
-        if (blackList != null) {
-            if (blackList) {
-                criteria.add(Restrictions.eq("blacklistCard2bank", blackList));
-            } else {//if is false, include also nulls
-
-                criteria.add(Restrictions.disjunction()
-                        .add(Restrictions.eq("blacklistCard2bank", blackList))
-                        .add(Restrictions.isNull("blacklistCard2bank")));
+        if (blackListCode != null && blackListCode != 0) {
+            switch (blackListCode) {
+                case 1:
+                    criteria.add(Restrictions.eq("blacklistCard2bank", true));
+                    break;
+                case 2:
+                    criteria.add(Restrictions.eq("blackListAll", true));
+                    break;
             }
 
         }
@@ -189,11 +187,19 @@ public class ClientDAO extends BaseDAO<Client> {
     public ResponseData updateClientBlackList(ClientDisplay clientDisplay) {
         System.out.println("ClientDAO -> updateClientBlackList ");
         System.out.println("ClientDAO -> updateClientBlackList :: clientDisplay.getId()  = " + clientDisplay.getId());
-        System.out.println("ClientDAO -> updateClientBlackList :: clientDisplay.getBlackList()   = " + clientDisplay.getBlackList());
+        System.out.println("ClientDAO -> updateClientBlackList :: clientDisplay.getBlacklistCard2bank()   = " + clientDisplay.getBlacklistCard2bank());
+        System.out.println("ClientDAO -> updateClientBlackList :: clientDisplay.getBlacklistAll()   = " + clientDisplay.getBlackListAll());
 
-        if (clientDisplay != null && clientDisplay.getId() != null && clientDisplay.getBlackList() != null) {
+        if (clientDisplay != null && clientDisplay.getId() != null) {
             Client client = findById(clientDisplay.getId());
-            client.setBlacklistCard2bank(clientDisplay.getBlackList());
+            if (clientDisplay.getBlacklistCard2bank() != null) {
+                client.setBlacklistCard2bank(clientDisplay.getBlacklistCard2bank());
+            }
+
+            if (clientDisplay.getBlackListAll() != null) {
+                client.setBlackListAll(clientDisplay.getBlackListAll());
+            }
+
             saveOrUpdate(client);
         }
         ResponseData response = new ResponseData(clientDisplay);

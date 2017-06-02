@@ -17,7 +17,9 @@ package com.smartbt.vtsuite.vtams.client.gui.window.tab;
 
 import com.smartbt.vtsuite.vtams.client.classes.Properties;
 import com.smartbt.vtsuite.vtams.client.gui.base.BaseTab;
+import com.smartbt.vtsuite.vtams.client.gui.component.BaseSelectItem;
 import com.smartbt.vtsuite.vtams.client.gui.component.datasource.ClientDS;
+import com.smartbt.vtsuite.vtams.client.gui.component.datasource.DataSourceBuilder;
 import com.smartbt.vtsuite.vtams.client.gui.listener.FilterListenerImp;
 import com.smartbt.vtsuite.vtams.client.gui.listener.ListListener;
 import com.smartbt.vtsuite.vtams.client.gui.listener.PaginationListener;
@@ -31,8 +33,9 @@ import com.smartgwt.client.data.DSRequest;
 import com.smartgwt.client.data.DSResponse;
 import com.smartgwt.client.data.Record;
 import com.smartgwt.client.data.RecordList;
-import com.smartgwt.client.widgets.form.fields.CheckboxItem;
+import com.smartgwt.client.types.Alignment; 
 import com.smartgwt.client.widgets.form.fields.FormItem;
+import com.smartgwt.client.widgets.form.fields.SpacerItem;
 import com.smartgwt.client.widgets.tab.events.TabSelectedEvent;
 import com.smartgwt.client.widgets.tab.events.TabSelectedHandler;
 
@@ -45,8 +48,9 @@ public class ClientBlackListTab extends BaseTab {
 
     private ClientFilterForm filterForm;
     private ClientListGrid listGrid;
-    private Integer selectedId = 0; 
-    CheckboxItem blackListCheckbox = new CheckboxItem("blackList", "In Black List");
+    private Integer selectedId = 0;
+    BaseSelectItem searchSelect;
+    BaseSelectItem addToSelect;
 
     /**
      * Constructor
@@ -55,13 +59,27 @@ public class ClientBlackListTab extends BaseTab {
      * @param idEntity
      */
     public ClientBlackListTab() {
-        super("Card to Bank Black List");
+        super("Client Black List");
 
-        blackListCheckbox.setValue(true);
+        searchSelect = new BaseSelectItem("searchIn", "Search In", DataSourceBuilder.getBlackListDS(true), false);
+        searchSelect.setTextAlign(Alignment.LEFT);
+        searchSelect.setWidth(200);
+        searchSelect.setValue(0);
+
+        addToSelect = new BaseSelectItem("addTo", "Black List", DataSourceBuilder.getBlackListDS(false), false);
+        addToSelect.setTextAlign(Alignment.LEFT);
+        addToSelect.setWidth(200);
+        addToSelect.setValue(0);
 
         filterForm = new ClientFilterForm() {
             public FormItem[] getFormFields() {
-                return new FormItem[]{searchText, blackListCheckbox, filterButton, addButton, deleteButton};
+                SpacerItem space = new SpacerItem();
+                space.setWidth(20);
+                addButton.setTitle("Add to");
+                addButton.setDisabled(false);
+                deleteButton.setTitle("Delete from");
+                deleteButton.setDisabled(false);
+                return new FormItem[]{filterButton, searchText, searchSelect, space, deleteButton, addButton, addToSelect};
             }
         };
 
@@ -137,23 +155,6 @@ public class ClientBlackListTab extends BaseTab {
             }
         });
 
-//        editorWindow.addListener(new EditorListener() {
-//            /**
-//             * Method to execute when a Save event is fired.
-//             *
-//             */
-//            public void SaveActionExecuted() {
-//                Save();
-//            }
-//
-//            /**
-//             * Method to execute when a Close event is fired.
-//             *
-//             */
-//            public void CloseActionExecuted() {
-//                editorWindow.hide();
-//            }
-//        });
         filterLayout.addMember(filterForm);
         filterLayout.addMember(paginationForm);
         listLayout.addMember(listGrid);
@@ -165,17 +166,16 @@ public class ClientBlackListTab extends BaseTab {
      *
      */
     public void Filter() {
-
+        Utils.debug("Filter");
         Criteria formCriteria = paginationForm.getLastLinkPressed() == null ? filterForm.getValuesAsCriteria() : paginationForm.getCriteria();
         paginationForm.setCriteria(formCriteria);
 
         formCriteria.addCriteria("pageNumber", paginationForm.getRequestPageNumber());
         formCriteria.addCriteria("rowsPerPage", paginationForm.getRowsPerPage());
 
-        Boolean blackList = blackListCheckbox.getValueAsBoolean();
-        blackList = blackList != null ? blackList : false;
-
-        formCriteria.addCriteria("blackList", blackList);
+        Integer blackList = (Integer) searchSelect.getValue();
+        formCriteria.addCriteria("blackList", (Integer) searchSelect.getValue());
+        Utils.debug("Filter:: blackList = " + blackList);
 
         filterForm.setDisabled(true);
 
@@ -189,50 +189,52 @@ public class ClientBlackListTab extends BaseTab {
         }, null);
     }
 
-    
- 
-
     /**
      * Update method
      *
      * @param record the record to update
      */
-    public void Update(Record record) {
-        Utils.debug("Update..");
-
-        Boolean blackList = record.getAttributeAsBoolean("blackList");
-        blackList = blackList != null ? blackList : false;
-        Utils.debug("blackList = " + blackList);
-
+    public void Update(Record record) { 
         Integer id = record.getAttributeAsInt("id");
         Utils.debug("id = " + id);
         selectedId = id;
-
-        filterForm.getDeleteButton().setDisabled(!blackList);
-        filterForm.getAddButton().setDisabled(blackList); 
+ 
+        filterForm.getDeleteButton().setDisabled(false);
+        filterForm.getAddButton().setDisabled(false);
 
     }
 
-    
-     public void Add() {
+    public void Add() {
         updateBlackListStatus(true);
     }
-    
+
     public void Delete() {
-         updateBlackListStatus(false);
+        updateBlackListStatus(false);
     }
 
-   private void updateBlackListStatus(Boolean blackList){
-       ClientDS clientDS = new ClientDS();
+    private void updateBlackListStatus(Boolean adding) {
+        Utils.debug("updateBlackListStatus selectedId = " + selectedId);
+        ClientDS clientDS = new ClientDS();
         Record record = new Record();
         record.setAttribute("id", selectedId);
-        record.setAttribute("blackList", blackList);
+       // record.setAttribute("blackList", blackList);
+
+        Integer blacklistCode = (Integer) addToSelect.getValue();
+        Utils.debug("updateBlackListStatus blacklistCode = " + blacklistCode);
+        switch (blacklistCode) {
+            case 1:
+                record.setAttribute("blacklistCard2bank", adding);
+                break;
+            case 2:
+                record.setAttribute("blackListAll", adding);
+                break;
+        }
 
         clientDS.setAddDataURL(Properties.UPDATE_CLIENT_BLACK_LIST_WS);
-        
+
         clientDS.addData(record, new DSCallback() {
             public void execute(DSResponse response, Object rawData, DSRequest request) {
-                
+
                 if (response.getStatus() == Constants.CODE_SUCCESS) {
                     Filter();
                 } else {
@@ -240,5 +242,5 @@ public class ClientBlackListTab extends BaseTab {
                 }
             }
         });
-   }
+    }
 }

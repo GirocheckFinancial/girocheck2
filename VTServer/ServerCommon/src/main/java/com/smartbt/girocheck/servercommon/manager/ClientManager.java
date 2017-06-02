@@ -173,10 +173,10 @@ public class ClientManager {
 //        clientDAO.merge(client );
 //    }
 
-    public ResponseDataList searchClients(String searchFilter, int pageNumber, int rowsPerPage, Boolean blackList, Boolean optOut) throws Exception {
+    public ResponseDataList searchClients(String searchFilter, int pageNumber, int rowsPerPage, Integer blackListCode, Boolean optOut) throws Exception {
 
 
-        return clientDAO.searchClients(searchFilter, pageNumber * rowsPerPage, rowsPerPage, blackList, optOut);
+        return clientDAO.searchClients(searchFilter, pageNumber * rowsPerPage, rowsPerPage, blackListCode, optOut);
 
     }
 

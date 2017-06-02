@@ -24,15 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;/*
- import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
- import org.glassfish.jersey.media.multipart.FormDataParam*/
-
-import javax.ws.rs.core.SecurityContext;
-//import org.hibernate.validator.constraints.Email;
-//import org.hibernate.validator.constraints.NotEmpty;
-//import org.hibernate.validator.constraints.Range;
-
+import javax.ws.rs.core.MediaType; 
+import javax.ws.rs.core.SecurityContext; 
 /**
  *
  * @author Ariel Saavedra
@@ -70,11 +63,11 @@ public class ClientController {
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseDataList searchClients(
             @FormParam("searchFilter") String searchFilter,
-            @FormParam("blackList") Boolean blackList,
+            @FormParam("blackList") Integer blackListCode,
             @FormParam("optOut") Boolean optOut,
             @FormParam("pageNumber") int pageNumber, @FormParam("rowsPerPage") int rowsPerPage) throws Exception {
 
-        return manager.searchClients(searchFilter, pageNumber, rowsPerPage, blackList, optOut);
+        return manager.searchClients(searchFilter, pageNumber, rowsPerPage, blackListCode, optOut);
     }
 
     @PUT
@@ -93,58 +86,5 @@ public class ClientController {
     public ResponseData updateClientOptOut(@FormParam("id") int id) throws Exception {
         return manager.updateClientOptOut(id);
     }
-    /**
-     * set client to given ClientDisplay
-     *
-     * @param client
-     * @return
-     * @throws java.lang.Exception
-     */
-//    @PUT
-//    @Path("saveOrUpdateClient")
-//    @Consumes("application/json")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public BaseResponse saveOrUpdateClient(ClientDisplay client) throws Exception {
-//        log.info("Incoming parameter : \n client: " + client);
-//        BaseResponse resp = manager.saveOrUpdateClient(client);
-//        return AuditLogMessage.logSaveOrUpdateClient(client.getId(), resp);
-//    }
-    /**
-     * delete all clients
-     *
-     * @param idEntity
-     * @param entityType
-     * @return
-     */
-//    @POST
-//    @Path("deleteAllClients")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public BaseResponse deleteAllClients(@FormParam("idEntity") int idEntity, @FormParam("entityType") EntityType entityType) throws Exception {
-//        log.info("Incoming parameter : \n idEntity: " + idEntity + " \n EntityType: " + entityType.toString());
-//
-//        return AuditLogMessage.logDeleteAllClients(entityType.toString(), idEntity, manager.deleteAllClients(idEntity, entityType));
-//    }
-    /**
-     * Import CLients from csv file
-     *
-     * @param idMerchant
-     * @param logoImageInputStream
-     * @param logoImageDetails
-     * @return
-     * @throws java.lang.Exception
-     */
-//    @POST
-//    @Path("importClients")
-//    @Consumes(MediaType.MULTIPART_FORM_DATA)
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public BaseResponse importClients(@FormDataParam("id") int idMerchant,
-//            @FormDataParam("file") InputStream logoImageInputStream,
-//            @FormDataParam("file") FormDataContentDisposition logoImageDetails) throws Exception {
-//
-//        log.info("Incoming parameters : \n idMerchant: " + idMerchant + "\n logoImage: " + (logoImageDetails == null ? "null" : logoImageDetails.getFileName()));
-//
-//        BaseResponse resp= manager.updateWithStream(logoImageInputStream, idMerchant);
-//
-//        return AuditLogMessage.logImportClients(idMerchant, resp);
-//    }
+    
 }

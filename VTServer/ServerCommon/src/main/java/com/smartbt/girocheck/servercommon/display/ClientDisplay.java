@@ -39,23 +39,10 @@ public class ClientDisplay implements Serializable {
     private String zipcode;
     private String state;
     private String city;
-    private Boolean blackList;
+    private Boolean blacklistCard2bank;
+    private Boolean blackListAll;
     private Boolean optOut;
 
-//    private Boolean active;
-//    private java.util.Date createdAt;
-//    private java.sql.Blob addressForm;
-//    private java.sql.Blob achForm;
-//    private java.util.Date bornDate;
-//    private String ssn;
-//    private String idBeneficiary;
-//    private java.util.Set<com.smartbt.girocheck.servercommon.model.CreditCard> data_SC = new java.util.HashSet<com.smartbt.girocheck.servercommon.model.CreditCard>();
-//
-//    private java.util.Set<com.smartbt.girocheck.servercommon.model.PersonalIdentification> data_SD = new java.util.HashSet<com.smartbt.girocheck.servercommon.model.PersonalIdentification>();
-//
-//    private java.util.Set<com.smartbt.girocheck.servercommon.model.Transaction> transaction = new java.util.HashSet<com.smartbt.girocheck.servercommon.model.Transaction>();
-//
-//    private java.util.Set<com.smartbt.girocheck.servercommon.model.Check> check = new java.util.HashSet<com.smartbt.girocheck.servercommon.model.Check>();
     public ClientDisplay() {
     }
 
@@ -200,20 +187,6 @@ public class ClientDisplay implements Serializable {
     }
 
     /**
-     * @return the blackList
-     */
-    public Boolean getBlackList() {
-        return blackList;
-    }
-
-    /**
-     * @param blackList the blackList to set
-     */
-    public void setBlackList(Boolean blackList) {
-        this.blackList = blackList;
-    }
-
-    /**
      * @return the excludeSms
      */
     public Boolean getOptOut() {
@@ -225,6 +198,34 @@ public class ClientDisplay implements Serializable {
      */
     public void setOptOut(Boolean optOut) {
         this.optOut = optOut;
+    }
+ 
+    /**
+     * @return the blackListAll
+     */
+    public Boolean getBlackListAll() {
+        return blackListAll;
+    }
+
+    /**
+     * @param blackListAll the blackListAll to set
+     */
+    public void setBlackListAll(Boolean blackListAll) {
+        this.blackListAll = blackListAll;
+    }
+
+    /**
+     * @return the blacklistCard2bank
+     */
+    public Boolean getBlacklistCard2bank() {
+        return blacklistCard2bank;
+    }
+
+    /**
+     * @param blacklistCard2bank the blacklistCard2bank to set
+     */
+    public void setBlacklistCard2bank(Boolean blacklistCard2bank) {
+        this.blacklistCard2bank = blacklistCard2bank;
     }
     /**
      * @return the address

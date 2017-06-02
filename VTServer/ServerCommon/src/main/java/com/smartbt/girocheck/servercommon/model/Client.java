@@ -32,7 +32,8 @@ public class Client implements Serializable {
 	
 	private Boolean active;
         
-	private Boolean blacklistCard2bank;
+	private Boolean blacklistCard2bank; 
+        private Boolean blackListAll;
 	
 	private java.util.Date createdAt;
 	
@@ -284,6 +285,20 @@ public class Client implements Serializable {
      */
     public void setExcludeSms(Boolean excludeSms) {
         this.excludeSms = excludeSms;
+    }
+
+    /**
+     * @return the blackListAll
+     */
+    public Boolean getBlackListAll() {
+        return blackListAll;
+    }
+
+    /**
+     * @param blackListAll the blackListAll to set
+     */
+    public void setBlackListAll(Boolean blackListAll) {
+        this.blackListAll = blackListAll;
     }
         	
 }

@@ -41,8 +41,10 @@ import com.smartbt.girocheck.servercommon.model.Transaction;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.girocheck.servercommon.utils.DirexException;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
+import com.smartbt.vtsuite.util.CoreTransactionUtil;
+import com.smartbt.vtsuite.util.TransactionalException;
 import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
-import java.sql.Blob; 
+import java.sql.Blob;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
@@ -103,7 +105,7 @@ public class CoreTransactionManager {
                     case CARD_RELOAD_WITH_DATA:
                     case NEW_CARD_LOAD:
                         String operation = (String) direxTransactionRequest.getTransactionData().get(ParameterName.OPERATION);
-                        
+
                         if (operation.contains("02")) {
                             businessLogic = new CashBusinessLogic();
                         } else {
@@ -123,13 +125,13 @@ public class CoreTransactionManager {
                         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] Exception: " + msg, null);
                         return;
                 }
-                
+
                 Transaction transaction = null;
 
                 if (transactionType != TransactionType.TECNICARD_BALANCE_INQUIRY) {
-                    
+
                     transaction = createTransaction(direxTransactionRequest, transactionType);
-                    
+
                     if (transaction.getResultCode() != null) {
                         if (transaction.getResultCode() == 3) {
                             DirexTransactionResponse response = DirexTransactionResponse.forException(ResultCode.CARD_RELOAD_DATA_CANCELED, ResultMessage.CARD_RELOAD_DATA_CANCELED);
@@ -143,7 +145,7 @@ public class CoreTransactionManager {
                         }
                     }
                 }
-                
+
                 businessLogic.process(direxTransactionRequest, transaction);
 
             } else {
@@ -282,16 +284,16 @@ public class CoreTransactionManager {
                 direxTransactionRequest.getTransactionData().put(ParameterName.ADDRESS, address.getAddress());
                 direxTransactionRequest.getTransactionData().put(ParameterName.CITY, address.getCity());
                 direxTransactionRequest.getTransactionData().put(ParameterName.STATE, state.getCode());
-               
+
                 direxTransactionRequest.getTransactionData().put(ParameterName.STATE_ABBREVIATION, state.getAbbreviation());
                 direxTransactionRequest.getTransactionData().put(ParameterName.ZIPCODE, address.getZipcode());
- 
+
             }
 
             Terminal terminal = terminalManager.findBySerialNumber(terminalId);
-            
+
             transaction.setMerchant(terminal.getMerchant());
-            
+
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] (terminalId) :: " + terminalId, null);
             if (terminal == null) {
                 CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] Terminal with id : " + terminalId + " doesn't exist. ", null);
@@ -306,9 +308,9 @@ public class CoreTransactionManager {
             }
 
             direxTransactionRequest.getTransactionData().put(ParameterName.IDMERCHANT, terminal.getMerchant().getId());
- 
+
             direxTransactionRequest.getTransactionData().put(ParameterName.LOCATION_ID, terminal.getMerchant().getIdIstreamTecnicardCheck());
-          
+
             if (direxTransactionRequest.getTransactionData().containsKey(ParameterName.AMMOUNT)) {
                 double ammount = (Double) direxTransactionRequest.getTransactionData().get(ParameterName.AMMOUNT);
 
@@ -345,7 +347,17 @@ public class CoreTransactionManager {
                     direxTransactionRequest.getTransactionData().put(ParameterName.EMAIL, client.getEmail());
                 }
             }
-
+            
+            System.out.println("client.getBlackListAll() = " + client.getBlackListAll());
+            
+            if (client.getBlackListAll() != null && client.getBlackListAll() == true) {
+                CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] Client " + client.getFirstName() + " is in the black list for All Transactions.", null);
+                transaction.setResultMessage("Client is in Black List.");
+                transaction.setResultCode(ResultCode.CLIENT_IN_BLACKLIST.getCode());
+               transaction.setTransactionFinished(true);
+                throw new TransactionException(transaction,ResultCode.CLIENT_IN_BLACKLIST, "Girocheck Decline-Please call customer service");
+            }
+            
             if (client != null && client.hasITIN()) {
                 /*
                  * ITIN value 100
@@ -472,25 +484,25 @@ public class CoreTransactionManager {
         } catch (AmountException amountException) {
             amountException.printStackTrace();
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] createTransaction(...) amountException " + amountException.getMessage(), null);
-            transactionManager.saveOrUpdate(amountException.getTransaction());
-//            HibernateUtil.commitTransaction();
+            transactionManager.saveOrUpdate(amountException.getTransaction()); 
             throw amountException;
         } catch (LoggingValidationException loggingValidationException) {
             loggingValidationException.printStackTrace();
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] createTransaction(...) LoggingValidationException " + loggingValidationException.getMessage(), null);
-            transactionManager.saveOrUpdate(loggingValidationException.getTransaction());
-//            HibernateUtil.commitTransaction();
+            transactionManager.saveOrUpdate(loggingValidationException.getTransaction()); 
             throw loggingValidationException;
         } catch (CreditCardException cardException) {
             cardException.printStackTrace();
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] createTransaction(...) CreditCardException " + cardException.getMessage(), null);
-            transactionManager.saveOrUpdate(cardException.getTransaction());
-//            HibernateUtil.commitTransaction();
+            transactionManager.saveOrUpdate(cardException.getTransaction()); 
             throw cardException;
+        } catch (TransactionException transactionalException) {
+            transactionalException.printStackTrace();
+            transactionManager.saveOrUpdate(transactionalException.getTransaction()); 
+            throw transactionalException;
         } catch (Exception e) {
             e.printStackTrace();
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] createTransaction(...) Exception. ", e.getMessage());
-//            HibernateUtil.rollbackTransaction();
             throw e;
         } finally {
             try {
@@ -560,6 +572,11 @@ public class CoreTransactionManager {
 class TransactionException extends DirexException {
 
     private Transaction transaction;
+    
+     public TransactionException(Transaction transaction,ResultCode resultCode,String resultMessage) {
+        super(resultCode, resultMessage);
+        this.transaction = transaction; 
+    }
 
     public TransactionException(ResultCode resultCode, String message, Transaction transaction) {
         super(resultCode, message);

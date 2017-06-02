@@ -113,7 +113,7 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
                     CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] Client " + client.getFirstName() + " is in hte black list for Card to Bank.", null);
                     HibernateUtil.commitTransaction();
 
-                    direxTransactionResponse = direxTransactionResponse.forException(TransactionType.TECNICARD_CARD_TO_BANK, ResultCode.CLIENT_IN_CARD2BANK_BLACKLIST, ResultMessage.CLIENT_IN_CARD2BANK_BLACKLIST);
+                    direxTransactionResponse = direxTransactionResponse.forException(TransactionType.TECNICARD_CARD_TO_BANK, ResultCode.CLIENT_IN_BLACKLIST, ResultMessage.CLIENT_IN_CARD2BANK_BLACKLIST);
                     direxTransactionResponse.setTransactionType(TransactionType.get(transaction.getTransactionType()));
                     CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation());
                     JMSManager.get().send(direxTransactionResponse, JMSManager.get().getCoreOutQueue(), direxTransactionRequest.getCorrelation());
