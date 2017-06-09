@@ -5,8 +5,7 @@ import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import javax.sql.rowset.serial.SerialBlob;
-import org.hibernate.Criteria;
+import javax.sql.rowset.serial.SerialBlob; 
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 /*
@@ -38,6 +37,8 @@ public class IDImagePngDAO extends BaseDAO<IDImagePng> {
         image.setCreatedAt(today);
         save(image);
     }
+    
+    
 
     public Long getRemainingConvertions() {
         Date today = new Date();

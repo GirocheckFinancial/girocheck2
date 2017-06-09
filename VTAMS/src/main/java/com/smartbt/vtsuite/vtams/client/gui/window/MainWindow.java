@@ -211,7 +211,7 @@ public class MainWindow extends BaseWindow {
             clientBlacklistButton.addClickHandler(new MainMenuClickHandler(this) {
                 @Override
                 public BaseWindow createWindow() {                   
-                    return new ClientBlackListWindow();
+                    return new BlackListWindow();
                 }
             });
             mainMenu.addButton(clientBlacklistButton);

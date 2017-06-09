@@ -107,13 +107,13 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
             hasAch = achManager.existAchCard(cardNumber);
 
             client = creditCardManager.getClient(cardNumber);
-            if (client != null) {
-
-                if (client.getBlacklistCard2bank() != null && client.getBlacklistCard2bank() == true) {
-                    CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] Client " + client.getFirstName() + " is in hte black list for Card to Bank.", null);
+            if (client != null) { 
+                if ((client.getBlacklistCard2bank() != null && client.getBlacklistCard2bank() == true) 
+                      || (client.getBlackListAll() != null && client.getBlackListAll() == true)){
+                    CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] Client " + client.getFirstName() + " is in the black list.", null);
                     HibernateUtil.commitTransaction();
 
-                    direxTransactionResponse = direxTransactionResponse.forException(TransactionType.TECNICARD_CARD_TO_BANK, ResultCode.CLIENT_IN_CARD2BANK_BLACKLIST, ResultMessage.CLIENT_IN_CARD2BANK_BLACKLIST);
+                    direxTransactionResponse = direxTransactionResponse.forException(TransactionType.TECNICARD_CARD_TO_BANK, ResultCode.CLIENT_IN_BLACKLIST, ResultMessage.CLIENT_IN_CARD2BANK_BLACKLIST);
                     direxTransactionResponse.setTransactionType(TransactionType.get(transaction.getTransactionType()));
                     CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation());
                     JMSManager.get().send(direxTransactionResponse, JMSManager.get().getCoreOutQueue(), direxTransactionRequest.getCorrelation());

@@ -16,14 +16,14 @@
         <url-pattern>/webresources/*</url-pattern>
     </servlet-mapping>
     
-    <servlet>
+<!--    <servlet>
         <servlet-name>MyImageServlet</servlet-name>
         <servlet-class>com.smartbt.vtsuite.servlets.ImageServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>MyImageServlet</servlet-name>
         <url-pattern>/images</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
     
     <session-config>
         <session-timeout>

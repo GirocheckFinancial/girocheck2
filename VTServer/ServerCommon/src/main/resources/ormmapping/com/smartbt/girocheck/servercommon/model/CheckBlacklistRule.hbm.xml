@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+  "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+  "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+  <class name="com.smartbt.girocheck.servercommon.model.CheckBlacklistRule" table="check_blacklist_rule" lazy="false">
+		<id name="id" column="id" type="integer" unsaved-value="0">
+			<generator class="native">
+			</generator>
+		</id> 
+		<property name="dda" column="dda" type="string" lazy="false"/> 
+		<property name="aba" column="aba" type="string" lazy="false"/> 
+		<property name="maker" column="maker" type="string" lazy="false"/> 
+		<property name="lastUpdated" column="last_updated" type="timestamp" not-null="false" lazy="false"/>
+	</class> 
+</hibernate-mapping>

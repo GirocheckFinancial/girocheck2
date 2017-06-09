@@ -9,29 +9,29 @@ package com.smartbt.girocheck.servercommon.enums;
 
 public enum ResultMessage {
     SUCCESS("Success","Success."),
-    FAILED("Failed","Transaction Failed. Please Contact Customer Support."),
+    FAILED("declined","Transaction declined. Please Contact Customer Support."),
     
-    HOST_RECEIVED_NULL("Host received null message from Core.","Transaction Failed. Please Contact Customer Support."),
+    HOST_RECEIVED_NULL("Host received null message from Core.","Transaction declined. Please Contact Customer Support."),
     
-    CORE_RECEIVED_NULL("Core received null message from Front.","Transaction Failed. Please Contact Customer Support."),
+    CORE_RECEIVED_NULL("Core received null message from Front.","Transaction declined. Please Contact Customer Support."),
     
-    CARDTOBANK_CORE_CLIENT_MISSING("Core cardToBank client is missing.","Transaction Failed: Card is not associated to a Cardholder."),
+    CARDTOBANK_CORE_CLIENT_MISSING("Core cardToBank client is missing.","Transaction declined: Card is not associated to a Cardholder."),
     
-    CARDTOBANK_CORE_MERCHANT_MISSING("Core cardToBank merchant is missing.","Transaction Failed: Merchant is not associated to the terminal."),
+    CARDTOBANK_CORE_MERCHANT_MISSING("Core cardToBank merchant is missing.","Transaction declined: Merchant is not associated to the terminal."),
    
-    CARDTOBANK_CORE_ACH_MISSING("Core cardToBank ACH came null from the terminal.","Transaction Failed: No ACH Form Image Received. Please Try the Transaction Again."),
+    CARDTOBANK_CORE_ACH_MISSING("Core cardToBank ACH came null from the terminal.","Transaction declined: No ACH Form Image Received. Please Try the Transaction Again."),
     
-    FRONT_RECEIVED_NULL("Front received null message from Core.","Transaction Failed. Please Contact Customer Support."),
+    FRONT_RECEIVED_NULL("Front received null message from Core.","Transaction declined. Please Contact Customer Support."),
     
-    CORE_RECEIVED_NULL_FROM_HOST("Core received null message from Host.","Transaction Failed. Please Contact Customer Support."),
+    CORE_RECEIVED_NULL_FROM_HOST("Core received null message from Host.","Transaction declined. Please Contact Customer Support."),
     
-    ISTREAM_RETURN_CHECK_ID_NULL("IStream CheckAuth transaction return checkId null.","Transaction Failed. Please Contact Customer Support."),
+    ISTREAM_RETURN_CHECK_ID_NULL("IStream CheckAuth transaction return checkId null.","Transaction declined. Please Contact Customer Support."),
     
-    CORE_RECEIVED_NULL_FROM_IStreamFront("Core received null from IStream Front.","Transaction Failed. Please Contact Customer Support."),
+    CORE_RECEIVED_NULL_FROM_IStreamFront("Core received null from IStream Front.","Transaction declined. Please Contact Customer Support."),
     
 //    PERSONAL_INFO_NOT_RECEIVED("Personal info not received from IStream within stablished time.","System error"),
     
-    TECNICARD_WRONG_ID_OPERATION("Codes 01 or 02 expected in the parameter OPERATION.","Transaction Failed. Please Contact Customer Support."), 
+    TECNICARD_WRONG_ID_OPERATION("Codes 01 or 02 expected in the parameter OPERATION.","Transaction declined. Please Contact Customer Support."), 
     
     REQUEST_ID_REQUIRED("Field requestId is required.","Transaction Info Missing. Please Try Again."), 
     
@@ -53,30 +53,31 @@ public enum ResultMessage {
     
     CERTEGY_DENY("Certegy denied.","Transaction Declined. Please provide decline card to customer."),
     
-    ORDER_EXPRESS_FAILED("OrderExpress failed.","Transaction declined. OFAC Validation Failed."),
+    ORDER_EXPRESS_FAILED("OrderExpress failed.","Transaction declined. OFAC Validation declined."),
     
-    TERMINAL_CONFIRMATION_TIME_EXCEED("Terminal has exceed the time for TecnicardConfirmation.","Check Truncation Failed. Please Contact Customer Support."),
+    TERMINAL_CONFIRMATION_TIME_EXCEED("Terminal has exceed the time for TecnicardConfirmation.","Check Truncation declined. Please Contact Customer Support."),
     
-    TERMINAL_WRONG_AMMOUNT_FORMAT("Wrong format for amount. N(2,2) expected.","Transaction Failed. Please Contact Customer Support."),
+    CHECK_IN_BLACK_LIST("Check Declined--Please call customer service.","Transaction declined. Please Contact Customer Support."),
+    TERMINAL_WRONG_AMMOUNT_FORMAT("Wrong format for amount. N(2,2) expected.","Transaction declined. Please Contact Customer Support."),
     TERMINAL_WRONG_AMMOUNT("Terminal's amount doesn't match check's amount.","Terminal's amount doesn't match check's amount."),
     
-    TERMINAL_CANCELATED_TRANSACTION("Terminal cancelled transaction.","Transaction Failed. Please Contact Customer Support."),
+    TERMINAL_CANCELATED_TRANSACTION("Terminal cancelled transaction.","Transaction declined. Please Contact Customer Support."),
       
-    ISTREAM_FAILED("Istream failed.","Transaction Failed. Please Contact Customer Support."),
+    ISTREAM_FAILED("Istream failed.","Transaction declined. Please Contact Customer Support."),
     
-    LOGIN_FAILED("Login failed.","Login Failed. Please Contact Customer Support."),
+    LOGIN_FAILED("Login failed.","Login declined. Please Contact Customer Support."),
     
     //TRANSACTION_NOT_FOUND("Transaction not found.","System error"),
     
-    ISTREAM_FRONT_PERSONAL_INFO_RECEIVED_AS_NULL("Personal Info not received from IStream.","Transaction Failed. Please Contact Customer Support."),
+    ISTREAM_FRONT_PERSONAL_INFO_RECEIVED_AS_NULL("Personal Info not received from IStream.","Transaction declined. Please Contact Customer Support."),
     
-    ISTREAM_FRONT_CERTEGY_INFO_NOT_RECEIVED("Certegy Info not received.","Transaction Failed. Please Contact Customer Support."),
+    ISTREAM_FRONT_CERTEGY_INFO_NOT_RECEIVED("Certegy Info not received.","Transaction declined. Please Contact Customer Support."),
     
     CARD_UNAUTHORIZED_BY_MIDDLEWARE("Credit card unauthorized by middleware. Please use a VoltCash Card","Please use a VoltCash Card"),
     
-    FUZE_STATUS_NULL("Fuze host return status NULL.","Card Manager Comm Failed."),
+    FUZE_STATUS_NULL("Fuze host return status NULL.","Card Manager Comm declined."),
     
-    FUZE_HOST_FAILED("Fuze host failed.","Transaction Failed. Please Contact Customer Support."), 
+    FUZE_HOST_FAILED("Fuze host failed.","Transaction declined. Please Contact Customer Support."), 
     
     ISTREAM_CANCELLED_TRANSACTION("Transaction cancelled by Istream. Ineligible","Transaction Declined. Please Contact Customer Support."),
     

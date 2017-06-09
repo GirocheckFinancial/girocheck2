@@ -41,7 +41,8 @@ public class ClientListGrid extends BaseListGrid {
     private TextListGridField stateField = new TextListGridField("state", I18N.GET.LIST_FIELD_STATE_TITLE(), false);
     private TextListGridField zipField = new TextListGridField("zipcode", I18N.GET.LIST_FIELD_ZIP_TITLE(), false);
     private TextListGridField maskSSField = new TextListGridField("maskSS", I18N.GET.LIST_FIELD_MSSN_TITLE(), false);
-    private TextListGridField blackListField = new TextListGridField("blackList", "Black List", false);
+    private TextListGridField blacklistCard2bank = new TextListGridField("blacklistCard2bank", "Black List(Card2Bank)", false);
+    private TextListGridField blacklistAll = new TextListGridField("blackListAll", "Black List(ALL)", false);
     private TextListGridField optOutField = new TextListGridField("optOut", "SMS Opt Out", false);
 //    private TextListGridField statusField = new TextListGridField("active", I18N.GET.LIST_FIELD_ACTIVE_TITLE(), false);
 //    private TextListGridField merchantField = new TextListGridField("merchant", I18N.GET.LIST_FIELD_MERCHANT_TITLE(), true);
@@ -94,7 +95,8 @@ public class ClientListGrid extends BaseListGrid {
                 stateField,
                 zipField,
                 maskSSField,
-                blackListField,
+                blacklistAll,
+                blacklistCard2bank,
                 optOutField);
     }
 }

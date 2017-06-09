@@ -14,8 +14,10 @@ import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
 import com.smartbt.girocheck.servercommon.enums.ResultMessage;
+import com.smartbt.girocheck.servercommon.manager.CheckBlacklistRuleManager;
 import com.smartbt.girocheck.servercommon.model.Transaction;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
+import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
 import java.io.IOException;
 import java.io.Serializable;
@@ -30,6 +32,7 @@ import javax.jms.Queue;
 import javax.sql.rowset.serial.SerialBlob;
 import static com.smartbt.vtsuite.util.CoreTransactionUtil.*;
 import com.smartbt.vtsuite.util.TransactionalException;
+import org.hibernate.Hibernate;
 
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
@@ -101,7 +104,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
                 throw new TransactionalException(ResultCode.WESTECH_DECLINED, TransactionType.CHECK_INFO, "Girocheck Decline-Please call customer service");
             }
 
-            validateCheckAmount(request, checkInfoRequestMap);
+            validateCheck(request, checkInfoRequestMap);
 
             //TODO check is this is necessay (if Westech not trim the last name)
             if (idScanSuccess && checkInfoRequestMap.containsKey(ParameterName.LAST_NAME)) {
@@ -116,7 +119,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
             processPersonalInfo(transaction, request, checkInfoRequestMap);
 
             saveCheckIfFails = false;
-            
+
             System.out.println("[CheckBusinessLogic] After processPersonalInfo STATE = " + request.getTransactionData().get(ParameterName.STATE));
 
             //-------SEND TO CERTEGY ------
@@ -131,7 +134,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
                 transaction.getCheck().setStatus(CheckStatus.DENIED.getStatus());
                 throw te;
             }
- 
+
             if (certegyResponse != null && certegyResponse.getTransactionData().containsKey(ParameterName.DEPOSIT_ID)) {
                 String depositId = (String) certegyResponse.getTransactionData().get(ParameterName.DEPOSIT_ID);
                 System.out.println("[CheckBusinessLogic] certegyApprovalNumber = " + depositId);
@@ -201,7 +204,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
             //
         } catch (TransactionalException transactionalException) {
             System.out.println("*********** TransactionalException ************ saveCheckIfFails = " + saveCheckIfFails);
-            if(saveCheckIfFails){
+            if (saveCheckIfFails) {
                 System.out.println("Filling out check...");
                 fillOutCheck(request.getTransactionData(), transaction);
             }
@@ -344,7 +347,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CheckBusinessLogic] extractTecnicardConfirmationInformation(...) DONE", null);
     }
 
-    public void validateCheckAmount(DirexTransactionRequest request, Map checkInfoRequestMap) throws TransactionalException {
+    public void validateCheck(DirexTransactionRequest request, Map checkInfoRequestMap) throws TransactionalException, Exception {
         Double westechAmount = 0D;
         String westechAmountString = "";
         try {
@@ -364,6 +367,23 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
         }
 
         checkInfoRequestMap.remove(ParameterName.AMMOUNT);
+
+        String makerName = (String) checkInfoRequestMap.get(ParameterName.MAKER_NAME);
+        String routingNumber = (String) checkInfoRequestMap.get(ParameterName.ROUTING_BANK_NUMBER);
+        String accountNumber = (String) checkInfoRequestMap.get(ParameterName.ACCOUNT_NUMBER);
+
+        Boolean validCheck = true;
+        
+        HibernateUtil.beginTransaction();
+        System.out.println("validating Check...");
+        validCheck = CheckBlacklistRuleManager.get().validateCheck(makerName, routingNumber, accountNumber);
+        System.out.println("validCheck = " + validCheck);
+        HibernateUtil.commitTransaction();
+        
+        if (!validCheck) {
+            System.out.println("The check is in the black list...");
+            throw new TransactionalException(ResultCode.CHECK_IN_BLACK_LIST, TransactionType.CHECK_INFO, ResultMessage.CHECK_IN_BLACK_LIST.getMessage());
+        }
     }
 
 }
