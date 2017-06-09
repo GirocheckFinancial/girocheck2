@@ -9,11 +9,11 @@
     <modules>
 
     <module>Core</module>
-    <module>GirocheckFront</module>
+    <!--<module>GirocheckFront</module>-->
     <module>IStreamFront</module>
     <module>iStream2</module>
     <module>Tecnicard</module>
-    <module>OrderExpress</module>
+    <!--<module>OrderExpress</module>-->
     <module>ServerCommon</module> 
     <module>Westech</module>
     <module>Certegy</module>

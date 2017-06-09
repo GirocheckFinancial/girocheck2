@@ -183,6 +183,13 @@ public class TecnicardBusinessLogic extends AbstractBusinessLogicModule {
     @Override
     public void postprocess(DirexTransactionRequest transactionRequest, DirexTransactionResponse transactionResponse) throws Exception {
     }
+    
+    private void restore(){
+          com.smartbt.vtsuite.connection.IStreamSrvHostWS service  = new com.smartbt.vtsuite.connection.IStreamSrvHostWS();
+          com.smartbt.vtsuite.connection.IStreamSrvHostWSSoap port = service.getIStreamSrvHostWSSoap();
+   
+          port.wmCardRestore(null, null);
+    }
 
     private IMap wmCardActivation(Map map) throws Exception {
 
