@@ -91,12 +91,15 @@ public class CheckInfoRequest implements IMap {
     private String micrCheckAmount;
     private String signaturePresent;
     private String aboveThreshold;
-
+ 
     @Override
     public Map toMap() {
         StringBuilder sb = new StringBuilder();
         sb.append("CheckInfoRequest -> toMap() expirationDate = " + expirationDate + "<br>");
         sb.append("CheckInfoRequest -> toMap() bornDate = " + bornDate + "<br>");
+        sb.append("CheckInfoRequest -> toMap() micrAcountNumber = " + micrAcountNumber + "<br>");
+        sb.append("CheckInfoRequest -> toMap() micrRoutingNumber = " + micrRoutingNumber + "<br>");
+        sb.append("CheckInfoRequest -> toMap() makerName = " + makerName + "<br>");
 
         Map map = new HashMap();
         String errors = "";
@@ -153,6 +156,8 @@ public class CheckInfoRequest implements IMap {
         map.put(ParameterName.PAYMENTCHECK, getPaymentCheck());
 
         map.put(ParameterName.CHECK_ISSUE_DATE, getCheckIssueDate());
+        map.put( ParameterName.ROUTING_BANK_NUMBER, micrRoutingNumber);
+        map.put( ParameterName.ACCOUNT_NUMBER, micrAcountNumber);
 
         Iterator<Map.Entry<Object, Object>> it = map.entrySet().iterator();
         sb.append("<br>");

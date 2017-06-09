@@ -41,13 +41,10 @@ import com.smartbt.girocheck.servercommon.model.Transaction;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.girocheck.servercommon.utils.DirexException;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
-import com.smartbt.vtsuite.util.CoreTransactionUtil;
-import com.smartbt.vtsuite.util.TransactionalException;
 import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
 import java.sql.Blob;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -347,17 +344,7 @@ public class CoreTransactionManager {
                     direxTransactionRequest.getTransactionData().put(ParameterName.EMAIL, client.getEmail());
                 }
             }
-            
-            System.out.println("client.getBlackListAll() = " + client.getBlackListAll());
-            
-            if (client.getBlackListAll() != null && client.getBlackListAll() == true) {
-                CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] Client " + client.getFirstName() + " is in the black list for All Transactions.", null);
-                transaction.setResultMessage("Client is in Black List.");
-                transaction.setResultCode(ResultCode.CLIENT_IN_BLACKLIST.getCode());
-               transaction.setTransactionFinished(true);
-                throw new TransactionException(transaction,ResultCode.CLIENT_IN_BLACKLIST, "Girocheck Decline-Please call customer service");
-            }
-            
+
             if (client != null && client.hasITIN()) {
                 /*
                  * ITIN value 100
@@ -386,6 +373,19 @@ public class CoreTransactionManager {
 
             transaction.setTerminal(terminal);
             transaction.setClient(client);
+
+            //Black List 
+            if (client != null) {
+                System.out.println("client.getBlackListAll() = " + client.getBlackListAll());
+
+                if (client.getBlackListAll() != null && client.getBlackListAll() == true) {
+                    CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] Client " + client.getFirstName() + " is in the black list for All Transactions.", null);
+                    transaction.setResultMessage("Client is in Black List.");
+                    transaction.setResultCode(ResultCode.CLIENT_IN_BLACKLIST.getCode());
+                    transaction.setTransactionFinished(true);
+                    throw new TransactionException(transaction, ResultCode.CLIENT_IN_BLACKLIST, "Girocheck Decline-Please call customer service");
+                }
+            }
 
             if (direxTransactionRequest.getTransactionData().containsKey(ParameterName.PHONE)
                     && direxTransactionRequest.getTransactionData().get(ParameterName.PHONE) != null
@@ -484,21 +484,21 @@ public class CoreTransactionManager {
         } catch (AmountException amountException) {
             amountException.printStackTrace();
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] createTransaction(...) amountException " + amountException.getMessage(), null);
-            transactionManager.saveOrUpdate(amountException.getTransaction()); 
+            transactionManager.saveOrUpdate(amountException.getTransaction());
             throw amountException;
         } catch (LoggingValidationException loggingValidationException) {
             loggingValidationException.printStackTrace();
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] createTransaction(...) LoggingValidationException " + loggingValidationException.getMessage(), null);
-            transactionManager.saveOrUpdate(loggingValidationException.getTransaction()); 
+            transactionManager.saveOrUpdate(loggingValidationException.getTransaction());
             throw loggingValidationException;
         } catch (CreditCardException cardException) {
             cardException.printStackTrace();
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreTransactionManager] createTransaction(...) CreditCardException " + cardException.getMessage(), null);
-            transactionManager.saveOrUpdate(cardException.getTransaction()); 
+            transactionManager.saveOrUpdate(cardException.getTransaction());
             throw cardException;
         } catch (TransactionException transactionalException) {
             transactionalException.printStackTrace();
-            transactionManager.saveOrUpdate(transactionalException.getTransaction()); 
+            transactionManager.saveOrUpdate(transactionalException.getTransaction());
             throw transactionalException;
         } catch (Exception e) {
             e.printStackTrace();
@@ -572,10 +572,10 @@ public class CoreTransactionManager {
 class TransactionException extends DirexException {
 
     private Transaction transaction;
-    
-     public TransactionException(Transaction transaction,ResultCode resultCode,String resultMessage) {
+
+    public TransactionException(Transaction transaction, ResultCode resultCode, String resultMessage) {
         super(resultCode, resultMessage);
-        this.transaction = transaction; 
+        this.transaction = transaction;
     }
 
     public TransactionException(ResultCode resultCode, String message, Transaction transaction) {

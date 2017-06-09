@@ -373,6 +373,9 @@ public class Properties {
     public static final String RESEND_CHECK_WS = WS_URL + "resendCheck";
     public static final String UPDATE_OPTOUT_CLIENTS_WS = WS_URL + "updateClientOptOut";
 
+    public static final String SEARCH_CHECK_BLACKLIST_RULES_WS = WS_URL + "searchCheckRules";
+    public static final String UPDATE_CHECK_BLACKLIST_RULES_WS = WS_URL + "updateCheckRule";
+    public static final String DELETE_CHECK_BLACKLIST_RULES_WS = WS_URL + "deleteCheckRules";
     public static String getUrl(String url) {
         return WS_URL + url;
     }

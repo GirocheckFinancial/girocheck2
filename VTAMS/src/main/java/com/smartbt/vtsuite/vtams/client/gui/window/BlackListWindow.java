@@ -16,24 +16,26 @@
 package com.smartbt.vtsuite.vtams.client.gui.window;
 
 import com.smartbt.vtsuite.vtams.client.gui.base.BaseEntityTabSetWindow;
-import com.smartbt.vtsuite.vtams.client.gui.window.tab.ClientBlackListTab;
-import com.smartbt.vtsuite.vtams.client.gui.window.tab.DashboardEnviromentalTab;
+import com.smartbt.vtsuite.vtams.client.gui.window.tab.CheckBlackListTab;
+import com.smartbt.vtsuite.vtams.client.gui.window.tab.ClientBlackListTab; 
 
 /**
  * The Dashboard Window
  *
  * @author Ariel Saavedra
  */
-public class ClientBlackListWindow extends BaseEntityTabSetWindow {
+public class BlackListWindow extends BaseEntityTabSetWindow {
 
     /**
      * Constructor
      *
      */
-    public ClientBlackListWindow() {
+    public BlackListWindow() {
         super();
         ClientBlackListTab clientBlackListTab = new ClientBlackListTab();
+        CheckBlackListTab checkBlackListTab = new CheckBlackListTab();
 
         managementWindow.addTab(clientBlackListTab);
+        managementWindow.addTab(checkBlackListTab);
     }
 }

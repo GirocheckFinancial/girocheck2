@@ -8,6 +8,7 @@ import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
@@ -30,7 +31,7 @@ public class CheckBlacklistRuleDAO extends BaseDAO<CheckBlacklistRule>{
     
     
     public ResponseDataList searchRules(String searchFilter, int firstResult, int maxResult ) {
-        List<ClientDisplay> clients;
+        List<ClientDisplay> list;
 
         Criteria criteria = getSearchCriteria(searchFilter );
 
@@ -39,7 +40,7 @@ public class CheckBlacklistRuleDAO extends BaseDAO<CheckBlacklistRule>{
             criteria.setMaxResults(maxResult);
         }
  
-        clients = criteria.list();
+        list = criteria.list();
 
         Criteria countCriteria = getSearchCriteria(searchFilter);
         countCriteria.setProjection(Projections.rowCount());
@@ -47,7 +48,7 @@ public class CheckBlacklistRuleDAO extends BaseDAO<CheckBlacklistRule>{
 
         ResponseDataList response = new ResponseDataList();
 
-        response.setData(clients);
+        response.setData(list);
         response.setTotalPages((int) Math.ceil((float) total / (float) maxResult));
 
         response.setStatus(Constants.CODE_SUCCESS);
@@ -67,8 +68,27 @@ public class CheckBlacklistRuleDAO extends BaseDAO<CheckBlacklistRule>{
             criteria.add(disjunction);
             criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         } 
-        return criteria;
-
+        return criteria; 
     }
      
+    
+    public boolean validateCheck(String makerName, String routingNumber, String accountNumber){
+         Criteria criteria = HibernateUtil.getSession().createCriteria(CheckBlacklistRule.class);
+ 
+         Conjunction conjunction = (Conjunction)Restrictions.conjunction()
+                 .add(Restrictions.like("aba", routingNumber))
+                 .add(Restrictions.like("dda", accountNumber));
+         
+           Disjunction disjunction = (Disjunction) Restrictions.disjunction()
+                    .add(conjunction)
+                    .add(Restrictions.like("maker", makerName));
+           
+           criteria.add(disjunction);
+           criteria.setProjection(Projections.rowCount());
+           
+          Long cant = (Long)criteria.uniqueResult();
+          
+          System.out.println("cant = " + cant);
+        return cant == 0;
+    }
 }

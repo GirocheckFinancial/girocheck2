@@ -51,12 +51,11 @@ public class CheckController {
     }
     
     
-     @POST
+    @PUT
     @Path("deleteCheckRules")
     @Produces(MediaType.APPLICATION_JSON)
-    public ResponseData deleteCheckRules(
-            @FormParam("id") Integer id) throws Exception {
-
+    public ResponseData deleteCheckRules(CheckBlacklistRule checkBlacklistRule) throws Exception {
+        int id = checkBlacklistRule.getId();
         return manager.deleteRule(id);
     }
      

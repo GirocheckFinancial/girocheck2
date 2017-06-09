@@ -50,7 +50,43 @@ public class BalanceInquiryBusinessLogic extends CoreAbstractTransactionBusiness
     public void process(DirexTransactionRequest direxTransactionRequest, Transaction transaction) throws Exception {
 
         DirexTransactionResponse direxTransactionResponse = null;
+        BalanceInquiryLog log = new BalanceInquiryLog();
+
         try {
+            String cardNumber = (String) direxTransactionRequest.getTransactionData().get(ParameterName.CARD_NUMBER);
+
+            if (cardNumber != null && cardNumber.length() >= 4) {
+                log.setLast4cc(cardNumber.substring(cardNumber.length() - 4));
+            }
+
+            try {
+                HibernateUtil.beginTransaction();
+
+                CreditCard card = CreditCardManager.get().getCardByNumber(cardNumber);
+
+                if (card != null && card.getClient() != null) {
+                    if (card.getClient().getBlackListAll() != null && card.getClient().getBlackListAll() == true) {
+                         HibernateUtil.commitTransaction();
+                        
+                        CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] Client " + card.getClient().getFirstName() + " is in the black list for All Transactions.", null);
+                        transaction.setResultMessage("Client is in Black List.");
+                        transaction.setResultCode(ResultCode.CLIENT_IN_BLACKLIST.getCode());
+                        transaction.setTransactionFinished(true);
+                        throw new TransactionException(transaction, ResultCode.CLIENT_IN_BLACKLIST, "Girocheck Decline-Please call customer service");
+                    }
+                } else {
+                    System.out.println("[BalanceInquiryBusinessLogic] card.getClient() = null");
+                }
+
+                log.setData_sc1(card);
+
+                HibernateUtil.commitTransaction();
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                HibernateUtil.rollbackTransaction();
+            }
+
             Properties msgProps = new Properties();
 
             TransactionType transactionType = direxTransactionRequest.getTransactionType();
@@ -96,18 +132,10 @@ public class BalanceInquiryBusinessLogic extends CoreAbstractTransactionBusiness
 
         jmsManager.send(direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation());
 
-        BalanceInquiryLog log = new BalanceInquiryLog();
-
         log.setDateTime(new Date());
         log.setResultCode(direxTransactionResponse.getResultCode().getCode());
         log.setResultMessage(direxTransactionResponse.getResultMessage());
         log.setErrorCode(direxTransactionResponse.getErrorCode());
-
-        String cardNumber = (String) direxTransactionRequest.getTransactionData().get(ParameterName.CARD_NUMBER);
-
-        if (cardNumber != null && cardNumber.length() >= 4) {
-            log.setLast4cc(cardNumber.substring(cardNumber.length() - 4));
-        }
 
         String balanceStr = (String) direxTransactionResponse.getTransactionData().get(ParameterName.BALANCE);
 
@@ -124,8 +152,6 @@ public class BalanceInquiryBusinessLogic extends CoreAbstractTransactionBusiness
         try {
             HibernateUtil.beginTransaction();
 
-            CreditCard card = CreditCardManager.get().getCardByNumber(cardNumber);
-            log.setData_sc1(card);
             BalanceInquiryLogManager.get().save(log);
 
             HibernateUtil.commitTransaction();

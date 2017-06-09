@@ -24,6 +24,8 @@ import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
@@ -60,7 +62,18 @@ public class SecurityFilter implements ContainerRequestFilter {
     
         VTSession vTSession = null;
         if (!uriInfo.getPath().contains("VTAMS/authenticateUser") ) {
-            HibernateUtil.beginTransaction();
+            try{
+                HibernateUtil.beginTransaction();
+            }catch(Exception e){
+                try {
+                    HibernateUtil.commitTransaction();
+                } catch (Exception ex) {
+                    HibernateUtil.rollbackTransaction();
+                }
+                
+                HibernateUtil.beginTransaction();
+            }
+            
             
             if(uriInfo.getPath().contains("Image"))return;
             
