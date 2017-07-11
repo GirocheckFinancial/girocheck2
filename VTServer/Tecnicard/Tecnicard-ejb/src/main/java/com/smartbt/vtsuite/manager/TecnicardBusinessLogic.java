@@ -16,17 +16,17 @@
 package com.smartbt.vtsuite.manager;
 
 import com.smartbt.girocheck.servercommon.utils.IMap;
-import com.smartbt.vtsuite.boundary.client.IStreamSrvHostWS;
-import com.smartbt.vtsuite.boundary.client.IStreamSrvHostWSSoap;
-import com.smartbt.vtsuite.boundary.util.MapUtil;
+import com.smartbt.vtsuite.connection.IStreamSrvHostWS;
+import com.smartbt.vtsuite.connection.IStreamSrvHostWSSoap;
+import com.smartbt.vtsuite.util.MapUtil;
 import com.smartbt.girocheck.common.AbstractBusinessLogicModule;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
-import com.smartbt.girocheck.servercommon.utils.CustomeLogger; 
-import com.smartbt.vtsuite.boundary.client.LastTransactionsResponse;
-import com.smartbt.vtsuite.boundary.client.Transaction;
+import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
+import com.smartbt.vtsuite.connection.LastTransactionsResponse;
+import com.smartbt.vtsuite.connection.Transaction;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -104,30 +104,11 @@ public class TecnicardBusinessLogic extends AbstractBusinessLogicModule {
                 break;
             case TECNICARD_BALANCE_INQUIRY:
                 response = wmBalanceInquiry(transactionData);
-
-                map = response.toMap();
-                map = (Map) map.get(ParameterName.SESSION_TAG_MAP);
-                if (map.containsKey(ParameterName.SUCESSFULL_PROCESSING)) {
-                    boolean success = (boolean) map.get(ParameterName.SUCESSFULL_PROCESSING);
-                    if (!success) {
-                        String resultMessage = (String) map.get(ParameterName.RESULT_MESSAGE);
-                        throw new Exception(resultMessage);
-                    }
-                }
-
+                validateSucessfullProcessing(response);
                 break;
             case TECNICARD_CARD_TO_BANK:
                 response = wmCardToBank(transactionData);
-
-                map = response.toMap();
-                map = (Map) map.get(ParameterName.SESSION_TAG_MAP);
-                if (map.containsKey(ParameterName.SUCESSFULL_PROCESSING)) {
-                    boolean success = (boolean) map.get(ParameterName.SUCESSFULL_PROCESSING);
-                    if (!success) {
-                        String resultMessage = (String) map.get(ParameterName.RESULT_MESSAGE);
-                        throw new Exception(resultMessage);
-                    }
-                }
+                validateSucessfullProcessing(response);
                 break;
             case TECNICARD_CARD_VALIDATION:
                 response = wmCardValidation(transactionData);
@@ -145,6 +126,10 @@ public class TecnicardBusinessLogic extends AbstractBusinessLogicModule {
                 return direxTransactionResponse;
             case TECNICARD_CASH_TO_CARD:
                 response = wmCashToCard(transactionData);
+                break;
+            case TECNICARD_RESTORE_CARD:
+                response = wmCardRestore(transactionData);
+                validateSucessfullProcessing(response);
                 break;
         }
 
@@ -172,6 +157,18 @@ public class TecnicardBusinessLogic extends AbstractBusinessLogicModule {
         return direxTransactionResponse;
     }
 
+    public void validateSucessfullProcessing(IMap response) throws Exception {
+        Map map = response.toMap();
+        map = (Map) map.get(ParameterName.SESSION_TAG_MAP);
+        if (map.containsKey(ParameterName.SUCESSFULL_PROCESSING)) {
+            boolean success = (boolean) map.get(ParameterName.SUCESSFULL_PROCESSING);
+            if (!success) {
+                String resultMessage = (String) map.get(ParameterName.RESULT_MESSAGE);
+                throw new Exception(resultMessage);
+            }
+        }
+    }
+
     /**
      * Performs postprocess operations
      *
@@ -183,12 +180,15 @@ public class TecnicardBusinessLogic extends AbstractBusinessLogicModule {
     @Override
     public void postprocess(DirexTransactionRequest transactionRequest, DirexTransactionResponse transactionResponse) throws Exception {
     }
-    
-    private void restore(){
-          com.smartbt.vtsuite.connection.IStreamSrvHostWS service  = new com.smartbt.vtsuite.connection.IStreamSrvHostWS();
-          com.smartbt.vtsuite.connection.IStreamSrvHostWSSoap port = service.getIStreamSrvHostWSSoap();
-   
-          port.wmCardRestore(null, null);
+
+    private IMap wmCardRestore(Map map) throws Exception {
+        String pCardNumber = MapUtil.getStringValueFromMap(map, ParameterName.CARD_NUMBER, true);
+        String pRequestID = MapUtil.getStringValueFromMap(map, ParameterName.REQUEST_ID, true);
+
+        System.out.println("[TecnicardBusinessLogic]  port.wmCardRestore( pRequestID "
+                + pRequestID + ",  pCard ************" + pCardNumber.substring(pCardNumber.length() - 4));
+
+        return port.wmCardRestore(pRequestID, pCardNumber);
     }
 
     private IMap wmCardActivation(Map map) throws Exception {
@@ -233,7 +233,7 @@ public class TecnicardBusinessLogic extends AbstractBusinessLogicModule {
         String pWorkphoneAreaCode = MapUtil.getStringValueFromMap(map, ParameterName.WORKPHONE_AREA_CODE, false);
         String pCellphoneAreaCode = MapUtil.getStringValueFromMap(map, ParameterName.CELL_PHONE_AREA, false);
         String pPersonTitle = MapUtil.getStringValueFromMap(map, ParameterName.PERSON_TITLE, false);
-        String pEmail = MapUtil.getStringValueFromMap(map, ParameterName.EMAIL, false);
+        String pEmail = "girocheck@cardmarte.com";// MapUtil.getStringValueFromMap(map, ParameterName.EMAIL, false);
         String pCurrentAddress = MapUtil.getStringValueFromMap(map, ParameterName.ADDRESS_CORRECT, false);
         String pRBService = "0";  // OJO
         String pFirstName = MapUtil.getStringValueFromMap(map, ParameterName.FIRST_NAME, false);
@@ -309,8 +309,8 @@ public class TecnicardBusinessLogic extends AbstractBusinessLogicModule {
         String pEndDate = MapUtil.getStringValueFromMap(map, ParameterName.END_DATE, false);
         String pRequestID = MapUtil.getStringValueFromMap(map, ParameterName.REQUEST_ID, false);
 
-        String maskedCardNumber = (pCardNumber != null && pCardNumber.length() > 4) ? "************" + pCardNumber.substring(pCardNumber.length() - 4) :"";
-        
+        String maskedCardNumber = (pCardNumber != null && pCardNumber.length() > 4) ? "************" + pCardNumber.substring(pCardNumber.length() - 4) : "";
+
         System.out.println("TecnicardBusinessLogin -> wmLastTransactions(" + pRequestID + ", " + pCardNumber + ", " + pStartDate + ", " + pEndDate + ", \"\")");
 
         LastTransactionsResponse response = port.wmLastTransactions(pRequestID, pCardNumber, pStartDate, pEndDate, "");
@@ -328,13 +328,6 @@ public class TecnicardBusinessLogic extends AbstractBusinessLogicModule {
 
             System.out.println("arrayOfTransaction = " + (arrayOfTransaction == null ? "NULL" : "NOT NULL"));
 
-            if (arrayOfTransaction != null) {
-                System.out.println("arrayOfTransaction.size() = " + arrayOfTransaction.size());
-
-                for (Transaction arrayOfTransaction1 : arrayOfTransaction) {
-                    arrayOfTransaction1.print();
-                }
-            }
         }
 
         return response;

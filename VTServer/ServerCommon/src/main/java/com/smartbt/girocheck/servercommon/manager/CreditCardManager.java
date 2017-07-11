@@ -16,8 +16,6 @@ import com.smartbt.girocheck.servercommon.dao.CreditCardDAO;
 import com.smartbt.girocheck.servercommon.model.Client;
 import com.smartbt.girocheck.servercommon.model.CreditCard;
 import com.smartbt.girocheck.servercommon.model.Merchant;
-import com.smartbt.girocheck.servercommon.utils.DirexException;
-import java.sql.SQLException;
 
 /**
  *
@@ -59,4 +57,7 @@ public class CreditCardManager {
         return dao.getClient(cardNumber);
     }
 
+    public Boolean canDeleteCard( Integer cardId,Integer transactionId){
+        return dao.canDeleteCard(cardId, transactionId);
+    }
 }

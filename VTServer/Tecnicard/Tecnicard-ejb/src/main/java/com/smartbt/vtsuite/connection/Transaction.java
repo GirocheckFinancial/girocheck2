@@ -1,6 +1,7 @@
 
 package com.smartbt.vtsuite.connection;
 
+import com.smartbt.girocheck.servercommon.display.mobile.MobileTransaction;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -101,14 +102,33 @@ public class Transaction
     @XmlElement(name = "OriginalAmount")
     protected String originalAmount;
 
-    /**
-     * Gets the value of the transactionNumber property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
+      public Transaction() {
+    }
+
+    public Transaction(String type, String statusCode, String date,String amount,String fee, String operationType, String description) {
+        this.type = type;
+        this.date = date; 
+        this.statusCode = statusCode; 
+        this.description = description; 
+        this.amount = amount; 
+        this.fee = fee; 
+        this.operationType = operationType; 
+    }
+     
+   
+    public Boolean wasSuccess() {
+        return statusCode != null && (statusCode.equalsIgnoreCase("G") || statusCode.equalsIgnoreCase("F"));
+    }
+    
+    public void print(){
+        System.out.println("Transaction:: statusCode = " + statusCode + ", date = " + date +  ", OperationType = " + operationType+ ", amount = " + amount + ", Fee = " + fee+ ", description = " + description);
+    }
+    
+    public MobileTransaction toMobileTransaction(){ 
+        //String type, String date, String amount, String fee, String debitOrCredit, String description   statusCode,
+         return new MobileTransaction(type, date, amount,fee,  operationType,statusCode, description);
+    }
+    
     public String getTransactionNumber() {
         return transactionNumber;
     }

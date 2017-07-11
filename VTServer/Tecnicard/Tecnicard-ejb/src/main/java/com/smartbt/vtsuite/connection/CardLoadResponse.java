@@ -1,6 +1,9 @@
 
 package com.smartbt.vtsuite.connection;
 
+import com.smartbt.girocheck.servercommon.enums.ParameterName;
+import com.smartbt.girocheck.servercommon.utils.IMap;
+import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -35,8 +38,9 @@ import javax.xml.bind.annotation.XmlType;
     "amount"
 })
 public class CardLoadResponse
-    extends MainResponseContainer
+    extends MainResponseContainer implements IMap
 {
+    private static String EXPECTED_RESULT_CODE = "0";
 
     @XmlElement(name = "TransactionNumber")
     protected String transactionNumber;
@@ -45,14 +49,17 @@ public class CardLoadResponse
     @XmlElement(name = "Amount")
     protected String amount;
 
-    /**
-     * Gets the value of the transactionNumber property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
+    
+    
+    @Override
+    public Map toMap() {
+        Map map = super.getMap(EXPECTED_RESULT_CODE);
+        
+        map.put(ParameterName.TRANSACTION_NUMBER, transactionNumber);
+        map.put(ParameterName.DATE, date);
+        map.put(ParameterName.AMMOUNT, amount);
+        return map;
+    }
     public String getTransactionNumber() {
         return transactionNumber;
     }

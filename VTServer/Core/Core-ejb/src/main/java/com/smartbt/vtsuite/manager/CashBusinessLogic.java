@@ -14,6 +14,7 @@ import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
 import com.smartbt.girocheck.servercommon.enums.ResultMessage;
+import com.smartbt.girocheck.servercommon.jms.JMSManager;
 import com.smartbt.girocheck.servercommon.model.Transaction;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.util.TransactionalException;
@@ -47,7 +48,7 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
         TransactionType originalTransaction = request.getTransactionType();
 
         String correlationId = request.getCorrelation();
-        Queue currentQueue = jmsManager.getCoreOutQueue();
+        Queue currentQueue = JMSManager.get().getCoreOutQueue();
 
         transaction.setSingle(Boolean.FALSE);
 
@@ -102,7 +103,7 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
 
             correlationId = confirmationRequest.getCorrelation();
             request.setCorrelation(correlationId);
-            currentQueue = jmsManager.getCore2OutQueue();
+            currentQueue = JMSManager.get().getCore2OutQueue();
 
             //------ CREATE TECNICARD_CONFIRMATION SUBTRANSACTION ------
             addSuccessfulSubTransaction(transaction, TransactionType.TECNICARD_CONFIRMATION);
@@ -134,7 +135,7 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
             } else {
                 //this is when caughting Exception
                 System.out.println("Sending subTransactionFailed 2 -> transactionalException.getTransactionType()" + transactionalException.getTransactionType());
-                CoreTransactionUtil.subTransactionFailed(transaction, currentQueue, correlationId, transactionalException.getTransactionType(), transactionalException.getMessage());
+                CoreTransactionUtil.subTransactionFailed(transaction, currentQueue, correlationId, transactionalException.getTransactionType(), transactionalException.getMessage(), transactionalException.getResultCode());
             }
 
         } catch (Exception e) {
@@ -149,7 +150,7 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
                 transaction.setResultMessage("Message Error was printed, Please check the server logs. ");
             }
 
-            CoreTransactionUtil.subTransactionFailed(transaction, currentQueue, correlationId, request.getTransactionType(), e.getMessage());
+            CoreTransactionUtil.subTransactionFailed(transaction, currentQueue, correlationId, request.getTransactionType(), e.getMessage(), ResultCode.FAILED);
         }
     }
 
@@ -172,12 +173,12 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
             case TECNICARD_CONFIRMATION:
                 errorCode = ResultCode.TERMINAL_CONFIRMATION_TIME_EXCEED;
                 waitTime = TECNICARD_CONFIRMATION_WAIT_TIME;
-                queue = jmsManager.getCore2InQueue();
+                queue = JMSManager.get().getCore2InQueue();
                 break;
         }
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CashBusinessLogic] Receiving... ", null);
-        message = jmsManager.receive(queue, correlationId, waitTime);
+        message = JMSManager.get().receive(queue, correlationId, waitTime);
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CashBusinessLogic] Received " + transactionType, null);
 
@@ -185,7 +186,7 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
             // throw new TransactionalException(ResultCode.getFromHost(host), transactionType, e);
             response = DirexTransactionResponse.forException(errorCode, ResultMessage.FAILED, transactionType + " not received. ", "");
             response.setTransactionType(transactionType);
-            CoreTransactionUtil.subTransactionFailed(transaction, response, jmsManager.getCoreOutQueue(), correlationId);
+            CoreTransactionUtil.subTransactionFailed(transaction, response, JMSManager.get().getCoreOutQueue(), correlationId);
             throw new Exception();
         }
 

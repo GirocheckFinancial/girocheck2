@@ -60,7 +60,8 @@ public enum TransactionType {
     CERTEGY_REVERSE_REQUEST(NomHost.CERTEGY, 41),
     
     ISTREAM2_SEND_SINGLE_ICL(NomHost.ISTREAM2, 42),
-    CHECK_INFO(null, 43);
+    CHECK_INFO(null, 43),
+    TECNICARD_RESTORE_CARD(NomHost.TECNICARD, 44);
 
     private NomHost host;
 
@@ -169,6 +170,10 @@ public enum TransactionType {
                 return TransactionType.CERTEGY_REVERSE_REQUEST;
             case 42: 
                 return TransactionType.ISTREAM2_SEND_SINGLE_ICL;
+            case 43: 
+                return TransactionType.CHECK_INFO;
+            case 44: 
+                return TransactionType.TECNICARD_RESTORE_CARD;
             default:
                   return TransactionType.TRANSACTION_TYPE;
         }

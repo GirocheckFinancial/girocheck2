@@ -52,7 +52,7 @@ public class CertegyHostManager {
         subTransaction.setType(request.getTransactionType().getCode());
         subTransaction.setHost(NomHost.CERTEGY.getId());
 
-//        String prodProperty = System.getProperty("PROD");
+        String prodProperty = System.getProperty("PROD");
         Boolean isProd = true;//prodProperty != null && prodProperty.equalsIgnoreCase("true");
         System.out.println("CertegyHostManager -> isProd = " + isProd);
 

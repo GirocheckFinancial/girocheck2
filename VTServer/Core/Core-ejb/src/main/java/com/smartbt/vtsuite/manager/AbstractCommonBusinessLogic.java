@@ -51,8 +51,7 @@ import java.util.Arrays;
 
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactionBusinessLogic {
-
-    protected JMSManager jmsManager = JMSManager.get();
+ 
 //    protected int state = 0;
 
     // WAITING TIMES
@@ -87,9 +86,9 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
 
         if (transactionType == TransactionType.TECNICARD_CONFIRMATION) {
             provissionalResponse.getTransactionData().put(ParameterName.PRINTLOGO, "01");
-            queue = jmsManager.getCore2OutQueue();
+            queue = JMSManager.get().getCore2OutQueue();
         } else {
-            queue = jmsManager.getCoreOutQueue();
+            queue = JMSManager.get().getCoreOutQueue();
         }
 
         //provissionalResponse.getTransactionData().put("host", host);
@@ -98,14 +97,14 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[AbstractCommonBusinessLogic] Send message to TERMINAL Done.", null);
     }
 
-    protected DirexTransactionResponse sendMessageToHost(DirexTransactionRequest request, NomHost host, long waitTime, Transaction transaction) throws JMSException, Exception {
+    public static DirexTransactionResponse sendMessageToHost(DirexTransactionRequest request, NomHost host, long waitTime, Transaction transaction) throws JMSException, Exception {
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[AbstractCommonBusinessLogic] Send " + request.getTransactionType() + " to host " + host, null);
 
         Properties props = new Properties();
         props.setProperty("hostName", host.toString());
         DirexTransactionResponse direxTransactionResponse = new DirexTransactionResponse();
 
-        jmsManager.sendWithProps(request, jmsManager.getHostInQueue(), request.getCorrelation(), props);
+        JMSManager.get().sendWithProps(request, JMSManager.get().getHostInQueue(), request.getCorrelation(), props);
         //TODO change this for IStream.sendSingleICL (and add an else logic for it)
         if (request.getTransactionType() != TransactionType.ISTREAM_CHECK_AUTH_SUBMIT) {
             direxTransactionResponse = receiveMessageFromHost(request.getTransactionType(), host, waitTime, request.getCorrelation());
@@ -120,13 +119,13 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
         return direxTransactionResponse;
     }
 
-    protected DirexTransactionResponse receiveMessageFromHost(TransactionType transactionType, NomHost host, long waitTime, String correlationId) throws Exception {
+    protected static DirexTransactionResponse receiveMessageFromHost(TransactionType transactionType, NomHost host, long waitTime, String correlationId) throws Exception {
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[AbstractCommonBusinessLogic] Receiving message from host " + host, null);
 
         Message message = null;
         DirexTransactionResponse response;
         try {
-            message = jmsManager.receive(jmsManager.getHostOutQueue(), correlationId, waitTime);
+            message = JMSManager.get().receive(JMSManager.get().getHostOutQueue(), correlationId, waitTime);
         } catch (Exception e) {
             throw new TransactionalException(ResultCode.getFromHost(host), transactionType, e);
         }
@@ -251,9 +250,9 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
         if (transactionMap.containsKey(ParameterName.TELEPHONE)) {
             transaction.getClient().setTelephone((String) transactionMap.get(ParameterName.TELEPHONE));
         }
-        if (transactionMap.containsKey(ParameterName.EMAIL)) {
-            transaction.getClient().setEmail((String) transactionMap.get(ParameterName.EMAIL));
-        }
+//        if (transactionMap.containsKey(ParameterName.EMAIL)) {
+//            transaction.getClient().setEmail((String) transactionMap.get(ParameterName.EMAIL));
+//        }
         if (transactionMap.containsKey(ParameterName.BORNDATE_AS_DATE)) {
             transaction.getClient().setBornDate((Date) transactionMap.get(ParameterName.BORNDATE_AS_DATE));
         }
@@ -450,9 +449,9 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
         return dtr;
     }
 
-    protected static void fixPersonInfoName(Map<ParameterName, String> personalInfo) {
-
+    protected static void fixPersonInfoName(Map<ParameterName, String> personalInfo) { 
         String name = personalInfo.get(ParameterName.FIRST_NAME).trim();
+        name = name.replaceAll("' ", "'");
         String middleName = "";
         if (personalInfo.containsKey(ParameterName.MIDDLE_NAME) && personalInfo.get(ParameterName.MIDDLE_NAME) != null) {
             middleName = personalInfo.get(ParameterName.MIDDLE_NAME).trim();

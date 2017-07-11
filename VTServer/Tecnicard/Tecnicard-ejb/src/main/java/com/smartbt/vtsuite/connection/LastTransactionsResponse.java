@@ -1,6 +1,8 @@
 
 package com.smartbt.vtsuite.connection;
 
+import com.smartbt.girocheck.servercommon.utils.IMap;
+import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -41,8 +43,9 @@ import javax.xml.bind.annotation.XmlType;
     "transactionsList"
 })
 public class LastTransactionsResponse
-    extends MainResponseContainer
-{
+    extends MainResponseContainer implements IMap {
+
+    private static String EXPECTED_RESULT_CODE = "0";
 
     @XmlElement(name = "CurrencyCode")
     protected String currencyCode;
@@ -57,14 +60,14 @@ public class LastTransactionsResponse
     @XmlElement(name = "TransactionsList")
     protected ArrayOfTransaction transactionsList;
 
-    /**
-     * Gets the value of the currencyCode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
+      @Override
+    public Map toMap() { 
+        if (transactionsList != null) {
+           return transactionsList.toMap();
+        }
+
+        return null;
+    }
     public String getCurrencyCode() {
         return currencyCode;
     }

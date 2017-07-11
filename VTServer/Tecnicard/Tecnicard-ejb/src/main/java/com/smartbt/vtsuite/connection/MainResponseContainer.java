@@ -1,6 +1,9 @@
 
 package com.smartbt.vtsuite.connection;
 
+import com.smartbt.girocheck.servercommon.enums.ParameterName;
+import java.util.HashMap;
+import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -35,6 +38,12 @@ public abstract class MainResponseContainer {
     @XmlElement(name = "SessionTag")
     protected SessionTag sessionTag;
 
+    public Map getMap(String expectedResultCode){
+        Map map = new HashMap();
+          map.put(ParameterName.SESSION_TAG_MAP , sessionTag.getMap(expectedResultCode));
+
+          return map;
+    }
     /**
      * Gets the value of the sessionTag property.
      * 

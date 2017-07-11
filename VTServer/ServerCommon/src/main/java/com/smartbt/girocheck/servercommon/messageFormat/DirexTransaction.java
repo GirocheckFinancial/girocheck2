@@ -36,7 +36,15 @@ public class DirexTransaction  implements Serializable {
     public DirexTransaction() {
          transactionData = new HashMap();
          transaction = new Transaction();
-    }    
+    }  
+
+    public DirexTransaction(Map transactionData, TransactionType transactionType, Transaction transaction) {
+        this.transactionData = transactionData;
+        this.transactionType = transactionType;
+        this.transaction = transaction;
+    }
+    
+    
      
 
     public void setTransactionData( Map transactionData ) {

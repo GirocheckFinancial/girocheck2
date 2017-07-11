@@ -1,6 +1,8 @@
 
 package com.smartbt.vtsuite.connection;
 
+import com.smartbt.girocheck.servercommon.utils.IMap;
+import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -25,8 +27,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EchoResponse")
 public class EchoResponse
-    extends MainResponseContainer
-{
+    extends MainResponseContainer implements IMap {
 
+    private static String EXPECTED_RESULT_CODE = "0";
+    
+    @Override
+    public Map toMap() {
+        Map map = super.getMap(EXPECTED_RESULT_CODE);
+        return map;
+    }
 
 }

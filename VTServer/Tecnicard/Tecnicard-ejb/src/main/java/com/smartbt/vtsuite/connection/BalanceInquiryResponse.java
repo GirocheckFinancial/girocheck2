@@ -1,17 +1,21 @@
-
 package com.smartbt.vtsuite.connection;
 
+import com.smartbt.girocheck.servercommon.enums.ParameterName;
+import com.smartbt.girocheck.servercommon.utils.IMap;
+import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for BalanceInquiryResponse complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p>
+ * Java class for BalanceInquiryResponse complex type.
+ *
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ *
  * <pre>
  * &lt;complexType name="BalanceInquiryResponse">
  *   &lt;complexContent>
@@ -24,30 +28,34 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BalanceInquiryResponse", propOrder = {
     "balance",
     "inTransitFunds"
 })
-public class BalanceInquiryResponse
-    extends MainResponseContainer
-{
-
+public class BalanceInquiryResponse extends MainResponseContainer implements IMap {
+private static String EXPECTED_RESULT_CODE = "0";
     @XmlElement(name = "Balance")
     protected String balance;
     @XmlElement(name = "InTransitFunds")
     protected String inTransitFunds;
 
+    @Override
+    public Map toMap() {
+        Map map = super.getMap(EXPECTED_RESULT_CODE);
+        map.put(ParameterName.BALANCE, balance);
+        map.put(ParameterName.IN_TRANSIT_FUNDS, inTransitFunds);
+        return map;
+    }
+
     /**
      * Gets the value of the balance property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getBalance() {
         return balance;
@@ -55,11 +63,9 @@ public class BalanceInquiryResponse
 
     /**
      * Sets the value of the balance property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setBalance(String value) {
         this.balance = value;
@@ -67,11 +73,9 @@ public class BalanceInquiryResponse
 
     /**
      * Gets the value of the inTransitFunds property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
+     *
      */
     public String getInTransitFunds() {
         return inTransitFunds;
@@ -79,11 +83,9 @@ public class BalanceInquiryResponse
 
     /**
      * Sets the value of the inTransitFunds property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
+     *
      */
     public void setInTransitFunds(String value) {
         this.inTransitFunds = value;

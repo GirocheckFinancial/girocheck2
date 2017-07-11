@@ -1,6 +1,9 @@
 
 package com.smartbt.vtsuite.connection;
 
+import com.smartbt.girocheck.servercommon.enums.ParameterName;
+import java.util.HashMap;
+import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -67,6 +70,25 @@ public class SessionTag {
     @XmlElement(name = "ResultMessage")
     protected String resultMessage;
 
+      public Map getMap(String expectedResultCode){
+        Map sessionTagMap = new HashMap();
+          sessionTagMap.put(ParameterName.SUCESSFULL_PROCESSING , sucessfullProcessing);
+          sessionTagMap.put(ParameterName.REQUEST_ID , requestID);
+          sessionTagMap.put(ParameterName.SYSTEM_NAME , systemName);
+          sessionTagMap.put(ParameterName.OPERATION_NAME , operationName);
+          sessionTagMap.put(ParameterName.TIME , time);
+          sessionTagMap.put(ParameterName.GMT_TIME_ZONE , gmtTimeZone);
+          sessionTagMap.put(ParameterName.OPERATION_ID , operationID);
+          sessionTagMap.put(ParameterName.RESULT_CODE , resultCode);
+          sessionTagMap.put(ParameterName.RESULT_MESSAGE , resultMessage);
+          
+          if(expectedResultCode.equals( "0")){
+              sessionTagMap.put( ParameterName.SESSION_TAG_IS_EXPECTED_ANSWER, true);
+          }else{
+              sessionTagMap.put( ParameterName.SESSION_TAG_IS_EXPECTED_ANSWER, resultCode.equals( expectedResultCode));
+          }
+          return sessionTagMap;
+    }
     /**
      * Gets the value of the sucessfullProcessing property.
      * 

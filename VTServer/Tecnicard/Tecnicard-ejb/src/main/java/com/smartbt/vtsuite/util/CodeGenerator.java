@@ -1,5 +1,5 @@
 
-package com.smartbt.vtsuite.boundary.util;
+package com.smartbt.vtsuite.util;
 
 /**
  *
