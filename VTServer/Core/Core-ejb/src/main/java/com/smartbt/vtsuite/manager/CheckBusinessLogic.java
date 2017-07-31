@@ -127,6 +127,12 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
 
             System.out.println("[CheckBusinessLogic] After processPersonalInfo STATE = " + request.getTransactionData().get(ParameterName.STATE));
 
+            //--- SEND TO COMPLIANCE ------
+            
+            request.setTransactionType(TransactionType.COMPLIANCE_POST_TRANSACTION);
+
+            response = sendMessageToHost(request, NomHost.COMPLIANCE, COMPLIANCE_HOST_WAIT_TIME, transaction);
+            
             //-------SEND TO CERTEGY ------
             request.setTransactionType(TransactionType.CERTEGY_AUTHENTICATION);
             DirexTransactionResponse certegyResponse = null;

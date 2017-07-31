@@ -58,13 +58,13 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
     protected static final long TECNICARD_CONFIRMATION_WAIT_TIME = 180000;//3min
     protected static final long ISTREAM_HOST_WAIT_TIME = 30000;//30sec
     protected static final long WESTECH_HOST_WAIT_TIME = 30000;//30sec
+    protected static final long COMPLIANCE_HOST_WAIT_TIME = 30000;//30sec
     protected static final long PERSONAL_INFO_WAIT_TIME = 420000;//7min 
     protected static final long CHOICE_WAIT_TIME = 300000;//5min 
     public static final long GENERIC_VALIDATION_WAIT_TIME = 60000;//1min
     protected static final long GENERIC_CARD_LOAD_WAIT_TIME = 60000;//1min 
     protected static final long CERTEGY_WAIT_TIME = 30000;//30sec
-    protected static final long CERTEGY_INFO_WAIT_TIME = 420000;//7min
-    protected static final long ORDER_EXPRESS_WAIT_TIME = 300000;//5min
+    protected static final long CERTEGY_INFO_WAIT_TIME = 420000;//7min 
 
     protected static CountryManager countryManager = CountryManager.get();
     protected static StateManager stateManager = StateManager.get();

@@ -83,15 +83,10 @@ public class MerchantEditor extends BaseBoardingEditor {
     private BaseTextItem sicText;
     private BaseNumberItem cardInventoryText;
     private BaseTextItem bankNameText;
-    private BaseTextItem routingBankNumberText;
-    private BaseSelectItem cardProgramCombo;
+    private BaseTextItem routingBankNumberText; 
 
     /*  Row 7*/
-    private BaseSelectItem commissionTypeCombo;
-    private BaseSelectItem distributionChanelCombo;
-    private BaseSelectItem riskCombo;
-    private BaseSelectItem merchantTypeCombo;
-    public DateItem activationdate;
+    private BaseSelectItem commissionTypeCombo;   
 
     /*  Row 8*/
     private CheckboxItem independentOwnerCheckbox;
@@ -215,40 +210,17 @@ public class MerchantEditor extends BaseBoardingEditor {
         routingBankNumberText.setTextAlign(Alignment.LEFT);
 
         oEAgentNumberText = new BaseTextItem(25, "oEAgentNumber", "OE Agent Number", "Enter the OE Agent Number.", false);
-        oEAgentNumberText.setTextAlign(Alignment.LEFT);
-
-        cardProgramCombo = new BaseSelectItem(26, "cardProgram", "Card Program", "Select card program for this merchant.", new CardProgramDS(), false);
-        cardProgramCombo.setWidth(115);
-        cardProgramCombo.setEndRow(true);
+        oEAgentNumberText.setTextAlign(Alignment.LEFT); 
 
         /* Row 7*/
         commissionTypeCombo = new BaseSelectItem(27, "commissionType", "Commission Type", "Select the Commission Type.", DataSourceBuilder.getCommissionTypeDS(), false);
         commissionTypeCombo.setTextAlign(Alignment.LEFT);
         commissionTypeCombo.setWidth(115);
-
-        distributionChanelCombo = new BaseSelectItem(28, "distributionChanel", "Distribution Chanel", "Select the distribution chanel for this merchant.", DataSourceBuilder.getDistributionChanelDS(), false);
-        distributionChanelCombo.setTextAlign(Alignment.LEFT);
-        distributionChanelCombo.setWidth(115);
-
-        riskCombo = new BaseSelectItem(29, "risk", "Risk", "Select the risk for this merchant.", DataSourceBuilder.getRiskDS(), false);
-        riskCombo.setTextAlign(Alignment.LEFT);
-        riskCombo.setWidth(115);
-
-        merchantTypeCombo = new BaseSelectItem(30, "merchantType", "Merchant Type", "Select the merchant type.", DataSourceBuilder.getMerchantTypeDS(), false);
-        merchantTypeCombo.setWidth(115);
-
-        activationdate = new DateItem("activationdate", I18N.GET.LIST_FIELD_ACTIVATION_DATE_TITLE());
-        activationdate.setWidth(90);
-        activationdate.setDateFormatter(DateDisplayFormat.TOUSSHORTDATETIME);
-        activationdate.setUseMask(true);
-        activationdate.setUseTextField(true);
-        activationdate.setValidateOnChange(true);
+  
         final DateRangeValidator maxValidator = new DateRangeValidator();
         Date maxDate = new Date();
         maxDate.setHours(24);
-        maxValidator.setMax(maxDate);
-
-        activationdate.setEndRow(true);
+        maxValidator.setMax(maxDate); 
 
         authFeePText = new BaseTextItem(31, "authFeeP", "Auth FeeP", "Enter the Auth FeeP.", false);
         authFeePText.setTextAlign(Alignment.LEFT);
@@ -367,8 +339,8 @@ public class MerchantEditor extends BaseBoardingEditor {
                 new RowSpacerItem(),
                 idTecnicardCheck, idTecnicardCash, iStreamUser, iStreamPassword, idIstreamFuzeCash, idIstreamFuzeCheck, idIstreamTecnicardCash, idIstreamTecnicardCheck,
                 idTellerOrderExp, idTellerPagoOrderExp, idPosOrderExp, sicText, cardInventoryText, bankNameText,
-                routingBankNumberText, oEAgentNumberText, cardProgramCombo, authFeePText,
-                commissionTypeCombo, distributionChanelCombo, riskCombo, merchantTypeCombo, activationdate,
+                routingBankNumberText, oEAgentNumberText, authFeePText,
+                commissionTypeCombo, 
                 independentOwnerCheckbox, moneyTransmissionCheckbox, billPaymentCheckbox, checkCashingCheckbox,
                 documentApprovedCheckbox, atmCheckbox, trainingCheckbox, otherFinancialProviderCheckbox, activeCheckbox,
                 new RowSpacerItem(),
@@ -433,11 +405,7 @@ public class MerchantEditor extends BaseBoardingEditor {
         record.setAttribute("bankName", bankNameText.getValueAsString());
         record.setAttribute("routingBankNumber", routingBankNumberText.getValueAsString());
         record.setAttribute("oEAgentNumber", oEAgentNumberText.getValueAsString());
-
-        Record cardProgram = new Record();
-        cardProgram.setAttribute("id", cardProgramCombo.getValue());
-        record.setAttribute("cardProgram", cardProgram);
-
+ 
         Integer comType = commissionTypeCombo.getSelectedRecord() != null ? commissionTypeCombo.getSelectedRecord().getAttributeAsInt("id") : (Integer) commissionTypeCombo.getValue();
         Utils.debug("MerchantEditor -> getRecord() :: comType = " + comType);
         if (comType != null) {
@@ -445,11 +413,7 @@ public class MerchantEditor extends BaseBoardingEditor {
             Utils.debug("MerchantEditor -> getRecord() :: commisionType = " + commisionType);
             record.setAttribute("commissionType", commisionType);
         }
-
-        record.setAttribute("distributionChanel", distributionChanelCombo.getSelectedRecord() != null ? distributionChanelCombo.getSelectedRecord().getAttributeAsInt("id") : distributionChanelCombo.getValue());
-        record.setAttribute("risk", riskCombo.getSelectedRecord() != null ? riskCombo.getSelectedRecord().getAttributeAsInt("id") : riskCombo.getValue());
-        record.setAttribute("merchantType", merchantTypeCombo.getSelectedRecord() != null ? merchantTypeCombo.getSelectedRecord().getAttributeAsInt("id") : merchantTypeCombo.getValue());
-
+ 
         record.setAttribute("independentOwner", independentOwnerCheckbox.getValueAsBoolean());
         record.setAttribute("moneyTransmission", moneyTransmissionCheckbox.getValueAsBoolean());
         record.setAttribute("billPayment", billPaymentCheckbox.getValueAsBoolean());
@@ -483,27 +447,16 @@ public class MerchantEditor extends BaseBoardingEditor {
             zipText.setValue(addressReccord.getAttribute("zip"));
             stateCombo.setValue(addressReccord.getAttributeAsRecord("state").getAttribute("id"));
         }
-
-        Record cardProgram = record.getAttributeAsRecord("cardProgram");
-        if (cardProgram != null) {
-            cardProgramCombo.setValue(cardProgram.getAttributeAsInt("id"));
-        }
-
+ 
         if (record.getAttributeAsInt("cardInventory") == null) {
             cardInventoryText.setValue(0);
-        }
-        merchantTypeCombo.setValue(record.getAttributeAsInt("merchantType"));
-
-        String comType = record.getAttributeAsString("commissionType");
-        Utils.debug("MerchantEditor -> loadRecord() :: comType = " + comType);
+        } 
+        String comType = record.getAttributeAsString("commissionType"); 
         if (comType != null) {
-            Integer commissionType = comType.equalsIgnoreCase("D") ? 1 : 2;
-            Utils.debug("MerchantEditor -> loadRecord() :: commissionType = " + commissionType);
+            Integer commissionType = comType.equalsIgnoreCase("D") ? 1 : 2; 
             commissionTypeCombo.setValue(commissionType);
         }
-
-        distributionChanelCombo.setValue(record.getAttributeAsInt("distributionChanel"));
-        riskCombo.setValue(record.getAttributeAsInt("risk"));
+ 
         dataForm.rememberValues();
         Utils.debug("termino el loadRecord...");
     }

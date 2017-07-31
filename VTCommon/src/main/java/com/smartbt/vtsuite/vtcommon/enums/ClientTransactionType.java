@@ -96,6 +96,10 @@ public class ClientTransactionType {
                 return "Check Info";
             case 44:
                 return "Restore Card"; 
+            case 45:
+                return "Compliance New Branch"; 
+            case 46:
+                return "Compliance Post Transaction"; 
             default:
                 return "Unknown";
         }

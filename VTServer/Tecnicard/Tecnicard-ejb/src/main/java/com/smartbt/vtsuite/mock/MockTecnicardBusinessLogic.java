@@ -256,9 +256,9 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
         response.setAmount(pTransAmount);
 
         SessionTag sessionTag = buildSessionTag("CardLoad", pRequestID, "0");
-        sessionTag.setResultCode("1360320");
-        sessionTag.setResultMessage("Another mock error.");
-        sessionTag.setSucessfullProcessing(false);
+//        sessionTag.setResultCode("1360320");
+//        sessionTag.setResultMessage("Another mock error.");
+//        sessionTag.setSucessfullProcessing(false);
         response.setSessionTag(sessionTag);
         return response;
     }
@@ -389,6 +389,46 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
         list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.02", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
         list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
 
+        
+         list.add(new Transaction("PURCHASE", "F", "20170317", "25.00", "0.00", "D", "GOOGLE *Google Play    g.co/payhelp# CA"));
+        list.add(new Transaction("AUTHORIZATION REJECTED", "D", "20170315", "100.75", "0.00", "0", "AmazonPrime Membership amzn.com/prme WA"));
+        list.add(new Transaction("CHECK TO CARD", "G", "20170311", "10.00", "0.00", "C", "GIROCHECK VCVT[CHECKS0001]"));
+        list.add(new Transaction("CHECK FEE", "G", "20170311", "2.95", "0.00", "D", "Check Fee"));
+        list.add(new Transaction("AUTHORIZATION REJECTED", "D", "20170310", "100.75", "0.00", "D", "AmazonPrime Membership amzn.com/prme WA"));
+        list.add(new Transaction("CARD TO BANK", "D", "20170309", "0.50", "0.00", "D", "CARDTOBANK"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170307", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170307", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170306", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.02", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+
+        
+         list.add(new Transaction("PURCHASE", "F", "20170317", "25.00", "0.00", "D", "GOOGLE *Google Play    g.co/payhelp# CA"));
+        list.add(new Transaction("AUTHORIZATION REJECTED", "D", "20170315", "100.75", "0.00", "0", "AmazonPrime Membership amzn.com/prme WA"));
+        list.add(new Transaction("CHECK TO CARD", "G", "20170311", "10.00", "0.00", "C", "GIROCHECK VCVT[CHECKS0001]"));
+        list.add(new Transaction("CHECK FEE", "G", "20170311", "2.95", "0.00", "D", "Check Fee"));
+        list.add(new Transaction("AUTHORIZATION REJECTED", "D", "20170310", "100.75", "0.00", "D", "AmazonPrime Membership amzn.com/prme WA"));
+        list.add(new Transaction("CARD TO BANK", "D", "20170309", "0.50", "0.00", "D", "CARDTOBANK"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170307", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170307", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170306", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.02", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+
+        
+         list.add(new Transaction("PURCHASE", "F", "20170317", "25.00", "0.00", "D", "GOOGLE *Google Play    g.co/payhelp# CA"));
+        list.add(new Transaction("AUTHORIZATION REJECTED", "D", "20170315", "100.75", "0.00", "0", "AmazonPrime Membership amzn.com/prme WA"));
+        list.add(new Transaction("CHECK TO CARD", "G", "20170311", "10.00", "0.00", "C", "GIROCHECK VCVT[CHECKS0001]"));
+        list.add(new Transaction("CHECK FEE", "G", "20170311", "2.95", "0.00", "D", "Check Fee"));
+        list.add(new Transaction("AUTHORIZATION REJECTED", "D", "20170310", "100.75", "0.00", "D", "AmazonPrime Membership amzn.com/prme WA"));
+        list.add(new Transaction("CARD TO BANK", "D", "20170309", "0.50", "0.00", "D", "CARDTOBANK"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170307", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170307", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170306", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.02", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+
+         
         return list;
     }
 

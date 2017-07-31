@@ -57,7 +57,9 @@ public class AuthController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseData login(@RequestBody LinkedHashMap params, HttpSession session) throws Exception {
         String username = (String) params.get("username");
-        String password = (String) params.get("password"); 
+        String password = (String) params.get("password");
+        
+        System.out.println("username = " + username + ", password = " + password);
         
         String token = Utils.generateToken();
         session.setAttribute(TOKEN, token);
@@ -68,10 +70,11 @@ public class AuthController {
         MobileClientDisplay mobileClient = authManager.getMobileClientDisplayByUserAndPassword(username, encryptPassword);
         
         if (mobileClient == null) {
+            System.out.println("mobileClient = null");
             response.setStatus(Constants.CODE_INVALID_USER);
             response.setStatusMessage(MobileMessage.INVALID_LOGIN_CREDENTIALS.get(lang));
         } else {            
-            
+             System.out.println("mobileClient has value");
             mobileClient.setToken(token);            
             String balance = transactionManager.balanceInquiry(mobileClient.getCard(), mobileClient.getToken());
             mobileClient.setBalance(balance);

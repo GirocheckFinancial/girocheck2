@@ -86,8 +86,8 @@ public class RegistrationManager {
 
                 // to crete new card if card does not exists
                 if (card == null) {
-                    System.out.println("[FrontMobile.RegistrationManager] Card didn't exist, creating new card...");
-                    card = createCard(cardNumber, client);
+                    System.out.println("[FrontMobile.RegistrationManager] Card didn't exist,throwing Exception...");
+                    throw new MobileValidationException(Constants.CARD_NOT_PERSONALIZED, MobileMessage.CARD_NOT_PERSONALIZED.get(lang));
                 } else {
                     System.out.println("[FrontMobile.RegistrationManager] Card exist...");
 
@@ -526,4 +526,8 @@ public class RegistrationManager {
 
     }
 
+    
+    public static void main(String[] args) throws Exception{
+        System.out.println(PasswordUtil.encryptPassword("a"));
+    }
 }

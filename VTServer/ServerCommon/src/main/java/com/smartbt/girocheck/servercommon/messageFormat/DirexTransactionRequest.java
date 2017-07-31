@@ -38,7 +38,9 @@ public class DirexTransactionRequest extends DirexTransaction implements Diagnos
      
     public DirexTransactionRequest(Map transactionData, TransactionType transactionType, Transaction transaction) {
         super(transactionData, transactionType, transaction);
-        this.correlation = transaction.getRequestId();
+        if(transaction != null){
+            this.correlation = transaction.getRequestId();
+        } 
     }
     
     

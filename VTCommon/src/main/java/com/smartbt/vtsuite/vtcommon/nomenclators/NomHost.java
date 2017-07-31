@@ -44,7 +44,9 @@ public enum NomHost {
     
     CERTEGY(7),
     
-    ISTREAM2(8);
+    ISTREAM2(8),
+    
+    COMPLIANCE(9);
 
     private NomHost(int id) {
         this.id = id;

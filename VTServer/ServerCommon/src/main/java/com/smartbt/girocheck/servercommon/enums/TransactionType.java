@@ -61,7 +61,10 @@ public enum TransactionType {
     
     ISTREAM2_SEND_SINGLE_ICL(NomHost.ISTREAM2, 42),
     CHECK_INFO(null, 43),
-    TECNICARD_RESTORE_CARD(NomHost.TECNICARD, 44);
+    TECNICARD_RESTORE_CARD(NomHost.TECNICARD, 44),
+    
+    COMPLIANCE_NEW_BRANCH(NomHost.COMPLIANCE, 45 ),
+    COMPLIANCE_POST_TRANSACTION(NomHost.COMPLIANCE, 46 );
 
     private NomHost host;
 
@@ -174,6 +177,10 @@ public enum TransactionType {
                 return TransactionType.CHECK_INFO;
             case 44: 
                 return TransactionType.TECNICARD_RESTORE_CARD;
+            case 45: 
+                return TransactionType.COMPLIANCE_NEW_BRANCH;
+            case 46: 
+                return TransactionType.COMPLIANCE_POST_TRANSACTION;
             default:
                   return TransactionType.TRANSACTION_TYPE;
         }

@@ -47,6 +47,10 @@ public class StateManager {
         }
         return state;
     }
+    
+    public String getAbbreviationById( int idState ) {
+        return dao.getAbbreviationById(idState);
+    }
 
     public ResponseDataList<StateDisplay> listStates() {
         ResponseDataList response = new ResponseDataList();

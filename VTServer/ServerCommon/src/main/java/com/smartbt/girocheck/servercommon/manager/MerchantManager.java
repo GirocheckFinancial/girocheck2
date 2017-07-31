@@ -125,7 +125,9 @@ public class MerchantManager {
             merchant.setCard_program( cardProgram );
         }
         
-        merchant.setMerchantType(Integer.parseInt(display.getMerchantType()) ); 
+        if(display.getMerchantType() != null && !display.getMerchantType().equals("null")){
+           merchant.setMerchantType(Integer.parseInt(display.getMerchantType()) );  
+        } 
        
         //Boolean values
         merchant.setIndependentOwner( display.getIndependentOwner());

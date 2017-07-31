@@ -20,8 +20,15 @@ import com.smartbt.girocheck.servercommon.display.MerchantDisplay;
 import com.smartbt.girocheck.servercommon.display.message.BaseResponse;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
+import com.smartbt.girocheck.servercommon.enums.ParameterName;
+import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.manager.MerchantManager;
-import com.smartbt.vtsuite.utils.AuditLogMessage;
+import com.smartbt.girocheck.servercommon.manager.StateManager;
+import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
+import com.smartbt.vtsuite.manager.ComplianceBusinessLogic;
+import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
@@ -53,28 +60,78 @@ public class MerchantController {
 
         return manager.getMerchantsByAgrupation(idAgrupation);
     }
-    
+
     @PUT
     @Path("saveOrUpdateMerchant")
     @Consumes("application/json")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseData saveOrUpdateMerchant(MerchantDisplay merchant) throws Exception {
 //        log.info("saveOrUpdateAgrupation :: Incoming parameter : \n merchant: ");
-         merchant.print();
-        return manager.saveOrUpdateMerchant(merchant);
-        
+        merchant.print();
+        ResponseData responseData = manager.saveOrUpdateMerchant(merchant);
+
+        MerchantDisplay merchantDisplay = (MerchantDisplay) responseData.getData();
+        registerMerchantInCompliance(merchantDisplay);
+        return responseData;
     }
-    
+
+    private void registerMerchantInCompliance(MerchantDisplay merchantDisplay) {
+        Map map = new HashMap();
+        map.put(ParameterName.MERCHANT_ID, merchantDisplay.getId());
+        map.put(ParameterName.MERCHANT_NAME, merchantDisplay.getLegalName());
+
+        if (merchantDisplay.getPhone() != null) {
+            String phone = getPhoneNumber(merchantDisplay.getPhone());
+            map.put(ParameterName.PHONE, phone);
+        }
+
+        if (merchantDisplay.getAddress() != null) {
+            map.put(ParameterName.ADDRESS, merchantDisplay.getAddress().getAddress());
+            map.put(ParameterName.ZIPCODE, merchantDisplay.getAddress().getZip());
+
+            if (merchantDisplay.getAddress() != null
+                    && merchantDisplay.getAddress().getState() != null) {
+                int idState = merchantDisplay.getAddress().getState().getId();
+                String stateAbbreviation = StateManager.get().getAbbreviationById(idState);
+                map.put(ParameterName.STATE_ABBREVIATION, stateAbbreviation);
+            }
+        }
+
+        try {
+            if (merchantDisplay.getId() == null) {
+                DirexTransactionRequest request = new DirexTransactionRequest(map, TransactionType.COMPLIANCE_NEW_BRANCH, null);
+
+                ComplianceBusinessLogic.get().process(request); 
+            }
+
+        } catch (Exception e) {
+            System.out.println("MerchantController -> Exception Calling ComplianceBusinessLogic.get().newBranch(map);");
+            e.printStackTrace();
+        }
+
+    }
+
+    public String getPhoneNumber(String phone) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < phone.length(); i++) {
+            char c = phone.charAt(i);
+            if (c >= 48 && c <= 58) {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
     @POST
     @Path("getMerchantsById")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseData getMerchantsById(@FormParam("id") int id) throws Exception {
 //        log.info("getMerchantsById :: Incoming parameter : \n merchant: id :: " + id);
-       
-        return manager.getMerchantsById( id );
-        
+
+        return manager.getMerchantsById(id);
+
     }
-    
+
     @POST
     @Path("deleteMerchant")
     @Produces(MediaType.APPLICATION_JSON)
@@ -82,15 +139,14 @@ public class MerchantController {
 //        log.info("Incoming parameter : \n idEntity: id = " + id);
         return manager.deleteMerchant(id);
     }
-    
-    
-       @POST
+
+    @POST
     @Path("searchMerchants")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseDataList searchMerchants(@FormParam("search") String search) throws Exception {
 //        log.info("searchAgrupations:: Incoming parameters : [search] :: " + search);
 
-        return manager.searchMerchants( search );
+        return manager.searchMerchants(search);
     }
-    
+
 }
