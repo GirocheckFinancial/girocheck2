@@ -101,7 +101,7 @@ public class RegistrationManager {
                 }
 
                 System.out.println("[FrontMobile.RegistrationManager] Creating Mobile Client...");
-                mobileClient = createMobileClient(username, password, card, client);
+                mobileClient = createMobileClient(username, password, card, client, token);
 
                 client.setEmail(email);
                 client.setTelephone(phone);
@@ -345,7 +345,8 @@ public class RegistrationManager {
         return null;
     }
 
-    private MobileClient createMobileClient(String username, String password, CreditCard card, Client client) throws ValidationException, NoSuchAlgorithmException {
+    private MobileClient createMobileClient(String username, String password, CreditCard card, Client client, String token) throws ValidationException, NoSuchAlgorithmException {
+        Date now = new Date();
         MobileClient mobileClient = new MobileClient();
         mobileClient.setCard(card);
         mobileClient.setClient(client);
@@ -353,7 +354,9 @@ public class RegistrationManager {
         String encyptedPassword = PasswordUtil.encryptPassword(password);
         mobileClient.setPassword(encyptedPassword);
         mobileClient.setDeviceType("device");//need to get device type
-        mobileClient.setRegistrationDate(new Date());
+        mobileClient.setRegistrationDate( now );
+        mobileClient.setToken(token);
+        mobileClient.setLastLogin( now );
 
         MobileClientDao.get().saveOrUpdate(mobileClient);
         return mobileClient;

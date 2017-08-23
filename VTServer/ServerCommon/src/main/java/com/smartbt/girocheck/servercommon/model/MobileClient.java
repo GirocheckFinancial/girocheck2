@@ -34,6 +34,8 @@ public class MobileClient implements Serializable {
      private String userName;
      
      private String password;  
+     private String token;  
+     private Date lastLogin;  
      
       
 
@@ -173,6 +175,34 @@ public class MobileClient implements Serializable {
     public void setKeyExpirationTime(Date keyExpirationTime) {
         this.keyExpirationTime = keyExpirationTime;
     }   
+
+    /**
+     * @return the token
+     */
+    public String getToken() {
+        return token;
+    }
+
+    /**
+     * @param token the token to set
+     */
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    /**
+     * @return the lastLogin
+     */
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    /**
+     * @param lastLogin the lastLogin to set
+     */
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
      
     
 }

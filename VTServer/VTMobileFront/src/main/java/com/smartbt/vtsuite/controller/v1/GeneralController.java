@@ -15,13 +15,16 @@
  */
 package com.smartbt.vtsuite.controller.v1;
 
+import com.smartbt.girocheck.servercommon.dao.MerchantDAO;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
+import com.smartbt.girocheck.servercommon.display.mobile.MobileMerchantDisplay;
 import com.smartbt.girocheck.servercommon.utils.Utils;
 import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.smartbt.vtsuite.manager.RegistrationManager;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,6 +59,16 @@ public class GeneralController {
         String email = (String) params.get("email");
         String phone = (String) params.get("phone");
         String cardNumber = (String) params.get("cardNumber");
+        
+        //This field is for future developments
+        String promoCode = (String) params.get("promoCode");
+        
+        //TODO Leave just card when the new version be stable
+        String card = (String) params.get("card");
+        
+        if(card != null && !card.isEmpty()){
+            cardNumber = card;
+        }
 
         System.out.println("GeneralController.register: \n username: " + username
                 + "\n password: " + password
@@ -66,11 +79,9 @@ public class GeneralController {
         if (cardNumber != null && cardNumber.length() > 4) {
             System.out.println("cardNumber: **** **** **** " + cardNumber.substring(cardNumber.length() - 4));
         }
-
-        String token = Utils.generateToken();
-        session.setAttribute(TOKEN, token);
-        
+ 
         String lang = (String)session.getAttribute(LANG);
+        String token = (String)session.getAttribute(TOKEN);
         
         return regManager.register(username, password, ssn, email, phone, cardNumber, token, lang);
     }
@@ -81,6 +92,12 @@ public class GeneralController {
         String clientId = (String) params.get("clientId");
         String cardNumber = (String) params.get("cardNumber");
 
+        //TODO remove this when new version of the app be stable
+        String card = (String) params.get("card");
+        if(card != null && !card.isEmpty()){
+            cardNumber = card;
+        }
+        
         System.out.println("GeneralController.replaceCard: \n clientId: " + clientId);
 
         if (cardNumber != null && cardNumber.length() > 4) {
@@ -108,8 +125,8 @@ public class GeneralController {
                 + "\n email: " + email
                 + "\n phone: " + phone
                 + "\n clientId: " + clientId);
-
-        String token = Utils.generateToken();
+ 
+        String token = (String)session.getAttribute(TOKEN);
         String lang = (String)session.getAttribute(LANG);
         return regManager.updateProfile(clientId, username, email, phone, password, oldPassword,token,lang);
     }
@@ -122,15 +139,29 @@ public class GeneralController {
         String sendBy = (String) params.get("sendBy");
         String code = (String) params.get("code");
 
+        //TODO remove cardNumber once the new app be stable
+        String card = (String) params.get("card");
+        if(card != null && !card.isEmpty()){
+            cardNumber = card;
+        }
+        
         System.out.println("GeneralController.forgotPassword: \n maskSSN: " + maskSSN
                 + "\n cardNumber: " + cardNumber
                 + "\n sendBy: " + sendBy
                 + "\n code: " + code);
-
-        String token = Utils.generateToken();
-        session.setAttribute(TOKEN, token);
+ 
         String lang = (String)session.getAttribute(LANG);
-        return regManager.forgotPassword(maskSSN, cardNumber, sendBy, code, token,lang);
+        String token = (String)session.getAttribute(TOKEN);
+        return regManager.forgotPassword(maskSSN, cardNumber, sendBy, code, token, lang);
     }
 
+    @RequestMapping(value = "/updateMerchantCoordinates", method = RequestMethod.GET)
+    public String updateMerchantCoordinates(){
+        return MerchantDAO.get().updateMerchantCoordinates();
+    }
+    
+    @RequestMapping(value = "/listMerchants", method = RequestMethod.GET)
+    public List<MobileMerchantDisplay> listMerchantsForMobile(){
+        return MerchantDAO.get().listMerchantsForMobile();
+    } 
 }

@@ -83,10 +83,10 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
             
              //--- SEND TO COMPLIANCE ------
             
-            request.setTransactionType(TransactionType.COMPLIANCE_POST_TRANSACTION);
-
-            response = sendMessageToHost(request, NomHost.COMPLIANCE, COMPLIANCE_HOST_WAIT_TIME, transaction);
-            
+//            request.setTransactionType(TransactionType.COMPLIANCE_POST_TRANSACTION);
+//
+//            response = sendMessageToHost(request, NomHost.COMPLIANCE, COMPLIANCE_HOST_WAIT_TIME, transaction);
+//            
 
             //----------  TECNICARD VALIDATON ------------------
             String hostName = (String) request.getTransactionData().get(ParameterName.HOSTNAME);

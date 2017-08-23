@@ -17,7 +17,8 @@
                 <property name="userName" column="username" type="string" length="55" not-null="false" lazy="false"/>
                 <property name="password" column="password" type="string" length="55" not-null="false" lazy="false"/>
                 
-                
+                <property name="token" column="token" type="string" length="100"  lazy="false"/>
+                <property name="lastLogin" column="last_login" type="timestamp" lazy="false"/>
             </class>      
   
     </hibernate-mapping>

@@ -60,14 +60,13 @@ public class AuthController {
         String password = (String) params.get("password");
         
         System.out.println("username = " + username + ", password = " + password);
-        
-        String token = Utils.generateToken();
-        session.setAttribute(TOKEN, token);
+         
+        String token = (String)session.getAttribute(TOKEN); 
         String lang = (String)session.getAttribute(LANG); 
         
         ResponseData response = ResponseData.OK();
         String encryptPassword = PasswordUtil.encryptPassword(password);
-        MobileClientDisplay mobileClient = authManager.getMobileClientDisplayByUserAndPassword(username, encryptPassword);
+        MobileClientDisplay mobileClient = authManager.getMobileClientDisplayByUserAndPassword(username, encryptPassword, token);
         
         if (mobileClient == null) {
             System.out.println("mobileClient = null");
@@ -87,11 +86,19 @@ public class AuthController {
       @RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
     public ResponseData resetPassword(@RequestBody LinkedHashMap params, HttpSession session) throws Exception {
         String clientId = (String) params.get("clientId");
-        String password = (String) params.get("newPassword"); 
+        String newPassword = (String) params.get("newPassword"); 
         String lang = (String)session.getAttribute(LANG); 
+        String token = (String)session.getAttribute(TOKEN); 
+        
+         //TODO remove this when new version of the app be stable
+        String password = (String) params.get("password");
+        if(password != null && !password.isEmpty()){
+            newPassword = password;
+        }
+        
         ResponseData response = ResponseData.OK();
         try{
-             authManager.resetPassword(clientId, password,lang);
+             authManager.resetPassword(clientId, newPassword, lang, token);
         }catch(MobileValidationException mbe){
             mbe.printStackTrace();
             return mbe.getResponse();

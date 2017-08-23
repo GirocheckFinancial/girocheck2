@@ -23,6 +23,7 @@ import com.smartbt.vtsuite.util.MobileMessage;
 import com.smartbt.vtsuite.util.MobileValidationException;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import javax.xml.bind.ValidationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,11 +36,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AuthManager {
 
-    public MobileClientDisplay getMobileClientDisplayByUserAndPassword(String username, String password) {
-        return MobileClientDao.get().getMobileClientDisplayByUserAndPassword(username, password);
+    public MobileClientDisplay getMobileClientDisplayByUserAndPassword(String username, String password, String token) {
+        return MobileClientDao.get().getMobileClientDisplayByUserAndPassword(username, password, token);
     }
 
-    public void resetPassword(String clientId, String password, String lang) throws ValidationException, NoSuchAlgorithmException, MobileValidationException {
+    public void resetPassword(String clientId, String password, String lang, String token) throws ValidationException, NoSuchAlgorithmException, MobileValidationException {
         int id = Integer.parseInt(clientId);
         MobileClient mobileClient = MobileClientDao.get().getMobileClientById(id);
 
@@ -49,6 +50,9 @@ public class AuthManager {
 
         String encyptedPassword = PasswordUtil.encryptPassword(password);
         mobileClient.setPassword(encyptedPassword);
+        mobileClient.setToken(token);
+        mobileClient.setLastLogin(new Date());
+        
         MobileClientDao.get().saveOrUpdate(mobileClient);
     }
 }

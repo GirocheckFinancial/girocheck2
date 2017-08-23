@@ -16,6 +16,10 @@
 package com.smartbt.vtsuite.manager;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.smartbt.entity.NewBranchRequest;
 import com.smartbt.entity.ComplianceResponse;
 import com.smartbt.entity.PostTransactionRequest;
@@ -32,6 +36,7 @@ import org.apache.cxf.jaxrs.client.WebClient;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
+import org.json.JSONArray;
 
 public class ComplianceBusinessLogic {
 
@@ -54,30 +59,49 @@ public class ComplianceBusinessLogic {
     }
 
     public static void main(String[] args) {
-        ComplianceBusinessLogic cbl = new ComplianceBusinessLogic();
-        //cbl.CLIENT.path("testservice");
-        cbl.CLIENT.replacePath("postTransaction");
-        // cbl.CLIENT.path("newBranch");
-        PostTransactionRequest request = new PostTransactionRequest(null);
-        Response r = cbl.CLIENT.post(request);
+        WebClient client = WebClient.create("")
+                .type(MediaType.APPLICATION_JSON); 
+      // client.path("http://maps.google.com/maps/api/geocode/json?address=2322+Hidden+Glen+Dr,+Marietta,+Georgia");
+       client.replacePath("http://maps.google.com/maps/api/geocode/json?address=2322+Hidden+Glen+Dr,+Marietta,+Georgia");
+        // cbl.CLIENT.path("newBranch"); 
+        Response r = client.get();
 
-        ComplianceResponse response = r.readEntity(ComplianceResponse.class);
-        System.out.println("Status = " + response.getStatus());
-        System.out.println("Message = " + response.getMessage());
-    }
-//
-//    public static void main(String[] args) {
-//        ComplianceBusinessLogic cbl = new ComplianceBusinessLogic();
-//        //cbl.CLIENT.path("testservice");
-//        cbl.CLIENT.replacePath("newBranch");
-//        // cbl.CLIENT.path("newBranch");
-//        NewBranchRequest request = new NewBranchRequest(null);
-//        Response r = cbl.CLIENT.post(request);
-//
-//        ComplianceResponse response = r.readEntity(ComplianceResponse.class);
-//        System.out.println("Status = " + response.getStatus());
-//        System.out.println("Message = " + response.getMessage());
-//    }
+        String response = r.readEntity(String.class);
+        
+       
+         
+//        Gson gson = new Gson();
+//        Map map = gson.fromJson(response, Map.class);
+        
+        JsonParser parser = new JsonParser();
+         JsonObject json = (JsonObject) parser.parse(response);
+         
+         JsonArray results = json.getAsJsonArray("results");
+         
+         if(results != null && !results.isJsonNull() && results.size() > 0){
+             JsonElement result =  results.get(0);
+             
+             JsonObject address = result.getAsJsonObject();
+             
+              JsonObject geometry =  address.getAsJsonObject("geometry");
+             
+              if(geometry != null){ 
+                  JsonObject location =  geometry.getAsJsonObject("location");
+             
+                    if(location != null){  
+                         String lat = location.get("lat").getAsString();
+                         String lng = location.get("lng").getAsString();
+                         
+                         
+                    } 
+                    }
+            
+         }else{
+             System.out.println("null");
+         }  
+    } 
+    
+ 
 
     public DirexTransactionResponse process(DirexTransactionRequest request) throws Exception {
         Map transactionData = request.getTransactionData();
@@ -112,7 +136,8 @@ public class ComplianceBusinessLogic {
         
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[ComplianceBusinessLogic] Finish " + transactionType, null);
 
-        if (complianceResponse != null && complianceResponse.getStatus() != null && complianceResponse.getStatus().equals("200")) {
+        if (complianceResponse != null && complianceResponse.getStatus() != null 
+                && complianceResponse.getStatus().equals("100")) {
             direxTransactionResponse.setResultCode(ResultCode.SUCCESS);
             direxTransactionResponse.setResultMessage(VTSuiteMessages.SUCCESS);
         } else {
@@ -142,4 +167,6 @@ public class ComplianceBusinessLogic {
          
         return response;
     }
+    
+    
 }

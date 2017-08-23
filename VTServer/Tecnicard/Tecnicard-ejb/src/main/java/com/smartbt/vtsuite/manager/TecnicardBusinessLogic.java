@@ -311,7 +311,7 @@ public class TecnicardBusinessLogic extends AbstractBusinessLogicModule {
 
         String maskedCardNumber = (pCardNumber != null && pCardNumber.length() > 4) ? "************" + pCardNumber.substring(pCardNumber.length() - 4) : "";
 
-        System.out.println("TecnicardBusinessLogin -> wmLastTransactions(" + pRequestID + ", " + pCardNumber + ", " + pStartDate + ", " + pEndDate + ", \"\")");
+        System.out.println("TecnicardBusinessLogin -> wmLastTransactions(" + pRequestID + ", " + maskedCardNumber + ", " + pStartDate + ", " + pEndDate + ", \"\")");
 
         LastTransactionsResponse response = port.wmLastTransactions(pRequestID, pCardNumber, pStartDate, pEndDate, "");
 

@@ -129,8 +129,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
 
             //--- SEND TO COMPLIANCE ------
             
-            request.setTransactionType(TransactionType.COMPLIANCE_POST_TRANSACTION);
-
+            request.setTransactionType(TransactionType.COMPLIANCE_POST_TRANSACTION); 
             response = sendMessageToHost(request, NomHost.COMPLIANCE, COMPLIANCE_HOST_WAIT_TIME, transaction);
             
             //-------SEND TO CERTEGY ------
