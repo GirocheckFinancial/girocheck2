@@ -61,16 +61,19 @@ public class ComplianceHostManager {
                 response = MockComplianceBusinessLogic.get().process(request);
             }
  
+            subTransaction.setResultMessage(response.getResultMessage());
+            
             if (response.wasApproved()) {
-                subTransaction.setResultCode(response.getResultCode().getCode());
-                subTransaction.setResultMessage(response.getResultMessage());
+                subTransaction.setResultCode(response.getResultCode().getCode()); 
             } else {
-                subTransaction.setResultCode(ResultCode.COMPLIANCE_HOST_ERROR.getCode());
-                subTransaction.setResultMessage(response.getResultMessage());
+                subTransaction.setResultCode(ResultCode.COMPLIANCE_HOST_ERROR.getCode()); 
+                response.setResultMessage("Girocheck Decline C--Please Call customer service.");
             }
+             
+            
         } catch (Exception e) {
             e.printStackTrace();
-            response = DirexTransactionResponse.forException(ResultCode.COMPLIANCE_HOST_ERROR, e);
+            response = DirexTransactionResponse.forException(ResultCode.COMPLIANCE_HOST_ERROR, "Girocheck Decline C--Please Call customer service.");
             subTransaction.setResultCode(ResultCode.COMPLIANCE_HOST_ERROR.getCode());
             subTransaction.setResultMessage(e.getMessage());
         }

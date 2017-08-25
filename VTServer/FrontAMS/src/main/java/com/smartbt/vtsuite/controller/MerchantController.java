@@ -15,7 +15,6 @@
  */
 package com.smartbt.vtsuite.controller;
 
-import com.smartbt.girocheck.servercommon.display.AgrupationDisplay;
 import com.smartbt.girocheck.servercommon.display.MerchantDisplay;
 import com.smartbt.girocheck.servercommon.display.message.BaseResponse;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
@@ -26,7 +25,6 @@ import com.smartbt.girocheck.servercommon.manager.MerchantManager;
 import com.smartbt.girocheck.servercommon.manager.StateManager;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.vtsuite.manager.ComplianceBusinessLogic;
-import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +36,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author Ariel Saavedra
+ * @author Roberto Rodriguez
  */
 @Path("VTAMS")
 public class MerchantController {
@@ -66,7 +64,7 @@ public class MerchantController {
     @Consumes("application/json")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseData saveOrUpdateMerchant(MerchantDisplay merchant) throws Exception {
-//        log.info("saveOrUpdateAgrupation :: Incoming parameter : \n merchant: ");
+         System.out.println("MerchantController -> saveOrUpdateMerchant");
         merchant.print();
         ResponseData responseData = manager.saveOrUpdateMerchant(merchant);
 

@@ -26,6 +26,7 @@ import com.smartbt.girocheck.servercommon.model.Address;
 import com.smartbt.girocheck.servercommon.model.Check;
 import com.smartbt.girocheck.servercommon.model.PersonalIdentification;
 import com.smartbt.girocheck.servercommon.model.State;
+import com.smartbt.girocheck.servercommon.model.SubTransaction;
 import com.smartbt.girocheck.servercommon.model.Transaction;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.girocheck.servercommon.utils.IDScanner;
@@ -556,5 +557,48 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
         }
         return null;
     } 
+    
+    
+    public DirexTransactionResponse sendToCompliance(DirexTransactionRequest request, Transaction transaction) throws Exception{
+       DirexTransactionResponse response = null;
+        
+        try{
+            request.setTransactionType(TransactionType.COMPLIANCE_POST_TRANSACTION); 
+            response = sendMessageToHost(request, NomHost.COMPLIANCE, COMPLIANCE_HOST_WAIT_TIME, transaction);
+         }catch(Exception e){
+             String activateCompliance = System.getProperty("ACTIVATE_COMPLIANCE");
+             System.out.println("AbstractCommonBusinessLogic() -> activateCompliance = " + activateCompliance);
+             Boolean isComplianceActive = activateCompliance != null && activateCompliance.equalsIgnoreCase("true");
+
+             System.out.println("[AbstractCommonBusinessLogic] Exception calling COMPLIANCE_POST_TRANSACTION");
+
+             e.printStackTrace();
+
+             if(isComplianceActive){
+                 throw e;
+             }else{//If is not active, record the subtransaction for future reference  
+                 if(e instanceof TransactionalException){
+//                     DirexTransactionResponse responseError = ((TransactionalException)e).getResponse();
+//                     
+//                     SubTransaction subTransaction = new SubTransaction();
+//                     subTransaction.setType(TransactionType.COMPLIANCE_POST_TRANSACTION.getCode());
+//                     subTransaction.setHost(NomHost.COMPLIANCE.getId());
+//                     
+//                     if(responseError != null){  
+//                        subTransaction.setResultCode(responseError.getResultCode().getCode());
+//                        subTransaction.setResultMessage(responseError.getResultMessage());
+//                        subTransaction.setErrorCode(responseError.getErrorCode()); 
+//                     }else{
+//                        subTransaction.setResultCode(ResultCode.COMPLIANCE_HOST_ERROR.getCode());
+//                        subTransaction.setResultMessage(e.getMessage()); 
+//                     }
+//                      
+//                     transaction.addSubTransaction(subTransaction);
+                 }
+             } 
+         }
+        
+        return response;
+    }
 
 }

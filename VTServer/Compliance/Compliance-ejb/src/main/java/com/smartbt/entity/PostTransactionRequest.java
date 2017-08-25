@@ -20,7 +20,7 @@ public class PostTransactionRequest {
 
     public PostTransactionRequest(Map map) {
         String payload = createPayload(map);
-        System.out.println(">>**** PostTransactionRequest:: payload => " + payload);
+        System.out.println("---- PostTransactionRequest:: payload => " + payload);
         setTransactionpayload(payload);
     }
      

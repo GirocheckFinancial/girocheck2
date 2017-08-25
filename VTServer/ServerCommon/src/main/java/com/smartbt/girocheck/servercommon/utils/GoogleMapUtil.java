@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.smartbt.girocheck.servercommon.dao.StateDAO;
 import com.smartbt.girocheck.servercommon.model.Address;
 import com.smartbt.girocheck.servercommon.model.Merchant;
 import org.apache.cxf.jaxrs.client.WebClient;
@@ -28,6 +29,8 @@ public class GoogleMapUtil {
         String lat = "", lng = "";
         
         String addressStr = getAddressString(merchant);
+        
+        System.out.println("GoogleMapUtil:: " + merchant.getLegalName() + " :: " + addressStr);
         
         try {
             CLIENT.replacePath(GOOGLE_MAP_BASE_URL + addressStr);
@@ -76,10 +79,17 @@ public class GoogleMapUtil {
     private static String getAddressString(Merchant merchant) {
 
         Address address = merchant.getAddress();
-
+         
         StringBuilder sb = new StringBuilder();
-        if (address != null && address.getAddress() != null) { 
-            sb.append(address.getAddress().replaceAll(" ", "+") + ",+" + address.getCity().replaceAll(" ", "+") + ",+" + address.getState().getAbbreviation());
+        if (address != null && address.getAddress() != null) {
+            
+        String state =address.getState().getAbbreviation();
+            
+        if(state == null){
+            state = StateDAO.get().getAbbreviationById(address.getState().getId());
+        }
+            
+            sb.append(address.getAddress().replaceAll(" ", "+") + ",+" + address.getCity().replaceAll(" ", "+") + ",+" + state);
         }
         return sb.toString();
     }
