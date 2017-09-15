@@ -83,11 +83,11 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
             
              //--- SEND TO COMPLIANCE ------
             
-            DirexTransactionResponse complianceResponse = sendToCompliance(request,transaction);
-          
-            if(complianceResponse != null){
-                response = complianceResponse;
-            }
+//            DirexTransactionResponse complianceResponse = sendToCompliance(request,transaction);
+//          
+//            if(complianceResponse != null){
+//                response = complianceResponse;
+//            }
 
             //----------  TECNICARD VALIDATON ------------------
             String hostName = (String) request.getTransactionData().get(ParameterName.HOSTNAME);

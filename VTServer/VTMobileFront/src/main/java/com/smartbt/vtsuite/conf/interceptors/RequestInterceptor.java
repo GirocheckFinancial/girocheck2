@@ -40,7 +40,6 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         excludedURLs.put("register", "");
         excludedURLs.put("forgotPassword", "");
         excludedURLs.put("optOut", "");
-        excludedURLs.put("resetPassword", "");
         excludedURLs.put("updateMerchantCoordinates", "");
         
         //TODO remove this 
@@ -78,7 +77,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
                 lang.equalsIgnoreCase("defaultLocale")) {
             lang = "es";
         } else {
-            lang = lang.toLowerCase();
+            lang = "en";
         }
         request.getSession().setAttribute(LANG, lang);
  

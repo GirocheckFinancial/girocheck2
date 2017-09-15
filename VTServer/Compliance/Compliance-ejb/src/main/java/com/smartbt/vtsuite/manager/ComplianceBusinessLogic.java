@@ -57,52 +57,7 @@ public class ComplianceBusinessLogic {
         CLIENT = WebClient.create("http://10.10.11.153:2000/RestComplex.svc/", providers).accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON);
 
     }
-
-    public static void main(String[] args) {
-        WebClient client = WebClient.create("")
-                .type(MediaType.APPLICATION_JSON); 
-      // client.path("http://maps.google.com/maps/api/geocode/json?address=2322+Hidden+Glen+Dr,+Marietta,+Georgia");
-       client.replacePath("http://maps.google.com/maps/api/geocode/json?address=2322+Hidden+Glen+Dr,+Marietta,+Georgia");
-        // cbl.CLIENT.path("newBranch"); 
-        Response r = client.get();
-
-        String response = r.readEntity(String.class);
-        
-       
-         
-//        Gson gson = new Gson();
-//        Map map = gson.fromJson(response, Map.class);
-        
-        JsonParser parser = new JsonParser();
-         JsonObject json = (JsonObject) parser.parse(response);
-         
-         JsonArray results = json.getAsJsonArray("results");
-         
-         if(results != null && !results.isJsonNull() && results.size() > 0){
-             JsonElement result =  results.get(0);
-             
-             JsonObject address = result.getAsJsonObject();
-             
-              JsonObject geometry =  address.getAsJsonObject("geometry");
-             
-              if(geometry != null){ 
-                  JsonObject location =  geometry.getAsJsonObject("location");
-             
-                    if(location != null){  
-                         String lat = location.get("lat").getAsString();
-                         String lng = location.get("lng").getAsString();
-                         
-                         
-                    } 
-                    }
-            
-         }else{
-             System.out.println("null");
-         }  
-    } 
-    
- 
-
+  
     public DirexTransactionResponse process(DirexTransactionRequest request) throws Exception {
         Map transactionData = request.getTransactionData();
         DirexTransactionResponse direxTransactionResponse = new DirexTransactionResponse();

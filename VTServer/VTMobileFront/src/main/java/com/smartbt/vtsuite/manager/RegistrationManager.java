@@ -265,8 +265,7 @@ public class RegistrationManager {
                     e.printStackTrace();
                     throw new MobileValidationException(Constants.COULD_NOT_SEND_ACCESS_CODE, MobileMessage.COULD_NOT_SEND_ACCESS_CODE.get(lang));
                 }
-
-                MobileClientDao.get().saveOrUpdate(mobileClient);
+ 
             } else {
                 System.out.println("[FrontMobile.RegistrationManager] Code exists...Code: " + code);
                 if (!code.equals(mobileClient.getForgotPasswordKey())) {
@@ -296,7 +295,12 @@ public class RegistrationManager {
                 data.put("balance", balance);
                 data.put("token", token);
                 response.setData(data);
+                
+                System.out.println("[FrontMobile.RegistrationManager]  setting token: " + token);
+                mobileClient.setToken(token);
             }
+             System.out.println("[FrontMobile.RegistrationManager]  saving MobileClient");
+             MobileClientDao.get().saveOrUpdate(mobileClient);
 
             response.setStatus(Constants.SUCCESS);
             response.setStatusMessage(VTSuiteMessages.SUCCESS);

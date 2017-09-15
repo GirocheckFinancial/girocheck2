@@ -129,11 +129,11 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
 
             //--- SEND TO COMPLIANCE ------
             
-            DirexTransactionResponse complianceResponse = sendToCompliance(request,transaction);
-          
-            if(complianceResponse != null){
-                response = complianceResponse;
-            }
+//            DirexTransactionResponse complianceResponse = sendToCompliance(request,transaction);
+//          
+//            if(complianceResponse != null){
+//                response = complianceResponse;
+//            }
             
             //-------SEND TO CERTEGY ------
             request.setTransactionType(TransactionType.CERTEGY_AUTHENTICATION);
