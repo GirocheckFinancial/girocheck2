@@ -5,6 +5,7 @@
  */
 package com.smartbt.vtsuite.util;
 
+import com.smartbt.girocheck.servercommon.dao.MobileClientDao;
 import com.smartbt.girocheck.servercommon.utils.SMSUtils;
 import com.smartbt.girocheck.servercommon.enums.EmailName;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
@@ -24,10 +25,12 @@ import com.smartbt.girocheck.servercommon.messageFormat.IdType;
 import com.smartbt.girocheck.servercommon.model.Client;
 import com.smartbt.girocheck.servercommon.model.CreditCard;
 import com.smartbt.girocheck.servercommon.model.Email;
+import com.smartbt.girocheck.servercommon.model.MobileClient;
 import com.smartbt.girocheck.servercommon.model.SubTransaction;
 import com.smartbt.girocheck.servercommon.model.Terminal;
 import com.smartbt.girocheck.servercommon.model.Transaction;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
+import com.smartbt.girocheck.servercommon.utils.pushNotification.PushNotificationManager;
 import com.smartbt.vtsuite.manager.AbstractCommonBusinessLogic;
 import com.smartbt.vtsuite.util.email.GoogleMail;
 import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
@@ -37,6 +40,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jms.Queue;
 
 /**
@@ -285,8 +290,24 @@ public class CoreTransactionUtil {
                     if (balanceAfterLoad != null) {
                         smsMessage = "Your VoltCash card was just loaded, available balance is $" + balanceAfterLoad;
                     }
+
                 }
 
+            }
+
+            //---- SENDING PUSH NOTIFICATION ------------
+             if (transaction.getResultCode() == ResultCode.SUCCESS.getCode()
+                    && (transaction.getTransactionType() == TransactionType.CARD_RELOAD.getCode()
+                    || transaction.getTransactionType() == TransactionType.NEW_CARD_LOAD.getCode() 
+                    || transaction.getTransactionType() == TransactionType.CARD_RELOAD_WITH_DATA.getCode())) {
+                
+                MobileClient mobileClient = MobileClientDao.get().getMobileClientByClient(client.getId());
+                
+                if(mobileClient != null && mobileClient.getAllowNotifications() && mobileClient.getPushToken() != null){
+                    PushNotificationManager.sendCardLoadMessage(mobileClient.getDeviceType(), mobileClient.getPushToken(), mobileClient.getLang(), transaction.getAmmount());
+                }else{
+                     System.out.println("PN could not send the msg");
+                }
             }
 
             HibernateUtil.commitTransaction();
@@ -311,6 +332,8 @@ public class CoreTransactionUtil {
             }
         }
     }
+
+    
 
     public static void printTransaction(Transaction transaction) {
 

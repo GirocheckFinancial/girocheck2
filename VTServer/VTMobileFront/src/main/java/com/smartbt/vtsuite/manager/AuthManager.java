@@ -36,8 +36,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AuthManager {
 
-    public MobileClientDisplay getMobileClientDisplayByUserAndPassword(String username, String password, String token) {
-        return MobileClientDao.get().getMobileClientDisplayByUserAndPassword(username, password, token);
+    public MobileClientDisplay getMobileClientDisplayByUserAndPassword(String username, String password, String token, String pushToken, Integer version, String lang, String os) {
+        return MobileClientDao.get().getMobileClientDisplayByUserAndPassword(username, password, token, pushToken, version, lang, os);
     }
 
     public void resetPassword(String clientId, String password, String lang, String token) throws ValidationException, NoSuchAlgorithmException, MobileValidationException {

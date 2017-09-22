@@ -18,7 +18,8 @@ public class MobileClientDisplay implements Serializable {
     private String clientEmail;
     private String clientPhone;
     private String mobileClientUserName;
- 
+    private Long unreadNotifications;
+    private Integer lastMobileVersion = 3;
 
     /**
      * @return the card
@@ -130,6 +131,34 @@ public class MobileClientDisplay implements Serializable {
      */
     public void setMobileClientUserName(String mobileClientUserName) {
         this.mobileClientUserName = mobileClientUserName;
+    }
+
+    /**
+     * @return the unreadNotifications
+     */
+    public Long getUnreadNotifications() {
+        return unreadNotifications;
+    }
+
+    /**
+     * @param unreadNotifications the unreadNotifications to set
+     */
+    public void setUnreadNotifications(Long unreadNotifications) {
+        this.unreadNotifications = unreadNotifications;
+    }
+
+    /**
+     * @return the lastMobileVersion
+     */
+    public Integer getLastMobileVersion() {
+        return lastMobileVersion;
+    }
+
+    /**
+     * @param lastMobileVersion the lastMobileVersion to set
+     */
+    public void setLastMobileVersion(Integer lastMobileVersion) {
+        this.lastMobileVersion = lastMobileVersion;
     }
 
     

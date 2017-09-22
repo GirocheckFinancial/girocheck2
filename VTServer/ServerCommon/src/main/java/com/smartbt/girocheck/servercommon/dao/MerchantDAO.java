@@ -234,26 +234,26 @@ public class MerchantDAO extends BaseDAO<Merchant> {
 
     }
 
-    public String updateMerchantCoordinates() {
-        List<Merchant> merchants = HibernateUtil.getSession()
-                .createCriteria(Merchant.class)
-                .list();
-
-        StringBuilder sb = new StringBuilder();
-
-        for (Merchant merchant : merchants) {
-
-            sb.append(GoogleMapUtil.calculateMerchantLocation(merchant));
-
-            HibernateUtil.getSession().saveOrUpdate(merchant);
-        }
-
-        if (sb.length() > 0) {
-            return sb.toString();
-        } else {
-            return "All merchants coordinates updated successfully";
-        }
-    }
+//    public String updateMerchantCoordinates() {
+//        List<Merchant> merchants = HibernateUtil.getSession()
+//                .createCriteria(Merchant.class)
+//                .list();
+//
+//        StringBuilder sb = new StringBuilder();
+//
+//        for (Merchant merchant : merchants) {
+//
+//            sb.append(GoogleMapUtil.calculateMerchantLocation(merchant));
+//
+//            HibernateUtil.getSession().saveOrUpdate(merchant);
+//        }
+//
+//        if (sb.length() > 0) {
+//            return sb.toString();
+//        } else {
+//            return "All merchants coordinates updated successfully";
+//        }
+//    }
 
     public List<MobileMerchantDisplay> listMerchantsForMobile() {
         Criteria criteria = HibernateUtil.getSession().createCriteria(Merchant.class)

@@ -17,6 +17,7 @@ import com.smartbt.girocheck.servercommon.utils.PasswordUtil;
 import com.smartbt.girocheck.servercommon.dao.ClientDAO;
 import com.smartbt.girocheck.servercommon.dao.CreditCardDAO;
 import com.smartbt.girocheck.servercommon.dao.MobileClientDao;
+import com.smartbt.girocheck.servercommon.display.mobile.MobileClientDisplay;
 import com.smartbt.girocheck.servercommon.email.GoogleMail;
 import com.smartbt.girocheck.servercommon.enums.EmailName;
 import com.smartbt.girocheck.servercommon.manager.EmailManager;
@@ -26,6 +27,7 @@ import com.smartbt.girocheck.servercommon.utils.SMSUtils;
 import com.smartbt.girocheck.servercommon.utils.Utils;
 import com.smartbt.vtsuite.util.MobileMessage;
 import com.smartbt.vtsuite.util.MobileValidationException;
+import com.smartbt.girocheck.servercommon.utils.pushNotification.PushNotificationManager;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -56,7 +58,7 @@ public class RegistrationManager {
         return _this;
     }
 
-    public ResponseData register(String username, String password, String ssn, String email, String phone, String cardNumber, String token, String lang) {
+    public ResponseData register(String username, String password, String ssn, String email, String phone, String cardNumber, String token, String lang, String pushToken, Integer version, String os) {
 
         ResponseData response = ResponseData.OK();
         MobileClient mobileClient = null;
@@ -101,7 +103,7 @@ public class RegistrationManager {
                 }
 
                 System.out.println("[FrontMobile.RegistrationManager] Creating Mobile Client...");
-                mobileClient = createMobileClient(username, password, card, client, token);
+                mobileClient = createMobileClient(username, password, card, client, token, pushToken, version, lang, os);
 
                 client.setEmail(email);
                 client.setTelephone(phone);
@@ -112,17 +114,17 @@ public class RegistrationManager {
                 System.out.println("[FrontMobile.RegistrationManager] calling balanceInquiry");
                 String balance = transactionManager.balanceInquiry(cardNumber, token);
 
-                // To send details to Mobile application
-                Map data = new HashMap();
-                data.put("clientId", mobileClient.getId());
-                data.put("clientName", mobileClient.getClient().getFirstName());
-                data.put("clientEmail", client.getEmail());
-                data.put("clientPhone", client.getTelephone());
-                data.put("mobileClientUserName", mobileClient.getUserName());
-                data.put("balance", balance);
-                data.put("token", token);
+                // To send details to Mobile application 
+                MobileClientDisplay mobileClientDisplay = new MobileClientDisplay();
+                mobileClientDisplay.setClientId(mobileClient.getId());
+                mobileClientDisplay.setClientName(mobileClient.getClient().getFirstName());
+                mobileClientDisplay.setClientEmail(client.getEmail());
+                mobileClientDisplay.setClientPhone(client.getTelephone());
+                mobileClientDisplay.setMobileClientUserName(mobileClient.getUserName());
+                mobileClientDisplay.setBalance(balance);
+                mobileClientDisplay.setToken(token); 
 
-                response.setData(data);
+                response.setData(mobileClientDisplay);
 
             } else {
                 throw new MobileValidationException(Constants.CARD_NOT_PERSONALIZED, MobileMessage.CARD_NOT_PERSONALIZED.get(lang));
@@ -349,7 +351,7 @@ public class RegistrationManager {
         return null;
     }
 
-    private MobileClient createMobileClient(String username, String password, CreditCard card, Client client, String token) throws ValidationException, NoSuchAlgorithmException {
+    private MobileClient createMobileClient(String username, String password, CreditCard card, Client client, String token, String pushToken, Integer version, String lang, String os) throws ValidationException, NoSuchAlgorithmException {
         Date now = new Date();
         MobileClient mobileClient = new MobileClient();
         mobileClient.setCard(card);
@@ -357,12 +359,18 @@ public class RegistrationManager {
         mobileClient.setUserName(username);
         String encyptedPassword = PasswordUtil.encryptPassword(password);
         mobileClient.setPassword(encyptedPassword);
-        mobileClient.setDeviceType("device");//need to get device type
+        mobileClient.setDeviceType(os);//need to get device type
         mobileClient.setRegistrationDate( now );
         mobileClient.setToken(token);
         mobileClient.setLastLogin( now );
+        mobileClient.setPushToken(pushToken);
+        mobileClient.setVersion(version);
+        mobileClient.setLang(lang); 
 
         MobileClientDao.get().saveOrUpdate(mobileClient);
+        
+        PushNotificationManager.sendWelcomeMessage(os, pushToken, lang, client.getFirstName() + " " + client.getLastName());
+        
         return mobileClient;
     }
 

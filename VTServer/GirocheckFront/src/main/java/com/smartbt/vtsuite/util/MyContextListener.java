@@ -4,16 +4,7 @@
  * and open the template in the editor.
  */
 package com.smartbt.vtsuite.util;
-
-import com.smartbt.girocheck.servercommon.dao.IDImagePngDAO;
-import com.smartbt.girocheck.servercommon.manager.IDImagePngManager;
-import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
-import java.util.Calendar;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
+ 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -45,42 +36,42 @@ public class MyContextListener
     }
 }
 
-class ImageConvertionTask extends TimerTask {
-
-    @Override
-    public void run() {
-         String prodProperty = System.getProperty("PROD");
-        Boolean isProd = prodProperty != null && prodProperty.equalsIgnoreCase("true");
-
-//        if (!isProd) {
-//            
+//class ImageConvertionTask extends TimerTask {
+//
+//    @Override
+//    public void run() {
+//         String prodProperty = System.getProperty("PROD");
+//        Boolean isProd = prodProperty != null && prodProperty.equalsIgnoreCase("true");
+//
+////        if (!isProd) {
+////            
+////        }
+//        System.out.println("isProd = " + isProd);
+//
+//        try {
+//            System.out.println("Excecuting doGet...");
+//            HibernateUtil.beginTransaction(); 
+//             
+//            List<Integer> usersToConvert = IDImagePngDAO.get().getListOfUsersToConvert();
+//
+//            System.out.println("usersToConvert.size = " + usersToConvert.size());
+//
+//            for (Integer u : usersToConvert) {
+//                System.out.println(u);
+//                try{
+//                    IDImagePngManager.get().convertImage(u);
+//                }catch(Exception e){
+//                    System.out.println("Failed to convert image associated to client " + u);
+//                }
+//                
+//            }
+//
+//            HibernateUtil.commitTransaction();
+//            System.out.println("Excecution finish.");
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            HibernateUtil.rollbackTransaction();
 //        }
-        System.out.println("isProd = " + isProd);
-
-        try {
-            System.out.println("Excecuting doGet...");
-            HibernateUtil.beginTransaction(); 
-             
-            List<Integer> usersToConvert = IDImagePngDAO.get().getListOfUsersToConvert();
-
-            System.out.println("usersToConvert.size = " + usersToConvert.size());
-
-            for (Integer u : usersToConvert) {
-                System.out.println(u);
-                try{
-                    IDImagePngManager.get().convertImage(u);
-                }catch(Exception e){
-                    System.out.println("Failed to convert image associated to client " + u);
-                }
-                
-            }
-
-            HibernateUtil.commitTransaction();
-            System.out.println("Excecution finish.");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            HibernateUtil.rollbackTransaction();
-        }
-    }
-
-}
+//    }
+//
+//}

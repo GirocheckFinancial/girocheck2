@@ -37,7 +37,7 @@ public class TransactionController {
     TransactionManager transactionManager;
 
     @RequestMapping(value = "/history", method = RequestMethod.GET)
-    public Map listExpenses(
+    public Map listTansactions(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "start", defaultValue = "0") Integer start,
             @RequestParam(value = "limit", defaultValue = "0") Integer limit,

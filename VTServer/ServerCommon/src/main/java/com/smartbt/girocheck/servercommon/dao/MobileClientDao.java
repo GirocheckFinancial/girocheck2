@@ -36,7 +36,7 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
         return dao;
     }
 
-    public MobileClientDisplay getMobileClientDisplayByUserAndPassword(String userName, String password, String token) {
+    public MobileClientDisplay getMobileClientDisplayByUserAndPassword(String userName, String password, String token, String pushToken, Integer version, String lang, String os) {
 
         Criteria criteria = HibernateUtil.getSession().createCriteria(MobileClient.class)
                 .createAlias("card", "card")
@@ -59,8 +59,10 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
         MobileClientDisplay result = (MobileClientDisplay) criteria.uniqueResult();
         
         if(result != null){
-            updateToken(result.getClientId(), token);   
+            updateToken(result.getClientId(), token, pushToken, version, lang, os);   
         }
+        
+        result.setUnreadNotifications(MobileNotificationDao.get().countUnreadNotifications( result.getClientId() ));
         
         return result;
     }
@@ -76,6 +78,13 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
     public MobileClient getMobileClientById(int clientId) {
         Criteria criteria = HibernateUtil.getSession().createCriteria(MobileClient.class)
                 .add(Restrictions.eq("id", clientId));
+        return (MobileClient) criteria.uniqueResult();
+    }
+
+    public MobileClient getMobileClientByClient(int clientId) {
+        Criteria criteria = HibernateUtil.getSession().createCriteria(MobileClient.class)
+                .createAlias("client", "client")
+                .add(Restrictions.eq("client.id", clientId));
         return (MobileClient) criteria.uniqueResult();
     }
 
@@ -142,8 +151,30 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
         } 
     }
     
-    public void updateToken(Integer mobileClientId, String token) {
-        HibernateUtil.getSession().createSQLQuery("update mobile_client set token = '" + token + "', last_login = now() where id = " + mobileClientId).executeUpdate();
+    public void updateToken(Integer mobileClientId, String token, String pushToken, Integer version, String lang, String os) {
+        StringBuilder query = new StringBuilder("update mobile_client set token = '" + token + "', last_login = now()");
+        
+        if(pushToken != null){
+            query.append(", push_token = '" + pushToken + "'");
+        }
+        
+        if(version != null){
+            query.append(", version = " + version);
+        }
+        
+        if(lang != null){
+            query.append(", lang = '" + lang + "'");
+        }
+         
+        if(os != null){
+            query.append(", os = '" + os + "'");
+        }
+        
+        query.append( " where id = " + mobileClientId );
+        
+        System.out.println("MobileClientDAO.updateToken:: query = " + query);
+        
+        HibernateUtil.getSession().createSQLQuery( query.toString() ).executeUpdate();
     }
     
     //TODO when the new app be stable, we should also validate the clientID, 
@@ -165,4 +196,5 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
            return false;
        } 
     }
+     
 }

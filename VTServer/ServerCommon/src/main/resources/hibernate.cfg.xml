@@ -74,5 +74,6 @@ License Type: Purchased
     <mapping resource="ormmapping/com/smartbt/girocheck/servercommon/model/BalanceInquiryLog.hbm.xml"/>
     <mapping resource="ormmapping/com/smartbt/girocheck/servercommon/model/IDImagePng.hbm.xml"/>
     <mapping resource="ormmapping/com/smartbt/girocheck/servercommon/model/CheckBlacklistRule.hbm.xml"/>
+    <mapping resource="ormmapping/com/smartbt/girocheck/servercommon/model/MobileNotification.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

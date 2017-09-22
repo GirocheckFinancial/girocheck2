@@ -19,6 +19,11 @@
                 
                 <property name="token" column="token" type="string" length="100"  lazy="false"/>
                 <property name="lastLogin" column="last_login" type="timestamp" lazy="false"/>
+                
+                <property name="pushToken" column="push_token" type="string" length="100"  lazy="false"/>
+                <property name="version" column="version" type="integer" length="100"  lazy="false"/>
+                <property name="lang" column="lang" type="string" length="20"  lazy="false"/> 
+                <property name="allowNotifications" column="allow_notifications" type="boolean" length="20"  lazy="false"/>
             </class>      
   
     </hibernate-mapping>

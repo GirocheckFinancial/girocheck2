@@ -42,6 +42,9 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         excludedURLs.put("optOut", "");
         excludedURLs.put("updateMerchantCoordinates", "");
         
+        //just for dev
+        excludedURLs.put("listNotifications", "");
+        
         //TODO remove this 
         excludedURLs.put("listMerchants", "");
     }

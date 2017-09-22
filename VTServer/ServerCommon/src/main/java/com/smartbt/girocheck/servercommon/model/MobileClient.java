@@ -1,18 +1,14 @@
 package com.smartbt.girocheck.servercommon.model;
-
-import java.io.Serializable;
+ 
 import java.sql.Timestamp;
-import java.util.Date;
-import javax.xml.bind.annotation.XmlRootElement;
-
-
+import java.util.Date; 
 /**
  *
  * @author suresh
  */
 
 //@XmlRootElement
-public class MobileClient implements Serializable {
+public class MobileClient extends BaseEntity{
     public MobileClient(){
         
     }
@@ -35,7 +31,11 @@ public class MobileClient implements Serializable {
      
      private String password;  
      private String token;  
+     private String pushToken;  
+     private Integer version;  
+     private String lang;   
      private Date lastLogin;  
+     private Boolean allowNotifications;  
      
       
 
@@ -202,6 +202,64 @@ public class MobileClient implements Serializable {
      */
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    /**
+     * @return the pushToken
+     */
+    public String getPushToken() {
+        return pushToken;
+    }
+
+    /**
+     * @param pushToken the pushToken to set
+     */
+    public void setPushToken(String pushToken) {
+        this.pushToken = pushToken;
+    }
+
+    
+    /**
+     * @return the lang
+     */
+    public String getLang() {
+        return lang;
+    }
+
+    /**
+     * @param lang the lang to set
+     */
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    /**
+     * @return the allowNotifications
+     */
+    public Boolean getAllowNotifications() {
+        return allowNotifications;
+    }
+
+    /**
+     * @param allowNotifications the allowNotifications to set
+     */
+    public void setAllowNotifications(Boolean allowNotifications) {
+        this.allowNotifications = allowNotifications;
+    }
+ 
+
+    /**
+     * @return the version
+     */
+    public Integer getVersion() {
+        return version;
+    }
+
+    /**
+     * @param version the version to set
+     */
+    public void setVersion(Integer version) {
+        this.version = version;
     }
      
     

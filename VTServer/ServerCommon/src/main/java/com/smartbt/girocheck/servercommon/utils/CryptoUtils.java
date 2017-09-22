@@ -1,6 +1,7 @@
 package com.smartbt.girocheck.servercommon.utils;
 
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import javax.crypto.BadPaddingException;
@@ -8,6 +9,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.ValidationException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -33,6 +35,18 @@ public class CryptoUtils {
     
     public static void main(String[] args){
         System.out.println( encrypt("501929181"));
+    }
+    
+      public static String encryptPassword(String password) throws NoSuchAlgorithmException {
+        if(password == null)return "";
+        MessageDigest mDigest = MessageDigest.getInstance("SHA-1");
+        byte[] result = mDigest.digest(password.getBytes());
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
+
+        return sb.toString(); 
     }
 
     public static String encrypt(String plainText, String key) {

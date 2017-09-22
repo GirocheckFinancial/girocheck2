@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <!--<parent>-->
-<!--        <groupId>com.smartbt.girocheck</groupId>
+    <!--        <groupId>com.smartbt.girocheck</groupId>
         <artifactId>VTServer</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>-->
@@ -113,14 +113,31 @@
             <groupId>org.aioobe.cloudconvert</groupId>
             <artifactId>client</artifactId>
             <version>1.0</version>
-            <type>jar</type>
+            <type>jar</type> 
+        </dependency>
+         
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+            <version>2.5.1</version>
         </dependency>
         <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>2.5.1</version>
+        </dependency> 
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+        <!-- This creates some conflict with Jersey libs -->
+<!--        <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-rs-client</artifactId>
             <version>3.0.0-milestone1</version>
             <type>jar</type>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -180,5 +197,5 @@
             <version>4.5.2</version>
             <type>jar</type>
         </dependency>
-    </dependencies>
+    </dependencies> 
 </project>

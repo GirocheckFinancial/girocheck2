@@ -18,7 +18,6 @@ package com.smartbt.vtsuite.controller.v1;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
 import com.smartbt.girocheck.servercommon.display.mobile.MobileClientDisplay;
 import com.smartbt.girocheck.servercommon.utils.PasswordUtil;
-import com.smartbt.girocheck.servercommon.utils.Utils;
 import static com.smartbt.vtsuite.controller.v1.GeneralController.LANG;
 import static com.smartbt.vtsuite.controller.v1.GeneralController.TOKEN;
 import com.smartbt.vtsuite.manager.AuthManager;
@@ -40,7 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController 
 @RequestMapping("/v1/auth")
-public class AuthController {
+public class AuthController { 
     
     @Autowired
     AuthManager authManager;
@@ -50,23 +49,26 @@ public class AuthController {
     
     @RequestMapping(value = "/ping", method = RequestMethod.GET)
     public String ping() throws Exception {
-        
+        System.out.println("PING");
         return "PING!!";
     }
-   
+ 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseData login(@RequestBody LinkedHashMap params, HttpSession session) throws Exception {
         String username = (String) params.get("username");
         String password = (String) params.get("password");
-        
-        System.out.println("username = " + username + ", password = " + password);
+        String pushToken = (String) params.get("pushToken");
+        Integer version = (Integer) params.get("version");
+        String os = (String) params.get("os");
+         
+        System.out.println("version = " + version + ", pushToken = " + pushToken);
          
         String token = (String)session.getAttribute(TOKEN); 
         String lang = (String)session.getAttribute(LANG); 
         
         ResponseData response = ResponseData.OK();
         String encryptPassword = PasswordUtil.encryptPassword(password);
-        MobileClientDisplay mobileClient = authManager.getMobileClientDisplayByUserAndPassword(username, encryptPassword, token);
+        MobileClientDisplay mobileClient = authManager.getMobileClientDisplayByUserAndPassword(username, encryptPassword, token, pushToken, version,lang, os );
         
         if (mobileClient == null) {
             System.out.println("mobileClient = null");

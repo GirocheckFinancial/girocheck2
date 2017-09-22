@@ -17,8 +17,7 @@ package com.smartbt.vtsuite.controller.v1;
 
 import com.smartbt.girocheck.servercommon.dao.MerchantDAO;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
-import com.smartbt.girocheck.servercommon.display.mobile.MobileMerchantDisplay;
-import com.smartbt.girocheck.servercommon.utils.Utils;
+import com.smartbt.girocheck.servercommon.display.mobile.MobileMerchantDisplay; 
 import java.util.LinkedHashMap;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,12 +58,13 @@ public class GeneralController {
         String email = (String) params.get("email");
         String phone = (String) params.get("phone");
         String cardNumber = (String) params.get("cardNumber");
-        
-        //This field is for future developments
-        String promoCode = (String) params.get("promoCode");
-        
+        String pushToken = (String) params.get("pushToken");
+        Integer version  = (Integer) params.get("version");
+        String os = (String) params.get("os");
+         
         //TODO Leave just card when the new version be stable
         String card = (String) params.get("card");
+         
         
         if(card != null && !card.isEmpty()){
             cardNumber = card;
@@ -83,7 +83,7 @@ public class GeneralController {
         String lang = (String)session.getAttribute(LANG);
         String token = (String)session.getAttribute(TOKEN);
         
-        return regManager.register(username, password, ssn, email, phone, cardNumber, token, lang);
+        return regManager.register(username, password, ssn, email, phone, cardNumber, token, lang,pushToken, version, os);
     }
 
     @RequestMapping(value = "/replaceCard", method = RequestMethod.POST)
@@ -155,10 +155,10 @@ public class GeneralController {
         return regManager.forgotPassword(maskSSN, cardNumber, sendBy, code, token, lang);
     }
 
-    @RequestMapping(value = "/updateMerchantCoordinates", method = RequestMethod.GET)
-    public String updateMerchantCoordinates(){
-        return MerchantDAO.get().updateMerchantCoordinates();
-    }
+//    @RequestMapping(value = "/updateMerchantCoordinates", method = RequestMethod.GET)
+//    public String updateMerchantCoordinates(){
+//        return MerchantDAO.get().updateMerchantCoordinates();
+//    }
     
     @RequestMapping(value = "/listMerchants", method = RequestMethod.GET)
     public List<MobileMerchantDisplay> listMerchantsForMobile(){

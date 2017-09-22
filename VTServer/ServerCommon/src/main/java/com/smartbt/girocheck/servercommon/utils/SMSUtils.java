@@ -30,8 +30,7 @@ public class SMSUtils {
         String API_KEY = System.getProperty("SMS_API_KEY");
         String API_SECRET = System.getProperty("SMS_API_SECRET");
          
-        HttpPost postRequest = new HttpPost(url);
-        ObjectMapper mapper = new ObjectMapper();
+        HttpPost postRequest = new HttpPost(url); 
  
         try { 
             String request = "{\"toList\" :[\""
