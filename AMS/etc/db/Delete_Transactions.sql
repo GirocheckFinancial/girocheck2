@@ -1,0 +1,3 @@
+﻿delete from transactional.transaction_fee_allocation;
+delete from transactional.distributor_transaction_fee_allocation;
+delete from transactional.transaction;
