@@ -70,12 +70,10 @@ public class AuthController {
         String encryptPassword = PasswordUtil.encryptPassword(password);
         MobileClientDisplay mobileClient = authManager.getMobileClientDisplayByUserAndPassword(username, encryptPassword, token, pushToken, version,lang, os );
         
-        if (mobileClient == null) {
-            System.out.println("mobileClient = null");
+        if (mobileClient == null) { 
             response.setStatus(Constants.CODE_INVALID_USER);
             response.setStatusMessage(MobileMessage.INVALID_LOGIN_CREDENTIALS.get(lang));
-        } else {            
-             System.out.println("mobileClient has value");
+        } else {             
             mobileClient.setToken(token);            
             String balance = transactionManager.balanceInquiry(mobileClient.getCard(), mobileClient.getToken());
             mobileClient.setBalance(balance);

@@ -26,10 +26,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class WebResponseData<T> extends WebResponse implements Serializable {
 
     private T data;
+
     /**
      * The default constructor
      */
-    public WebResponseData() { 
+    public WebResponseData() {
     }
 
     public WebResponseData(T data) {
@@ -40,9 +41,14 @@ public class WebResponseData<T> extends WebResponse implements Serializable {
         super(status, statusMessage);
     }
 
-     public static WebResponseData toLoginFail(){
-      return new WebResponseData(401, "Invalid Login credentials");
+    public static WebResponseData toLoginFail() {
+        return new WebResponseData(401, "Invalid Login credentials");
     }
+
+    public static WebResponseData forException(Exception e) {
+        return new WebResponseData(500, e.getMessage());
+    }
+
     /**
      *
      * @return
@@ -51,7 +57,7 @@ public class WebResponseData<T> extends WebResponse implements Serializable {
         return data;
     }
 
-    public void setData( T data ) {
+    public void setData(T data) {
         this.data = data;
     }
 

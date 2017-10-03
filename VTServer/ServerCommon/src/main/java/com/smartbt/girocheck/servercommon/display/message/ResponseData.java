@@ -15,8 +15,7 @@
  */
 package com.smartbt.girocheck.servercommon.display.message;
 
-import com.smartbt.girocheck.common.VTSuiteMessages;
-import com.smartbt.girocheck.servercommon.enums.ResultCode;
+import com.smartbt.girocheck.common.VTSuiteMessages; 
 import com.smartbt.vtsuite.vtcommon.Constants;
 import javax.xml.bind.annotation.XmlRootElement;
 

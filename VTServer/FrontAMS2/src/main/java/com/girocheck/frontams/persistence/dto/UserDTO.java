@@ -10,7 +10,7 @@ public class UserDTO implements Serializable {
     private static DateFormat dateDF = new SimpleDateFormat("MM/dd/yyyy");
     private int id;
 
-    private String name;
+    private String firstName;
 
     private String lastName;
 
@@ -37,21 +37,7 @@ public class UserDTO implements Serializable {
         return "";
     }
 
-     
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    
     public String getLastName() {
         return lastName;
     }
@@ -187,6 +173,20 @@ public class UserDTO implements Serializable {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * @return the firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    /**
+     * @param firstName the firstName to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
  
 

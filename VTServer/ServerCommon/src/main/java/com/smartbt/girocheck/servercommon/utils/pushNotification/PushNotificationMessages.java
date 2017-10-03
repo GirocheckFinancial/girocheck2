@@ -11,11 +11,13 @@ package com.smartbt.girocheck.servercommon.utils.pushNotification;
  */
 public enum PushNotificationMessages {
     WELCOME_TITLE("Welcome to VoltCash", "Bienvenido a VoltCash"),
-    WELCOME_MSG(" we are pleased to have you as a new VoltCash customer.", " nos complace tenerlo como nuevo cliente de VoltCash."),
+    WELCOME_TEXT(" we are pleased to have you as a new VoltCash customer.", " nos complace tenerlo como nuevo cliente de VoltCash."),
     
     CARD_LOAD_TITLE("VoltCash card load", "VoltCash monto adicionado"),
-    CARD_LOAD_MSG("An amount of [amount] was added to your ColtCash credit card", "Un monto de [amount] fue adicionado a su tarjeta VoltCash");
+    CARD_LOAD_TEXT("An amount of [amount] was added to your ColtCash credit card", "Un monto de [amount] fue adicionado a su tarjeta VoltCash"),
     
+    NEW_MESSAGE_TITLE("New VoltCash message", "Nuevo mensaje de VoltCash");
+   
     private String en;
     private String es;
 

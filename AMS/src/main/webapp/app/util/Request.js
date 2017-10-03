@@ -77,8 +77,8 @@ Ext.define('Admin.util.Request', {
             options.customSuccess(responseAsJson);
         } 
     },
-    onRequestexception: function (conn, response, options, eOpts) {
-        
-        alert('Exception');
+    onRequestexception: function (conn, response, options, eOpts) {  
+        console.debug(response);
+        Ext.GlobalEvents.fireEvent('logOut');
     }
 });

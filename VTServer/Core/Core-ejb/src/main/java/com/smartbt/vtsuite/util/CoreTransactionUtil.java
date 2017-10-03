@@ -303,7 +303,10 @@ public class CoreTransactionUtil {
                 
                 MobileClient mobileClient = MobileClientDao.get().getMobileClientByClient(client.getId());
                 
-                if(mobileClient != null && mobileClient.getAllowNotifications() && mobileClient.getPushToken() != null){
+                if(mobileClient != null
+                        && mobileClient.getAllowNotifications() != null
+                        && mobileClient.getAllowNotifications() 
+                        && mobileClient.getPushToken() != null){
                     PushNotificationManager.sendCardLoadMessage(mobileClient.getDeviceType(), mobileClient.getPushToken(), mobileClient.getLang(), transaction.getAmmount());
                 }else{
                      System.out.println("PN could not send the msg");

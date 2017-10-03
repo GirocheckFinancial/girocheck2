@@ -50,6 +50,7 @@ public class Client extends BaseEntity{
 	private String idBeneficiary;
         
         private Boolean excludeSms;
+        private Boolean isMobileClient;
                 
         
 	
@@ -299,6 +300,20 @@ public class Client extends BaseEntity{
      */
     public void setBlackListAll(Boolean blackListAll) {
         this.blackListAll = blackListAll;
+    }
+
+    /**
+     * @return the isMobileClient
+     */
+    public Boolean getIsMobileClient() {
+        return isMobileClient;
+    }
+
+    /**
+     * @param isMobileClient the isMobileClient to set
+     */
+    public void setIsMobileClient(Boolean isMobileClient) {
+        this.isMobileClient = isMobileClient;
     }
         	
 }

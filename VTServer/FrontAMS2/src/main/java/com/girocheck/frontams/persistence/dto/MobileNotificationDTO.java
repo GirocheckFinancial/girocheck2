@@ -1,16 +1,16 @@
-package com.smartbt.girocheck.servercommon.model;
- 
+package com.girocheck.frontams.persistence.dto;
+
+import java.io.Serializable; 
 /**
  *
  * @author suresh
  */
 
 //@XmlRootElement
-public class MobileNotification extends BaseEntity{ 
+public class MobileNotificationDTO implements Serializable { 
      private int id;
     
-     private com.smartbt.girocheck.servercommon.model.MobileClient mobileClient;
-    
+     private int  mobileClient; 
      private String title; 
      private String text;
      private Boolean seenByUser;   
@@ -29,24 +29,7 @@ public class MobileNotification extends BaseEntity{
     public void setId(int id) {
         this.id = id;
     }
-
-    /**
-     * @return the mobileClient
-     */
-    public com.smartbt.girocheck.servercommon.model.MobileClient getMobileClient() {
-        return mobileClient;
-    }
-
-    /**
-     * @param mobileClient the mobileClient to set
-     */
-    public void setMobileClient(com.smartbt.girocheck.servercommon.model.MobileClient mobileClient) {
-        this.mobileClient = mobileClient;
-    }
-
-    /**
-     * @return the title
-     */
+ 
     public String getTitle() {
         return title;
     }
@@ -98,6 +81,20 @@ public class MobileNotification extends BaseEntity{
      */
     public void setCreationDate(java.util.Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    /**
+     * @return the mobileClient
+     */
+    public int getMobileClient() {
+        return mobileClient;
+    }
+
+    /**
+     * @param mobileClient the mobileClient to set
+     */
+    public void setMobileClient(int mobileClient) {
+        this.mobileClient = mobileClient;
     }
       
      

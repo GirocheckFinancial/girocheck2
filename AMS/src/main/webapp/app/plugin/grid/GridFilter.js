@@ -28,11 +28,11 @@ Ext.define('Ext.ux.grid.GridFilter', {
 
         var me = this;
         grid.relayEvents(grid.getStore(), ['viewready', 'load', 'beforeload', 'sortchange']);
-        grid.addListener('beforeload', me.onBeforeLoad);
+        grid.addListener('beforeload', me.onBeforeLoad); 
     },
     onBeforeLoad: function (store, operation, eOpts) {
         var me = this,
                 searchParams = me.getParams(); 
         me.getStore().proxy.extraParams = {params: searchParams};
-    }
+    } 
 });

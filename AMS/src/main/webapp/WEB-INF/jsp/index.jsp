@@ -94,7 +94,11 @@
             .x-treelist-row{
                 padding-left: 0px!important;
             }
- 
+
+            .innerPanel .x-panel-header-default {
+                background-color: grey!important;
+            }
+
         </style>
 
 

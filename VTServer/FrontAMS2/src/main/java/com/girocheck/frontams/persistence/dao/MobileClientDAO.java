@@ -1,7 +1,6 @@
 package com.girocheck.frontams.persistence.dao;
 
-import com.girocheck.frontams.common.dao.AbstractBaseDAO;
-import com.girocheck.frontams.persistence.dto.ClientDTO;
+import com.girocheck.frontams.common.dao.AbstractBaseDAO; 
 import com.girocheck.frontams.persistence.dto.MobileClientDTO; 
 import com.smartbt.girocheck.servercommon.model.MobileClient;
 import org.hibernate.Criteria;
@@ -39,5 +38,5 @@ public class MobileClientDAO extends AbstractBaseDAO<MobileClient, MobileClientD
         criteria.setProjection(projectionList)
                 .setResultTransformer(Transformers.aliasToBean(MobileClientDTO.class));
     }
-
+  
 }

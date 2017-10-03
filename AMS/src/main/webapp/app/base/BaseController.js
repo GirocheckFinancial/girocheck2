@@ -11,7 +11,7 @@ Ext.define('Admin.base.BaseController', {
         if (grid) {
             grid.getStore().load();
         }
-    },  
+    },
 //Cuando al Grid que esta en el SuperTab se le da click
 //Se actualiza el entityId del super tab y del Tab que este seleccionado en el SubPanel
 //y se recarga el grid el Tab seleccionado en el SubPanel
@@ -67,6 +67,10 @@ Ext.define('Admin.base.BaseController', {
         }
 
         me.openViewTab(data, grid);
+    },
+    openSingleView: function (cmp) {
+        var me = this;
+        me.openSigleViewTab(cmp.openView);
     },
     editGridRow: function (cmp) {
         //Usado por los botones de 'New' y 'Edit' del Toolbar
@@ -154,6 +158,22 @@ Ext.define('Admin.base.BaseController', {
                 me.getView().setActiveTab(newTab);
                 me.getView().down('#' + itemId).init(data);
             }
+        }
+    },
+    openSigleViewTab: function (xtype) {
+        var me = this,
+                itemId = me.getView().xtype + '_' + xtype,
+                existentTab = me.getView().down('#' + itemId);
+ 
+        if (existentTab) {
+            me.getView().setActiveTab(existentTab);
+        } else {
+            var newTab = {
+                itemId: itemId,
+                xtype: xtype,
+                closable: true
+            };
+            me.getView().setActiveTab(newTab);
         }
     }
 });

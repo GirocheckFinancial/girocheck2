@@ -87,42 +87,37 @@ public class RegistrationManager {
                 CreditCard card = CreditCardDAO.get().getCard(cardNumber);
 
                 // to crete new card if card does not exists
-                if (card == null) {
-                    System.out.println("[FrontMobile.RegistrationManager] Card didn't exist,throwing Exception...");
+                if (card == null) { 
                     throw new MobileValidationException(Constants.CARD_NOT_PERSONALIZED, MobileMessage.CARD_NOT_PERSONALIZED.get(lang));
-                } else {
-                    System.out.println("[FrontMobile.RegistrationManager] Card exist...");
-
-                    System.out.println("card.getClient().getFirstName() = " + card.getClient().getFirstName());
-                    System.out.println("card.getClient().getSsn() = " + card.getClient().getSsn());
-
+                } else { 
                     if (!ssn.equals(card.getClient().getSsn())) {
                         response.setStatusMessage(MobileMessage.CARD_BELONG_TO_ANOTHER_CLIENT.get(lang));
                         throw new MobileValidationException(Constants.CARD_BELONG_TO_ANOTHER_CLIENT, MobileMessage.CARD_BELONG_TO_ANOTHER_CLIENT.get(lang));
                     }
                 }
-
-                System.out.println("[FrontMobile.RegistrationManager] Creating Mobile Client...");
+ 
                 mobileClient = createMobileClient(username, password, card, client, token, pushToken, version, lang, os);
 
                 client.setEmail(email);
-                client.setTelephone(phone);
-                System.out.println("[FrontMobile.RegistrationManager] Saving Client...");
+                client.setTelephone(phone); 
+                client.setIsMobileClient(Boolean.TRUE);
                 ClientDAO.get().saveOrUpdate(client);
 
-                //consume balance enquiry 
-                System.out.println("[FrontMobile.RegistrationManager] calling balanceInquiry");
+                //consume balance enquiry  
                 String balance = transactionManager.balanceInquiry(cardNumber, token);
 
                 // To send details to Mobile application 
                 MobileClientDisplay mobileClientDisplay = new MobileClientDisplay();
                 mobileClientDisplay.setClientId(mobileClient.getId());
-                mobileClientDisplay.setClientName(mobileClient.getClient().getFirstName());
+                mobileClientDisplay.setClientName(client.getFirstName());
                 mobileClientDisplay.setClientEmail(client.getEmail());
                 mobileClientDisplay.setClientPhone(client.getTelephone());
+                mobileClientDisplay.setExcludeSMS(client.getExcludeSms());
                 mobileClientDisplay.setMobileClientUserName(mobileClient.getUserName());
                 mobileClientDisplay.setBalance(balance);
                 mobileClientDisplay.setToken(token); 
+                mobileClientDisplay.setAllowNotifications(Boolean.TRUE);
+                mobileClientDisplay.setUnreadNotifications(0L);
 
                 response.setData(mobileClientDisplay);
 
@@ -366,6 +361,7 @@ public class RegistrationManager {
         mobileClient.setPushToken(pushToken);
         mobileClient.setVersion(version);
         mobileClient.setLang(lang); 
+        mobileClient.setAllowNotifications(Boolean.TRUE);
 
         MobileClientDao.get().saveOrUpdate(mobileClient);
         

@@ -6,12 +6,10 @@ package com.smartbt.girocheck.servercommon.dao;
 
 import com.smartbt.girocheck.servercommon.dao.BaseDAO;
 import com.smartbt.girocheck.servercommon.display.mobile.MobileClientDisplay;
-import com.smartbt.girocheck.servercommon.model.CreditCard;
 import com.smartbt.girocheck.servercommon.model.MobileClient;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import java.util.Date;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -47,10 +45,12 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
 
         ProjectionList projectionList = Projections.projectionList()
                 .add(Projections.property("id").as("clientId"))
+                .add(Projections.property("allowNotifications").as("allowNotifications"))
                 .add(Projections.property("card.cardNumber").as("card"))
                 .add(Projections.property("client.firstName").as("clientName"))
                 .add(Projections.property("client.email").as("clientEmail"))
                 .add(Projections.property("client.telephone").as("clientPhone"))
+                .add(Projections.property("client.excludeSms").as("excludeSMS"))
                 .add(Projections.property("userName").as("mobileClientUserName"));
 
         criteria.setProjection(projectionList);
@@ -151,6 +151,7 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
         } 
     }
     
+    
     public void updateToken(Integer mobileClientId, String token, String pushToken, Integer version, String lang, String os) {
         StringBuilder query = new StringBuilder("update mobile_client set token = '" + token + "', last_login = now()");
         
@@ -167,7 +168,7 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
         }
          
         if(os != null){
-            query.append(", os = '" + os + "'");
+            query.append(", device_type = '" + os + "'");
         }
         
         query.append( " where id = " + mobileClientId );
@@ -195,6 +196,11 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
        }else{
            return false;
        } 
+    }
+    
+    public void updateAllowNotifications(int mobileClientId, Boolean allowNotifications){
+        String query = "update mobile_client set allow_notifications = " + allowNotifications + " where id = " + mobileClientId;
+        HibernateUtil.getSession().createSQLQuery( query ).executeUpdate();
     }
      
 }

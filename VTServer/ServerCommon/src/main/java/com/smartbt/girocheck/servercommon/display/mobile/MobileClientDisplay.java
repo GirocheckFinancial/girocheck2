@@ -19,8 +19,9 @@ public class MobileClientDisplay implements Serializable {
     private String clientPhone;
     private String mobileClientUserName;
     private Long unreadNotifications;
+    private Boolean allowNotifications;
     private Integer lastMobileVersion = 3;
-
+    private Boolean excludeSMS;
     /**
      * @return the card
      */
@@ -159,6 +160,34 @@ public class MobileClientDisplay implements Serializable {
      */
     public void setLastMobileVersion(Integer lastMobileVersion) {
         this.lastMobileVersion = lastMobileVersion;
+    }
+
+    /**
+     * @return the excludeSMS
+     */
+    public Boolean getExcludeSMS() {
+        return excludeSMS;
+    }
+
+    /**
+     * @param excludeSMS the excludeSMS to set
+     */
+    public void setExcludeSMS(Boolean excludeSMS) {
+        this.excludeSMS = excludeSMS;
+    }
+
+    /**
+     * @return the allowNotifications
+     */
+    public Boolean getAllowNotifications() {
+        return allowNotifications;
+    }
+
+    /**
+     * @param allowNotifications the allowNotifications to set
+     */
+    public void setAllowNotifications(Boolean allowNotifications) {
+        this.allowNotifications = allowNotifications;
     }
 
     

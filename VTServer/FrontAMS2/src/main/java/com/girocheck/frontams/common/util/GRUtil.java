@@ -41,9 +41,13 @@ public class GRUtil {
     }
 
     public static Map<String, Object> parseParams(String paramsStr) {
-        paramsStr = paramsStr.replaceAll("%20", " ");
-        
         Map<String, Object> params = new HashMap<>();
+        
+        if(paramsStr == null){
+            return params;
+        }
+        paramsStr = paramsStr.replaceAll("%20", " ");
+         
         if (paramsStr != null && !paramsStr.isEmpty()) {
             String[] prefixValues = paramsStr.split("&");
             for (String prefixValue : prefixValues) {
@@ -72,6 +76,9 @@ public class GRUtil {
                 }
 
                 switch (prefix) {
+                    case "(I)":
+                        map.put(key, Integer.parseInt(value));
+                        break;
                     case "(L)":
                         map.put(key, Long.parseLong(value));
                         break;

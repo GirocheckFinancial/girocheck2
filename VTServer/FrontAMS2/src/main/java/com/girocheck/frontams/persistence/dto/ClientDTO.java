@@ -39,6 +39,8 @@ public class ClientDTO implements Serializable {
 	private Boolean blacklistCard2bank; 
         
         private Boolean blackListAll;
+        
+        private Boolean isMobileClient;  
 	
 	
 
@@ -194,6 +196,20 @@ public class ClientDTO implements Serializable {
      */
     public void setMaskSSN(String maskSSN) {
         this.maskSSN = maskSSN;
+    }
+
+    /**
+     * @return the isMobileClient
+     */
+    public Boolean getIsMobileClient() {
+        return isMobileClient;
+    }
+
+    /**
+     * @param isMobileClient the isMobileClient to set
+     */
+    public void setIsMobileClient(Boolean isMobileClient) {
+        this.isMobileClient = isMobileClient;
     }
 	 
         

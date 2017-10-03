@@ -23,7 +23,7 @@ import org.hibernate.transform.Transformers;
  *
  * @author rrodriguez
  */
-public abstract class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T> {
+public class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T> {
 
     public Criteria buildCriteria() {
         return getCriteria();
@@ -48,6 +48,11 @@ public abstract class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T
         result.put("TotalCount", total);
         return result;
     }
+     
+    //The Criteria should already contain the ProjectionList and the transformer DTO class
+    public List<D> list(Criteria criteria, Map<String, Object> params) {
+       return buildCriteriaWithParams( criteria, params).list(); 
+    }
 
     public List<NomenclatorDTO> nomenclatorList(Map<String, Object> params) {
         Criteria criteria = buildCriteria(params);
@@ -57,9 +62,11 @@ public abstract class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T
         return criteria.list();
     }
 
-    protected Criteria buildCriteria(Map<String, Object> params) {
-        Criteria criteria = buildCriteria();
-
+    protected Criteria buildCriteria(Map<String, Object> params) { 
+        return buildCriteriaWithParams( buildCriteria(), params);
+    }
+     
+    protected Criteria buildCriteriaWithParams(Criteria criteria, Map<String, Object> params) { 
         Iterator<Entry<String, Object>> entries = params.entrySet().iterator();
 
         while (entries.hasNext()) {
@@ -95,7 +102,7 @@ public abstract class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T
         applyListProjection(criteria); // override this method if need different projection
     }
 
-    protected abstract void applyListProjection(Criteria criteria); 
+    protected void applyListProjection(Criteria criteria) { } // override this method if need different projection
 
     public void addOrder(Criteria criteria) {
         //Override this if need to add Order to the list

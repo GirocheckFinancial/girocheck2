@@ -15,6 +15,8 @@
  */
 package com.smartbt.girocheck.servercommon.display.message;
 
+import com.smartbt.girocheck.common.VTSuiteMessages;
+import com.smartbt.vtsuite.vtcommon.Constants;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -33,6 +35,13 @@ public class BaseResponse implements Serializable {
      */
     protected String statusMessage;
 
+    public static BaseResponse OK() {
+        BaseResponse response = new BaseResponse();
+        response.setStatus(Constants.CODE_SUCCESS);
+        response.setStatusMessage(VTSuiteMessages.SUCCESS);
+        return response;
+    }
+
     /**
      * The default constructor
      */
@@ -43,8 +52,6 @@ public class BaseResponse implements Serializable {
         this.status = status;
         this.statusMessage = statusMessage;
     }
-    
-    
 
     /**
      *

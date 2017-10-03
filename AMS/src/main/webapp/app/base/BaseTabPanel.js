@@ -1,8 +1,6 @@
 Ext.define('Admin.base.BaseTabPanel', {
     extend: 'Ext.tab.Panel',
-    xtype: 'baseTabPanel',
-    requires: [
-    ], 
+    xtype: 'baseTabPanel', 
     style: {
         borderColor: '#808080',
         borderStyle: 'solid',

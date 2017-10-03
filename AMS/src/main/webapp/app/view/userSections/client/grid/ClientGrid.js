@@ -3,7 +3,7 @@ Ext.define('Admin.view.clientSections.client.grid.ClientGrid', {
     alias: 'widget.clientGrid',
     columns: {
         defaults: {
-            width: '10%',
+            width: '9%',
             align: 'center'
         },
         items: [
@@ -11,14 +11,11 @@ Ext.define('Admin.view.clientSections.client.grid.ClientGrid', {
                 xtype: 'idGridColumn'
             },
             {
-                text: "First Name",
-                dataIndex: 'firstName',
-                width: '12%'
+                xtype: 'nameGridColumn'
             },
             {
                 text: "Last Name",
-                dataIndex: 'lastName',
-                width: '12%'
+                dataIndex: 'lastName' 
             },
             {
                 text: "Phone",
@@ -26,36 +23,42 @@ Ext.define('Admin.view.clientSections.client.grid.ClientGrid', {
             },
             {
                 text: "Email",
-                dataIndex: 'email',
-                width: '12%'
+                dataIndex: 'email' 
             },
             {
                 xtype: 'creationDateGridColumn',
-                dataIndex: 'createdAt',
-                width: '12%'
+                dataIndex: 'createdAt', 
+                filterType:'noFilter'
             },
             {
                 text: "Loads",
-                dataIndex: 'successfulLoads'
+                dataIndex: 'successfulLoads',
+                filterType:'filterInteger'
             },
             {
-                xtype:'maskGridColumn',
+                xtype: 'maskGridColumn',
                 text: "SSN",
                 dataIndex: 'maskSSN'
             },
-            {
-                xtype: 'booleanGridColumn',
-                trueVal: 'Blocked',
-                falseVal: '-',
-                text: "C2Bank BL",
-                dataIndex: 'blacklistCard2bank'
+            {  
+                text: "Block C2B",
+                dataIndex: 'blacklistCard2bank',
+                filterType:'filterBoolean'
             },
-            {
-                xtype: 'booleanGridColumn',
-                trueVal: 'Blocked',
-                falseVal: '-',
-                text: "All BL",
-                dataIndex: 'blackListAll'
+            { 
+                text: "Block All",
+                dataIndex: 'blackListAll',
+                filterType:'filterBoolean'
+            },
+            { 
+                text: 'Mobile', 
+                dataIndex: 'isMobileClient',
+                filterType:'filterBoolean'
+            },
+            { 
+                text: 'Active', 
+                dataIndex: 'active',
+                filterType:'filterBoolean'
             }
         ]
     }

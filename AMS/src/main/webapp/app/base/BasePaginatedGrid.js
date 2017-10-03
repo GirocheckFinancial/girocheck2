@@ -14,8 +14,8 @@ Ext.define('Admin.base.BasePaginatedGrid', {
     openViewFilters: null,
     openViewTab: null, //Tab to open when doubleclick the grid 
     //(if not specified, it will be deduced from the grid's name)
-    requires:[
-      'Admin.cmp.gridFilter.FilterDate'  
+    requires: [
+        'Admin.cmp.gridFilter.FilterDate'
     ],
     style: {
         borderColor: '#808080',
@@ -39,14 +39,13 @@ Ext.define('Admin.base.BasePaginatedGrid', {
     },
     initComponent: function () {
         var me = this;
-
         Ext.apply(this,
                 {
                     bbar: {
                         xtype: 'pagingtoolbar',
                         store: me.getStore(),
-                        displayInfo: false,
-                        displayMsg: 'View {0} - {1} of {2} and {4}',
+                        displayInfo: true,
+                        displayMsg: 'View {0} - {1} of {2}',
                         emptyMsg: "No records to display&nbsp;",
                         style: {
                             color: '#555555',
@@ -62,31 +61,24 @@ Ext.define('Admin.base.BasePaginatedGrid', {
                         }
                     }
                 });
-
-        me.columns.items.forEach(function (column) { 
+        me.columns.items.forEach(function (column) {
             column.items = [{
                     xtype: column.filterType || 'filterText'
                 }];
-        });  
-
-        me.callParent(arguments);  //important call this before set store and Model
+        });
+        me.callParent(arguments); //important call this before set store and Model
 
         //_______________ Setting Store and Model _______________ 
 
         var fields = [];
-
         Ext.each(me.columns, function (item) {
             fields.push({name: item.dataIndex});
         }, this);
-
         var model = Ext.create('Admin.base.BaseModel', {
             fields: fields
         });
-
         var container = me.up().isShowingOnBottom() ? me.up().up().up().up() : me.up().up(),
                 pageId = container.xtype;
-
-
         var store = Ext.create('Admin.base.BaseStore', {
             model: model,
             proxy: {// Need to declare the proxy here to make the Store singlenton
@@ -107,7 +99,7 @@ Ext.define('Admin.base.BasePaginatedGrid', {
             }
         });
         me.setStore(store);
-    },
+    }, 
     plugins: [
         {ptype: "gridFilter"},
 //        {ptype: "gridMultipageSelection"}
@@ -115,16 +107,13 @@ Ext.define('Admin.base.BasePaginatedGrid', {
     getParams: function () {
         var me = this,
                 searchParams = me.up().getFilters();
-
         me.columns.forEach(function (column) {
             var cmp = column.items.items[0];
             var val = cmp.getValue();
-
             if (val) {
                 searchParams += '&' + (column.filter || column.dataIndex) + "=" + cmp.prefix + val;
             }
         });
-         
         return searchParams;
     }
 });

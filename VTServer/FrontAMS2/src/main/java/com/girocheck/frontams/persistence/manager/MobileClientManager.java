@@ -35,6 +35,5 @@ public class MobileClientManager extends AbstractManager<MobileClient, MobileCli
     @Override
     protected MobileClient create(Map<String, Object> data) throws Exception {
         return new MobileClient();  
-    }
- 
+    } 
 }

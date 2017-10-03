@@ -20,6 +20,7 @@ public class MobileClientDTO implements Serializable {
     }
 
     private int id;
+    private int clientId;
 
     private String firstName;
 
@@ -28,12 +29,16 @@ public class MobileClientDTO implements Serializable {
     private String telephone;
 
     private String email;
-    private String deviceType; 
+    
     private java.util.Date registrationDate;
+    
     private Integer version;
-    private String lang; 
+    
     private Date lastLogin;
-
+    
+    private String deviceType; 
+    private String lang; 
+    private String pushToken; 
     /**
      * @return the id
      */
@@ -172,6 +177,34 @@ public class MobileClientDTO implements Serializable {
      */
     public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    /**
+     * @return the pushToken
+     */
+    public String getPushToken() {
+        return pushToken;
+    }
+
+    /**
+     * @param pushToken the pushToken to set
+     */
+    public void setPushToken(String pushToken) {
+        this.pushToken = pushToken;
+    }
+
+    /**
+     * @return the clientId
+     */
+    public int getClientId() {
+        return clientId;
+    }
+
+    /**
+     * @param clientId the clientId to set
+     */
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
     
     

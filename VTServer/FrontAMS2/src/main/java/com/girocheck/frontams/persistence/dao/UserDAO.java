@@ -20,14 +20,14 @@ public class UserDAO extends AbstractBaseDAO<User, UserDTO> {
     }
 
     public void addOrder(Criteria criteria) {
-        criteria.addOrder(Order.asc("name"));
+        criteria.addOrder(Order.asc("firstName"));
     } 
 
     @Override
     public void applyListProjection(Criteria criteria) {
         ProjectionList projectionList = Projections.projectionList()
                 .add(Projections.property("id").as("id"))
-                .add(Projections.property("firstName").as("name"))
+                .add(Projections.property("firstName").as("firstName"))
                 .add(Projections.property("lastName").as("lastName"))
                 .add(Projections.property("username").as("username"))
                 .add(Projections.property("password").as("password"))  

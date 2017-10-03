@@ -11,29 +11,33 @@ Ext.define('Admin.view.clientSections.client.grid.MobileClientGrid', {
                 xtype: 'idGridColumn'
             },
             {
-                text: "First Name",
-                dataIndex: 'firstName' 
+                xtype:'nameGridColumn',
+                filter:'client.firstName'
             },
             {
                 text: "Last Name",
-                dataIndex: 'lastName' 
+                dataIndex: 'lastName',
+                filter:'client.lastName' 
             },
             {
                 text: "Phone",
-                dataIndex: 'telephone'
+                dataIndex: 'telephone',
+                filter:'client.telephone'
             },
             {
                 text: "Email",
-                dataIndex: 'email'
+                dataIndex: 'email',
+                filter:'client.email'
             },
             {
                 xtype: 'creationDateGridColumn',
-                dataIndex: 'registrationDate' 
+                dataIndex: 'registrationDate',
+                filterType:'noFilter'
             },
             {
                 text: "Version",
                 dataIndex: 'version',
-                width: '10%'
+                filterType:'filterInteger'
             },
             { 
                 text: "Lang",
@@ -46,7 +50,8 @@ Ext.define('Admin.view.clientSections.client.grid.MobileClientGrid', {
             {
                 xtype: 'creationDateGridColumn',
                 dataIndex: 'lastLogin',
-                text: "Last Login"
+                text: "Last Login",
+                filterType:'noFilter'
             } 
         ]
     }
