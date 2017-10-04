@@ -9,14 +9,13 @@ import com.smartbt.girocheck.servercommon.model.BaseEntity;
 import com.girocheck.frontams.common.dto.ListRequestDTO;
 import com.girocheck.frontams.common.dto.NomenclatorDTO;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.hibernate.transform.Transformers;
 
 /**
@@ -30,7 +29,7 @@ public class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T> {
     }
 
     public Map pageList(ListRequestDTO request) {
-        Criteria criteria = buildCriteria(request.getParams())
+        Criteria criteria = buildCriteria(request.getExpressions())
                 .setFirstResult(request.getStart());
 
         if (request.getLimit() != 0) {
@@ -44,42 +43,44 @@ public class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T> {
         Map result = new HashMap();
         result.put("List", criteria.list());
         result.put("page", request.getPage());
-        Long total = (Long) buildCriteria(request.getParams()).setProjection(Projections.rowCount()).uniqueResult();
+        Long total = (Long) buildCriteria(request.getExpressions()).setProjection(Projections.rowCount()).uniqueResult();
         result.put("TotalCount", total);
         return result;
     }
-     
+
     //The Criteria should already contain the ProjectionList and the transformer DTO class
-    public List<D> list(Criteria criteria, Map<String, Object> params) {
-       return buildCriteriaWithParams( criteria, params).list(); 
+    public List<D> list(Criteria criteria,List<SimpleExpression> expressions) {
+        return buildCriteriaWithParams(criteria, expressions).list();
     }
 
-    public List<NomenclatorDTO> nomenclatorList(Map<String, Object> params) {
-        Criteria criteria = buildCriteria(params);
+    public List<NomenclatorDTO> nomenclatorList(List<SimpleExpression> expressions) {
+        Criteria criteria = buildCriteria( expressions);
 
         applyNomenclatorProjection(criteria);
 
         return criteria.list();
     }
 
-    protected Criteria buildCriteria(Map<String, Object> params) { 
-        return buildCriteriaWithParams( buildCriteria(), params);
+    protected Criteria buildCriteria(List<SimpleExpression> expressions) {
+        return buildCriteriaWithParams(buildCriteria(), expressions);
     }
-     
-    protected Criteria buildCriteriaWithParams(Criteria criteria, Map<String, Object> params) { 
-        Iterator<Entry<String, Object>> entries = params.entrySet().iterator();
 
-        while (entries.hasNext()) {
-            Entry<String, Object> entry = entries.next();
-            System.out.println("Adding Restriction:: " + entry.getKey() + " = " + entry.getValue());
-            criteria.add(Restrictions.eq(entry.getKey(), entry.getValue()));
+    protected Criteria buildCriteriaWithParams(Criteria criteria, List<SimpleExpression> expressions) {
+        
+        for (SimpleExpression expression : expressions) {
+            criteria.add( expression );
         }
 
         return criteria;
     }
+ 
 
-    public D load(Map<String, Object> params) {
-        Criteria critera = buildCriteria(params);
+    public static void main(String[] args) {
+        System.out.println("[abc]itstarthere".substring("[abc]".indexOf("]") + 1));
+    }
+
+    public D load(List<SimpleExpression> expressions) {
+        Criteria critera = buildCriteria( expressions);
 
         applyLoadProjection(critera);
 
@@ -102,7 +103,8 @@ public class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T> {
         applyListProjection(criteria); // override this method if need different projection
     }
 
-    protected void applyListProjection(Criteria criteria) { } // override this method if need different projection
+    protected void applyListProjection(Criteria criteria) {
+    } // override this method if need different projection
 
     public void addOrder(Criteria criteria) {
         //Override this if need to add Order to the list

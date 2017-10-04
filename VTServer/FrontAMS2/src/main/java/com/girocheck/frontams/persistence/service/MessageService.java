@@ -23,6 +23,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.SimpleExpression;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,18 +88,18 @@ public class MessageService {
         criteria.setProjection(projectionList)
                 .setResultTransformer(Transformers.aliasToBean(ClientDTO.class));
 
-        Map<String, Object> params = new HashMap<>();
+       List<SimpleExpression> expressions = new ArrayList<>();
         if (unsendClientIds == null) {
-            params = messageDTO.getParamsMap();
+            expressions = messageDTO.getExpressions();
             //This is to avoid repeated messages
             criteria.add(Restrictions.eq("isMobileClient", false));
         } else {
             criteria.add(Restrictions.in("id", unsendClientIds));
         }
+ 
+        expressions.add(Restrictions.eq("active", true));
 
-        messageDTO.getParamsMap().put("active", true);
-
-        return clientDAO.list(criteria, params);
+        return clientDAO.list(criteria, expressions);
     }
 
     //Pure clients are the ones that are not Mobile Clients
@@ -139,23 +140,23 @@ public class MessageService {
                 .add(Projections.property("deviceType").as("deviceType"));
 
         String prefix = "client."; // isFromClientPage ? "" : 
-        Map<String, Object> formatedParams;
-        if (isFromClientPage) {
-            formatedParams = new HashMap<>();
-
-            Iterator<Map.Entry<String, Object>> it = messageDTO.getParamsMap().entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry<String, Object> entry = it.next();
-                formatedParams.put(prefix + entry.getKey(), entry.getValue());
-            }
+       // List<SimpleExpression> formattedExpressions = new ArrayList<>();
+        if (isFromClientPage) { 
+            //TODO Handle this in the view, in the Message page
+             
+//            Iterator<Map.Entry<String, Object>> it = messageDTO.getParamsMap().entrySet().iterator();
+//            while (it.hasNext()) {
+//                Map.Entry<String, Object> entry = it.next();
+//                formatedParams.put(prefix + entry.getKey(), entry.getValue());
+//            }
         } else {
-            formatedParams = messageDTO.getParamsMap();
+          //  formattedExpressions = messageDTO.getParamsMap();
         }
 
         criteria.setProjection(projectionList)
                 .setResultTransformer(Transformers.aliasToBean(MobileClientDTO.class));
 
-        List<MobileClientDTO> result = mobileClientDAO.list(criteria, formatedParams);
+        List<MobileClientDTO> result = mobileClientDAO.list(criteria, messageDTO.getExpressions());
 
         for (MobileClientDTO mobileClient : result) {
             if (mobileClient.getVersion() >= 3 && mobileClient.getPushToken() != null) {

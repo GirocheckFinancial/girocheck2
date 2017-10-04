@@ -13,6 +13,7 @@ import com.girocheck.frontams.common.dto.NomenclatorDTO;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.hibernate.criterion.SimpleExpression;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -26,12 +27,12 @@ public abstract class AbstractManager<T extends BaseEntity, D> {
         return dao().pageList(request);
     }
 
-    public List<NomenclatorDTO> nomenclatorList(Map<String, Object> params) { 
-        return dao().nomenclatorList(params);
+    public List<NomenclatorDTO> nomenclatorList(List<SimpleExpression> expressions) { 
+        return dao().nomenclatorList(expressions);
     }
 
-    public D load(Map<String, Object> params) {
-        D entity = (D) dao().load(params);
+    public D load(List<SimpleExpression> expressions) {
+        D entity = (D) dao().load(expressions);
         completeLoad(entity);
         return entity;
     }
@@ -48,7 +49,7 @@ public abstract class AbstractManager<T extends BaseEntity, D> {
 
     public abstract AbstractBaseDAO dao();
 
-    protected abstract T create(Map<String, Object> data) throws Exception;
+    protected T create(Map<String, Object> data) throws Exception{ return null;}
 
     protected void update(T entity, Map<String, Object> data) throws Exception{}
 

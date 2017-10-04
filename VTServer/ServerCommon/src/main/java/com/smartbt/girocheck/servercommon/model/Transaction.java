@@ -11,8 +11,7 @@
  */
 package com.smartbt.girocheck.servercommon.model;
 
-import com.smartbt.girocheck.servercommon.enums.TransactionType;
-import java.io.Serializable;
+import com.smartbt.girocheck.servercommon.enums.TransactionType; 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-public class Transaction implements Serializable {
+public class Transaction extends BaseEntity{
 
     public Transaction() {
     }

@@ -6,10 +6,9 @@
  */
 package com.girocheck.frontams.common.dto;
 
-import com.girocheck.frontams.common.util.GRUtil;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import org.hibernate.criterion.SimpleExpression;
 
 /**
  *
@@ -21,16 +20,16 @@ public class ListRequestDTO {
     private Integer start;
     private Integer limit;
 
-    private Map<String, Object> params = new HashMap();
+    private List<SimpleExpression> expressions = new ArrayList<>(); 
 
     public ListRequestDTO() {
     }
 
-    public ListRequestDTO(Integer page, Integer start, Integer limit, Map<String, Object> params) {
+    public ListRequestDTO(Integer page, Integer start, Integer limit,List<SimpleExpression> expressions) {
         this.page = page;
         this.start = start;
         this.limit = limit;
-        this.params = params; 
+        this.expressions = expressions; 
     }
 
     /**
@@ -74,19 +73,20 @@ public class ListRequestDTO {
     public void setLimit(Integer limit) {
         this.limit = limit;
     }
+ 
 
     /**
-     * @return the params
+     * @return the expressions
      */
-    public Map<String, Object> getParams() {
-        return params;
+    public List<SimpleExpression> getExpressions() {
+        return expressions;
     }
 
     /**
-     * @param params the params to set
+     * @param expressions the expressions to set
      */
-    public void setParams(Map<String, Object> params) {
-        this.params = params;
+    public void setExpressions(List<SimpleExpression> expressions) {
+        this.expressions = expressions;
     }
 
 }

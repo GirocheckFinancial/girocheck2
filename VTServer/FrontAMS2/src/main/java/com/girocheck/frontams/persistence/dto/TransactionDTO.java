@@ -21,10 +21,8 @@ public class TransactionDTO implements Serializable {
 
     private int id;
 
-    private String terminal;
-    private int terminalId;
-
-    private String client;
+    private String clientName;
+    private String clientLastName;
     private int clientId;
 
     private String operation;
@@ -36,15 +34,21 @@ public class TransactionDTO implements Serializable {
     private Date dateTime;
 
     private String card;
+    private int cardId;
 
     private Integer transactionType;
- 
-    private Double ammount;
+
+    private Double amount;
     private Double feeAmmount;
     private Double payoutAmmount;
- 
+
     private String merchant;
     private int merchantId;
+    private Boolean completed;
+
+    public String getClientFullName() {
+        return clientName + " " + clientLastName;
+    }
 
     /**
      * @return the id
@@ -58,48 +62,6 @@ public class TransactionDTO implements Serializable {
      */
     public void setId(int id) {
         this.id = id;
-    }
-
-    /**
-     * @return the terminal
-     */
-    public String getTerminal() {
-        return terminal;
-    }
-
-    /**
-     * @param terminal the terminal to set
-     */
-    public void setTerminal(String terminal) {
-        this.terminal = terminal;
-    }
-
-    /**
-     * @return the terminalId
-     */
-    public int getTerminalId() {
-        return terminalId;
-    }
-
-    /**
-     * @param terminalId the terminalId to set
-     */
-    public void setTerminalId(int terminalId) {
-        this.terminalId = terminalId;
-    }
-
-    /**
-     * @return the client
-     */
-    public String getClient() {
-        return client;
-    }
-
-    /**
-     * @param client the client to set
-     */
-    public void setClient(String client) {
-        this.client = client;
     }
 
     /**
@@ -176,7 +138,12 @@ public class TransactionDTO implements Serializable {
      * @return the card
      */
     public String getCard() {
-        return card;
+        if (card != null && card.length() > 8) {
+            return card.substring(8);
+        } else {
+            return card;
+        }
+
     }
 
     /**
@@ -198,20 +165,6 @@ public class TransactionDTO implements Serializable {
      */
     public void setTransactionType(Integer transactionType) {
         this.transactionType = transactionType;
-    }
-
-    /**
-     * @return the ammount
-     */
-    public Double getAmmount() {
-        return ammount;
-    }
-
-    /**
-     * @param ammount the ammount to set
-     */
-    public void setAmmount(Double ammount) {
-        this.ammount = ammount;
     }
 
     /**
@@ -269,7 +222,75 @@ public class TransactionDTO implements Serializable {
     public void setMerchantId(int merchantId) {
         this.merchantId = merchantId;
     }
-	
 
-   
+    /**
+     * @return the cardId
+     */
+    public int getCardId() {
+        return cardId;
+    }
+
+    /**
+     * @param cardId the cardId to set
+     */
+    public void setCardId(int cardId) {
+        this.cardId = cardId;
+    }
+
+    /**
+     * @return the clientName
+     */
+    public String getClientName() {
+        return clientName;
+    }
+
+    /**
+     * @param clientName the clientName to set
+     */
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    /**
+     * @return the clientLastName
+     */
+    public String getClientLastName() {
+        return clientLastName;
+    }
+
+    /**
+     * @param clientLastName the clientLastName to set
+     */
+    public void setClientLastName(String clientLastName) {
+        this.clientLastName = clientLastName;
+    }
+
+    /**
+     * @return the amount
+     */
+    public Double getAmount() {
+        return amount;
+    }
+
+    /**
+     * @param amount the amount to set
+     */
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    /**
+     * @return the completed
+     */
+    public Boolean getCompleted() {
+        return completed;
+    }
+
+    /**
+     * @param completed the completed to set
+     */
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
+    }
+
 }

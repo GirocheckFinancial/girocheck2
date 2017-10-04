@@ -45,9 +45,8 @@ public class ClientController extends AbstractController {
     public WebResponseData sendMessage(@PathVariable("pageId") String pageId,
             @RequestBody MessageDTO messageDTO, HttpSession session) throws ParseException {
         System.out.println("ClientController -> sendMessage...");
-        try {
-            Map<String, Object> data = GRUtil.parseParams(messageDTO.getParams());
-            messageDTO.setParamsMap(data);
+        try { 
+            messageDTO.setExpressions( GRUtil.parseParamsToExpressions( messageDTO.getParams() ) );
 
             return new WebResponseData(messageService.sendMessage(messageDTO, true));
         } catch (Exception e) {

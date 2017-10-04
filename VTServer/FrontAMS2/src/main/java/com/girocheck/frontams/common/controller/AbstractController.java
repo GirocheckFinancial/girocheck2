@@ -15,8 +15,10 @@ import com.girocheck.frontams.common.util.response.WebResponseDataList;
 import com.girocheck.frontams.persistence.dto.Principal;
 import com.girocheck.frontams.persistence.service.AccessService;
 import java.text.ParseException; 
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
+import org.hibernate.criterion.SimpleExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,8 +47,8 @@ public abstract class AbstractController<D> {
             HttpSession session) throws Exception {
 
         System.out.println("AbstractController -> list");
-        
-        Map<String, Object> data = GRUtil.parseParams(params);
+         
+        List<SimpleExpression> data = GRUtil.parseParamsToExpressions(params);
        // checkAccess(session, pageId,data);
         
         Map map = getAbstractManager().pageList(new ListRequestDTO(page, start, limit, data));
@@ -78,27 +80,27 @@ public abstract class AbstractController<D> {
             @PathVariable("pageId") String pageId,
             @RequestParam(value = "params", defaultValue = "") String params,
             HttpSession session) throws Exception {
-        
-        Map<String, Object> data = GRUtil.parseParams(params);
-        checkAccess(session, pageId,data);
+         
+        List<SimpleExpression> expressions = GRUtil.parseParamsToExpressions( params );
+        checkAccess(session, pageId, expressions);
 
-        return new WebResponseDataList<NomenclatorDTO>(getAbstractManager().nomenclatorList(data));
+        return new WebResponseDataList<NomenclatorDTO>(getAbstractManager().nomenclatorList(expressions));
     }
 
     @RequestMapping(value = "/load", method = RequestMethod.GET)
-    public D load(@RequestParam(value = "params", defaultValue = "") String params) {
-        return (D) getAbstractManager().load(GRUtil.parseParams(params));
+    public D load(@RequestParam(value = "params", defaultValue = "") String params) { 
+        return (D) getAbstractManager().load(GRUtil.parseParamsToExpressions( params ) );
     }
 
-    private void checkAccess(HttpSession session, String page,Map<String, Object> data) throws Exception {
+    private void checkAccess(HttpSession session, String page, List<SimpleExpression> expressions) throws Exception {
         Principal principal = (Principal) session.getAttribute(Principal.PRINCIPAL);
 
-        if (!(accessService.checkAccess(principal, page) && checkAuth(principal, data))){
+        if (!(accessService.checkAccess(principal, page) && checkAuth(principal, expressions))){
             throw new Exception("Access Denied");
         }
     }
 
-    public boolean checkAuth(Principal principal, Map<String, Object> data){return true;} //Redefine if need special check access
+    public boolean checkAuth(Principal principal, List<SimpleExpression> expressions){return true;} //Redefine if need special check access
     
     public abstract AbstractManager getAbstractManager();
 }

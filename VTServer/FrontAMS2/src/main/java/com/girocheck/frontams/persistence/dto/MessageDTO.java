@@ -6,8 +6,11 @@
 package com.girocheck.frontams.persistence.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map; 
+import org.hibernate.criterion.SimpleExpression;
 
 /**
  *
@@ -28,7 +31,7 @@ public class MessageDTO implements Serializable {
     private Integer messagesNotSent; 
     private String unsentClientNames = "";
      
-    private Map<String, Object> paramsMap = new HashMap<>();
+    private List<SimpleExpression> expressions = new ArrayList<>();
     
     public String getTitle(String lang){
         if(lang == null || lang.equalsIgnoreCase("en")){
@@ -121,21 +124,7 @@ public class MessageDTO implements Serializable {
      */
     public void setEnText(String enText) {
         this.enText = enText;
-    }
-
-    /**
-     * @return the paramsMap
-     */
-    public Map<String, Object> getParamsMap() {
-        return paramsMap;
-    }
-
-    /**
-     * @param paramsMap the paramsMap to set
-     */
-    public void setParamsMap(Map<String, Object> paramsMap) {
-        this.paramsMap = paramsMap;
-    }
+    } 
 
     /**
      * @return the pushNotificationsSent
@@ -206,6 +195,20 @@ public class MessageDTO implements Serializable {
      */
     public void setMessagesNotSent(Integer messagesNotSent) {
         this.messagesNotSent = messagesNotSent;
+    }
+
+    /**
+     * @return the expressions
+     */
+    public List<SimpleExpression> getExpressions() {
+        return expressions;
+    }
+
+    /**
+     * @param expressions the expressions to set
+     */
+    public void setExpressions(List<SimpleExpression> expressions) {
+        this.expressions = expressions;
     }
 
   

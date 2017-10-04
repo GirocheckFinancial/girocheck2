@@ -8,8 +8,7 @@ package com.girocheck.frontams.web.api;
 import com.girocheck.frontams.common.controller.AbstractController;
 import com.girocheck.frontams.persistence.dto.MessageDTO;
 import com.girocheck.frontams.common.manager.AbstractManager;  
-import com.girocheck.frontams.common.util.GRUtil;
-import com.girocheck.frontams.common.util.response.WebResponse;
+import com.girocheck.frontams.common.util.GRUtil; 
 import com.girocheck.frontams.common.util.response.WebResponseData;
 import com.girocheck.frontams.persistence.manager.MobileClientManager;
 import com.girocheck.frontams.persistence.service.MessageService;
@@ -48,8 +47,7 @@ public class MobileClientController extends AbstractController{
             @RequestBody MessageDTO messageDTO, HttpSession session) throws ParseException {
             System.out.println("MobileClientController -> sendMessage...");
         try { 
-            Map<String, Object> data = GRUtil.parseParams(messageDTO.getParams());
-            messageDTO.setParamsMap(data); 
+            messageDTO.setExpressions( GRUtil.parseParamsToExpressions( messageDTO.getParams() ) );
                     
             return new WebResponseData( messageService.sendMessage(messageDTO, false) );
         } catch (Exception e) {
