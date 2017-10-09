@@ -11,7 +11,7 @@
  */
 package com.smartbt.girocheck.servercommon.model;
 
-import com.smartbt.girocheck.servercommon.enums.TransactionType; 
+import com.smartbt.girocheck.servercommon.enums.TransactionType;  
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;

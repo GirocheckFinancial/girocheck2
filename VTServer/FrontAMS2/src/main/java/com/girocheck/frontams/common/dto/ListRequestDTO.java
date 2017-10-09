@@ -8,7 +8,7 @@ package com.girocheck.frontams.common.dto;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.criterion.SimpleExpression;
+import org.hibernate.criterion.Criterion;
 
 /**
  *
@@ -20,12 +20,12 @@ public class ListRequestDTO {
     private Integer start;
     private Integer limit;
 
-    private List<SimpleExpression> expressions = new ArrayList<>(); 
+    private List<Criterion> expressions = new ArrayList<>(); 
 
     public ListRequestDTO() {
     }
 
-    public ListRequestDTO(Integer page, Integer start, Integer limit,List<SimpleExpression> expressions) {
+    public ListRequestDTO(Integer page, Integer start, Integer limit,List<Criterion> expressions) {
         this.page = page;
         this.start = start;
         this.limit = limit;
@@ -78,14 +78,14 @@ public class ListRequestDTO {
     /**
      * @return the expressions
      */
-    public List<SimpleExpression> getExpressions() {
+    public List<Criterion> getExpressions() {
         return expressions;
     }
 
     /**
      * @param expressions the expressions to set
      */
-    public void setExpressions(List<SimpleExpression> expressions) {
+    public void setExpressions(List<Criterion> expressions) {
         this.expressions = expressions;
     }
 

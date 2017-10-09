@@ -15,7 +15,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleExpression;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.transform.Transformers;
 
 /**
@@ -49,11 +49,11 @@ public class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T> {
     }
 
     //The Criteria should already contain the ProjectionList and the transformer DTO class
-    public List<D> list(Criteria criteria,List<SimpleExpression> expressions) {
+    public List<D> list(Criteria criteria,List<Criterion> expressions) {
         return buildCriteriaWithParams(criteria, expressions).list();
     }
 
-    public List<NomenclatorDTO> nomenclatorList(List<SimpleExpression> expressions) {
+    public List<NomenclatorDTO> nomenclatorList(List<Criterion> expressions) {
         Criteria criteria = buildCriteria( expressions);
 
         applyNomenclatorProjection(criteria);
@@ -61,13 +61,13 @@ public class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T> {
         return criteria.list();
     }
 
-    protected Criteria buildCriteria(List<SimpleExpression> expressions) {
+    protected Criteria buildCriteria(List<Criterion> expressions) {
         return buildCriteriaWithParams(buildCriteria(), expressions);
     }
 
-    protected Criteria buildCriteriaWithParams(Criteria criteria, List<SimpleExpression> expressions) {
+    protected Criteria buildCriteriaWithParams(Criteria criteria, List<Criterion> expressions) {
         
-        for (SimpleExpression expression : expressions) {
+        for (Criterion expression : expressions) {
             criteria.add( expression );
         }
 
@@ -79,7 +79,7 @@ public class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T> {
         System.out.println("[abc]itstarthere".substring("[abc]".indexOf("]") + 1));
     }
 
-    public D load(List<SimpleExpression> expressions) {
+    public D load(List<Criterion> expressions) {
         Criteria critera = buildCriteria( expressions);
 
         applyLoadProjection(critera);

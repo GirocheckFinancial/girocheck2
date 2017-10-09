@@ -27,6 +27,7 @@ public class MobileClientDAO extends AbstractBaseDAO<MobileClient, MobileClientD
                 .add(Projections.property("id").as("id"))
                 .add(Projections.property("client.firstName").as("firstName"))
                 .add(Projections.property("client.lastName").as("lastName"))
+                .add(Projections.property("client.id").as("clientId"))
                 .add(Projections.property("client.telephone").as("telephone"))
                 .add(Projections.property("client.email").as("email"))
                 .add(Projections.property("deviceType").as("deviceType"))

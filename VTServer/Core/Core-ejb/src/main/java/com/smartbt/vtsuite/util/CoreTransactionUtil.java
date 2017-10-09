@@ -61,7 +61,7 @@ public class CoreTransactionUtil {
 
         String transactionType = (response != null && response.getTransactionType() != null) ? response.getTransactionType().toString() : "Unknown";
 
-        LogUtil.logAndStore("CoreBL", "SubTransactionFailed  -> " + transactionType + "   " + response.getResultMessage());
+        LogUtil.logAndStore("CoreBL", "SubTransactionFailed  -> " + transactionType + "   " + response != null ? response.getResultMessage() : "");
 
         boolean sendCardRestoreBecauseCardPersonalizationFailed = false;
         boolean alreadyContainsFailedSubTransaction = false;

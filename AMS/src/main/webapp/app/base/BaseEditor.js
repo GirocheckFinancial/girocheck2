@@ -193,7 +193,7 @@ Ext.define('Admin.base.BaseEditor', {
             var propertyName = val.propertyName,
                     propertyValue = val.propertyValue;
 
-            additionalValues[ propertyName ] = '(L)' + view.superData[propertyValue];
+            additionalValues[ propertyName ] = '(I)' + view.superData[propertyValue];
         });
 
         return additionalValues;

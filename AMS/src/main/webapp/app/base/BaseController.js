@@ -35,19 +35,20 @@ Ext.define('Admin.base.BaseController', {
                     superTab.items.items.length > 1) { //if more than one
                 var subPanel = view.up().up().items.items[1];
 
-                if (subPanel.isVisible()) {
-                    var activeSubTab = subPanel.getActiveTab();
+                var activeSubTab = subPanel.getActiveTab();
 
-                    if (activeSubTab) {
-                        var activeTabElement = activeSubTab.items.items[0];
-                        activeSubTab.filters = superTab.filters;
-                        activeSubTab.entityId = superTab.entityId;
+                if (activeSubTab) {
+                    activeSubTab.filters = superTab.filters;
+                    activeSubTab.entityId = superTab.entityId;
 
-                        if (activeTabElement instanceof Admin.base.BasePaginatedGrid) {
-                            activeTabElement.getStore().loadPage(1);
-                        }
+                    var activeTabElement = activeSubTab.items.items[0];
+
+                    if (activeTabElement instanceof Admin.base.BasePaginatedGrid) {
+                        activeTabElement.getStore().loadPage(1);
                     }
-                } else {
+                }
+
+                if (!subPanel.isVisible()) {
                     subPanel.show();
                 }
 
@@ -142,7 +143,7 @@ Ext.define('Admin.base.BaseController', {
             if (grid.loadAdditionalInfoWhenDblClick && data) {
                 Request.load({
                     url: me.getView().xtype + '/' + currentTab.entity + '/load',
-                    params: 'params=id=(L)' + data.id,
+                    params: 'params=id=(I)' + data.id,
                     success: function (response) {
                         newTab.data = response;
 
@@ -164,7 +165,7 @@ Ext.define('Admin.base.BaseController', {
         var me = this,
                 itemId = me.getView().xtype + '_' + xtype,
                 existentTab = me.getView().down('#' + itemId);
- 
+
         if (existentTab) {
             me.getView().setActiveTab(existentTab);
         } else {

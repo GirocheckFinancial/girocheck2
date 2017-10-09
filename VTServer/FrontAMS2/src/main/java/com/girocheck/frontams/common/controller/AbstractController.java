@@ -18,7 +18,7 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
-import org.hibernate.criterion.SimpleExpression;
+import org.hibernate.criterion.Criterion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +48,7 @@ public abstract class AbstractController<D> {
 
         System.out.println("AbstractController -> list");
          
-        List<SimpleExpression> data = GRUtil.parseParamsToExpressions(params);
+        List<Criterion> data = GRUtil.parseParamsToExpressions(params);
        // checkAccess(session, pageId,data);
         
         Map map = getAbstractManager().pageList(new ListRequestDTO(page, start, limit, data));
@@ -81,7 +81,7 @@ public abstract class AbstractController<D> {
             @RequestParam(value = "params", defaultValue = "") String params,
             HttpSession session) throws Exception {
          
-        List<SimpleExpression> expressions = GRUtil.parseParamsToExpressions( params );
+        List<Criterion> expressions = GRUtil.parseParamsToExpressions( params );
         checkAccess(session, pageId, expressions);
 
         return new WebResponseDataList<NomenclatorDTO>(getAbstractManager().nomenclatorList(expressions));
@@ -92,7 +92,7 @@ public abstract class AbstractController<D> {
         return (D) getAbstractManager().load(GRUtil.parseParamsToExpressions( params ) );
     }
 
-    private void checkAccess(HttpSession session, String page, List<SimpleExpression> expressions) throws Exception {
+    private void checkAccess(HttpSession session, String page, List<Criterion> expressions) throws Exception {
         Principal principal = (Principal) session.getAttribute(Principal.PRINCIPAL);
 
         if (!(accessService.checkAccess(principal, page) && checkAuth(principal, expressions))){
@@ -100,7 +100,7 @@ public abstract class AbstractController<D> {
         }
     }
 
-    public boolean checkAuth(Principal principal, List<SimpleExpression> expressions){return true;} //Redefine if need special check access
+    public boolean checkAuth(Principal principal, List<Criterion> expressions){return true;} //Redefine if need special check access
     
     public abstract AbstractManager getAbstractManager();
 }

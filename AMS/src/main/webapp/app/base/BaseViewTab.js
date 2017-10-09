@@ -32,7 +32,7 @@ Ext.define('Admin.base.BaseViewTab', {
             if(container.items.items.length === 1){ //If get's here is because Is a single view
                    Request.load({
                     url: container.xtype + '/' + me.entity + '/load',
-                    params: 'params=' + me.loadFilter + '=(L)' + Session.Principal[ me.loadFilterValue ],
+                    params: 'params=' + me.loadFilter + '=(I)' + Session.Principal[ me.loadFilterValue ],
                     success: function (response) {
                         me.superData = response;
                         me.config.data = response;//This will be used in setTabTitle

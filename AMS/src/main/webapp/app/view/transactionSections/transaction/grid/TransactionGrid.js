@@ -11,14 +11,14 @@ Ext.define('Admin.view.transactionSections.tansaction.grid.TransactionGrid', {
                 xtype: 'idGridColumn'
             },
             {
-                text: "Type", 
+                text: "Type",
                 dataIndex: 'transactionType',
-                filterType:'filterSelectField',
+                filterType: 'filterTransactionTypeSelectField',
                 xtype: 'customGridColumn',
-                data:{ 1: "New Card Load",
-                       2:"Card Reload",  
-                       3:"Card to Bank"
-                   },
+                data: {1: "New Card Load",
+                    2: "Card Reload",
+                    3: "Card to Bank"
+                },
                 width: '8%'
             },
             {
@@ -26,56 +26,65 @@ Ext.define('Admin.view.transactionSections.tansaction.grid.TransactionGrid', {
                 dataIndex: 'dateTime',
                 text: "Date",
                 format: 'm/d/Y H:i:s',
-                width: '9%' 
-            }, 
+                width: '9%',
+                filterType: 'filterDate'
+            },
             {
                 text: "Merchant",
-                dataIndex: 'merchant', 
+                dataIndex: 'merchant',
                 filter: 'merchant.legalName',
-                width: '12%'  
-            }, 
+                width: '12%'
+            },
             {
                 text: "Client",
                 dataIndex: 'clientFullName',
-                filter: 'client.firstName,client.firstName',
+                filter: 'client.firstName,client.lastName',
                 width: '14%'
             },
             {
                 text: "Operation",
                 dataIndex: 'operation',
                 xtype: 'customGridColumn',
-                data:{ '01': "Check",
-                       '02':"Cash" 
-                   }, 
+                filterType: 'filterOperationSelectField',
+                data: {'01': "Check",
+                    '02': "Cash"
+                },
                 width: '7%'
             },
             {
                 text: "Card",
                 dataIndex: 'card',
+                filter: 'card.maskCardNumber',
                 width: '7%'
-            },  
+            },
             {
                 text: "Amount",
                 dataIndex: 'amount',
-                xtype:'amountGridColumn' 
+                xtype: 'amountGridColumn',
+                filter: 'ammount',
+                filterType: 'filterNumber'
             },
             {
                 text: "Fee",
                 dataIndex: 'feeAmmount',
-                xtype:'amountGridColumn' 
+                xtype: 'amountGridColumn',
+                filterType: 'filterNumber'
             },
             {
                 text: "Payout",
                 dataIndex: 'payoutAmmount',
-                xtype:'amountGridColumn' 
+                xtype: 'amountGridColumn',
+                filterType: 'filterNumber'
             },
             {
                 text: "Completed",
-                dataIndex: 'completed' 
+                dataIndex: 'completed',
+                filter: 'transactionFinished'
             },
             {
                 text: "R. Code",
-                dataIndex: 'resultCode' 
+                dataIndex: 'resultCode', 
+                filterType: 'filterInteger'
             },
             {
                 text: "Result",

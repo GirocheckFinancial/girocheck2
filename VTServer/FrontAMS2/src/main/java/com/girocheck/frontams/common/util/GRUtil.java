@@ -6,25 +6,17 @@
  */
 package com.girocheck.frontams.common.util;
 
-import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleExpression;
+import org.hibernate.criterion.Criterion;
 
 /**
  *
@@ -33,10 +25,9 @@ import org.hibernate.criterion.SimpleExpression;
 public class GRUtil {
 
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
- 
 
-    public static List<SimpleExpression> parseParamsToExpressions(String paramsStr) {
-        List<SimpleExpression> expressions = new ArrayList<>();
+    public static List<Criterion> parseParamsToExpressions(String paramsStr) {
+        List<Criterion> expressions = new ArrayList<>();
 
         if (paramsStr == null) {
             return expressions;
@@ -52,7 +43,7 @@ public class GRUtil {
                     String key = kv[0];
                     String value = kv[1];
 
-                    SimpleExpression expression = paramToExpression(key, value);
+                    Criterion expression = paramToExpression(key, value);
 
                     if (expression != null) {
                         expressions.add(expression);
@@ -63,15 +54,15 @@ public class GRUtil {
         return expressions;
     }
 
-    private static SimpleExpression paramToExpression(String key, String value) {
-        SimpleExpression simpleExpression = null;
+    private static Criterion paramToExpression(String key, String value) {
+        Criterion criterion = null;
 
         try {
             String prefix = key;
 
             if (value.trim().startsWith("(") && value.contains(")")) {
                 prefix = value.trim().substring(0, value.indexOf(")") + 1);
-                value = value.substring(value.indexOf(")") + 1);
+                value = value.trim().substring(value.indexOf(")") + 1);
             }
 
             if (value.isEmpty() || value.equalsIgnoreCase("null")) {
@@ -80,45 +71,126 @@ public class GRUtil {
 
             switch (prefix) {
                 case "(S)":
-                    if(key.contains(",")){
-                       String[] keys = key.split(",");
-                        Criterion[]  subExpressions = null;
-//                        for (String k : keys) { 
-//                            subExpressions.add(Restrictions.like(k, value, MatchMode.ANYWHERE));
-//                        }
-//                        
-                        Criteria criteria = HibernateUtil.getSession().createCriteria(String.class);
-                       // criteria.add
-                       Criterion s  = Restrictions.or(subExpressions);
-                    }else{
-                      simpleExpression = Restrictions.like(key, value, MatchMode.ANYWHERE);  
-                    } 
+                    if (key.contains(",")) {
+                        String[] keys = key.split(",");
+                        Criterion[] subExpressions = new Criterion[keys.length];
+
+                        for (int i = 0; i < keys.length; i++) {
+                            subExpressions[i] = Restrictions.like(keys[i], value, MatchMode.ANYWHERE);
+                        }
+
+                        criterion = Restrictions.or(subExpressions);
+                    } else {
+                        criterion = Restrictions.like(key, value, MatchMode.ANYWHERE);
+                    }
                     break;
                 case "(I)":
-                    simpleExpression = Restrictions.eq(key, Integer.parseInt(value));
-                    break;
                 case "(L)":
-                    simpleExpression = Restrictions.eq(key, Long.parseLong(value));
+                case "(d)":
+                    criterion = parseNumber(key, value, prefix);
                     break;
                 case "(D)":
-                    simpleExpression = Restrictions.eq(key, new Date(value));
-                    break;
-                case "(d)":
-                    simpleExpression = Restrictions.eq(key, Double.parseDouble(value));
+                    criterion = parseDate(key, value);
                     break;
                 case "(B)":
-                    simpleExpression = Restrictions.eq(key, Boolean.parseBoolean(value));
+                    criterion = Restrictions.eq(key, Boolean.parseBoolean(value));
                     break;
                 default:
-                    simpleExpression = Restrictions.eq(key, value);
+                    criterion = Restrictions.eq(key, value);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return simpleExpression;
+        return criterion;
     }
-    
-    
+
+    private static Criterion parseNumber(String key, String valueStr, String type) {
+        String operator = "";
+        Object value = null;
+        Criterion criterion = null;
+
+        System.out.println("parseNumber:: valueStr = " + valueStr);
+        if (valueStr.trim().startsWith("[")) {
+            operator = valueStr.trim().substring(1, valueStr.indexOf("]"));
+            valueStr = valueStr.trim().substring(valueStr.indexOf("]") + 1);
+        }
+
+        switch (type) {
+            case "(I)":
+                value = Integer.parseInt(valueStr);
+                break;
+            case "(L)":
+                value = Long.parseLong(valueStr);
+                break;
+            case "(d)":
+                value = Double.parseDouble(valueStr);
+                break;
+            default:
+                value = valueStr;
+        }
+        switch (operator) {
+            case "ne":
+                criterion = Restrictions.ne(key, value);
+                break;
+            case "gt":
+                criterion = Restrictions.gt(key, value);
+                break;
+            case "lt":
+                criterion = Restrictions.lt(key, value);
+                break;
+            case "ge":
+                criterion = Restrictions.ge(key, value);
+                break;
+            case "le":
+                criterion = Restrictions.le(key, value);
+                break;
+            case "eq":
+            default:
+                criterion = Restrictions.eq(key, value);
+                break;
+
+        }
+        
+        if(criterion == null){
+            System.out.println("criterion is NULL");
+        }
+
+        return criterion;
+    }
+
+    private static Criterion parseDate(String key, String value) {
+        Criterion criterion = null;
+        if (value.contains(",")) {
+            System.out.println("value = " + value);
+            String[] dates = value.split(",");
+
+            System.out.println("date1 = " + dates[0]);
+            System.out.println("date2 = " + dates[1]);
+            Criterion startDateCriterion = null, endDateCriterion = null;
+            if (hasValue(dates[0])) {
+                startDateCriterion = Restrictions.ge(key, new Date(dates[0]));
+            }
+
+            if (hasValue(dates[1])) {
+                endDateCriterion = Restrictions.le(key, new Date(dates[1]));
+            }
+
+            if (startDateCriterion != null && endDateCriterion != null) {
+                criterion = Restrictions.and(startDateCriterion, endDateCriterion);
+            } else {
+                criterion = startDateCriterion == null ? endDateCriterion : startDateCriterion;
+            }
+
+        } else {
+            criterion = Restrictions.eq(key, new Date(value));
+        }
+        return criterion;
+    }
+
+    private static boolean hasValue(String str) {
+        return str != null && !str.isEmpty() && !str.equalsIgnoreCase("null");
+    }
+
     public static Map<String, Object> parseRequestMap(Map<String, Object> map) throws ParseException {
 
         List names = new ArrayList(map.keySet());
@@ -130,7 +202,7 @@ public class GRUtil {
 
         return map;
     }
- 
+
     private static <T extends Map> void parse(String key, String value, T map) {
         try {
             if (value.length() >= 3) {

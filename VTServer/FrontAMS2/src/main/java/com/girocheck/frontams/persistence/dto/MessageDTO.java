@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map; 
-import org.hibernate.criterion.SimpleExpression;
+import org.hibernate.criterion.Criterion;
 
 /**
  *
@@ -31,7 +31,7 @@ public class MessageDTO implements Serializable {
     private Integer messagesNotSent; 
     private String unsentClientNames = "";
      
-    private List<SimpleExpression> expressions = new ArrayList<>();
+    private List<Criterion> expressions = new ArrayList<>();
     
     public String getTitle(String lang){
         if(lang == null || lang.equalsIgnoreCase("en")){
@@ -200,14 +200,14 @@ public class MessageDTO implements Serializable {
     /**
      * @return the expressions
      */
-    public List<SimpleExpression> getExpressions() {
+    public List<Criterion> getExpressions() {
         return expressions;
     }
 
     /**
      * @param expressions the expressions to set
      */
-    public void setExpressions(List<SimpleExpression> expressions) {
+    public void setExpressions(List<Criterion> expressions) {
         this.expressions = expressions;
     }
 

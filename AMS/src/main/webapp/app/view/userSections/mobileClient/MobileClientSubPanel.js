@@ -4,11 +4,12 @@ Ext.define('Admin.view.clientSections.client.MobileClientSubPanel', {
     config: {
         subPanels: [
             {
-                xtype: 'cardGridTab'
+                xtype: 'transactionGridTab',
+                propertyFilterValue: 'clientId'
             },
             {
-                xtype: 'transactionGridTab'
-            }
+                xtype: 'cardGridTab'
+            } 
         ]
     }
 });

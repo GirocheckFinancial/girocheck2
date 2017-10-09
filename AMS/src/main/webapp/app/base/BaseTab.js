@@ -6,7 +6,7 @@ Ext.define('Admin.base.BaseTab', {
     showingOnTop: true,
     filters: '', // This is dynamic (change for subTabs when click in the super grid)
     staticFilters: '', // This is static, never changes, and if exists, it is taken instead of 'filters'
-    filterPrefix: null, //just use in case it be different of (L)
+    filterPrefix: null, //just use in case it be different of (I)
     entity: null, // The entity of the tab
     //@Deprecated
     // previousTabSuperEntity:null,  //The selected row data on the super grid in the prevoius Tab
@@ -90,7 +90,7 @@ Ext.define('Admin.base.BaseTab', {
                 
             }
 
-            return (me.staticFilters || tab.staticFilters  || me.filters) + '=' + (me.filterPrefix || '(L)') + filterValue;
+            return (me.staticFilters || tab.staticFilters  || me.filters) + '=' + (me.filterPrefix || '(I)') + filterValue;
         }
         return "";
     },

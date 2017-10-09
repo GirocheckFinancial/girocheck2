@@ -23,7 +23,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.SimpleExpression;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,7 +88,7 @@ public class MessageService {
         criteria.setProjection(projectionList)
                 .setResultTransformer(Transformers.aliasToBean(ClientDTO.class));
 
-       List<SimpleExpression> expressions = new ArrayList<>();
+       List<Criterion> expressions = new ArrayList<>();
         if (unsendClientIds == null) {
             expressions = messageDTO.getExpressions();
             //This is to avoid repeated messages
@@ -140,7 +140,7 @@ public class MessageService {
                 .add(Projections.property("deviceType").as("deviceType"));
 
         String prefix = "client."; // isFromClientPage ? "" : 
-       // List<SimpleExpression> formattedExpressions = new ArrayList<>();
+       // List<Criterion> formattedExpressions = new ArrayList<>();
         if (isFromClientPage) { 
             //TODO Handle this in the view, in the Message page
              

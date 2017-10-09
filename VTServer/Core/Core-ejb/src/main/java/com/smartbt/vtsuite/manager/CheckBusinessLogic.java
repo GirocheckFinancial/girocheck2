@@ -51,9 +51,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
         TransactionType originalTransaction = request.getTransactionType();
         Queue currentQueue = JMSManager.get().getCoreOutQueue();
 
-        //This variables will control the behavior in Exceptional cases
-//        boolean sendOEDevolutionIfFails = false;
-        // boolean sendIstreamCheckAuthSubmit = false;
+        //This variables will control the behavior in Exceptional cases 
         boolean sendCertegyReverseRequestIfFails = false;
         boolean saveCheckIfFails = true;
         boolean sendWestechSendSingleICL = false;
@@ -129,11 +127,11 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
 
             //--- SEND TO COMPLIANCE ------
             
-//            DirexTransactionResponse complianceResponse = sendToCompliance(request,transaction);
-//          
-//            if(complianceResponse != null){
-//                response = complianceResponse;
-//            }
+            DirexTransactionResponse complianceResponse = sendToCompliance(request,transaction);
+          
+            if(complianceResponse != null){
+                response = complianceResponse;
+            }
             
             //-------SEND TO CERTEGY ------
             request.setTransactionType(TransactionType.CERTEGY_AUTHENTICATION);

@@ -25,6 +25,7 @@ import com.smartbt.entity.ComplianceResponse;
 import com.smartbt.entity.PostTransactionRequest;
 import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
+import com.smartbt.girocheck.servercommon.enums.ResultMessage;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
@@ -84,24 +85,28 @@ public class ComplianceBusinessLogic {
         Gson gson = new Gson();
         ComplianceResponse complianceResponse= gson.fromJson(complianceResponseStr, ComplianceResponse.class);
 
-        System.out.println("------ Compliance Response ------");
-        System.out.println("Status = " + complianceResponse.getStatus());
-        System.out.println("Message = " + complianceResponse.getMessage());
-        System.out.println("");
         
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[ComplianceBusinessLogic] Finish " + transactionType, null);
 
         if (complianceResponse != null && complianceResponse.getStatus() != null 
                 && complianceResponse.getStatus().equals("100")) {
+            System.out.println("------ Compliance Response ------");
+            System.out.println("Status = " + complianceResponse.getStatus());
+            System.out.println("Message = " + complianceResponse.getMessage());
+            System.out.println("");
+        
             direxTransactionResponse.setResultCode(ResultCode.SUCCESS);
             direxTransactionResponse.setResultMessage(VTSuiteMessages.SUCCESS);
         } else {
             direxTransactionResponse.setApproved(false);
             direxTransactionResponse.setResultCode(ResultCode.COMPLIANCE_HOST_ERROR);
-            if (response != null) {
+            if (complianceResponse != null) {
                 direxTransactionResponse.setResultMessage(complianceResponse.getMessage());
                 direxTransactionResponse.setErrorCode(complianceResponse.getStatus());
-            } 
+            }else{
+                direxTransactionResponse.setResultMessage("Compliance return null.");
+                direxTransactionResponse.setErrorCode(ResultCode.COMPLIANCE_HOST_ERROR.getCode() + "");
+            }
         }
 
         return direxTransactionResponse;

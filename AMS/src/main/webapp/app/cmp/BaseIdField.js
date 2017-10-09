@@ -1,6 +1,6 @@
 Ext.define('Admin.cmp.BaseIdField', {
     extend: 'Ext.form.field.Hidden',
     xtype: 'idField',
-    prefix: '(L)',
+    prefix: '(I)',
     name: 'id'
 });

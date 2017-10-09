@@ -12,7 +12,7 @@ public enum TransactionType {
     NEW_CARD_LOAD( NomHost.TECNICARD, 1 ),
     CARD_RELOAD( NomHost.TECNICARD, 2 ),
     CARD_RELOAD_WITH_DATA( NomHost.TECNICARD, 35 ),
-    PERSONAL_INFO( null, 3 ),
+    PERSONAL_INFO( NomHost.WESTECH, 3 ),
     CERTEGY_INFO( null, 4 ),
     ISTREAM_CHECK_AUTH_LOCATION_CONFIG( NomHost.ISTREAM, 5 ),
     ISTREAM_CHECK_AUTH( NomHost.ISTREAM, 6 ),

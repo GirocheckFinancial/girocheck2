@@ -99,6 +99,10 @@
                 background-color: grey!important;
             }
 
+            .disabled-button{
+                background-color: rgb(192,192,192)!important;
+                border-color: rgb(192,192,192)!important;
+            }
         </style>
 
 

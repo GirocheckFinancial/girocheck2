@@ -167,7 +167,7 @@ Ext.define('Admin.cmp.BaseSelectField', {
     getParamFromUrl: function () {
         var me = this,
                 url = me.url;
-        return url + '.id=(L)';
+        return url + '.id=(I)';
     },
     setParams: function (params) {
         this.getStore().setParams(params);

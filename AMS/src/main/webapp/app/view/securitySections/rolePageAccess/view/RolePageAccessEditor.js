@@ -12,7 +12,7 @@ Ext.define('Admin.view.securitySections.rolePageAccess.view.RolePageAccessEditor
                     xtype: 'baseSelectField',
                     name: 'roleId',
                     url: 'role',
-                    applyFilter: 'id=(L)',
+                    applyFilter: 'id=(I)',
                     filterPropertyName: 'superData.id',
                     disabledIfHasValue:true,
                     defaultPropertyValue:'superData.id'
