@@ -111,7 +111,7 @@ Ext.define('Admin.base.BasePaginatedGrid', {
             var cmp = column.items.items[0];
             var val = cmp.getValue();
             if (val) {
-                searchParams += '&' + (column.filter || column.dataIndex) + "=" + cmp.prefix + val;
+                searchParams += '@p@' + (column.filter || column.dataIndex) + "@is@" + cmp.prefix + val;
             }
         });
         return searchParams;

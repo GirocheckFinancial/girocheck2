@@ -26,10 +26,11 @@ public class ReportManager {
     public List getReport(String url, String entity, String params) { 
 //        url += "/Front/AMS/pageID/" + entity +"/list?limit=0";
         String port = url.substring(url.lastIndexOf(":"));
-        url = "http://localhost" + port + "/Front/AMS/pageID/" + entity +"/list?limit=0";
+        url = "http://localhost" + port + "/Front/" + entity +"/" + entity +"/list?limit=0";
         
+        System.out.println("ReportManager:: params = " + params);
         if(params != null){
-            url += "&" + params;
+            url += "&params=" + params;
         }
            
         HttpHeaders headers = new HttpHeaders();

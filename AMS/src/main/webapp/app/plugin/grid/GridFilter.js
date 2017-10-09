@@ -25,12 +25,13 @@ Ext.define('Ext.ux.grid.GridFilter', {
     extend: 'Ext.AbstractPlugin',
     alias: 'plugin.gridFilter',
     init: function (grid) {
-
+        alert('Init filter plugin');
         var me = this;
         grid.relayEvents(grid.getStore(), ['viewready', 'load', 'beforeload', 'sortchange']);
         grid.addListener('beforeload', me.onBeforeLoad); 
     },
     onBeforeLoad: function (store, operation, eOpts) {
+         alert('onBeforeLoad');
         var me = this,
                 searchParams = me.getParams(); 
         me.getStore().proxy.extraParams = {params: searchParams};
