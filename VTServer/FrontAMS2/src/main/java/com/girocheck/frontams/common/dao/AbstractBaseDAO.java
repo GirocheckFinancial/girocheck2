@@ -36,25 +36,28 @@ public class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T> {
             criteria.setMaxResults(request.getLimit());
         }
 
-        addOrder(criteria);
-
         applyListProjection(criteria);
+
+        addOrder(criteria);
 
         Map result = new HashMap();
         result.put("List", criteria.list());
-        result.put("page", request.getPage());
-        Long total = (Long) buildCriteria(request.getExpressions()).setProjection(Projections.rowCount()).uniqueResult();
-        result.put("TotalCount", total);
+        
+        if (request.getLimit() != 0) {
+            result.put("page", request.getPage());
+            Long total = (Long) buildCriteria(request.getExpressions()).setProjection(Projections.rowCount()).uniqueResult();
+            result.put("TotalCount", total);
+        }
         return result;
     }
 
     //The Criteria should already contain the ProjectionList and the transformer DTO class
-    public List<D> list(Criteria criteria,List<Criterion> expressions) {
+    public List<D> list(Criteria criteria, List<Criterion> expressions) {
         return buildCriteriaWithParams(criteria, expressions).list();
     }
 
     public List<NomenclatorDTO> nomenclatorList(List<Criterion> expressions) {
-        Criteria criteria = buildCriteria( expressions);
+        Criteria criteria = buildCriteria(expressions);
 
         applyNomenclatorProjection(criteria);
 
@@ -66,21 +69,21 @@ public class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T> {
     }
 
     protected Criteria buildCriteriaWithParams(Criteria criteria, List<Criterion> expressions) {
-        
+        System.out.println("AbstractBaseDAO:: buildCriteriaWithParams");
         for (Criterion expression : expressions) {
-            criteria.add( expression );
+            System.out.println("" + expression.toString());
+            criteria.add(expression);
         }
 
         return criteria;
     }
- 
 
     public static void main(String[] args) {
         System.out.println("[abc]itstarthere".substring("[abc]".indexOf("]") + 1));
     }
 
     public D load(List<Criterion> expressions) {
-        Criteria critera = buildCriteria( expressions);
+        Criteria critera = buildCriteria(expressions);
 
         applyLoadProjection(critera);
 
@@ -104,6 +107,9 @@ public class AbstractBaseDAO<T extends BaseEntity, D> extends BaseDAO<T> {
     }
 
     protected void applyListProjection(Criteria criteria) {
+    } // override this method if need different projection
+
+    protected void applyReportProjection(Criteria criteria, String reportType) {
     } // override this method if need different projection
 
     public void addOrder(Criteria criteria) {

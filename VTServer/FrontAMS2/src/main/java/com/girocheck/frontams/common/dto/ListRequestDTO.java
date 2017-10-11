@@ -19,16 +19,18 @@ public class ListRequestDTO {
     private Integer page;
     private Integer start;
     private Integer limit;
+    private String report = "";
 
     private List<Criterion> expressions = new ArrayList<>(); 
 
     public ListRequestDTO() {
     }
 
-    public ListRequestDTO(Integer page, Integer start, Integer limit,List<Criterion> expressions) {
+    public ListRequestDTO(Integer page, Integer start, Integer limit, String report, List<Criterion> expressions) {
         this.page = page;
         this.start = start;
         this.limit = limit;
+        this.report = report;
         this.expressions = expressions; 
     }
 
@@ -87,6 +89,20 @@ public class ListRequestDTO {
      */
     public void setExpressions(List<Criterion> expressions) {
         this.expressions = expressions;
+    }
+
+    /**
+     * @return the report
+     */
+    public String getReport() {
+        return report;
+    }
+
+    /**
+     * @param report the report to set
+     */
+    public void setReport(String report) {
+        this.report = report;
     }
 
 }

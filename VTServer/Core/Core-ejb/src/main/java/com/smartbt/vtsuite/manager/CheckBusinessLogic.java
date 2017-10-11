@@ -340,7 +340,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
         try {
             if (transactionData.containsKey(ParameterName.TRUNCATED_CHECK) && transactionData.get(ParameterName.TRUNCATED_CHECK) != null) {
                 byte[] truncatedCheck = (byte[]) transactionData.get(ParameterName.TRUNCATED_CHECK);
-                if (truncatedCheck != null) {
+                if (truncatedCheck != null && truncatedCheck.length < 65535) {
                     CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CheckBusinessLogic] extractTecnicardConfirmationInformation(...) truncatedCheck != null", null);
                     java.sql.Blob truncatedCheckBlob = new SerialBlob(truncatedCheck);
                     transaction.setTruncatedCheck(truncatedCheckBlob);

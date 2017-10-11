@@ -25,6 +25,9 @@ import org.hibernate.criterion.Criterion;
 public class GRUtil {
 
     public static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+    public static final String PARAMS_SEPARATOR = "@p@";//"@@";
+    public static final String PARAMS_EQUAL = "@is@";
+   
 
     public static List<Criterion> parseParamsToExpressions(String paramsStr) {
         List<Criterion> expressions = new ArrayList<>();
@@ -32,13 +35,14 @@ public class GRUtil {
         if (paramsStr == null) {
             return expressions;
         }
-        paramsStr = paramsStr.replaceAll("%20", " ");
+        paramsStr = paramsStr.replaceAll("%20", " "); 
 
         if (paramsStr != null && !paramsStr.isEmpty()) {
-            String[] prefixValues = paramsStr.split("&");
+            String[] prefixValues = paramsStr.split(PARAMS_SEPARATOR); 
+            
             for (String prefixValue : prefixValues) {
-                if (prefixValue.length() > 0 && prefixValue.contains("=")) {
-                    String[] kv = prefixValue.split("=");
+                if (prefixValue.length() > 0 && prefixValue.contains(PARAMS_EQUAL)) { 
+                    String[] kv = prefixValue.split(PARAMS_EQUAL);
 
                     String key = kv[0];
                     String value = kv[1];

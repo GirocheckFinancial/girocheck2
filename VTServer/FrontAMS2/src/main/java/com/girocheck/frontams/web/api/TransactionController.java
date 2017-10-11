@@ -8,6 +8,7 @@ package com.girocheck.frontams.web.api;
 import com.girocheck.frontams.common.controller.AbstractController;
 import com.girocheck.frontams.common.manager.AbstractManager; 
 import com.girocheck.frontams.persistence.manager.TxManager;
+import com.girocheck.frontams.persistence.manager.TxReportManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,9 @@ public class TransactionController extends AbstractController{
     
     @Autowired
     protected TxManager txManager;
+    
+    @Autowired
+    protected TxReportManager txReportManager;
      
 
     @Override
@@ -29,7 +33,9 @@ public class TransactionController extends AbstractController{
        return txManager;
     }
      
-  
+  public AbstractManager getReportManager(){
+      return txReportManager;
+  }
 }
  
    

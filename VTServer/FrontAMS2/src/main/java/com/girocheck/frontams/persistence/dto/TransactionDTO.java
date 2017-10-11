@@ -12,9 +12,13 @@
 package com.girocheck.frontams.persistence.dto;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TransactionDTO implements Serializable {
+
+    private static final DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
     public TransactionDTO() {
     }
@@ -48,6 +52,48 @@ public class TransactionDTO implements Serializable {
 
     public String getClientFullName() {
         return clientName + " " + clientLastName;
+    }
+
+    public String getDateStr() {
+        if (dateTime != null) {
+            try {
+                return df.format(dateTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
+    }
+
+    public String getTransactionTypeStr() {
+        switch (transactionType) {
+            case 1:
+                return "New Card Load";
+            case 2:
+                return "Card Reload";
+            case 3:
+                return "Card to Bank";
+            default:
+                return "New Card Load";
+        }
+    }
+    
+    
+
+    public String getFeeStr() {
+        if (feeAmmount == null || feeAmmount.equals("null")) {
+            return "";
+        } else {
+            return feeAmmount + "";
+        }
+    }
+
+    public String getResultStr() {
+        if (resultMessage != null && resultMessage.equalsIgnoreCase("Success")) {
+            return "Success";
+        } else {
+            return "Failed";
+        }
     }
 
     /**

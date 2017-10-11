@@ -48,5 +48,30 @@ public class TransactionDAO extends AbstractBaseDAO<Transaction, TransactionDTO>
         criteria.setProjection(projectionList)
                 .setResultTransformer(Transformers.aliasToBean(TransactionDTO.class));
     } 
+
+//    @Override
+//    public void applyReportProjection(Criteria criteria, String reportType) {
+//        ProjectionList projectionList = Projections.projectionList()
+//                .add(Projections.property("id").as("id"))
+//                .add(Projections.property("card.maskCardNumber").as("card"))
+//                .add(Projections.property("card.id").as("cardId"))
+//                .add(Projections.property("client.firstName").as("clientName"))
+//                .add(Projections.property("client.lastName").as("clientLastName"))
+//                .add(Projections.property("client.id").as("clientId"))
+//                .add(Projections.property("merchant.legalName").as("merchant"))
+//                .add(Projections.property("merchant.id").as("merchantId"))  
+//                .add(Projections.property("operation").as("operation"))  
+//                .add(Projections.property("dateTime").as("dateTime"))  
+//                .add(Projections.property("transactionType").as("transactionType"))  
+//                .add(Projections.property("ammount").as("amount"))  
+//                .add(Projections.property("feeAmmount").as("feeAmmount"))  
+//                .add(Projections.property("payoutAmmount").as("payoutAmmount"))  
+//                .add(Projections.property("transactionFinished").as("completed"))  
+//                .add(Projections.property("resultCode").as("resultCode"))
+//                .add(Projections.property("resultMessage").as("resultMessage"));
+// 
+//        criteria.setProjection(projectionList)
+//                .setResultTransformer(Transformers.aliasToBean(TransactionDTO.class));
+//    } 
  
 }

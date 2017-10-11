@@ -37,36 +37,43 @@ public abstract class AbstractController<D> {
     @Autowired
     private AccessService accessService;
 
+    @RequestMapping(value = "/report", method = RequestMethod.GET)
+    public Map report(
+            @PathVariable("pageId") String pageId, 
+            @RequestParam(value = "report", defaultValue = "") String report, //Type of report
+            @RequestParam(value = "params", defaultValue = "") String params,
+            HttpSession session) throws Exception {
+   
+        System.out.println("FrontAMS / report = " + report);
+        System.out.println("FrontAMS / params = " + params);
+        List<Criterion> data = GRUtil.parseParamsToExpressions(params); 
+        
+        return getReportManager().pageList(new ListRequestDTO(0, 0, 0,report, data)); 
+    }
+
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Map listExpenses(
+    public Map list(
             @PathVariable("pageId") String pageId,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "start", defaultValue = "0") Integer start,
             @RequestParam(value = "limit", defaultValue = "0") Integer limit,
+            @RequestParam(value = "report", defaultValue = "") String report,
             @RequestParam(value = "params", defaultValue = "") String params,
             HttpSession session) throws Exception {
-
-        System.out.println("AbstractController -> list");
-         
-        List<Criterion> data = GRUtil.parseParamsToExpressions(params);
-       // checkAccess(session, pageId,data);
+   
+        List<Criterion> data = GRUtil.parseParamsToExpressions(params); 
         
-        Map map = getAbstractManager().pageList(new ListRequestDTO(page, start, limit, data));
-        
-        return map;
-    }
+        return getAbstractManager().pageList(new ListRequestDTO(page, start, limit,report, data));
+     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST, consumes = "application/json")
     public WebResponse save(@PathVariable("pageId") String pageId,
-            @RequestBody Map<String, Object> map,
-//            @RequestBody LinkedHashMap map,
+            @RequestBody Map<String, Object> map, 
             HttpSession session) throws ParseException {
         System.out.println("AbstractController -> saving...");
-        try {
-//            LinkedHashMap data = GRUtil.parseRequestMap(map);
+        try { 
             Map<String, Object> data = GRUtil.parseRequestMap(map);
-            
-        //    checkAccess(session, pageId);
+             
 
             return new WebResponseData(getAbstractManager().save(data));
         } catch (Exception e) {
@@ -103,4 +110,6 @@ public abstract class AbstractController<D> {
     public boolean checkAuth(Principal principal, List<Criterion> expressions){return true;} //Redefine if need special check access
     
     public abstract AbstractManager getAbstractManager();
+    
+    public AbstractManager getReportManager(){return null;}
 }

@@ -16,16 +16,10 @@
 package com.smartbt.vtsuite.manager;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.smartbt.entity.NewBranchRequest;
 import com.smartbt.entity.ComplianceResponse;
 import com.smartbt.entity.PostTransactionRequest;
-import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
-import com.smartbt.girocheck.servercommon.enums.ResultMessage;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
@@ -37,10 +31,10 @@ import org.apache.cxf.jaxrs.client.WebClient;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
-import org.json.JSONArray;
 
 public class ComplianceBusinessLogic {
-
+    public static final  String COMPLIANCE_URL = System.getProperty("COMPLIANCE_URL");//"12345";
+    
     private static WebClient CLIENT;
     private static ComplianceBusinessLogic INSTANCE;
 
@@ -55,7 +49,14 @@ public class ComplianceBusinessLogic {
         List<Object> providers = new ArrayList<Object>();
         providers.add(new JacksonJsonProvider());
 
-        CLIENT = WebClient.create("http://10.10.11.153:2000/RestComplex.svc/", providers).accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON);
+        String url = COMPLIANCE_URL;
+        
+        if(url == null || url.isEmpty()){
+            url = "http://10.10.11.153:2000/RestComplex.svc/";
+        }
+        System.out.println("ComplianceBusinessLogic :: url = " + url);
+        
+        CLIENT = WebClient.create(url, providers).accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON);
 
     }
   
@@ -96,7 +97,7 @@ public class ComplianceBusinessLogic {
             System.out.println("");
         
             direxTransactionResponse.setResultCode(ResultCode.SUCCESS);
-            direxTransactionResponse.setResultMessage(VTSuiteMessages.SUCCESS);
+            direxTransactionResponse.setResultMessage(complianceResponse.getMessage());
         } else {
             direxTransactionResponse.setApproved(false);
             direxTransactionResponse.setResultCode(ResultCode.COMPLIANCE_HOST_ERROR);

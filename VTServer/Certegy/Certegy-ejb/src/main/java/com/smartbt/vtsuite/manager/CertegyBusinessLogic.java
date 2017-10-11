@@ -31,9 +31,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Mpowa Business Logic Class
- */
+ 
 public class CertegyBusinessLogic {
 
     public static final String CERTEGY_SITE_ID = "2897891071345202";
