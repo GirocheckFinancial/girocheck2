@@ -99,6 +99,43 @@
                 background-color: rgb(192,192,192)!important;
                 border-color: rgb(192,192,192)!important;
             }
+ 
+            .active-button{
+                background-color:#35baf6!important;
+                border-color:#35baf6!important; 
+            }
+            
+            .active-button span span span{
+                color:white!important
+            }
+            
+            .check-active{
+                background-color:#3b5999!important;
+                border-color:#3b5999!important; 
+            }
+            
+            .cash-active{
+                background-color:red!important;
+                border-color:red!important; 
+            }
+            
+            .card2bank-active{
+                background-color:green!important;
+                border-color:green!important; 
+            }
+            
+            .commission-active{
+                background-color:orange!important;
+                border-color:orange!important; 
+            }
+            
+            .check-active span span span,
+            .cash-active span span span,
+            .card2bank-active span span span,
+            .commission-active span span span{
+                color:white!important
+            }
+            
         </style>
 
 

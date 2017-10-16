@@ -3,16 +3,16 @@ Ext.define('Admin.data.qg.Pie', {
 
     data: [
         {
-            "xvalue": "Research",
-            "yvalue": 68
+            "xvalue": "Research 1",
+            "yvalue": 70
         },
         {
-            "xvalue": "Finance",
+            "xvalue": "Finance 2",
             "yvalue": 20
         },
         {
-            "xvalue": "Marketing",
-            "yvalue": 12
+            "xvalue": "Marketing 3",
+            "yvalue": 10
         }
     ]
 });

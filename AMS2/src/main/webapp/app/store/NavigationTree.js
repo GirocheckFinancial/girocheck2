@@ -180,6 +180,12 @@ Ext.define('Admin.store.NavigationTree', {
                     }
                 ]
             },
+            {
+                text: 'Charts',
+                iconCls: 'x-fa fa-home',
+                viewType: 'reports',
+                leaf: true
+            }
 //            {
 //                text: 'Merchant',
 //                iconCls: 'x-fa fa-home',

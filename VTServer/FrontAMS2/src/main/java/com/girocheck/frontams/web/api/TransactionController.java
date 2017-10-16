@@ -7,10 +7,20 @@ package com.girocheck.frontams.web.api;
  
 import com.girocheck.frontams.common.controller.AbstractController;
 import com.girocheck.frontams.common.manager.AbstractManager; 
+import com.girocheck.frontams.persistence.dto.chart.TransactionChartPoint;
 import com.girocheck.frontams.persistence.manager.TxManager;
 import com.girocheck.frontams.persistence.manager.TxReportManager;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,7 +36,38 @@ public class TransactionController extends AbstractController{
     
     @Autowired
     protected TxReportManager txReportManager;
-     
+    
+      @RequestMapping(value = "/chart", method = RequestMethod.GET)
+    public Map<String, List> chart(
+            @PathVariable("pageId") String pageId, 
+            @RequestParam(value = "chartType") String chartType, //Type Chart
+            @RequestParam(value = "timeType", defaultValue = "0") Integer timeType, //0-daily  1-monthly  2-yearly
+            @RequestParam(value = "transactionType", defaultValue = "0") Integer transactionType,
+            @RequestParam(value = "month", defaultValue = "-1") Integer month, 
+            @RequestParam(value = "year", defaultValue = "-1") Integer year, 
+            @RequestParam(value = "operationPattern", defaultValue = "1111") String operationPattern, //check|cash|card2Bank|commission
+            HttpSession session) throws Exception {
+   
+        System.out.println("FrontAMS.chart / chartType = " + chartType);
+        System.out.println("FrontAMS.chart / timeType = " + timeType);
+        System.out.println("FrontAMS.chart / transactionType = " + transactionType);
+        System.out.println("FrontAMS.chart / month = " + month);
+        System.out.println("FrontAMS.chart / year = " + year);
+        
+        Date today = new Date();
+        
+        if(month == -1){
+          month = today.getMonth();
+        }
+        month += 1;
+        
+        if(year == -1){
+           year = today.getYear() + 1900;
+        } 
+         
+        return txReportManager.transactionChart(chartType, timeType, transactionType, month, year, operationPattern); 
+    }
+      
 
     @Override
     public AbstractManager getAbstractManager() {

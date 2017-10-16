@@ -4,15 +4,15 @@ Ext.define('Admin.data.Pie', {
     data: [
         {
             "xvalue": "Drama",
-            "yvalue": 10
+            "yvalue": 70
         },
         {
             "xvalue": "Fantasy",
-            "yvalue": 10
+            "yvalue": 20
         },
         {
             "xvalue": "Action",
-            "yvalue": 12
+            "yvalue": 10
         }
     ]
 });

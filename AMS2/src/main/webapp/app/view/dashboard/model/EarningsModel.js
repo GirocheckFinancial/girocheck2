@@ -1,4 +1,4 @@
-Ext.define('Admin.model.DataXY', {
+Ext.define('Admin.view.dashboard.model.EarningsModel', {
     extend: 'Admin.model.Base',
 
     fields: [

@@ -15,7 +15,7 @@ Ext.define('Admin.view.dashboard.Network', {
     height: 380,
 
     bodyPadding: 15,
-
+   // header:false,
     title: 'Transactions',
     layout: {
         type: 'vbox',

@@ -1,6 +1,6 @@
-Ext.define('Admin.view.charts.Stacked', {
+Ext.define('Admin.view.dashboard.TransactionsChart', {
     extend: 'Admin.view.charts.ChartBase',
-    xtype: 'chartsstackedpanel',
+    xtype: 'transactionsChart',
     requires: [
         'Ext.chart.CartesianChart',
         'Ext.chart.axis.Category',
@@ -8,29 +8,29 @@ Ext.define('Admin.view.charts.Stacked', {
         'Ext.chart.series.Bar',
         'Ext.chart.interactions.PanZoom'
     ],
-    title: 'Stacked Bar Chart',
+    title: 'Transactions',
     iconCls: 'x-fa fa-bar-chart',
     items: [{
+            id: 'transactionsChart',
             xtype: 'cartesian',
             colors: [
-                '#6aa5db',
+                '#034f84',
                 '#ee929c',
                 
-            ],
-            bind: '{stackedData}',
+            ], 
+            bind: '{transactionChartData}',
             axes: [{
                     type: 'category',
                     fields: [
-                        'xvalue'
+                        'dateLabel'
                     ],
                     // hidden: true,
                     position: 'bottom'
                 }, {
                     type: 'numeric',
-                    fields: [
-                        'y1value',
-                        'y2value',
-                        'y3value'
+                    fields: [ 
+                        'successful',
+                        'failed'
                     ],
                     grid: {
                         odd: {
@@ -42,15 +42,15 @@ Ext.define('Admin.view.charts.Stacked', {
                 }],
             series: [{
                     type: 'bar',
-                    xField: 'xvalue',
+                    xField: 'dateLabel',
                     yField: [
-                        'y2value',
-                        'y3value'
+                        'successful',
+                        'failed'
                     ],
                     tooltip: {
                         trackMouse: true,
                         renderer: function (tip, item) {
-                            tip.update('Total: ' + (item.get('y2value') + item.get('y3value')) + ' Successful:' + item.get('y2value') + ', Failed:' + item.get('y3value'));
+                            tip.update('Total: ' + (item.get('successful: ') + item.get('failed: ')) + ' Successful:' + item.get('successful') + ', Failed:' + item.get('failed'));
                         }
                     }
                 }],

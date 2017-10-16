@@ -1,7 +1,6 @@
 Ext.define('Admin.view.dashboard.Earnings', {
     extend: 'Ext.Panel',
     xtype: 'earnings',
-
     requires: [
         'Ext.chart.CartesianChart',
         'Ext.chart.axis.Category',
@@ -9,21 +8,19 @@ Ext.define('Admin.view.dashboard.Earnings', {
         'Ext.chart.series.Line',
         'Ext.chart.interactions.PanZoom'
     ],
-
     title: 'Earnings',
     ui: 'light',
     iconCls: 'x-fa fa-dollar',
     headerPosition: 'bottom',
-
     cls: 'quick-graph-panel shadow',
-    height: 130,
+    height: 300,
     layout: 'fit',
-
     items: [
         {
+            id: 'earnings',
             xtype: 'cartesian',
-            animation : !Ext.isIE9m && Ext.os.is.Desktop,
-            background: '#35baf6',
+            animation: !Ext.isIE9m && Ext.os.is.Desktop,
+            background: 'white', 
             colors: [
                 '#483D8B',
                 '#94ae0a',
@@ -42,36 +39,94 @@ Ext.define('Admin.view.dashboard.Earnings', {
                 {
                     type: 'category',
                     fields: [
-                        'xvalue'
+                        'dateLabel'
                     ],
-                    hidden: true,
+                    // hidden: true,
                     position: 'bottom'
                 },
                 {
                     type: 'numeric',
                     fields: [
-                        'yvalue'
+                        'check', 'cash','card2bank', 'commission'
                     ],
                     grid: {
                         odd: {
-                            fill: '#e8e8e8'
+                            fill: '#eff0f1'
+//                            fill: '#ADD8E6'
                         }
                     },
-                    hidden: true,
+                    //  hidden: true,
                     position: 'left'
-                }
+                } 
             ],
             series: [
                 {
                     type: 'line',
                     style: {
-                        stroke: '#FFFFFF',
-                        'stroke-width': '2px'
+                        stroke: '#3b5999',
+                        'stroke-width': '15px'
                     },
-                    xField: 'xvalue',
+                    xField: 'dateLabel',
                     yField: [
-                        'yvalue'
-                    ]
+                        'check'
+                    ],
+                    tooltip: {
+                        trackMouse: true,
+                        renderer: function (tip, item) {
+                            tip.update('Check Amount: ' + item.get('check'));
+                        }
+                    }
+                },
+                {
+                    type: 'line',
+                    style: {
+                        stroke: 'red',
+                        'stroke-width': '15px'
+                    },
+                    xField: 'dateLabel',
+                    yField: [
+                        'cash'
+                    ],
+                    tooltip: {
+                        trackMouse: true,
+                        renderer: function (tip, item) {
+                            tip.update('Cash Amount: ' + item.get('cash'));
+                        }
+                    }
+                },
+                {
+                    type: 'line',
+                    style: {
+                        stroke: 'green',
+                        'stroke-width': '15px'
+                    },
+                    xField: 'dateLabel',
+                    yField: [
+                        'card2bank'
+                    ],
+                    tooltip: {
+                        trackMouse: true,
+                        renderer: function (tip, item) {
+                            tip.update('Card to Bank Amount: ' + item.get('card2bank'));
+                        }
+                    }
+                },
+                {
+                    type: 'line',
+                    style: {
+                        stroke: 'orange',
+                        'stroke-width': '15px'
+                    },
+                    xField: 'dateLabel',
+                    yField: [
+                        'commission'
+                    ],
+                    tooltip: {
+                        trackMouse: true,
+                        renderer: function (tip, item) {
+                            tip.update('Commission Amount: ' + item.get('commission'));
+                        }
+                    }
                 }
             ],
             interactions: [

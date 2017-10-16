@@ -17,7 +17,11 @@ Ext.define('Admin.view.dashboard.HDDUsage', {
     headerPosition: 'bottom',
 
     cls: 'quick-graph-panel shadow',
-    height: 130,
+//    height: 130,
+//    layout: 'fit',
+    
+    height: 300,
+    ui: 'light',
     layout: 'fit',
 
     items: [
@@ -39,7 +43,7 @@ Ext.define('Admin.view.dashboard.HDDUsage', {
                     fields: [
                         'xvalue'
                     ],
-                    hidden: true,
+                  //  hidden: true,
                     position: 'bottom'
                 },
                 {
@@ -52,7 +56,7 @@ Ext.define('Admin.view.dashboard.HDDUsage', {
                             fill: '#e8e8e8'
                         }
                     },
-                    hidden: true,
+                   // hidden: true,
                     position: 'left'
                 }
             ],
@@ -67,7 +71,13 @@ Ext.define('Admin.view.dashboard.HDDUsage', {
                     xField: 'xvalue',
                     yField: [
                         'yvalue'
-                    ]
+                    ], 
+                    tooltip: {
+                        trackMouse: true,
+                        renderer: function (tip, item) {
+                            tip.update('Value: ' + item.get('yvalue'));
+                        }
+                    }
                 }
             ],
             interactions: [

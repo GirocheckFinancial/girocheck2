@@ -79,6 +79,6 @@ Ext.define('Admin.util.Request', {
     },
     onRequestexception: function (conn, response, options, eOpts) {
         
-        alert('Exception');
+        alert('Server is down. Please contact customer service.');
     }
 });

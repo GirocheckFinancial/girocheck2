@@ -13,7 +13,7 @@ Ext.define('Admin.view.dashboard.Todos', {
     cls: 'todo-list shadow-panel',
 
     title: 'Notifications',
-    height: 320,
+    height: 350,
     bodyPadding: 15,
     layout: 'fit',
     items: [
