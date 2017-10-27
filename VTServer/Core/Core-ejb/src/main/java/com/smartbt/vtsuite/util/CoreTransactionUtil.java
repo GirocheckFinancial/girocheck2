@@ -296,20 +296,26 @@ public class CoreTransactionUtil {
             }
 
             //---- SENDING PUSH NOTIFICATION ------------
-             if (transaction.getResultCode() == ResultCode.SUCCESS.getCode()
+            if (transaction.getResultCode() == ResultCode.SUCCESS.getCode()
                     && (transaction.getTransactionType() == TransactionType.CARD_RELOAD.getCode()
-                    || transaction.getTransactionType() == TransactionType.NEW_CARD_LOAD.getCode() 
+                    || transaction.getTransactionType() == TransactionType.NEW_CARD_LOAD.getCode()
                     || transaction.getTransactionType() == TransactionType.CARD_RELOAD_WITH_DATA.getCode())) {
-                
+
                 MobileClient mobileClient = MobileClientDao.get().getMobileClientByClient(client.getId());
-                
-                if(mobileClient != null
+
+                if (mobileClient != null
                         && mobileClient.getAllowNotifications() != null
-                        && mobileClient.getAllowNotifications() 
-                        && mobileClient.getPushToken() != null){
-                    PushNotificationManager.sendCardLoadMessage(mobileClient.getDeviceType(), mobileClient.getPushToken(), mobileClient.getLang(), transaction.getAmmount());
-                }else{
-                     System.out.println("PN could not send the msg");
+                        && mobileClient.getAllowNotifications()
+                        && mobileClient.getPushToken() != null) {
+
+                    try {
+                        PushNotificationManager.sendCardLoadMessage(mobileClient.getDeviceType(), mobileClient.getPushToken(), mobileClient.getLang(), transaction.getAmmount());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    System.out.println("PN could not send the msg");
                 }
             }
 
@@ -335,8 +341,6 @@ public class CoreTransactionUtil {
             }
         }
     }
-
-    
 
     public static void printTransaction(Transaction transaction) {
 

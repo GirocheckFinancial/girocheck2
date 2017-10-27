@@ -3,3 +3,5 @@ INSERT INTO girocheck.dbpatch (release_number, name, applydate, description) VAL
 ALTER TABLE `girocheck`.`mobile_client` ADD COLUMN `push_token` VARCHAR(255);
 ALTER TABLE `girocheck`.`mobile_client` ADD COLUMN `version` int(10) default 2; 
 ALTER TABLE `girocheck`.`mobile_client` ADD COLUMN `lang` VARCHAR(20);  
+ALTER TABLE `girocheck`.`mobile_client` ADD COLUMN `allow_notifications` bit(1) DEFAULT b'1';
+
