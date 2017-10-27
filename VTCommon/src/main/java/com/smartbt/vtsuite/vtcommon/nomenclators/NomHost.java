@@ -44,7 +44,11 @@ public enum NomHost {
     
     CERTEGY(7),
     
-    ISTREAM2(8);
+    ISTREAM2(8),
+    
+    FISS(9),
+    
+    IDEOLOGY(10);
 
     private NomHost(int id) {
         this.id = id;

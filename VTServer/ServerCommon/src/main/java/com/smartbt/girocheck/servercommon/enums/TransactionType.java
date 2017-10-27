@@ -60,8 +60,16 @@ public enum TransactionType {
     CERTEGY_REVERSE_REQUEST(NomHost.CERTEGY, 41),
     
     ISTREAM2_SEND_SINGLE_ICL(NomHost.ISTREAM2, 42),
-    CHECK_INFO(null, 43);
-
+    CHECK_INFO(null, 43),
+    
+    FISS_BALANCE_INQUIRY_CARD_VALIDATION(NomHost.FISS, 44),
+    TRANSACTION_HISTORY(NomHost.FISS, 45),
+    CARD_PERSONALIZATION(NomHost.FISS, 46),
+    CARD_ACTIVATION(NomHost.FISS, 47),
+    CARD_LOAD(NomHost.FISS, 48),
+    CARD_CASHING(NomHost.FISS, 49),
+    
+    IDEOLOGY_VERYFY_CLIENT(NomHost.IDEOLOGY, 50);
     private NomHost host;
 
     private int code;
