@@ -4,8 +4,7 @@ package com.smartbt.girocheck.servercommon.enums;
  *
  * @author Roberto
  */
-public enum ParameterName {
-
+public enum ParameterName { 
     TECNICARD_VALIDATION_RESPONSE,
     ACCOUNT_NUMBER,
     ACCOUNTNUM,
@@ -182,6 +181,7 @@ public enum ParameterName {
     MAKER_ZIP,
     MATRICULACONSULAR,
     MATRICULACONSULARB,
+    MERCHANT_ID,
     MERCHANT_NAME,
     MESSAGE,
     MICR,

@@ -15,6 +15,8 @@
  */
 package com.smartbt.vtsuite.conf.interceptors;
 
+import com.smartbt.girocheck.servercommon.dao.MobileClientDao;
+import com.smartbt.girocheck.servercommon.utils.Utils;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import static com.smartbt.vtsuite.controller.v1.GeneralController.*;
 import java.util.HashMap;
@@ -38,6 +40,13 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         excludedURLs.put("register", "");
         excludedURLs.put("forgotPassword", "");
         excludedURLs.put("optOut", "");
+        excludedURLs.put("updateMerchantCoordinates", "");
+        
+        //just for dev
+        excludedURLs.put("listNotifications", "");
+        
+        //TODO remove this 
+        excludedURLs.put("listMerchants", "");
     }
 
     @Override
@@ -52,10 +61,12 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
             }
         } catch (Exception e) {
             System.out.println("It was going to throw a NestedTransactionException...   Thread.currentThread().sleep(1000);");
-            HibernateUtil.commitTransaction();
+            e.printStackTrace();
+            
+           // HibernateUtil.rollbackTransaction();
 
             Thread.currentThread().sleep(1000);
-            HibernateUtil.beginTransaction();
+           // HibernateUtil.beginTransaction();
         }
 
         String uri = request.getRequestURI();
@@ -64,34 +75,37 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         String lang = request.getHeader("LANG");
         System.out.println("LANG = " + lang);
 
-        if (lang == null || lang.equalsIgnoreCase("defaultLocale")) {
+        if (lang == null || 
+                lang.startsWith("es") || 
+                lang.equalsIgnoreCase("defaultLocale")) {
             lang = "es";
         } else {
-            lang = lang.toLowerCase();
+            lang = "en";
         }
         request.getSession().setAttribute(LANG, lang);
-
-        if (isExcludedURL(uri)) {
-            System.out.println("Excluded URL, (not need to check for token)");
-            return true;
+ 
+        String token = "";
+  
+        boolean isValid = true;
+        
+        if (isExcludedURL(uri)) { 
+            token = Utils.generateToken();
+            System.out.println("Excluded URL, generated token = " + token);  
+        }else{
+            token = request.getHeader("TOKEN");
+            System.out.println("Regular URL, Token in header = " + token); 
+            
+            isValid = token != null && MobileClientDao.get().validateToken(token);
+            
+            System.out.println("is Token Valid = " + isValid);
         }
-
-        String tokenInSession = (String) request.getSession().getAttribute("TOKEN");
-        String token = request.getHeader("TOKEN");
-
-        System.out.println("JSESSIONID = " + request.getSession().getId());
-
-        System.out.println("tokenInSession = " + tokenInSession);
-        System.out.println("tokenInHeader = " + token);
-
-        if (tokenInSession == null) {
-            request.getSession().setAttribute(TOKEN, token);
+        
+        request.getSession().setAttribute(TOKEN, token);
+        
+        if(!isValid){
+            terminateTransaction();
         }
-
-        boolean isValid = (tokenInSession != null && token != null && token.equals(tokenInSession));
-
-        System.out.println("is Token Valid = " + isValid);
-
+ 
         return isValid;
     }
 
@@ -100,16 +114,19 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
             throws Exception {
 
         response.addHeader("Access-Control-Allow-Origin", "*");
-
-        try {
-            System.out.println("RequestInterceptor -> postHandle :: HibernateUtil.commitTransaction();");
+        terminateTransaction();
+    }
+    
+    private void terminateTransaction(){
+          try {
+            System.out.println("RequestInterceptor -> postHandle :: terminateTransaction");
             HibernateUtil.commitTransaction();
         } catch (Exception ex) {
             ex.printStackTrace();
             HibernateUtil.rollbackTransaction();
         } finally {
             HibernateUtil.getSession().close();
-        }
+        } 
     }
 
     private static boolean isExcludedURL(String uri) {

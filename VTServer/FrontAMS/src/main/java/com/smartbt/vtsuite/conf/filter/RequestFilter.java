@@ -14,9 +14,7 @@
  **
  */
 package com.smartbt.vtsuite.conf.filter;
-
-import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
-import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
+ 
 import java.io.IOException;
 import java.util.List;
 import javax.ws.rs.container.ContainerRequestContext;

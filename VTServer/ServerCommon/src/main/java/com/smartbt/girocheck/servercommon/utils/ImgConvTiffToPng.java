@@ -21,6 +21,12 @@ public class ImgConvTiffToPng {
     //This key is granted for this vendor
     //https://cloudconvert.com
     private static String IMAGE_CONVERTION_KEY = System.getProperty("IMAGE_CONVERTION_KEY");
+    
+    public static void main(String[] args){
+        System.out.println("start");
+         CloudConvertService service = new CloudConvertService("CMWetpcKyxRMEeqJfuSbxrJSUkMNKUXlO7iVHp7dImlRdtVOXSNMYO1Hmd7TorrCpu4iuCPND_zEEHPjgwxi3w");
+        System.out.println("end");
+    }
  
     public static String convertBlackAndWhiteImages(Blob blob) throws Exception {
         if (blob == null) {

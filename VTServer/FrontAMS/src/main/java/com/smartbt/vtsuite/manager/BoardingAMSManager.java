@@ -21,6 +21,7 @@ import com.smartbt.girocheck.servercommon.display.message.BaseResponse;
 import com.smartbt.girocheck.servercommon.email.EmailUtils;
 import com.smartbt.girocheck.servercommon.i18n.I18N;
 import com.smartbt.girocheck.servercommon.i18n.Messages;
+import com.smartbt.girocheck.servercommon.utils.CryptoUtils;
 import com.smartbt.vtsuite.servercommon.model.Application;
 import com.smartbt.vtsuite.servercommon.model.ApplicationParameterValue;
 import com.smartbt.vtsuite.servercommon.model.Clerk;
@@ -50,14 +51,15 @@ import com.smartbt.vtsuite.vtcommon.nomenclators.NomCountry;
 import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
 import com.smartbt.vtsuite.vtcommon.nomenclators.NomMerchantParameter;
 import com.smartbt.vtsuite.vtcommon.nomenclators.NomSystemProperties;
-import com.smartbt.vtsuite.vtcommon.nomenclators.NomTerminalHostParameter;
+import com.smartbt.vtsuite.vtcommon.nomenclators.NomTerminalHostParameter; 
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashMap; 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.transaction.Transactional;
 import javax.xml.bind.ValidationException;
@@ -357,14 +359,15 @@ public class BoardingAMSManager {
 
         String encryptPassword = "";
         if (transientClerk.getPassword() != null) {
-            Clerk clerkPointer = (persistentClerk == null) ? transientClerk : persistentClerk;
-
             try {
-                encryptPassword = LoginAMSManager.encryptPassword(transientClerk.getPassword());
+                Clerk clerkPointer = (persistentClerk == null) ? transientClerk : persistentClerk;
+                
+                encryptPassword = CryptoUtils.encryptPassword(transientClerk.getPassword());
                 clerkPointer.setPassword(encryptPassword);
             } catch (NoSuchAlgorithmException ex) {
-                throw new ValidationException(VTSuiteMessages.CANNOT_ENCRYPT_NULL_PASSWORD);
+                Logger.getLogger(BoardingAMSManager.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         }
 
         if (persistentClerk == null) {

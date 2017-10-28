@@ -1,4 +1,3 @@
-/VTAMS/target/
 /VTCommon/target/
 /VTReporting/target/
 /VTServer/iStream/iStream-ear/target/
@@ -17,3 +16,14 @@
 /VTServer/GirocheckFront/target/
 /VTServer/IDScanner/target/
 /VTServer/VTMobileFront/target/
+/target/
+/VTAMS/target/
+/VTAMS/src/main/webapp/build/
+/VTAMS/src/main/webapp/${ext.dir}/
+/VTAMS/src/main/webapp/.idea/
+/VTAMS/src/main/webapp/.sass-cache/ 
+/VTAMS/src/main/webapp/.sencha/
+/VTAMS/src/main/webapp/classic.json
+/VTAMS/src/main/webapp/classic.jsonp
+/VTAMS/src/main/webapp/sass/example/bootstrap.json
+/VTAMS/src/main/webapp/sass/example/bootstrap.jsonp

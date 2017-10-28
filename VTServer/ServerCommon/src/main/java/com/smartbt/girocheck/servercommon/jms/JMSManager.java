@@ -41,8 +41,8 @@ public class JMSManager {
     private Queue hostOutQueue;
     private Queue frontIStreamInQueue;
     private Queue frontIStreamOutQueue;
-    private QueueConnectionFactory connectionFactory;
-    private long timelife;
+    private static QueueConnectionFactory connectionFactory;
+    private static long timelife;
     private static JMSManager manager;
 //    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(com.smartbt.girocheck.servercommon.jms.JMSManager.class);
 
@@ -203,7 +203,7 @@ public class JMSManager {
         }
     }
 
-    public void sendWithProps(Object obj, Queue queue, String CorrelationId, Properties props) throws JMSException {
+    public static void sendWithProps(Object obj, Queue queue, String CorrelationId, Properties props) throws JMSException {
         Connection connection = null;
         Session session = null;
         Message message;

@@ -9,11 +9,9 @@
 /**
  * Licensee: License Type: Evaluation
  */
-package com.smartbt.girocheck.servercommon.model;
+package com.smartbt.girocheck.servercommon.model; 
 
-import java.io.Serializable;
-
-public class SubTransaction implements Serializable, Comparable<SubTransaction> {
+public class SubTransaction extends BaseEntity implements Comparable<SubTransaction> {
 
     public SubTransaction() {
     }

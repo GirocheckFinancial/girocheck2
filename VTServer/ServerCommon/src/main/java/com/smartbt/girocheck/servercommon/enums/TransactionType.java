@@ -11,8 +11,8 @@ public enum TransactionType {
     TRANSACTION_TYPE( null, 0 ),
     NEW_CARD_LOAD( NomHost.TECNICARD, 1 ),
     CARD_RELOAD( NomHost.TECNICARD, 2 ),
-    CARD_RELOAD_WITH_DATA( NomHost.TECNICARD, 35 ),
-    PERSONAL_INFO( null, 3 ),
+    CARD_RELOAD_WITH_DATA( NomHost.TECNICARD, 35 ), 
+    PERSONAL_INFO( NomHost.WESTECH, 3 ),
     CERTEGY_INFO( null, 4 ),
     ISTREAM_CHECK_AUTH_LOCATION_CONFIG( NomHost.ISTREAM, 5 ),
     ISTREAM_CHECK_AUTH( NomHost.ISTREAM, 6 ),
@@ -59,17 +59,24 @@ public enum TransactionType {
     CERTEGY_AUTHENTICATION(NomHost.CERTEGY, 40),
     CERTEGY_REVERSE_REQUEST(NomHost.CERTEGY, 41),
     
-    ISTREAM2_SEND_SINGLE_ICL(NomHost.ISTREAM2, 42),
+    ISTREAM2_SEND_SINGLE_ICL(NomHost.ISTREAM2, 42), 
     CHECK_INFO(null, 43),
+ 
+    TECNICARD_RESTORE_CARD(NomHost.TECNICARD, 44),
     
-    FISS_BALANCE_INQUIRY_CARD_VALIDATION(NomHost.FISS, 44),
-    TRANSACTION_HISTORY(NomHost.FISS, 45),
-    CARD_PERSONALIZATION(NomHost.FISS, 46),
-    CARD_ACTIVATION(NomHost.FISS, 47),
-    CARD_LOAD(NomHost.FISS, 48),
-    CARD_CASHING(NomHost.FISS, 49),
+    COMPLIANCE_NEW_BRANCH(NomHost.COMPLIANCE, 45 ),
+    COMPLIANCE_POST_TRANSACTION(NomHost.COMPLIANCE, 46 ),
+ 
     
-    IDEOLOGY_VERYFY_CLIENT(NomHost.IDEOLOGY, 50);
+    FISS_BALANCE_INQUIRY_CARD_VALIDATION(NomHost.FISS, 47),
+    TRANSACTION_HISTORY(NomHost.FISS, 48),
+    CARD_PERSONALIZATION(NomHost.FISS, 49),
+    CARD_ACTIVATION(NomHost.FISS, 50),
+    CARD_LOAD(NomHost.FISS, 51),
+    CARD_CASHING(NomHost.FISS, 52),
+    
+    IDEOLOGY_VERYFY_CLIENT(NomHost.IDEOLOGY, 53);
+ 
     private NomHost host;
 
     private int code;
@@ -177,9 +184,32 @@ public enum TransactionType {
                 return TransactionType.CERTEGY_REVERSE_REQUEST;
             case 42: 
                 return TransactionType.ISTREAM2_SEND_SINGLE_ICL;
+            case 43: 
+                return TransactionType.CHECK_INFO;
+            case 44: 
+                return TransactionType.TECNICARD_RESTORE_CARD;
+            case 45: 
+                return TransactionType.COMPLIANCE_NEW_BRANCH;
+            case 46: 
+                return TransactionType.COMPLIANCE_POST_TRANSACTION;
+            case 47: 
+                return TransactionType.FISS_BALANCE_INQUIRY_CARD_VALIDATION;
+            case 48: 
+                return TransactionType.TRANSACTION_HISTORY;
+            case 49: 
+                return TransactionType.CARD_PERSONALIZATION;
+            case 50: 
+                return TransactionType.CARD_ACTIVATION;
+            case 51: 
+                return TransactionType.CARD_LOAD;
+            case 52: 
+                return TransactionType.CARD_CASHING;
+            case 53: 
+                return TransactionType.IDEOLOGY_VERYFY_CLIENT; 
             default:
                   return TransactionType.TRANSACTION_TYPE;
         }
     }
 
     } 
+  

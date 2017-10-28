@@ -15,7 +15,7 @@ package com.smartbt.girocheck.servercommon.model;
 
 import java.io.Serializable;
 import java.util.Date;
-public class User implements Serializable {
+public class User extends BaseEntity{
 	public User() {
 	}
 	

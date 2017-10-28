@@ -92,7 +92,14 @@ public class ClientTransactionType {
                 return "Certegy Reverse";
             case 42: 
                 return "iStream Send Single ICL";
-           
+            case 43:
+                return "Check Info";
+            case 44:
+                return "Restore Card"; 
+            case 45:
+                return "Compliance New Branch"; 
+            case 46:
+                return "Compliance Post Transaction"; 
             default:
                 return "Unknown";
         }

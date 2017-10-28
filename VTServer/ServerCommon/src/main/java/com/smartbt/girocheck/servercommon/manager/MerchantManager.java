@@ -27,6 +27,7 @@ import com.smartbt.girocheck.servercommon.model.Address;
 import com.smartbt.girocheck.servercommon.model.CardProgram;
 import com.smartbt.girocheck.servercommon.model.Country;
 import com.smartbt.girocheck.servercommon.model.State;
+import com.smartbt.girocheck.servercommon.utils.GoogleMapUtil;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -60,6 +61,7 @@ public class MerchantManager {
     }
     
     public ResponseData<MerchantDisplay> saveOrUpdateMerchant( MerchantDisplay display ) throws UnsupportedEncodingException {
+        System.out.println("MerchantManager -> saveOrUpdateMerchant");
         ResponseData<MerchantDisplay> response = new ResponseData<MerchantDisplay>();
         response.setStatus( Constants.CODE_SUCCESS );
         response.setStatusMessage( VTSuiteMessages.SUCCESS );
@@ -125,7 +127,9 @@ public class MerchantManager {
             merchant.setCard_program( cardProgram );
         }
         
-        merchant.setMerchantType(Integer.parseInt(display.getMerchantType()) ); 
+        if(display.getMerchantType() != null && !display.getMerchantType().equals("null")){
+           merchant.setMerchantType(Integer.parseInt(display.getMerchantType()) );  
+        } 
        
         //Boolean values
         merchant.setIndependentOwner( display.getIndependentOwner());
@@ -147,7 +151,20 @@ public class MerchantManager {
             merchant.setCommissionType(display.getCommissionType().charAt(0));
         }
         
-
+        String googleMapResult = "";
+        
+        try{
+            googleMapResult = GoogleMapUtil.calculateMerchantLocation(merchant);
+        }catch(Exception e){
+            System.out.println("MerchantManager -> Exception calculating Merchant's position.");
+            e.printStackTrace();
+        }
+        
+        if(googleMapResult == null || googleMapResult.isEmpty()){
+             System.out.println("MerchantManager -> Exception calculating Merchant's position from :: " + googleMapResult);
+        }
+        
+        
         merchantDAO.saveOrUpdate( merchant );
 
         display.setId( merchant.getId() );

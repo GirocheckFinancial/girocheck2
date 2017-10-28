@@ -43,12 +43,15 @@ public enum NomHost {
     WESTECH(6),
     
     CERTEGY(7),
-    
+     
     ISTREAM2(8),
+     
+    COMPLIANCE(9),
     
-    FISS(9),
+    FISS(10),
     
-    IDEOLOGY(10);
+    IDEOLOGY(11);
+ 
 
     private NomHost(int id) {
         this.id = id;

@@ -17,6 +17,8 @@ package com.smartbt.girocheck.servercommon.messageFormat;
 
 import com.smartbt.girocheck.servercommon.diagnostics.Diagnosable;
 import com.smartbt.girocheck.servercommon.diagnostics.DiagnosticEvent;
+import com.smartbt.girocheck.servercommon.enums.TransactionType;
+import com.smartbt.girocheck.servercommon.model.Transaction;
 import java.util.HashSet;
 import java.util.Map;
 
@@ -30,6 +32,18 @@ public class DirexTransactionRequest extends DirexTransaction implements Diagnos
     private String correlation;
 
     private String requestId;
+
+    public DirexTransactionRequest() {
+    }
+     
+    public DirexTransactionRequest(Map transactionData, TransactionType transactionType, Transaction transaction) {
+        super(transactionData, transactionType, transaction);
+        if(transaction != null){
+            this.correlation = transaction.getRequestId();
+        } 
+    }
+    
+    
 
     @Override
     public DirexTransactionRequest clone() throws CloneNotSupportedException { 

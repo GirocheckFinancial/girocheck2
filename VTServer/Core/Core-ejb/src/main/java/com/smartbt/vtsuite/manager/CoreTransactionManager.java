@@ -278,6 +278,9 @@ public class CoreTransactionManager {
                 direxTransactionRequest.getTransactionData().put(ParameterName.BORNDATE_AS_DATE, client.getBornDate());
                 direxTransactionRequest.getTransactionData().put(ParameterName.FIRST_NAME, client.getFirstName());
                 direxTransactionRequest.getTransactionData().put(ParameterName.LAST_NAME, client.getLastName());
+                
+                System.out.println("Putting LAST_NAME = " + client.getLastName());
+                
                 direxTransactionRequest.getTransactionData().put(ParameterName.ADDRESS, address.getAddress());
                 direxTransactionRequest.getTransactionData().put(ParameterName.CITY, address.getCity());
                 direxTransactionRequest.getTransactionData().put(ParameterName.STATE, state.getCode());
@@ -356,7 +359,7 @@ public class CoreTransactionManager {
 
             if (transactionType == TransactionType.NEW_CARD_LOAD || transactionType == TransactionType.CARD_RELOAD || transactionType == TransactionType.CARD_RELOAD_WITH_DATA) {
                 direxTransactionRequest.getTransactionData().put(ParameterName.MERCHANT_NAME, terminal.getMerchant().getLegalName());
-                direxTransactionRequest.getTransactionData().put(ParameterName.EMAIL, "girocheck@cardmarte.com");
+              //  direxTransactionRequest.getTransactionData().put(ParameterName.EMAIL, "girocheck@cardmarte.com");
             }
 
             direxTransactionRequest.getTransactionData().put(ParameterName.IDPOS, terminal.getMerchant().getIdPosOrderExp());

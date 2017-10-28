@@ -1,9 +1,6 @@
 package com.smartbt.girocheck.servercommon.utils.idscanner;
 
-import com.smartbt.girocheck.servercommon.enums.ParameterName;
-import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
-import static com.smartbt.girocheck.servercommon.utils.IDScanner.formatDate;
-import static com.smartbt.girocheck.servercommon.utils.IDScanner.getString;
+import com.smartbt.girocheck.servercommon.enums.ParameterName; 
 import com.smartbt.girocheck.servercommon.utils.Utils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

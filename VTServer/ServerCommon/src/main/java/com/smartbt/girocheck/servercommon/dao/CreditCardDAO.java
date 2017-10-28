@@ -15,9 +15,11 @@ package com.smartbt.girocheck.servercommon.dao;
 import com.smartbt.girocheck.servercommon.model.Client;
 import com.smartbt.girocheck.servercommon.model.CreditCard;
 import com.smartbt.girocheck.servercommon.model.Merchant;
+import com.smartbt.girocheck.servercommon.model.Transaction;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -101,4 +103,13 @@ public class CreditCardDAO extends BaseDAO<CreditCard> {
                 .setMaxResults(1).uniqueResult();
     }   
 
+      //Determines if there is other transactions than this one, asociated to this card
+    public Boolean canDeleteCard( Integer cardId,Integer transactionId){
+        return ((Long)HibernateUtil.getSession().createCriteria(Transaction.class)
+                .createAlias("data_sc1", "data_sc1")
+                .add(Restrictions.ne("id", transactionId))
+                .add(Restrictions.eq("data_sc1.id", cardId))
+                .setProjection(Projections.rowCount())
+                .uniqueResult()) == 0;
+    }
 }

@@ -14,21 +14,15 @@
  **
  */
 package com.smartbt.vtsuite.MDB;
-//com.smartbt.vtsuite.jms.manager.RequestMessage
-//import com.smartbt.vtsuite.manager.TecnicardHostManager;
+ 
 import com.smartbt.girocheck.common.ServerJNDI;
-import com.smartbt.vtsuite.common.VTSuiteMessages;
 import com.smartbt.vtsuite.manager.TecnicardHostManager;
-import com.smartbt.girocheck.servercommon.jms.JMSManager;
-import com.smartbt.girocheck.servercommon.log.LogUtil;
-
+import com.smartbt.girocheck.servercommon.jms.JMSManager; 
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
 import com.smartbt.girocheck.servercommon.enums.ResultMessage;
-import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
-import com.smartbt.vtsuite.vtcommon.Constants;
-
+import com.smartbt.girocheck.servercommon.utils.CustomeLogger; 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;

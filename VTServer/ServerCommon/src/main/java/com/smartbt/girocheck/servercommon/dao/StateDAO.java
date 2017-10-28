@@ -44,6 +44,13 @@ public class StateDAO extends BaseDAO<State> {
         return (State) criteria.uniqueResult();
     }
 
+    public String getAbbreviationById( int idState ) {
+        return (String)HibernateUtil.getSession().createCriteria( State.class )
+                .add( Restrictions.eq( "id", idState ))
+                .setProjection(Projections.property("abbreviation"))
+                .uniqueResult(); 
+    }
+
     public List<StateDisplay> listStates() {
         Criteria criteria = HibernateUtil.getSession().createCriteria( State.class );
         

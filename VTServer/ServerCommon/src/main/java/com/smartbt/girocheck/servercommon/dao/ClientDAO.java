@@ -71,6 +71,8 @@ public class ClientDAO extends BaseDAO<Client> {
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[ClientDAO] Creating newClient with SSN = " + ssn, null);
             client = new Client();
             client.setSsn(ssn);
+            client.setBlackListAll(false);
+            client.setBlacklistCard2bank(false);
             client.setMaskSSN(maskSSN);
             client.setActive(true);
             client.setCreatedAt(new Date());

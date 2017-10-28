@@ -6,7 +6,7 @@
 package com.smartbt.vtsuite.servlets;
 
 import com.smartbt.girocheck.servercommon.dao.IDImagePngDAO;
-import com.smartbt.girocheck.servercommon.manager.IDImagePngManager;
+import com.smartbt.vtsuite.manager.IDImagePngManager;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import java.io.BufferedReader;
 import java.io.File;

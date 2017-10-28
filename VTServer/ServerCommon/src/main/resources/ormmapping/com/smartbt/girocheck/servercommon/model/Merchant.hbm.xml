@@ -61,7 +61,11 @@ License Type: Evaluation
 		<property name="inventory" column="inventory" type="integer"  not-null="false" lazy="false"/>
 		<property name="threshold" column="threshold" type="integer"  not-null="false" lazy="false"/>
 		<property name="commissionType" column="commission_type" type="character"  not-null="false" lazy="false"/>
-		<set name="merchant_Parameter_Value" lazy="true" cascade="save-update,lock" inverse="true">
+		
+                <property name="longitude" column="longitude" type="string" length="100" not-null="false" lazy="false"/>
+                <property name="latitude" column="latitude" type="string" length="255" not-null="false" lazy="false"/>
+                
+                <set name="merchant_Parameter_Value" lazy="true" cascade="save-update,lock" inverse="true">
 			<key column="merchant" not-null="true"/>
 			<one-to-many class="com.smartbt.girocheck.servercommon.model.MerchantParameterValue"/>
 		</set>
@@ -72,6 +76,6 @@ License Type: Evaluation
 		<set name="data_SC" lazy="true" cascade="save-update,lock" inverse="true">
 			<key column="merchant" not-null="true"/>
 			<one-to-many class="com.smartbt.girocheck.servercommon.model.CreditCard"/>
-		</set>
+		</set> 
 	</class>
 </hibernate-mapping>

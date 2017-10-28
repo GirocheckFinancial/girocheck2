@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+    <class name="com.smartbt.girocheck.servercommon.model.MobileNotification" table="mobile_notification" lazy="false">
+                <id name="id" column="id" type="integer" unsaved-value="0">
+		<generator class="native">
+		</generator>
+		</id>
+                <property name="creationDate" column="creation_date" type="timestamp" not-null="false" lazy="false"/>
+                
+                 <property name="title" column="title" type="string" length="255" not-null="false" lazy="false"/>
+                 <property name="text" column="text" type="string" length="1024" not-null="false" lazy="false"/>
+               
+                 <many-to-one name="mobileClient" cascade="lock" column="mobile_client" class="com.smartbt.girocheck.servercommon.model.MobileClient" not-null="true" lazy="proxy">
+		</many-to-one>
+                
+                <property name="seenByUser" column="seen_by_user" type="boolean" lazy="false"/>
+            </class>      
+  
+    </hibernate-mapping> 

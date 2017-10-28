@@ -7,8 +7,7 @@ package com.smartbt.vtsuite.manager;
 import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.girocheck.servercommon.dao.MobileClientDao;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
-import com.smartbt.girocheck.servercommon.model.MobileClient;
-import com.smartbt.vtsuite.util.MobileMessage;
+import com.smartbt.girocheck.servercommon.model.MobileClient; 
 import com.smartbt.vtsuite.vtcommon.Constants;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,5 +47,12 @@ public class SMSManager {
         }
 
         return response;
+    }
+    
+    public void updateExcludeSMS(int mobileClientId, Boolean excludeSMS){
+        System.out.println("SMSManager.updateExcludeSMS");
+        MobileClient mobileClient = MobileClientDao.get().getMobileClientById(mobileClientId);
+        mobileClient.getClient().setExcludeSms(excludeSMS);
+        MobileClientDao.get().saveOrUpdate(mobileClient);
     }
 }

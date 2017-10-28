@@ -132,8 +132,7 @@ public class FrontBusinessLogic {
             if (message != null) {
                 tmsg = (ObjectMessage) message;
                 Serializable s = tmsg.getObject();
-                direxTransactionResponse = (DirexTransactionResponse) s;
-                Set set = direxTransactionResponse.getTransactionData().keySet();
+                direxTransactionResponse = (DirexTransactionResponse) s; 
 
             } else {
                 direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.RESPONSE_TIME_EXCEEDED, ResultMessage.RESPONSE_TIME_EXCEEDED);

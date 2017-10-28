@@ -42,12 +42,14 @@ public class ExceptionInterceptor {
     public BaseResponse handleGeneralError(Exception ex) {
 
         System.out.println("ExceptionInterceptor -> handleGeneralError");
+        ex.printStackTrace();
 
         if (HibernateUtil.getSession().getTransaction() != null) {
             System.out.println("There is a liven transaction");
             try {
                 System.out.println("RequestInterceptor -> postHandle :: HibernateUtil.commitTransaction();");
-                HibernateUtil.commitTransaction();
+                //HibernateUtil.commitTransaction();
+                HibernateUtil.rollbackTransaction();
             } catch (Exception e) {
                 HibernateUtil.rollbackTransaction();
             } finally {

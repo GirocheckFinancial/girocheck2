@@ -18,6 +18,8 @@ import com.smartbt.girocheck.servercommon.display.message.BaseResponse;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
 import com.smartbt.girocheck.servercommon.model.User;
 import com.smartbt.girocheck.servercommon.model.VTSession;
+import com.smartbt.girocheck.servercommon.utils.CryptoUtils;
+import static com.smartbt.girocheck.servercommon.utils.CryptoUtils.encryptPassword;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import com.smartbt.vtsuite.dao.LoginAMSDAO;
 import com.smartbt.vtsuite.validators.LoginAMSValidator;
@@ -50,7 +52,7 @@ public class LoginAMSManager extends GeneralAMSManager {
      * @throws NoSuchAlgorithmException
      * @throws javax.xml.bind.ValidationException
      */
-    public BaseResponse authenticateUser(String username, String password) throws NoSuchAlgorithmException, ValidationException, Exception {
+    public BaseResponse authenticateUser(String username, String password) throws Exception {
             HibernateUtil.beginTransaction();
             LoginAMSValidator.authenticateUser(username, password);
 
@@ -156,22 +158,9 @@ public class LoginAMSManager extends GeneralAMSManager {
      * @throws javax.xml.bind.ValidationException
      */
     public static void main(String[] args) throws NoSuchAlgorithmException, ValidationException {
-        System.out.println(encryptPassword("sad"));
+        System.out.println(CryptoUtils.encryptPassword("sad"));
     }
-
-    public static String encryptPassword(String password) throws NoSuchAlgorithmException, ValidationException {
-        LoginAMSValidator.encryptPassword(password);
-        MessageDigest mDigest = MessageDigest.getInstance("SHA-1");
-        byte[] result = mDigest.digest(password.getBytes());
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < result.length; i++) {
-            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
-        }
-
-        return sb.toString();
-
-    }
-
+ 
     /**
      * Utility Method to Check Password
      *
@@ -182,7 +171,7 @@ public class LoginAMSManager extends GeneralAMSManager {
      * @throws javax.xml.bind.ValidationException
      */
     public static boolean checkPassword(String password, String encryptedPassword) throws NoSuchAlgorithmException, ValidationException {
-        return encryptPassword(password).equals(encryptedPassword);
+        return CryptoUtils.encryptPassword(password).equals(encryptedPassword);
     }
 
     public BaseResponse deleteSession(String token) {

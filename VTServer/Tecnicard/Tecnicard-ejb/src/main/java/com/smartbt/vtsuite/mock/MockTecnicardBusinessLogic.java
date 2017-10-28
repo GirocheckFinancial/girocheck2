@@ -23,18 +23,19 @@ import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.girocheck.servercommon.utils.IMap;
-import com.smartbt.vtsuite.boundary.client.BalanceInquiryResponse;
-import com.smartbt.vtsuite.boundary.client.CardActivationResponse;
-import com.smartbt.vtsuite.boundary.client.CardCreationResponse;
-import com.smartbt.vtsuite.boundary.client.CardHolderValidationResponse;
-import com.smartbt.vtsuite.boundary.client.CardLoadResponse;
-import com.smartbt.vtsuite.boundary.client.CardToBankResponse;
-import com.smartbt.vtsuite.boundary.client.CardValidationResponse;
-import com.smartbt.vtsuite.boundary.client.CashToCardResponse;
-import com.smartbt.vtsuite.boundary.client.EchoResponse;
-import com.smartbt.vtsuite.boundary.client.SessionTag;
-import com.smartbt.vtsuite.boundary.client.Transaction;
-import com.smartbt.vtsuite.boundary.util.MapUtil;
+import com.smartbt.vtsuite.connection.BalanceInquiryResponse;
+import com.smartbt.vtsuite.connection.CardActivationResponse;
+import com.smartbt.vtsuite.connection.CardCreationResponse;
+import com.smartbt.vtsuite.connection.CardHolderValidationResponse;
+import com.smartbt.vtsuite.connection.CardLoadResponse;
+import com.smartbt.vtsuite.connection.CardRestoreResponse;
+import com.smartbt.vtsuite.connection.CardToBankResponse;
+import com.smartbt.vtsuite.connection.CardValidationResponse;
+import com.smartbt.vtsuite.connection.CashToCardResponse;
+import com.smartbt.vtsuite.connection.EchoResponse;
+import com.smartbt.vtsuite.connection.SessionTag;
+import com.smartbt.vtsuite.connection.Transaction;
+import com.smartbt.vtsuite.util.MapUtil;
 import com.smartbt.vtsuite.util.TecnicardConstantValues;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -79,15 +80,16 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
             case TECNICARD_CARD_PERSONALIZATION:
                 response = wmCardPersonalization(transactionData);
                 break;
-            case TECNICARD_CARD_LOAD:
-                System.out.println("**MockTecnicardBusinessLogic:: TECNICARD_CARD_LOAD");
+            case TECNICARD_CARD_LOAD: 
                 response = wmCardLoad(transactionData);
                 break;
             case TECNICARD_BALANCE_INQUIRY:
                 response = wmBalanceInquiry(transactionData);
+                validateSucessfullProcessing(response);
                 break;
             case TECNICARD_CARD_TO_BANK:
                 response = wmCardToBank(transactionData);
+                validateSucessfullProcessing(response);
                 break;
 
             case TECNICARD_CARD_VALIDATION:
@@ -105,10 +107,13 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
             case TECNICARD_CASH_TO_CARD:
                 response = wmCashToCard(transactionData);
                 break;
+            case TECNICARD_RESTORE_CARD:
+                response = wmCardRestore(transactionData);
+                 validateSucessfullProcessing(response);
+                break;
         }
 
-        LogUtil.log("TecnicardManager", "                        Finish " + transactionType);
-
+        
         DirexTransactionResponse direxTransactionResponse = new DirexTransactionResponse();
 
         if (response != null) {
@@ -124,18 +129,34 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
         return direxTransactionResponse;
     }
 
-    /**
-     * Performs postprocess operations
-     *
-     * transactionRequest The transaction request transactionResponse The
-     * transaction response
-     *
-     * @param transactionRequest
-     * @param transactionResponse
-     * @throws Exception
-     */
+     public void validateSucessfullProcessing(IMap response) throws Exception {
+         System.out.println("[MockTecnicardBusinessLogic] -> validateSucessfullProcessing");
+        Map map = response.toMap();
+        map = (Map) map.get(ParameterName.SESSION_TAG_MAP);
+        if (map.containsKey(ParameterName.SUCESSFULL_PROCESSING)) {
+            boolean success = (boolean) map.get(ParameterName.SUCESSFULL_PROCESSING);
+            if (!success) {
+                String resultMessage = (String) map.get(ParameterName.RESULT_MESSAGE);
+                throw new Exception(resultMessage);
+            }
+        }
+    }
+     
     @Override
     public void postprocess(DirexTransactionRequest transactionRequest, DirexTransactionResponse transactionResponse) throws Exception {
+    }
+
+    private IMap wmCardRestore(Map map) throws Exception {
+        String pCardNumber = MapUtil.getStringValueFromMap(map, ParameterName.CARD_NUMBER, true);
+        String pRequestID = MapUtil.getStringValueFromMap(map, ParameterName.REQUEST_ID, true);
+ 
+        System.out.println("[TecnicardBusinessLogic]  port.wmCardRestore( pRequestID "
+                + pRequestID + ",  pCard ************" + pCardNumber.substring(pCardNumber.length() - 4));
+ 
+        SessionTag sessionTag = buildSessionTag("CardActivation", pRequestID, "000023");
+        CardRestoreResponse response = new CardRestoreResponse();
+        response.setSessionTag(sessionTag);
+        return response;
     }
 
     private IMap wmCardActivation(Map map) throws Exception {
@@ -154,8 +175,7 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
     }
 
     private IMap wmCardPersonalization(Map map) throws Exception {
-        Integer idType = 1;
-
+        Integer idType = 1; 
         String pId = MapUtil.getStringValueFromMap(map, ParameterName.SSN, true);
 
         String pState = MapUtil.getStringValueFromMap(map, ParameterName.STATE, false);
@@ -212,7 +232,9 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
         cardCreationResponse.setVerificationCode("CPersonalization: VerificationCode");
 
         SessionTag sessionTag = buildSessionTag("CPersonalization", pRequestID, "000000");
-
+//        sessionTag.setResultCode("1360320");
+//        sessionTag.setResultMessage("Some mock error.");
+//        sessionTag.setSucessfullProcessing(false);
         cardCreationResponse.setSessionTag(sessionTag);
 
         return cardCreationResponse;
@@ -234,7 +256,9 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
         response.setAmount(pTransAmount);
 
         SessionTag sessionTag = buildSessionTag("CardLoad", pRequestID, "0");
-
+//        sessionTag.setResultCode("1360320");
+//        sessionTag.setResultMessage("Another mock error.");
+//        sessionTag.setSucessfullProcessing(false);
         response.setSessionTag(sessionTag);
         return response;
     }
@@ -292,7 +316,7 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
 
         System.out.println("MockTecnicardBusinessLogic -> validationResponse = " + validationResponse);
         CardValidationResponse response = new CardValidationResponse();
-        SessionTag sessionTag = buildSessionTag("CActivation", pRequestID, validationResponse);
+        SessionTag sessionTag = buildSessionTag("CValidation", pRequestID, validationResponse);
         //Negative Case
 //        sessionTag.setResultMessage("Card was already replaced");
 //        sessionTag.setSucessfullProcessing(false);
@@ -365,6 +389,46 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
         list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.02", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
         list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
 
+        
+         list.add(new Transaction("PURCHASE", "F", "20170317", "25.00", "0.00", "D", "GOOGLE *Google Play    g.co/payhelp# CA"));
+        list.add(new Transaction("AUTHORIZATION REJECTED", "D", "20170315", "100.75", "0.00", "0", "AmazonPrime Membership amzn.com/prme WA"));
+        list.add(new Transaction("CHECK TO CARD", "G", "20170311", "10.00", "0.00", "C", "GIROCHECK VCVT[CHECKS0001]"));
+        list.add(new Transaction("CHECK FEE", "G", "20170311", "2.95", "0.00", "D", "Check Fee"));
+        list.add(new Transaction("AUTHORIZATION REJECTED", "D", "20170310", "100.75", "0.00", "D", "AmazonPrime Membership amzn.com/prme WA"));
+        list.add(new Transaction("CARD TO BANK", "D", "20170309", "0.50", "0.00", "D", "CARDTOBANK"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170307", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170307", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170306", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.02", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+
+        
+         list.add(new Transaction("PURCHASE", "F", "20170317", "25.00", "0.00", "D", "GOOGLE *Google Play    g.co/payhelp# CA"));
+        list.add(new Transaction("AUTHORIZATION REJECTED", "D", "20170315", "100.75", "0.00", "0", "AmazonPrime Membership amzn.com/prme WA"));
+        list.add(new Transaction("CHECK TO CARD", "G", "20170311", "10.00", "0.00", "C", "GIROCHECK VCVT[CHECKS0001]"));
+        list.add(new Transaction("CHECK FEE", "G", "20170311", "2.95", "0.00", "D", "Check Fee"));
+        list.add(new Transaction("AUTHORIZATION REJECTED", "D", "20170310", "100.75", "0.00", "D", "AmazonPrime Membership amzn.com/prme WA"));
+        list.add(new Transaction("CARD TO BANK", "D", "20170309", "0.50", "0.00", "D", "CARDTOBANK"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170307", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170307", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170306", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.02", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+
+        
+         list.add(new Transaction("PURCHASE", "F", "20170317", "25.00", "0.00", "D", "GOOGLE *Google Play    g.co/payhelp# CA"));
+        list.add(new Transaction("AUTHORIZATION REJECTED", "D", "20170315", "100.75", "0.00", "0", "AmazonPrime Membership amzn.com/prme WA"));
+        list.add(new Transaction("CHECK TO CARD", "G", "20170311", "10.00", "0.00", "C", "GIROCHECK VCVT[CHECKS0001]"));
+        list.add(new Transaction("CHECK FEE", "G", "20170311", "2.95", "0.00", "D", "Check Fee"));
+        list.add(new Transaction("AUTHORIZATION REJECTED", "D", "20170310", "100.75", "0.00", "D", "AmazonPrime Membership amzn.com/prme WA"));
+        list.add(new Transaction("CARD TO BANK", "D", "20170309", "0.50", "0.00", "D", "CARDTOBANK"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170307", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170307", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170306", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.02", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+        list.add(new Transaction("CASH TO CARD", "G", "20170301", "9.01", "3.95", "C", "GIROCHECK VCVT[CASH0001]"));
+
+         
         return list;
     }
 
@@ -380,7 +444,11 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
         response.setDate(getDate());
         response.setAmount("2.00");
 
-        response.setSessionTag(buildSessionTag("Cash2Card", pRequestID, "0"));
+        SessionTag session = buildSessionTag("Cash2Card", pRequestID, "0");
+//        session.setSucessfullProcessing(false);
+//        session.setResultCode("555555");
+//        session.setResultMessage("Another mock error...");
+        response.setSessionTag(session);
         return response;
     }
 
@@ -398,7 +466,7 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
 
         sessionTag.setOperationID(methodName + ": OperationId");
         sessionTag.setResultCode(resultCode);
-        sessionTag.setResultMessage(methodName + ": resultMessage");
+        sessionTag.setResultMessage(methodName + ": Success");
 
         return sessionTag;
     }

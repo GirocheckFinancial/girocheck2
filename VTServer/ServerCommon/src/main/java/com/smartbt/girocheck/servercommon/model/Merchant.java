@@ -113,6 +113,9 @@ public class Merchant implements Serializable {
     private Integer inventory;
     private Integer threshold;
     private Character commissionType;
+    
+    private String longitude;
+    private String latitude;
 
     private java.util.Set<com.smartbt.girocheck.servercommon.model.MerchantParameterValue> merchant_Parameter_Value = new java.util.HashSet<com.smartbt.girocheck.servercommon.model.MerchantParameterValue>();
 
@@ -695,6 +698,34 @@ public class Merchant implements Serializable {
      */
     public void setCommissionType(Character commissionType) {
         this.commissionType = commissionType;
+    }
+
+    /**
+     * @return the longitude
+     */
+    public String getLongitude() {
+        return longitude;
+    }
+
+    /**
+     * @param longitude the longitude to set
+     */
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    /**
+     * @return the latitude
+     */
+    public String getLatitude() {
+        return latitude;
+    }
+
+    /**
+     * @param latitude the latitude to set
+     */
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
  
 

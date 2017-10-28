@@ -113,6 +113,35 @@
             <groupId>org.aioobe.cloudconvert</groupId>
             <artifactId>client</artifactId>
             <version>1.0</version>
+            <type>jar</type> 
+        </dependency>
+         
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>2.5.1</version>
+        </dependency> 
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.3.1</version>
+        </dependency>
+        <!-- This creates some conflict with Jersey libs -->
+<!--        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-client</artifactId>
+            <version>3.0.0-milestone1</version>
+            <type>jar</type>
+        </dependency>-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.0</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -168,5 +197,5 @@
             <version>4.5.2</version>
             <type>jar</type>
         </dependency>
-    </dependencies>
+    </dependencies> 
 </project>

@@ -116,18 +116,15 @@ public class TecnicardHostManager {
             request.getTransactionData().put(ParameterName.FEE_AMMOUNT, FixUtil.fixAmmount(request.getTransactionData().get(ParameterName.FEE_AMMOUNT).toString()));
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[TecnicardHostManager] Parsing  fee_amount value :: " + request.getTransactionData().get(ParameterName.FEE_AMMOUNT), null);
         }
-       
-        
+
         TransactionType originalTransactionType = (TransactionType) request.getTransactionData().get(TransactionType.TRANSACTION_TYPE);
 
         Map collectorMap = new HashMap();
 
-        //*************  PROVISIONAL
-        // request.getTransactionData().put( ParameterName.REQUEST_ID, 1 );  //PROVISIONAL
-        //************** THIS FIELD SHOULD BE AN AUTHOINCREMENTAL IN THE DB
         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[TecnicardHostManager] Processing orig: " + originalTransactionType, null);
 
         TransactionType transactionType = request.getTransactionType();
+        CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[TecnicardHostManager] Processing transactionType: " + transactionType, null);
 
         String resultCode = "";
 
@@ -284,11 +281,13 @@ public class TecnicardHostManager {
                     CustomeLogger.Output(CustomeLogger.OutputStates.Info, "--[TecnicardHostManager] success = " + success, null);
 
                     if (success) {
-                        request.setTransactionType(TransactionType.TECNICARD_BALANCE_INQUIRY);
-                        DirexTransactionResponse inquiryResponse = (DirexTransactionResponse) bizLogic.handle(request);
+                        if (transactionType != TransactionType.TECNICARD_RESTORE_CARD) {
+                            request.setTransactionType(TransactionType.TECNICARD_BALANCE_INQUIRY);
+                            DirexTransactionResponse inquiryResponse = (DirexTransactionResponse) bizLogic.handle(request);
 
-                        if (inquiryResponse.getTransactionData() != null) {
-                            response.getTransactionData().putAll(inquiryResponse.getTransactionData());
+                            if (inquiryResponse.getTransactionData() != null) {
+                                response.getTransactionData().putAll(inquiryResponse.getTransactionData());
+                            }
                         }
 
                         response.setResultCode(ResultCode.SUCCESS);
@@ -374,32 +373,29 @@ public class TecnicardHostManager {
         Integer max = (Integer) requestMap.get(ParameterName.MAX);
         int successfulCount = 0;
 
-        List<com.smartbt.vtsuite.boundary.client.Transaction> originalList = (List<com.smartbt.vtsuite.boundary.client.Transaction>) responseMap.get(ParameterName.TRANSACTIONS_LIST);
-
+        List<com.smartbt.vtsuite.connection.Transaction> originalList = (List<com.smartbt.vtsuite.connection.Transaction>) responseMap.get(ParameterName.TRANSACTIONS_LIST);
 
         if (originalList != null) {
-                    System.out.println("TecnicardHostManager.buildMobileTransactionList start = " + start + ", max = " + max);
-                    System.out.println("TecnicardHostManager.buildMobileTransactionList originalList.size() = " + originalList.size());
+            System.out.println("TecnicardHostManager.buildMobileTransactionList start = " + start + ", max = " + max);
+            System.out.println("TecnicardHostManager.buildMobileTransactionList originalList.size() = " + originalList.size());
 
             for (int i = 0; i < originalList.size(); i++) {
-                originalList.get(i).print();
-
                 if (originalList.get(i).wasSuccess()) {
                     if (successfulCount >= start && result.size() < max) {
-                       MobileTransaction mt =originalList.get(i).toMobileTransaction();
-                       
-                       result.add(mt);
-                       
-                       if(mt.getType() != null && mt.getType().equalsIgnoreCase("CASH TO CARD")){ 
-                           MobileTransaction feeTransaction = new MobileTransaction("CASH LOAD FEE", mt.getDate(), mt.getFee(), "0.00", "D","G", "Cash Load Fee");
-                           result.add(feeTransaction);
-                           successfulCount++;
-                       }
+                        MobileTransaction mt = originalList.get(i).toMobileTransaction();
+
+                        result.add(mt);
+
+                        if (mt.getType() != null && mt.getType().equalsIgnoreCase("CASH TO CARD")) {
+                            MobileTransaction feeTransaction = new MobileTransaction("CASH LOAD FEE", mt.getDate(), mt.getFee(), "0.00", "D", "G", "Cash Load Fee");
+                            result.add(feeTransaction);
+                            successfulCount++;
+                        }
                     }
                     successfulCount++;
                 }
             }
-        }else{
+        } else {
             System.out.println("originalList is null");
         }
 
@@ -408,5 +404,5 @@ public class TecnicardHostManager {
 
         return transactionHistory;
     }
- 
+
 }

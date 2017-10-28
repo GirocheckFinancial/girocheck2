@@ -4,10 +4,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
- 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smartbt.girocheck.servercommon.email.EmailUtils;
+import org.apache.http.impl.client.HttpClientBuilder; 
 import org.apache.http.HttpEntity;
 import org.apache.http.util.EntityUtils;
 
@@ -24,14 +21,14 @@ public class SMSUtils {
     
     //static String API_SECRET="7600138823729";
  
-    public static void sendSMS(String phone, String message) {
-        
+    public static boolean sendSMS(String phone, String message) {
+        System.out.println("...Sending SMS to phone " + phone);
+         
         String url = System.getProperty("SMS_URL");
         String API_KEY = System.getProperty("SMS_API_KEY");
         String API_SECRET = System.getProperty("SMS_API_SECRET");
          
-        HttpPost postRequest = new HttpPost(url);
-        ObjectMapper mapper = new ObjectMapper();
+        HttpPost postRequest = new HttpPost(url); 
  
         try { 
             String request = "{\"toList\" :[\""
@@ -55,13 +52,14 @@ public class SMSUtils {
             if(responseEntity!=null) {
                String resp = EntityUtils.toString(responseEntity);
                System.out.println("********* SMS SEND SUCCESSFULLY*******************");// mapper.readValue(response.getEntity().getContent(), Response.class);
+                System.out.println(resp); 
             } 
-            
- 
+            return true;
+                
            // System.out.println(entityResponse.toString());
        } catch (Exception e) { 
            e.printStackTrace();       
-        
+           return false;
        } finally {
        if (postRequest != null) {
           postRequest.releaseConnection();

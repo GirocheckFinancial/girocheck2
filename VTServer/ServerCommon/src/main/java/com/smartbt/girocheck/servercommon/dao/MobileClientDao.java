@@ -6,11 +6,10 @@ package com.smartbt.girocheck.servercommon.dao;
 
 import com.smartbt.girocheck.servercommon.dao.BaseDAO;
 import com.smartbt.girocheck.servercommon.display.mobile.MobileClientDisplay;
-import com.smartbt.girocheck.servercommon.model.CreditCard;
 import com.smartbt.girocheck.servercommon.model.MobileClient;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
+import java.util.Date;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -35,7 +34,7 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
         return dao;
     }
 
-    public MobileClientDisplay getMobileClientDisplayByUserAndPassword(String userName, String password) {
+    public MobileClientDisplay getMobileClientDisplayByUserAndPassword(String userName, String password, String token, String pushToken, Integer version, String lang, String os) {
 
         Criteria criteria = HibernateUtil.getSession().createCriteria(MobileClient.class)
                 .createAlias("card", "card")
@@ -46,16 +45,26 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
 
         ProjectionList projectionList = Projections.projectionList()
                 .add(Projections.property("id").as("clientId"))
+                .add(Projections.property("allowNotifications").as("allowNotifications"))
                 .add(Projections.property("card.cardNumber").as("card"))
                 .add(Projections.property("client.firstName").as("clientName"))
                 .add(Projections.property("client.email").as("clientEmail"))
                 .add(Projections.property("client.telephone").as("clientPhone"))
+                .add(Projections.property("client.excludeSms").as("excludeSMS"))
                 .add(Projections.property("userName").as("mobileClientUserName"));
 
         criteria.setProjection(projectionList);
         criteria.setResultTransformer(Transformers.aliasToBean(MobileClientDisplay.class));
 
-        return (MobileClientDisplay) criteria.uniqueResult();
+        MobileClientDisplay result = (MobileClientDisplay) criteria.uniqueResult();
+        
+        if(result != null){
+            updateToken(result.getClientId(), token, pushToken, version, lang, os);   
+        }
+        
+        result.setUnreadNotifications(MobileNotificationDao.get().countUnreadNotifications( result.getClientId() ));
+        
+        return result;
     }
 
     public String getCardNumberByMobileClientId(Integer mobileClientId) {
@@ -69,6 +78,13 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
     public MobileClient getMobileClientById(int clientId) {
         Criteria criteria = HibernateUtil.getSession().createCriteria(MobileClient.class)
                 .add(Restrictions.eq("id", clientId));
+        return (MobileClient) criteria.uniqueResult();
+    }
+
+    public MobileClient getMobileClientByClient(int clientId) {
+        Criteria criteria = HibernateUtil.getSession().createCriteria(MobileClient.class)
+                .createAlias("client", "client")
+                .add(Restrictions.eq("client.id", clientId));
         return (MobileClient) criteria.uniqueResult();
     }
 
@@ -132,7 +148,59 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
             System.out.println("Call #2");
             int r2 = HibernateUtil.getSession().createQuery("update Client set exclude_sms = 1 where telephone like '" + phoneNumber + "'").executeUpdate();
             System.out.println("r2 = " + r2);
-        }
-
+        } 
     }
+    
+    
+    public void updateToken(Integer mobileClientId, String token, String pushToken, Integer version, String lang, String os) {
+        StringBuilder query = new StringBuilder("update mobile_client set token = '" + token + "', last_login = now()");
+        
+        if(pushToken != null){
+            query.append(", push_token = '" + pushToken + "'");
+        }
+        
+        if(version != null){
+            query.append(", version = " + version);
+        }
+        
+        if(lang != null){
+            query.append(", lang = '" + lang + "'");
+        }
+         
+        if(os != null){
+            query.append(", device_type = '" + os + "'");
+        }
+        
+        query.append( " where id = " + mobileClientId );
+        
+        System.out.println("MobileClientDAO.updateToken:: query = " + query);
+        
+        HibernateUtil.getSession().createSQLQuery( query.toString() ).executeUpdate();
+    }
+    
+    //TODO when the new app be stable, we should also validate the clientID, 
+    //and send the clientID in the header of every request
+    public Boolean validateToken(String token) {
+       Date lastLogin = (Date)HibernateUtil.getSession().createSQLQuery("select last_login from mobile_client where token = '" + token + "'" ).uniqueResult();
+       
+       System.out.println("[MobileClientDao.validateToken] lastLogin = " + lastLogin);
+       
+       if(lastLogin != null){ 
+            Date now = new Date(); 
+            boolean isActive = (now.getTime() - lastLogin.getTime()) < 30 * 60 * 1000;
+            
+            if(isActive){
+                HibernateUtil.getSession().createSQLQuery("update mobile_client set last_login = now() where token = '" + token + "'").executeUpdate();
+            }
+            return isActive;
+       }else{
+           return false;
+       } 
+    }
+    
+    public void updateAllowNotifications(int mobileClientId, Boolean allowNotifications){
+        String query = "update mobile_client set allow_notifications = " + allowNotifications + " where id = " + mobileClientId;
+        HibernateUtil.getSession().createSQLQuery( query ).executeUpdate();
+    }
+     
 }
