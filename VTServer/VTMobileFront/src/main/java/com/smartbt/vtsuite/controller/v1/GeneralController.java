@@ -146,7 +146,7 @@ public class GeneralController {
         }
         
         System.out.println("GeneralController.forgotPassword: \n maskSSN: " + maskSSN
-                + "\n cardNumber: " + cardNumber
+            //    + "\n cardNumber: " + cardNumber
                 + "\n sendBy: " + sendBy
                 + "\n code: " + code);
  

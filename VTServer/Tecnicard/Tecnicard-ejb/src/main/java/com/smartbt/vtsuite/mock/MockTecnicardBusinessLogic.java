@@ -356,7 +356,7 @@ public class MockTecnicardBusinessLogic extends AbstractBusinessLogicModule {
         String pEndDate = MapUtil.getStringValueFromMap(map, ParameterName.END_DATE, false);
         String pRequestID = MapUtil.getStringValueFromMap(map, ParameterName.REQUEST_ID, false);
 
-        System.out.println("TecnicardBusinessLogin -> wmLastTransactions(" + pRequestID + ", " + pCardNumber + ", " + pStartDate + ", " + pEndDate + ", \"\")");
+     //   System.out.println("TecnicardBusinessLogin -> wmLastTransactions(" + pRequestID + ", " + pCardNumber + ", " + pStartDate + ", " + pEndDate + ", \"\")");
 
         return new IMap() {
 

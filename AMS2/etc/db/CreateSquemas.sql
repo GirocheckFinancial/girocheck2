@@ -1,6 +1,0 @@
-
-CREATE DATABASE global_recash;
-CREATE SCHEMA security AUTHORIZATION postgres;
-CREATE SCHEMA transactional AUTHORIZATION postgres;
-CREATE SCHEMA usuario  AUTHORIZATION postgres;
-CREATE SCHEMA boarding  AUTHORIZATION postgres;

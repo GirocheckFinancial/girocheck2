@@ -250,12 +250,11 @@ public class RegistrationManager {
         try {
             MobileClient mobileClient = validateDataAndGetClient(maskSSN, cardNumber, sendBy, lang);
 
-            if (code == null || code.isEmpty()) {
-                System.out.println("[FrontMobile.RegistrationManager] Code is empty...");
+            if (code == null || code.isEmpty()) { 
                 String forgotPwdKey = Utils.generateRandomNumber(6);
                 mobileClient.setForgotPasswordKey(forgotPwdKey);
                 mobileClient.setKeyExpirationTime(new Date());
-
+ System.out.println("[FrontMobile.RegistrationManager] AccessCode is: " + forgotPwdKey);
                 try {
                     sendEmailOrSMSNotification(mobileClient, sendBy,lang);
                 } catch (Exception e) {
@@ -452,7 +451,7 @@ public class RegistrationManager {
             throw new MobileValidationException(Constants.REQUIRED_FIELD, MobileMessage.REQUIRED_FIELD.get(lang) + " Send By");
         }
 
-        System.out.println("[FrontMobile.RegistrationManager] Loading client by cardNumber : " + cardNumber + " , maskSSN : " + maskSSN);
+   //     System.out.println("[FrontMobile.RegistrationManager] Loading client by cardNumber : " + cardNumber + " , maskSSN : " + maskSSN);
         MobileClient mobileClient = MobileClientDao.get().getMobileClientByCardNumberAndMaskSSN(maskSSN, cardNumber);
 
         if (mobileClient == null) {

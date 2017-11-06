@@ -279,6 +279,13 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency> 
+        
+         <dependency>
+            <groupId>com.smartbt.girocheck</groupId>
+            <artifactId>CloudConvert</artifactId>
+            <version>1.1</version>
+            <type>ejb</type>
+        </dependency>
     </dependencies>
 
     <build>

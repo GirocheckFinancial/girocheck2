@@ -180,23 +180,23 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
     
     //TODO when the new app be stable, we should also validate the clientID, 
     //and send the clientID in the header of every request
-    public Boolean validateToken(String token) {
-       Date lastLogin = (Date)HibernateUtil.getSession().createSQLQuery("select last_login from mobile_client where token = '" + token + "'" ).uniqueResult();
-       
-       System.out.println("[MobileClientDao.validateToken] lastLogin = " + lastLogin);
-       
-       if(lastLogin != null){ 
-            Date now = new Date(); 
-            boolean isActive = (now.getTime() - lastLogin.getTime()) < 30 * 60 * 1000;
-            
-            if(isActive){
-                HibernateUtil.getSession().createSQLQuery("update mobile_client set last_login = now() where token = '" + token + "'").executeUpdate();
-            }
-            return isActive;
-       }else{
-           return false;
-       } 
-    }
+//    public Boolean validateToken(String token) {
+//       Date lastLogin = (Date)HibernateUtil.getSession().createSQLQuery("select last_login from mobile_client where token = '" + token + "'" ).uniqueResult();
+//       
+//       System.out.println("[MobileClientDao.validateToken] lastLogin = " + lastLogin);
+//       
+//       if(lastLogin != null){ 
+//            Date now = new Date(); 
+//            boolean isActive = (now.getTime() - lastLogin.getTime()) < 30 * 60 * 1000;
+//            
+//            if(isActive){
+//                HibernateUtil.getSession().createSQLQuery("update mobile_client set last_login = now() where token = '" + token + "'").executeUpdate();
+//            }
+//            return isActive;
+//       }else{
+//           return false;
+//       } 
+//    }
     
     public void updateAllowNotifications(int mobileClientId, Boolean allowNotifications){
         String query = "update mobile_client set allow_notifications = " + allowNotifications + " where id = " + mobileClientId;

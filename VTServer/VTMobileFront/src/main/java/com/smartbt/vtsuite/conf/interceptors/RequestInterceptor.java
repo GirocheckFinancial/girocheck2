@@ -95,7 +95,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
             token = request.getHeader("TOKEN");
             System.out.println("Regular URL, Token in header = " + token); 
             
-            isValid = token != null && MobileClientDao.get().validateToken(token);
+            isValid = token != null;
             
             System.out.println("is Token Valid = " + isValid);
         }

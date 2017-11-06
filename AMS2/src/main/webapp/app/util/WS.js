@@ -6,7 +6,7 @@
 Ext.define('Admin.util.WS', {
     alternateClassName: 'WS',
     statics: {
-        HOST: '/Front/'
+        HOST: '/FrontAMS2/'
     }
 });
 

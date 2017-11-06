@@ -7,8 +7,11 @@ package com.girocheck.frontams.web.security;
 
 import com.girocheck.frontams.common.util.response.WebResponseData;
 import com.girocheck.frontams.persistence.dto.Principal;
+import com.girocheck.frontams.persistence.manager.TransactionImageManager;
 import com.girocheck.frontams.persistence.service.AccessService;
 import com.girocheck.frontams.persistence.service.LoginService;
+import com.smartbt.girocheck.servercommon.display.message.ResponseData;
+import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,8 +34,19 @@ public class SecurityController {
     protected AccessService accessService;
 
     @RequestMapping(value = "/ping")
-    public String checkAccess(@PathVariable("pageId") String pageId) {
-        return "PING";
+    public ResponseData checkAccess(@PathVariable("pageId") String pageId) throws Exception {
+        System.out.println("222 Calling PING...");
+        ResponseData response = null;
+        try {
+            HibernateUtil.beginTransaction();
+            response = TransactionImageManager.get().getTransactionImage(370, true);
+            HibernateUtil.commitTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+            HibernateUtil.rollbackTransaction();
+        }
+
+        return response;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
@@ -61,7 +75,7 @@ public class SecurityController {
     }
 
     @RequestMapping(value = "/checkAccess")
-    public WebResponseData checkAccess( @PathVariable("pageId") String pageId, HttpSession session) {
+    public WebResponseData checkAccess(@PathVariable("pageId") String pageId, HttpSession session) {
 
         Principal principal = (Principal) session.getAttribute(Principal.PRINCIPAL);
 
