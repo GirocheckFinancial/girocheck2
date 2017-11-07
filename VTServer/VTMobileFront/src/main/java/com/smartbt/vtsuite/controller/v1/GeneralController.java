@@ -26,7 +26,9 @@ import com.smartbt.vtsuite.manager.RegistrationManager;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -110,8 +112,8 @@ public class GeneralController {
         return regManager.replaceCard(clientId, cardNumber, token,lang);
     }
 
-    @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
-    public ResponseData updateProfile(@RequestBody LinkedHashMap params, HttpSession session) throws Exception {
+    @RequestMapping(value = "/updateProfile", method = RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody ResponseData updateProfile(@RequestBody LinkedHashMap params, HttpSession session) throws Exception {
         String clientId = (String) params.get("clientId");
         String username = (String) params.get("username");
         String email = (String) params.get("email");

@@ -4,26 +4,30 @@
  * and open the template in the editor.
  */
 package com.girocheck.frontams.persistence.manager;
-
-import com.smartbt.girocheck.cloudconvert.CloudConvertClient;
+ 
+import com.google.common.io.ByteStreams;
 import com.smartbt.girocheck.servercommon.dao.IDImagePngDAO;
 import com.smartbt.girocheck.servercommon.dao.TransactionDAO;
 import com.smartbt.girocheck.servercommon.display.TransactionImagesDisplay;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
-import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
 import com.smartbt.girocheck.servercommon.utils.ImgConvTiffToPng;
 import com.smartbt.vtsuite.common.VTSuiteMessages;
 import com.smartbt.vtsuite.vtcommon.Constants;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Date;
+import java.sql.Blob;
 import javax.xml.bind.DatatypeConverter;
+import org.aioobe.cloudconvert.CloudConvertService;
+import org.aioobe.cloudconvert.ConvertProcess;
+import org.aioobe.cloudconvert.ProcessStatus;
 
 /**
  *
  * @author Alejo
  */
 public class TransactionImageManager {
-
+    private static String IMAGE_CONVERTION_KEY = "oRkArXKrHfasWtL2VusjRWcqtyvYHd_F3AJvD44BROOajAo_iLWbhzu94wU2pV6qzV09jDQVhJvfH1iYsoid7g";
+       
     public static TransactionImageManager INSTANCE;
 
     public static TransactionImageManager get() {
@@ -63,11 +67,11 @@ public class TransactionImageManager {
 
         if (dto.getShowIdImages()) {
             if (dto.isImagesConverted()) {
-                idFront = CloudConvertClient.getImage(dto.getIdFront());
-                idBack = CloudConvertClient.getImage(dto.getIdBack());
+                idFront = getImage(dto.getIdFront());
+                idBack = getImage(dto.getIdBack());
             } else {
-                idFront = CloudConvertClient.convert(dto.getIdFront(), "idfront_" + dto.getClientId());
-                idBack = CloudConvertClient.convert(dto.getIdBack(), "idback_" + dto.getClientId());
+                idFront = convert(dto.getIdFront(), "idfront_" + dto.getClientId());
+                idBack = convert(dto.getIdBack(), "idback_" + dto.getClientId());
 
                 IDImagePngDAO.get().save(idFront, idBack, dto.getClientId());
             }
@@ -88,5 +92,62 @@ public class TransactionImageManager {
             return "";
         }
 
+    }
+    
+      public static byte[] getImage(Blob blob) throws Exception {
+        if (blob == null) {
+            return null;
+        } 
+        int length = (int)blob.length();
+        
+         System.out.println("CloudConvertClient -> length " + length);
+       return blob.getBytes(1, length);
+    }
+      
+      
+       public static byte[] convert(Blob blob, String imageName) throws Exception {
+        System.out.println("convertGrayScaleImages :: imageName = " + imageName + "...");
+        
+        if (blob == null) {
+            return null;
+        }
+        
+       String IMAGE_CONVERTION_KEY = "oRkArXKrHfasWtL2VusjRWcqtyvYHd_F3AJvD44BROOajAo_iLWbhzu94wU2pV6qzV09jDQVhJvfH1iYsoid7g";
+       
+         System.out.println("**IMAGE_CONVERTION_KEY = " + IMAGE_CONVERTION_KEY);
+ 
+       // String apiKey = "oRkArXKrHfasWtL2VusjRWcqtyvYHd_F3AJvD44BROOajAo_iLWbhzu94wU2pV6qzV09jDQVhJvfH1iYsoid7g";
+        CloudConvertService service = new CloudConvertService(IMAGE_CONVERTION_KEY);
+
+// Create conversion process
+        ConvertProcess process = service.startProcess("tif", "png");
+
+// Perform conversion 
+        ByteArrayInputStream bis = new ByteArrayInputStream( getImage(blob));
+        process.startConversion(bis, imageName + ".tif");
+
+// Wait for result
+        ProcessStatus status;
+        waitLoop:
+        while (true) {
+            status = process.getStatus();
+
+            switch (status.step) {
+                case FINISHED:
+                    break waitLoop;
+                case ERROR:
+                    throw new RuntimeException(status.message);
+            }
+
+            // Be gentle
+            Thread.sleep(200);
+        }
+
+        InputStream is = service.download(status.output.url);
+       
+// Clean up
+        process.delete();
+       System.out.println("convertGrayScaleImages :: imageName = " + imageName + ". Convertion end.");
+        return ByteStreams.toByteArray(is);
     }
 }

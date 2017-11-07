@@ -2,6 +2,7 @@ package com.smartbt.girocheck.servercommon.display.mobile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -9,9 +10,26 @@ import java.io.Serializable;
  */
 public class MobileClientDisplay implements Serializable {
 
-    private Integer clientId;
+    @JsonIgnore
+    private Integer id; 
     @JsonIgnore
     private String card;
+//    @JsonIgnore
+//    private String ssn;
+    @JsonIgnore
+    private String pushToken;
+    @JsonIgnore
+    private String deviceType;
+    @JsonIgnore
+    private String lang;
+    @JsonIgnore
+    private String password;
+    @JsonIgnore
+    private String forgotPasswordKey;
+    @JsonIgnore
+    private Date keyExpirationTime;
+    
+    private Integer clientId;
     private String token;
     private String balance;
     private String clientName;
@@ -22,6 +40,7 @@ public class MobileClientDisplay implements Serializable {
     private Boolean allowNotifications;
     private Integer lastMobileVersion = 3;
     private Boolean excludeSMS;
+
     /**
      * @return the card
      */
@@ -188,9 +207,104 @@ public class MobileClientDisplay implements Serializable {
      */
     public void setAllowNotifications(Boolean allowNotifications) {
         this.allowNotifications = allowNotifications;
+    } 
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
     }
 
-    
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the pushToken
+     */
+    public String getPushToken() {
+        return pushToken;
+    }
+
+    /**
+     * @param pushToken the pushToken to set
+     */
+    public void setPushToken(String pushToken) {
+        this.pushToken = pushToken;
+    }
+
+    /**
+     * @return the deviceType
+     */
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    /**
+     * @param deviceType the deviceType to set
+     */
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    /**
+     * @return the lang
+     */
+    public String getLang() {
+        return lang;
+    }
+
+    /**
+     * @param lang the lang to set
+     */
+    public void setLang(String lang) {
+        this.lang = lang;
+    }
+
+    /**
+     * @return the forgotPasswordKey
+     */
+    public String getForgotPasswordKey() {
+        return forgotPasswordKey;
+    }
+
+    /**
+     * @param forgotPasswordKey the forgotPasswordKey to set
+     */
+    public void setForgotPasswordKey(String forgotPasswordKey) {
+        this.forgotPasswordKey = forgotPasswordKey;
+    }
+
+    /**
+     * @return the keyExpirationTime
+     */
+    public Date getKeyExpirationTime() {
+        return keyExpirationTime;
+    }
+
+    /**
+     * @param keyExpirationTime the keyExpirationTime to set
+     */
+    public void setKeyExpirationTime(Date keyExpirationTime) {
+        this.keyExpirationTime = keyExpirationTime;
+    }
+
 }

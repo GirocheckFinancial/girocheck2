@@ -27,7 +27,7 @@ public class ReportManager {
     public List getReport(String url, String entity, String report, String params) { 
 //        url += "/Front/AMS/pageID/" + entity +"/list?limit=0";
         String port = url.substring(url.lastIndexOf(":"));
-        url = "http://localhost" + port + "/Front/" + entity +"/" + entity +"/report";
+        url = "http://localhost" + port + "/FrontAMS2/" + entity +"/" + entity +"/report";
         
         System.out.println("ReportManager:: params = " + params);
         System.out.println("ReportManager:: report = " + report);

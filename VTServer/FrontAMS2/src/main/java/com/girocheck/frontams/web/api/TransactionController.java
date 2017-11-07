@@ -7,12 +7,12 @@ package com.girocheck.frontams.web.api;
  
 import com.girocheck.frontams.common.controller.AbstractController;
 import com.girocheck.frontams.common.manager.AbstractManager; 
-import com.girocheck.frontams.persistence.dto.chart.TransactionChartPoint;
+import com.girocheck.frontams.persistence.manager.TransactionImageManager;
 import com.girocheck.frontams.persistence.manager.TxManager;
 import com.girocheck.frontams.persistence.manager.TxReportManager;
-import java.util.ArrayList;
+import com.smartbt.girocheck.servercommon.display.message.ResponseData;
+import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
@@ -66,6 +66,23 @@ public class TransactionController extends AbstractController{
         } 
          
         return txReportManager.transactionChart(chartType, timeType, transactionType, month, year, operationPattern); 
+    }
+    
+    
+    @RequestMapping(value = "/idImage/{transactionId}")
+    public ResponseData checkAccess(@PathVariable("pageId") String pageId, @PathVariable("transactionId") Integer transactionId) throws Exception {
+        System.out.println("222 Calling PING...");
+        ResponseData response = null;
+        try {
+            HibernateUtil.beginTransaction();
+            response = TransactionImageManager.get().getTransactionImage(transactionId, true);
+            HibernateUtil.commitTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+            HibernateUtil.rollbackTransaction();
+        }
+
+        return response;
     }
       
 

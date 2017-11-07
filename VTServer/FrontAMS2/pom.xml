@@ -279,13 +279,18 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency> 
-        
-         <dependency>
+        <dependency>
+            <groupId>org.aioobe.cloudconvert</groupId>
+            <artifactId>client</artifactId>
+            <version>1.0</version>
+            <type>jar</type> 
+        </dependency>
+<!--         <dependency>
             <groupId>com.smartbt.girocheck</groupId>
             <artifactId>CloudConvert</artifactId>
             <version>1.1</version>
             <type>ejb</type>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>

@@ -231,4 +231,14 @@ public class ClientDAO extends BaseDAO<Client> {
                 .add(Restrictions.eq("ssn", ssn));
         return (Client) criteria.uniqueResult();
     }
+    
+    
+    public String getClientSSNById(Integer id) {
+
+        return (String) HibernateUtil.getSession().createCriteria(Client.class)
+                .add(Restrictions.eq("id", id))
+                .setProjection(Projections.property("ssn"))
+                .uniqueResult();
+        
+    }
 }

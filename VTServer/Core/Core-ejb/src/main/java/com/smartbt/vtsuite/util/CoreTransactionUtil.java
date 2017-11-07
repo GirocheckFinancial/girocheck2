@@ -6,6 +6,7 @@
 package com.smartbt.vtsuite.util;
 
 import com.smartbt.girocheck.servercommon.dao.MobileClientDao;
+import com.smartbt.girocheck.servercommon.display.mobile.MobileClientDisplay;
 import com.smartbt.girocheck.servercommon.utils.SMSUtils;
 import com.smartbt.girocheck.servercommon.enums.EmailName;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
@@ -34,14 +35,11 @@ import com.smartbt.girocheck.servercommon.utils.pushNotification.PushNotificatio
 import com.smartbt.vtsuite.manager.AbstractCommonBusinessLogic;
 import com.smartbt.vtsuite.util.email.GoogleMail;
 import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
-import com.sun.enterprise.deployment.web.Constants;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.jms.Queue;
 
 /**
@@ -301,21 +299,21 @@ public class CoreTransactionUtil {
                     || transaction.getTransactionType() == TransactionType.NEW_CARD_LOAD.getCode()
                     || transaction.getTransactionType() == TransactionType.CARD_RELOAD_WITH_DATA.getCode())) {
 
-                MobileClient mobileClient = MobileClientDao.get().getMobileClientByClient(client.getId());
+                try {
+                    MobileClientDisplay mobileClient = MobileClientDao.get().getMobileClientByClient(client.getId());
 
-                if (mobileClient != null
-                        && mobileClient.getAllowNotifications() != null
-                        && mobileClient.getAllowNotifications()
-                        && mobileClient.getPushToken() != null) {
+                    if (mobileClient != null
+                            && mobileClient.getAllowNotifications() != null
+                            && mobileClient.getAllowNotifications()
+                            && mobileClient.getPushToken() != null) {
 
-                    try {
                         PushNotificationManager.sendCardLoadMessage(mobileClient.getDeviceType(), mobileClient.getPushToken(), mobileClient.getLang(), transaction.getAmmount());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
 
-                } else {
-                    System.out.println("PN could not send the msg");
+                    } else {
+                        System.out.println("PN could not send the msg");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 

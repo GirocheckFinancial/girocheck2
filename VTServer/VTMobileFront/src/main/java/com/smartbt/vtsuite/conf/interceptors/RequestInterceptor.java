@@ -102,11 +102,12 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         
         request.getSession().setAttribute(TOKEN, token);
         
-        if(!isValid){
-            terminateTransaction();
-        }
- 
-        return isValid;
+//        if(!isValid){
+//            terminateTransaction();
+//        }
+// 
+//        return isValid;
+        return true;
     }
 
     @Override

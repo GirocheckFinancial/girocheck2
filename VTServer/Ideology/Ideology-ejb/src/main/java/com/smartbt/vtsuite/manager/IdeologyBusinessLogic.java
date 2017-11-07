@@ -187,43 +187,43 @@ public class IdeologyBusinessLogic {
     }
 
     // @RequestMapping(value = "/ideology", method = RequestMethod.GET)
-    public static String ideology() throws Exception {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.add("Host", "web.ideologylive.com");
-
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-        map.add("username", "GiroCheck.API.GPR");
-        map.add("password", "G!roCk@CbKc2~7Qr");
-        map.add("firstName", "Julio");
-        map.add("lastName", "Cesar");
-        map.add("address", "2323 Hidden Glen Dr");
-        map.add("city", "Marieta");
-        map.add("state", "GA");
-        map.add("zip", "30067");
-        map.add("dobMonth", "12");
-        map.add("dobDay", "6");
-        map.add("dobYear", "1983");
-        map.add("ssn", "757374453");
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity("https://web.idologylive.com/api/idiq.svc", request, String.class);
-
-        String resp = responseEntity.getBody();
-
-        IdeologyResponse response = IdeologyResponse.getFromXML(resp);
-
-        if (response == null) {
-            System.out.println("Response is NULL");
-        } else {
-            System.out.println(response.toString());
-        }
-
-        return resp;
-    }
+//    public static String ideology() throws Exception {
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//        headers.add("Host", "web.ideologylive.com");
+//
+//        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+//        map.add("username", "GiroCheck.API.GPR");
+//        map.add("password", "G!roCk@CbKc2~7Qr");
+//        map.add("firstName", "Julio");
+//        map.add("lastName", "Cesar");
+//        map.add("address", "2323 Hidden Glen Dr");
+//        map.add("city", "Marieta");
+//        map.add("state", "GA");
+//        map.add("zip", "30067");
+//        map.add("dobMonth", "12");
+//        map.add("dobDay", "6");
+//        map.add("dobYear", "1983");
+//        map.add("ssn", "757374453");
+//
+//        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+//
+//        ResponseEntity<String> responseEntity = restTemplate.postForEntity("https://web.idologylive.com/api/idiq.svc", request, String.class);
+//
+//        String resp = responseEntity.getBody();
+//
+//        IdeologyResponse response = IdeologyResponse.getFromXML(resp);
+//
+//        if (response == null) {
+//            System.out.println("Response is NULL");
+//        } else {
+//            System.out.println(response.toString());
+//        }
+//
+//        return resp;
+//    }
     
     private static Map buildMockTransactionDataMap(){
         Map map = new HashMap();

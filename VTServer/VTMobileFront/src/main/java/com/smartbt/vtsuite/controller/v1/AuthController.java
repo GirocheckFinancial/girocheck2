@@ -78,6 +78,8 @@ public class AuthController {
             String balance = transactionManager.balanceInquiry(mobileClient.getCard(), mobileClient.getToken());
             mobileClient.setBalance(balance);
             response.setData(mobileClient);
+            
+            System.out.println("mobileClient.getMobileClientUserName() = " + mobileClient.getMobileClientUserName());
         }
          
         return response;

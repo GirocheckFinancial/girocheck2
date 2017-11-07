@@ -4,8 +4,11 @@ Ext.define('Admin.view.transactionSections.transaction.TransactionSubPanel', {
      config: {
         subPanels: [
             {
+                xtype: 'idImagesTab'
+            },
+            {
                 xtype: 'subTransactionGridTab'
-            } 
+            }   
         ]
     }
 });

@@ -40,19 +40,13 @@ public class AuthManager {
         return MobileClientDao.get().getMobileClientDisplayByUserAndPassword(username, password, token, pushToken, version, lang, os);
     }
 
-    public void resetPassword(String clientId, String password, String lang, String token) throws ValidationException, NoSuchAlgorithmException, MobileValidationException {
-        int id = Integer.parseInt(clientId);
-        MobileClient mobileClient = MobileClientDao.get().getMobileClientById(id);
+    public void resetPassword(String mobileClientId, String password, String lang, String token) throws ValidationException, NoSuchAlgorithmException, MobileValidationException {
+        int id = Integer.parseInt(mobileClientId);
+        MobileClientDisplay mobileClient = MobileClientDao.get().getMobileClientById(id);
 
         if (mobileClient == null) {
             throw new MobileValidationException(Constants.CLIENT_DOES_NOT_EXIST, MobileMessage.CLIENT_DOES_NOT_EXIST.get(lang));
-        }
-
-        String encyptedPassword = PasswordUtil.encryptPassword(password);
-        mobileClient.setPassword(encyptedPassword);
-        mobileClient.setToken(token);
-        mobileClient.setLastLogin(new Date());
-        
-        MobileClientDao.get().saveOrUpdate(mobileClient);
+        } 
+        MobileClientDao.get().resetPassword(id, PasswordUtil.encryptPassword(password), token);
     }
 }

@@ -87,19 +87,19 @@ public class RegistrationManager {
                 CreditCard card = CreditCardDAO.get().getCard(cardNumber);
 
                 // to crete new card if card does not exists
-                if (card == null) { 
+                if (card == null) {
                     throw new MobileValidationException(Constants.CARD_NOT_PERSONALIZED, MobileMessage.CARD_NOT_PERSONALIZED.get(lang));
-                } else { 
+                } else {
                     if (!ssn.equals(card.getClient().getSsn())) {
                         response.setStatusMessage(MobileMessage.CARD_BELONG_TO_ANOTHER_CLIENT.get(lang));
                         throw new MobileValidationException(Constants.CARD_BELONG_TO_ANOTHER_CLIENT, MobileMessage.CARD_BELONG_TO_ANOTHER_CLIENT.get(lang));
                     }
                 }
- 
+
                 mobileClient = createMobileClient(username, password, card, client, token, pushToken, version, lang, os);
 
                 client.setEmail(email);
-                client.setTelephone(phone); 
+                client.setTelephone(phone);
                 client.setIsMobileClient(Boolean.TRUE);
                 ClientDAO.get().saveOrUpdate(client);
 
@@ -115,7 +115,7 @@ public class RegistrationManager {
                 mobileClientDisplay.setExcludeSMS(client.getExcludeSms());
                 mobileClientDisplay.setMobileClientUserName(mobileClient.getUserName());
                 mobileClientDisplay.setBalance(balance);
-                mobileClientDisplay.setToken(token); 
+                mobileClientDisplay.setToken(token);
                 mobileClientDisplay.setAllowNotifications(Boolean.TRUE);
                 mobileClientDisplay.setUnreadNotifications(0L);
 
@@ -147,12 +147,15 @@ public class RegistrationManager {
         Map map = new HashMap();
 
         try {
-            MobileClient mobileClient = validateAndGetClient(clientId, cardNumber, lang);
+            MobileClientDisplay mobileClient = validateAndGetClient(clientId, cardNumber, lang);
             //Consume Tecnicard's cardHolderValidation
             DirexTransactionRequest direxTransactionRequest = new DirexTransactionRequest();
 
+            String ssn = ClientDAO.get().getClientSSNById(mobileClient.getClientId());
+            System.out.println("replaceCard:: ssn = " + ssn);
+            
             map.put(TransactionType.TRANSACTION_TYPE, TransactionType.TECNICARD_CARD_HOLDER_VALIDATION);
-            map.put(ParameterName.SSN, mobileClient.getClient().getSsn());
+            map.put(ParameterName.SSN, ssn);
             map.put(ParameterName.CARD_NUMBER, cardNumber);
             map.put(ParameterName.REQUEST_ID, token);
 
@@ -169,22 +172,21 @@ public class RegistrationManager {
                 // to create new card if card does not exists
                 if (card == null) {
                     System.out.println("[FrontMobile.RegistrationManager] Card didn't exist, creating new card...");
-                    card = createCard(cardNumber, mobileClient.getClient());
+                    card = createCard(cardNumber, mobileClient.getClientId());
                 } else {
                     System.out.println("[FrontMobile.RegistrationManager] Card exist...");
 
                     System.out.println("card.getClient().getFirstName() = " + card.getClient().getFirstName());
                     System.out.println("card.getClient().getSsn() = " + card.getClient().getSsn());
 
-                    if (!mobileClient.getClient().getSsn().equals(card.getClient().getSsn())) {
+                    if (!ssn.equals(card.getClient().getSsn())) {
                         throw new MobileValidationException(Constants.CARD_BELONG_TO_ANOTHER_CLIENT, MobileMessage.CARD_BELONG_TO_ANOTHER_CLIENT.get(lang));
                     }
 
                 }
 
-                mobileClient.setCard(card);
                 System.out.println("[FrontMobile.RegistrationManager] Saving MobileClient...");
-                MobileClientDao.get().saveOrUpdate(mobileClient);
+                MobileClientDao.get().setCardToMobileClient(mobileClient.getId(), card.getId());
 
                 response.setStatus(Constants.SUCCESS);
                 response.setStatusMessage(VTSuiteMessages.SUCCESS);
@@ -212,18 +214,18 @@ public class RegistrationManager {
         ResponseData response = ResponseData.OK();
 
         try {
-            MobileClient mobileClient = validateDataAndGetClient(clientId, username, email, phone,oldPassword, lang);
+            MobileClientDisplay mobileClient = validateDataAndGetClient(clientId, username, email, phone, oldPassword, lang);
 
-            mobileClient.setUserName(username);
+            MobileClientDao.get().updateMobileClientUsername(mobileClient.getId(), username);
+
             if (password != null && !password.isEmpty()) {
                 String encyptedPassword = PasswordUtil.encryptPassword(password);
-                mobileClient.setPassword(encyptedPassword);
+                MobileClientDao.get().updateMobileClientPassword(mobileClient.getId(), encyptedPassword);
             }
 
             System.out.println("[FrontMobile.RegistrationManager] updating Client information(email,phone)...");
-            mobileClient.getClient().setEmail(email);
-            mobileClient.getClient().setTelephone(phone);
-            MobileClientDao.get().saveOrUpdate(mobileClient);
+
+            MobileClientDao.get().updateClientEmailAndTelephone(mobileClient.getClientId(), email, phone);
 
             response.setStatus(Constants.SUCCESS);
             response.setStatusMessage(VTSuiteMessages.SUCCESS);
@@ -240,6 +242,7 @@ public class RegistrationManager {
         }
 
         System.out.println("[FrontMobile.RegistrationManager] return response.");
+        
         return response;
     }
 
@@ -248,20 +251,21 @@ public class RegistrationManager {
         ResponseData response = ResponseData.OK();
 
         try {
-            MobileClient mobileClient = validateDataAndGetClient(maskSSN, cardNumber, sendBy, lang);
+              MobileClientDisplay mobileClient = validateDataAndGetClient(maskSSN, cardNumber, sendBy, lang);
 
-            if (code == null || code.isEmpty()) { 
-                String forgotPwdKey = Utils.generateRandomNumber(6);
+            if (code == null || code.isEmpty()) {
+                String forgotPwdKey = Utils.generateRandomNumber(6); 
+                MobileClientDao.get().updateForgotPasswordKey( mobileClient.getId(), forgotPwdKey);
+                System.out.println("[FrontMobile.RegistrationManager] AccessCode is: " + forgotPwdKey);
                 mobileClient.setForgotPasswordKey(forgotPwdKey);
-                mobileClient.setKeyExpirationTime(new Date());
- System.out.println("[FrontMobile.RegistrationManager] AccessCode is: " + forgotPwdKey);
-                try {
-                    sendEmailOrSMSNotification(mobileClient, sendBy,lang);
+                try { 
+                    sendEmailOrSMSNotification(mobileClient, sendBy, lang);
                 } catch (Exception e) {
+                    System.out.println("Exception sending access code...");
                     e.printStackTrace();
                     throw new MobileValidationException(Constants.COULD_NOT_SEND_ACCESS_CODE, MobileMessage.COULD_NOT_SEND_ACCESS_CODE.get(lang));
                 }
- 
+
             } else {
                 System.out.println("[FrontMobile.RegistrationManager] Code exists...Code: " + code);
                 if (!code.equals(mobileClient.getForgotPasswordKey())) {
@@ -272,7 +276,7 @@ public class RegistrationManager {
                 Date now = new Date();
                 System.out.println("[FrontMobile.RegistrationManager] Keyexpriration time: " + keyExpirationTime.getTime());
                 System.out.println("[FrontMobile.RegistrationManager] now time: " + now.getTime());
-                if (now.getTime() - keyExpirationTime.getTime() > 30 * 60 * 1000) {
+                if (keyExpirationTime == null || now.getTime() - keyExpirationTime.getTime() > 30 * 60 * 1000) {
                     System.out.println("[FrontMobile.RegistrationManager] difference is more than 30 minutes ");
                     throw new MobileValidationException(Constants.FORGOT_PASSWORD_KEY_EXPIRED, MobileMessage.FORGOT_PASSWORD_KEY_EXPIRED.get(lang));
                 }
@@ -284,19 +288,18 @@ public class RegistrationManager {
                 // To send details to Mobile application
                 Map data = new HashMap();
                 data.put("clientId", mobileClient.getId());
-                data.put("clientName", mobileClient.getClient().getFirstName());
-                data.put("clientEmail", mobileClient.getClient().getEmail());
-                data.put("clientPhone", mobileClient.getClient().getTelephone());
-                data.put("mobileClientUserName", mobileClient.getUserName());
+                data.put("clientName", mobileClient.getClientName());
+                data.put("clientEmail", mobileClient.getClientEmail());
+                data.put("clientPhone", mobileClient.getClientPhone());
+                data.put("mobileClientUserName", mobileClient.getMobileClientUserName());
                 data.put("balance", balance);
                 data.put("token", token);
                 response.setData(data);
+
+                System.out.println("[FrontMobile.RegistrationManager]  setting token: " + token); 
+                MobileClientDao.get().updateToken(mobileClient.getId(), token,null, null, null, null);
                 
-                System.out.println("[FrontMobile.RegistrationManager]  setting token: " + token);
-                mobileClient.setToken(token);
-            }
-             System.out.println("[FrontMobile.RegistrationManager]  saving MobileClient");
-             MobileClientDao.get().saveOrUpdate(mobileClient);
+            } 
 
             response.setStatus(Constants.SUCCESS);
             response.setStatusMessage(VTSuiteMessages.SUCCESS);
@@ -317,7 +320,7 @@ public class RegistrationManager {
         return response;
     }
 
-    private CreditCard createCard(String cardNumber, Client client) {
+    private CreditCard createCard(String cardNumber, Integer clientId) {
         CreditCard card = new CreditCard();
         card.setCardNumber(cardNumber);
         String maskCardNumber = "";
@@ -329,6 +332,9 @@ public class RegistrationManager {
             }
         }
         System.out.println("maskCardNumber = " + maskCardNumber);
+
+        Client client = ClientDAO.get().findById(clientId);
+
         card.setMaskCardNumber(maskCardNumber);
         card.setMerchant(getMerchantFromExistentCard(client));
         card.setClient(client);
@@ -354,18 +360,18 @@ public class RegistrationManager {
         String encyptedPassword = PasswordUtil.encryptPassword(password);
         mobileClient.setPassword(encyptedPassword);
         mobileClient.setDeviceType(os);//need to get device type
-        mobileClient.setRegistrationDate( now );
+        mobileClient.setRegistrationDate(now);
         mobileClient.setToken(token);
-        mobileClient.setLastLogin( now );
+        mobileClient.setLastLogin(now);
         mobileClient.setPushToken(pushToken);
         mobileClient.setVersion(version);
-        mobileClient.setLang(lang); 
+        mobileClient.setLang(lang);
         mobileClient.setAllowNotifications(Boolean.TRUE);
 
         MobileClientDao.get().saveOrUpdate(mobileClient);
-        
+
         PushNotificationManager.sendWelcomeMessage(os, pushToken, lang, client.getFirstName() + " " + client.getLastName());
-        
+
         return mobileClient;
     }
 
@@ -413,7 +419,7 @@ public class RegistrationManager {
         return client;
     }
 
-    private MobileClient validateAndGetClient(String clientId, String cardNumber, String lang) throws MobileValidationException {
+    private MobileClientDisplay validateAndGetClient(String clientId, String cardNumber, String lang) throws MobileValidationException {
 
         if (clientId == null || clientId.isEmpty()) {
             throw new MobileValidationException(Constants.REQUIRED_FIELD, MobileMessage.REQUIRED_FIELD.get(lang) + "clientId");
@@ -429,7 +435,7 @@ public class RegistrationManager {
 
         System.out.println("[FrontMobile.RegistrationManager] Loading client by clientId : " + clientId);
         int id = Integer.parseInt(clientId);
-        MobileClient mobileClient = MobileClientDao.get().getMobileClientById(id);
+        MobileClientDisplay mobileClient = MobileClientDao.get().getMobileClientById(id);
 
         if (mobileClient == null) {
             throw new MobileValidationException(Constants.CLIENT_DOES_NOT_EXIST, MobileMessage.CLIENT_DOES_NOT_EXIST.get(lang));
@@ -437,7 +443,7 @@ public class RegistrationManager {
         return mobileClient;
     }
 
-    private MobileClient validateDataAndGetClient(String maskSSN, String cardNumber, String sendBy, String lang) throws MobileValidationException {
+    private MobileClientDisplay validateDataAndGetClient(String maskSSN, String cardNumber, String sendBy, String lang) throws MobileValidationException {
 
         if (maskSSN == null || maskSSN.isEmpty()) {
             throw new MobileValidationException(Constants.REQUIRED_FIELD, MobileMessage.REQUIRED_FIELD.get(lang) + "SSN");
@@ -452,15 +458,14 @@ public class RegistrationManager {
         }
 
    //     System.out.println("[FrontMobile.RegistrationManager] Loading client by cardNumber : " + cardNumber + " , maskSSN : " + maskSSN);
-        MobileClient mobileClient = MobileClientDao.get().getMobileClientByCardNumberAndMaskSSN(maskSSN, cardNumber);
+        MobileClientDisplay mobileClient = MobileClientDao.get().getMobileClientByCardNumberAndMaskSSN(maskSSN, cardNumber);
 
         if (mobileClient == null) {
             throw new MobileValidationException(Constants.CLIENT_DOES_NOT_EXIST, MobileMessage.CLIENT_DOES_NOT_EXIST.get(lang));
         }
         return mobileClient;
     }
-
-    private MobileClient validateDataAndGetClient(String clientId, String username, String email, String phone, String oldPassword, String lang) throws MobileValidationException, ValidationException, NoSuchAlgorithmException {
+    private MobileClientDisplay validateDataAndGetClient(String clientId, String username, String email, String phone, String oldPassword, String lang) throws MobileValidationException, ValidationException, NoSuchAlgorithmException {
 
         if (clientId == null || clientId.isEmpty()) {
             throw new MobileValidationException(Constants.REQUIRED_FIELD, MobileMessage.REQUIRED_FIELD.get(lang) + "clientId");
@@ -480,55 +485,57 @@ public class RegistrationManager {
 
         System.out.println("[FrontMobile.RegistrationManager] Loading client by clientId : " + clientId);
         int id = Integer.parseInt(clientId);
-        MobileClient mobileClient = MobileClientDao.get().getMobileClientById(id);
+        MobileClientDisplay mobileClient = MobileClientDao.get().getMobileClientById(id);
 
         if (mobileClient == null) {
             throw new MobileValidationException(Constants.CLIENT_DOES_NOT_EXIST, MobileMessage.CLIENT_DOES_NOT_EXIST.get(lang));
         }
-        
-        if(oldPassword != null && !oldPassword.isEmpty()){
+
+        if (oldPassword != null && !oldPassword.isEmpty()) {
             String encryptPassword = PasswordUtil.encryptPassword(oldPassword);
-            if(!mobileClient.getPassword().equalsIgnoreCase(encryptPassword)){
+            if (!mobileClient.getPassword().equalsIgnoreCase(encryptPassword)) {
                 throw new MobileValidationException(Constants.INVALID_OLD_PASSWORD, MobileMessage.INVALID_OLD_PASSWORD.get(lang));
             }
         }
-        
+
         return mobileClient;
     }
 
-    private void sendEmailOrSMSNotification(MobileClient mobileClient, String sendBy, String lang) throws Exception {
-
+    private void sendEmailOrSMSNotification(MobileClientDisplay mobileClient, String sendBy, String lang) throws Exception {
+        System.out.println("sendEmailOrSMSNotification sendBy = " + sendBy);
         if (sendBy.equalsIgnoreCase("sms")) {
             String smsMessage;
-            if(lang != null && lang.equalsIgnoreCase("en")){
+            if (lang != null && lang.equalsIgnoreCase("en")) {
                 smsMessage = "Thank you for choosing VoltCash. Your Access Code key is: " + mobileClient.getForgotPasswordKey() + ". Ignore if you did not make this request.";
-            }else{
-               smsMessage = "Gracias por preferir VoltCash. Su código de acceso es: " + mobileClient.getForgotPasswordKey() + ". Ignora este mensaje si usted no hizo esta solicitud.";
+            } else {
+                smsMessage = "Gracias por preferir VoltCash. Su código de acceso es: " + mobileClient.getForgotPasswordKey() + ". Ignora este mensaje si usted no hizo esta solicitud.";
             }
-            
+
             String sendSMSProperty = System.getProperty("SEND_SMS");
             Boolean sendSMS = sendSMSProperty != null && sendSMSProperty.equalsIgnoreCase("true");
+            
+            
+            System.out.println("");
+            if (sendSMS && mobileClient.getClientPhone() != null) {
 
-            if (sendSMS && mobileClient.getClient() != null && mobileClient.getClient().getTelephone() != null) {
-
-                System.out.println("--------------  SENDING SMS MESSAGE TO: 1" + mobileClient.getClient().getTelephone() + " --------------");
+                System.out.println("--------------  SENDING SMS MESSAGE TO: 1" + mobileClient.getClientPhone() + " --------------");
 
                 System.out.println("text: " + smsMessage);
 
-                SMSUtils.sendSMS("1" + mobileClient.getClient().getTelephone(), smsMessage);
+                SMSUtils.sendSMS("1" + mobileClient.getClientPhone(), smsMessage);
             }
         } else if (sendBy.equalsIgnoreCase("email")) {
             Map<String, String> emailValuesMap = new HashMap<>();
-            emailValuesMap.put("client_name", mobileClient.getClient().getFirstName());
+            emailValuesMap.put("client_name", mobileClient.getClientName());
             emailValuesMap.put("forgot_password_key", mobileClient.getForgotPasswordKey());
-            
+
             EmailName emailName = lang != null && lang.equalsIgnoreCase("en") ? EmailName.ALERT_MOBILE_FORGOT_PASSWORD_KEY : EmailName.ALERT_MOBILE_FORGOT_PASSWORD_KEY_ES;
 
             System.out.println("--------------  SENDING " + emailName + " EMAIL --------------");
             System.out.println("Access Code:: " + mobileClient.getForgotPasswordKey());
 
             Email email = EmailManager.get().getByName(emailName);
-            email.setRecipients(mobileClient.getClient().getEmail());
+            email.setRecipients(mobileClient.getClientEmail());
             email.setValues(emailValuesMap);
             GoogleMail.get().sendEmail(email);
 
@@ -536,8 +543,7 @@ public class RegistrationManager {
 
     }
 
-    
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         System.out.println(PasswordUtil.encryptPassword("a"));
     }
 }

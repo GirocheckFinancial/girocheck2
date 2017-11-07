@@ -45,6 +45,8 @@ Ext.define('Admin.base.BaseController', {
 
                     if (activeTabElement instanceof Admin.base.BasePaginatedGrid) {
                         activeTabElement.getStore().loadPage(1);
+                    }else{
+                        activeSubTab.load && activeSubTab.load(record.data.id, record.data );
                     }
                 }
 

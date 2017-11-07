@@ -93,7 +93,7 @@ public class TransactionController {
     public ResponseData getTransactionImages( @FormParam("idTransaction") int idTransaction,@FormParam("showIdImages") boolean showIdImages) throws Exception {
         System.out.println("TransactionController.getTransactionImage() :: Incoming parameters : \n  idTransaction: " + idTransaction + ", showIdImages = " + showIdImages);
 
-        return manager.getTransactionImage(idTransaction, showIdImages);
+        return ResponseData.OK();// manager.getTransactionImage(idTransaction, showIdImages);
     }
     
      

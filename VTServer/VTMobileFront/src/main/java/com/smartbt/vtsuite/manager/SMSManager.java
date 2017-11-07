@@ -35,7 +35,7 @@ public class SMSManager {
         try {
             if (recipentNumber != null && !recipentNumber.isEmpty() && messageKeyword != null && !messageKeyword.isEmpty()) {
                 if (messageKeyword.contains("STOP") || messageKeyword.contains("stop")) {
-                     MobileClientDao.get().updateExcludeSMS(recipentNumber);
+                     MobileClientDao.get().updateExcludeSMS(recipentNumber, true);
 //                    MobileClient mobileClient = MobileClientDao.get().getMobileClientByTelphone(recipentNumber);
 //                   
                 }
@@ -51,8 +51,6 @@ public class SMSManager {
     
     public void updateExcludeSMS(int mobileClientId, Boolean excludeSMS){
         System.out.println("SMSManager.updateExcludeSMS");
-        MobileClient mobileClient = MobileClientDao.get().getMobileClientById(mobileClientId);
-        mobileClient.getClient().setExcludeSms(excludeSMS);
-        MobileClientDao.get().saveOrUpdate(mobileClient);
+       MobileClientDao.get().updateExcludeSMSFromClientByMobileClientId(mobileClientId, excludeSMS);
     }
 }

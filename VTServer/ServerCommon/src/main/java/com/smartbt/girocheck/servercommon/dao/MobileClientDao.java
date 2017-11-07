@@ -8,8 +8,8 @@ import com.smartbt.girocheck.servercommon.dao.BaseDAO;
 import com.smartbt.girocheck.servercommon.display.mobile.MobileClientDisplay;
 import com.smartbt.girocheck.servercommon.model.MobileClient;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
-import java.util.Date;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -17,10 +17,11 @@ import org.hibernate.transform.Transformers;
 
 /**
  *
- * @author suresh
+ * @author Roberto
  */
 public class MobileClientDao extends BaseDAO<MobileClient> {
 
+    private static String DECRYPT_SSN = " AES_DECRYPT(FROM_BASE64(c.ssn), SHA2(SHA2(CONCAT((SELECT concat(c.reference, c.sessions, c.types, c.mode) FROM configs c), 'SELECT * FROM configs'), 512), 512)) ";
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MobileClientDao.class);
     protected static MobileClientDao dao;
 
@@ -57,12 +58,12 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
         criteria.setResultTransformer(Transformers.aliasToBean(MobileClientDisplay.class));
 
         MobileClientDisplay result = (MobileClientDisplay) criteria.uniqueResult();
-        
-        if(result != null){
-            updateToken(result.getClientId(), token, pushToken, version, lang, os);   
-        }
-        
-        result.setUnreadNotifications(MobileNotificationDao.get().countUnreadNotifications( result.getClientId() ));
+
+        if (result != null) {
+            updateToken(result.getClientId(), token, pushToken, version, lang, os);
+            result.setUnreadNotifications(MobileNotificationDao.get().countUnreadNotifications(result.getClientId()));
+         }
+
         
         return result;
     }
@@ -75,17 +76,25 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
                 .uniqueResult();
     }
 
-    public MobileClient getMobileClientById(int clientId) {
-        Criteria criteria = HibernateUtil.getSession().createCriteria(MobileClient.class)
-                .add(Restrictions.eq("id", clientId));
-        return (MobileClient) criteria.uniqueResult();
+    public MobileClientDisplay getMobileClientById(int mobileclientid) {
+        String query = "SELECT m.password as password, m.id as id, client as clientId  FROM mobile_client m WHERE m.id = :mobileclientid";
+
+        System.out.println("getMobileClientById.. query = ");
+        System.out.println( query );
+        
+        return (MobileClientDisplay) HibernateUtil.getSession().createSQLQuery(query)
+                .setParameter("mobileclientid", mobileclientid)
+                .setResultTransformer(Transformers.aliasToBean(MobileClientDisplay.class))
+                .uniqueResult();
     }
 
-    public MobileClient getMobileClientByClient(int clientId) {
-        Criteria criteria = HibernateUtil.getSession().createCriteria(MobileClient.class)
-                .createAlias("client", "client")
-                .add(Restrictions.eq("client.id", clientId));
-        return (MobileClient) criteria.uniqueResult();
+    public MobileClientDisplay getMobileClientByClient(int clientId) {
+        String query = "select allow_notifications as allowNotifications, push_token as pushToken, device_type as deviceType, lang from mobile_client where client = :clientid";
+
+        return (MobileClientDisplay) HibernateUtil.getSession().createSQLQuery(query)
+                .setParameter("clientid", clientId)
+                .setResultTransformer(Transformers.aliasToBean(MobileClientDisplay.class))
+                .uniqueResult();
     }
 
     public MobileClient saveOrUpdateMobileClient(MobileClient client) {
@@ -116,16 +125,19 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
                 .uniqueResult() > 0;
     }
 
-    public MobileClient getMobileClientByCardNumberAndMaskSSN(String maskSSN, String cardNumber) {
+    public MobileClientDisplay getMobileClientByCardNumberAndMaskSSN(String maskSSN, String cardNumber) {
+        StringBuilder sb = new StringBuilder("SELECT ");
+        sb.append("m.id as id, m.forgot_password_key as forgotPasswordKey, key_expiration_time as keyExpirationTime ");
+        sb.append(", c.telephone as clientPhone, c.email as clientEmail, m.username as mobileClientUserName ");
+        sb.append(" from (mobile_client m INNER JOIN client c  ON m.client = c.id ) INNER JOIN card a ON a.client = c.id WHERE ");
+        sb.append(" AES_DECRYPT(FROM_BASE64(a.data_s), SHA2(SHA2(CONCAT((SELECT concat(c.mode, c.reference, c.sessions, c.types) FROM configs c), 'SELECT * FROM configs'), 512), 512)) = :card ");
+        sb.append(" AND c.mask_ssn = :maskssn limit 1 ");
 
-        Criteria criteria = HibernateUtil.getSession().createCriteria(MobileClient.class)
-                .createAlias("card", "card")
-                .createAlias("client", "client")
-                .add(Restrictions.eq("card.cardNumber", cardNumber))
-                .add(Restrictions.eq("client.maskSSN", maskSSN))
-                .setMaxResults(1);
-
-        return (MobileClient) criteria.uniqueResult();
+        return (MobileClientDisplay) HibernateUtil.getSession().createSQLQuery(sb.toString())
+                .setParameter("card", cardNumber)
+                .setParameter("maskssn", maskSSN)
+                .setResultTransformer(Transformers.aliasToBean(MobileClientDisplay.class))
+                .uniqueResult();
     }
 
     public MobileClient getMobileClientByTelphone(String recipentNumber) {
@@ -138,46 +150,60 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
         return (MobileClient) criteria.uniqueResult();
     }
 
-    public void updateExcludeSMS(String phoneNumber) {
-        System.out.println("Call #1");
+    public void updateExcludeSMS(String phoneNumber, Boolean excludeSMS) {
         try {
-            int r1 = HibernateUtil.getSession().createQuery("update Client set excludeSms = true where telephone like '" + phoneNumber + "'").executeUpdate();
-            System.out.println("r1 = " + r1);
+            HibernateUtil.getSession().createQuery("update Client set excludeSms = " + excludeSMS + " where telephone like '" + phoneNumber + "'").executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Call #2");
-            int r2 = HibernateUtil.getSession().createQuery("update Client set exclude_sms = 1 where telephone like '" + phoneNumber + "'").executeUpdate();
-            System.out.println("r2 = " + r2);
-        } 
+        }
     }
-    
-    
+
     public void updateToken(Integer mobileClientId, String token, String pushToken, Integer version, String lang, String os) {
-        StringBuilder query = new StringBuilder("update mobile_client set token = '" + token + "', last_login = now()");
-        
-        if(pushToken != null){
-            query.append(", push_token = '" + pushToken + "'");
+        StringBuilder query = new StringBuilder("update mobile_client set token = :token, last_login = now()");
+
+        if (pushToken != null) {
+            query.append(", push_token = :push_token ");
         }
-        
-        if(version != null){
-            query.append(", version = " + version);
+
+        if (version != null) {
+            query.append(", version = :version ");
         }
-        
-        if(lang != null){
-            query.append(", lang = '" + lang + "'");
+
+        if (lang != null) {
+            query.append(", lang = :lang ");
         }
-         
-        if(os != null){
-            query.append(", device_type = '" + os + "'");
+
+        if (os != null) {
+            query.append(", device_type = :device_type ");
         }
-        
-        query.append( " where id = " + mobileClientId );
-        
+
+        query.append(" where id = :id ");
+
         System.out.println("MobileClientDAO.updateToken:: query = " + query);
-        
-        HibernateUtil.getSession().createSQLQuery( query.toString() ).executeUpdate();
+
+        SQLQuery sqlQuery = HibernateUtil.getSession().createSQLQuery(query.toString());
+        sqlQuery.setParameter("token", token);
+        sqlQuery.setParameter("id", mobileClientId);
+
+        if (pushToken != null) {
+            sqlQuery.setParameter("push_token", pushToken);
+        }
+
+        if (version != null) {
+            sqlQuery.setParameter("version", version);
+        }
+
+        if (lang != null) {
+            sqlQuery.setParameter("lang", lang);
+        }
+
+        if (os != null) {
+            sqlQuery.setParameter("device_type", os);
+        }
+
+        sqlQuery.executeUpdate();
     }
-    
+
     //TODO when the new app be stable, we should also validate the clientID, 
     //and send the clientID in the header of every request
 //    public Boolean validateToken(String token) {
@@ -197,10 +223,68 @@ public class MobileClientDao extends BaseDAO<MobileClient> {
 //           return false;
 //       } 
 //    }
-    
-    public void updateAllowNotifications(int mobileClientId, Boolean allowNotifications){
+    public void updateAllowNotifications(int mobileClientId, Boolean allowNotifications) {
         String query = "update mobile_client set allow_notifications = " + allowNotifications + " where id = " + mobileClientId;
-        HibernateUtil.getSession().createSQLQuery( query ).executeUpdate();
+        HibernateUtil.getSession().createSQLQuery(query).executeUpdate();
     }
-     
+
+    public void updateExcludeSMSFromClientByMobileClientId(int mobileClientId, Boolean excludeSMS) {
+        String query = "update client set exclude_sms = :exclude where id = (select client from mobile_client where id = :mobileclientid)";
+        HibernateUtil.getSession().createSQLQuery(query)
+                .setParameter("exclude", excludeSMS)
+                .setParameter("mobileclientid", mobileClientId)
+                .executeUpdate();
+    }
+
+    public void resetPassword(int mobileClientId, String password, String token) {
+        String query = "update mobile_client set password = :password, token = :token, last_login = now() where id = :id";
+        HibernateUtil.getSession().createSQLQuery(query)
+                .setParameter("password", password)
+                .setParameter("token", token)
+                .setParameter("id", mobileClientId)
+                .executeUpdate();
+    }
+
+    public void setCardToMobileClient(int mobileClientId, int cardId) {
+        String query = "update mobile_client set card = :cardid where id = :id";
+        HibernateUtil.getSession().createSQLQuery(query)
+                .setParameter("cardid", cardId)
+                .setParameter("id", mobileClientId)
+                .executeUpdate();
+    }
+
+    public void updateMobileClientUsername(int mobileClientId, String username) {
+        String query = "update mobile_client set username = :username where id = :id";
+        HibernateUtil.getSession().createSQLQuery(query)
+                .setParameter("username", username)
+                .setParameter("id", mobileClientId)
+                .executeUpdate();
+    }
+
+    public void updateMobileClientPassword(int mobileClientId, String password) {
+        String query = "update mobile_client set password = :password where id = :id";
+        HibernateUtil.getSession().createSQLQuery(query)
+                .setParameter("password", password)
+                .setParameter("id", mobileClientId)
+                .executeUpdate();
+    }
+
+    public void updateClientEmailAndTelephone(int clientId, String email, String telephone) {
+        String query = "update client set telephone = :telephone, email = :email where id = :id";
+        HibernateUtil.getSession().createSQLQuery(query)
+                .setParameter("email", email)
+                .setParameter("telephone", telephone)
+                .setParameter("id", clientId)
+                .executeUpdate();
+    }
+
+    public void updateForgotPasswordKey(Integer mobileClientId, String accessCode) {
+        StringBuilder query = new StringBuilder("update mobile_client set forgot_password_key = :accesscode, key_expiration_time = now() WHERE id = :mobileclientid");
+
+        HibernateUtil.getSession().createSQLQuery(query.toString())
+                .setParameter("accesscode", accessCode)
+                .setParameter("mobileclientid", mobileClientId)
+                .executeUpdate();
+    }
+
 }

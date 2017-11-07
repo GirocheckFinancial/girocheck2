@@ -16,7 +16,7 @@ Ext.define('Admin.view.dashboard.DashboardModel', {
             autoLoad: true,
             proxy: {
                 type: 'ajax',
-                url: '/Front/page/transaction/chart?chartType=transactionsChart',
+                url:  WS.HOST + 'page/transaction/chart?chartType=transactionsChart',
                 reader: {
                     type: 'json',
                     rootProperty: 'list'
@@ -44,7 +44,7 @@ Ext.define('Admin.view.dashboard.DashboardModel', {
             model: 'Admin.model.DataXY',
             proxy: {
                type: 'ajax',
-               url: '/Front/page/transaction/chart?chartType=earnings',
+               url:  WS.HOST + 'page/transaction/chart?chartType=earnings',
                reader: {
                    type: 'json',
                    rootProperty: 'list'
@@ -56,7 +56,7 @@ Ext.define('Admin.view.dashboard.DashboardModel', {
             model: 'Admin.model.DataXY',
             proxy: {
                type: 'ajax',
-               url: '/Front/page/transaction/chart?chartType=servicesPieChart',
+               url:  WS.HOST + 'page/transaction/chart?chartType=servicesPieChart',
                reader: {
                    type: 'json',
                    rootProperty: 'data'

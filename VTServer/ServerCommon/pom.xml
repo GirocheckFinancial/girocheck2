@@ -109,12 +109,12 @@
             <version>1.0-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.aioobe.cloudconvert</groupId>
             <artifactId>client</artifactId>
             <version>1.0</version>
             <type>jar</type> 
-        </dependency>
+        </dependency>-->
          
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>

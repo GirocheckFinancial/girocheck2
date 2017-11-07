@@ -13,20 +13,20 @@ import java.io.InputStream;
 import java.sql.Blob;
 import javax.xml.bind.DatatypeConverter;
 import javaxt.io.Image;
-import org.aioobe.cloudconvert.CloudConvertService;
-import org.aioobe.cloudconvert.ConvertProcess;
-import org.aioobe.cloudconvert.ProcessStatus;
+//import org.aioobe.cloudconvert.CloudConvertService;
+//import org.aioobe.cloudconvert.ConvertProcess;
+//import org.aioobe.cloudconvert.ProcessStatus;
 
 public class ImgConvTiffToPng {
     //This key is granted for this vendor
     //https://cloudconvert.com
     private static String IMAGE_CONVERTION_KEY = System.getProperty("IMAGE_CONVERTION_KEY");
     
-    public static void main(String[] args){
-        System.out.println("start");
-         CloudConvertService service = new CloudConvertService("CMWetpcKyxRMEeqJfuSbxrJSUkMNKUXlO7iVHp7dImlRdtVOXSNMYO1Hmd7TorrCpu4iuCPND_zEEHPjgwxi3w");
-        System.out.println("end");
-    }
+//    public static void main(String[] args){
+//        System.out.println("start");
+//         CloudConvertService service = new CloudConvertService("CMWetpcKyxRMEeqJfuSbxrJSUkMNKUXlO7iVHp7dImlRdtVOXSNMYO1Hmd7TorrCpu4iuCPND_zEEHPjgwxi3w");
+//        System.out.println("end");
+//    }
  
     public static String convertBlackAndWhiteImages(Blob blob) throws Exception {
         if (blob == null) {
@@ -56,54 +56,54 @@ public class ImgConvTiffToPng {
         return "data:image/png;base64," + DatatypeConverter.printBase64Binary(out);
 
     }
-
-    public static byte[] convertGrayScaleImages(Blob blob, String imageName) throws Exception {
-        System.out.println("convertGrayScaleImages :: imageName = " + imageName + "...");
-        
-        if (blob == null) {
-            return null;
-        }
-        
-        System.out.println("IMAGE_CONVERTION_KEY = " + IMAGE_CONVERTION_KEY);
- 
-        if(IMAGE_CONVERTION_KEY == null){
-//            IMAGE_CONVERTION_KEY = "oRkArXKrHfasWtL2VusjRWcqtyvYHd_F3AJvD44BROOajAo_iLWbhzu94wU2pV6qzV09jDQVhJvfH1iYsoid7g";
-            IMAGE_CONVERTION_KEY = "elGTzBSfOT8J3mOKO2r9cHPtiLTf58IJOenMN5FE0qSF0F6lkhU4avZzej4EKqCYV4B1sgQx3xsjLOrCTFPtIw";
-        }
-       // String apiKey = "oRkArXKrHfasWtL2VusjRWcqtyvYHd_F3AJvD44BROOajAo_iLWbhzu94wU2pV6qzV09jDQVhJvfH1iYsoid7g";
-        CloudConvertService service = new CloudConvertService(IMAGE_CONVERTION_KEY);
-
-// Create conversion process
-        ConvertProcess process = service.startProcess("tif", "png");
-
-// Perform conversion 
-        ByteArrayInputStream bis = new ByteArrayInputStream( getImage(blob));
-        process.startConversion(bis, imageName + ".tif");
-
-// Wait for result
-        ProcessStatus status;
-        waitLoop:
-        while (true) {
-            status = process.getStatus();
-
-            switch (status.step) {
-                case FINISHED:
-                    break waitLoop;
-                case ERROR:
-                    throw new RuntimeException(status.message);
-            }
-
-            // Be gentle
-            Thread.sleep(200);
-        }
-
-        InputStream is = service.download(status.output.url);
-       
-// Clean up
-        process.delete();
-       System.out.println("convertGrayScaleImages :: imageName = " + imageName + ". Convertion end.");
-        return ByteStreams.toByteArray(is);
-    }
+//
+//    public static byte[] convertGrayScaleImages(Blob blob, String imageName) throws Exception {
+//        System.out.println("convertGrayScaleImages :: imageName = " + imageName + "...");
+//        
+//        if (blob == null) {
+//            return null;
+//        }
+//        
+//        System.out.println("IMAGE_CONVERTION_KEY = " + IMAGE_CONVERTION_KEY);
+// 
+//        if(IMAGE_CONVERTION_KEY == null){
+////            IMAGE_CONVERTION_KEY = "oRkArXKrHfasWtL2VusjRWcqtyvYHd_F3AJvD44BROOajAo_iLWbhzu94wU2pV6qzV09jDQVhJvfH1iYsoid7g";
+//            IMAGE_CONVERTION_KEY = "elGTzBSfOT8J3mOKO2r9cHPtiLTf58IJOenMN5FE0qSF0F6lkhU4avZzej4EKqCYV4B1sgQx3xsjLOrCTFPtIw";
+//        }
+//       // String apiKey = "oRkArXKrHfasWtL2VusjRWcqtyvYHd_F3AJvD44BROOajAo_iLWbhzu94wU2pV6qzV09jDQVhJvfH1iYsoid7g";
+//        CloudConvertService service = new CloudConvertService(IMAGE_CONVERTION_KEY);
+//
+//// Create conversion process
+//        ConvertProcess process = service.startProcess("tif", "png");
+//
+//// Perform conversion 
+//        ByteArrayInputStream bis = new ByteArrayInputStream( getImage(blob));
+//        process.startConversion(bis, imageName + ".tif");
+//
+//// Wait for result
+//        ProcessStatus status;
+//        waitLoop:
+//        while (true) {
+//            status = process.getStatus();
+//
+//            switch (status.step) {
+//                case FINISHED:
+//                    break waitLoop;
+//                case ERROR:
+//                    throw new RuntimeException(status.message);
+//            }
+//
+//            // Be gentle
+//            Thread.sleep(200);
+//        }
+//
+//        InputStream is = service.download(status.output.url);
+//       
+//// Clean up
+//        process.delete();
+//       System.out.println("convertGrayScaleImages :: imageName = " + imageName + ". Convertion end.");
+//        return ByteStreams.toByteArray(is);
+//    }
 
     public byte[] rotate180(byte[] imagee) {
         Image image = new Image(imagee);

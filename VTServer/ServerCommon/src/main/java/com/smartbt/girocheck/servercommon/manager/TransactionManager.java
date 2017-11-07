@@ -152,53 +152,53 @@ public class TransactionManager {
         return transactionDAO.searchTransactions(searchFilter, startRangeDate, endRangeDate, pageNumber * rowsPerPage, rowsPerPage, transactionType, operation, filterAmmount, ammountType, opType, ammount, pending);
     }
 
-    public ResponseData getTransactionImage(int idTransaction, boolean showIdImages) throws Exception {
+//    public ResponseData getTransactionImage(int idTransaction, boolean showIdImages) throws Exception {
+//
+//        ResponseData response = new ResponseData();
+//
+//        try {
+//            TransactionImagesDisplay result = transactionDAO.getTransactionImage(idTransaction, showIdImages);
+//
+//            buildImages(result);
+//
+//            response.setData(result);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        response.setStatus(Constants.CODE_SUCCESS);
+//        response.setStatusMessage(VTSuiteMessages.SUCCESS);
+//        return response;
+//    }
 
-        ResponseData response = new ResponseData();
-
-        try {
-            TransactionImagesDisplay result = transactionDAO.getTransactionImage(idTransaction, showIdImages);
-
-            buildImages(result);
-
-            response.setData(result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        response.setStatus(Constants.CODE_SUCCESS);
-        response.setStatusMessage(VTSuiteMessages.SUCCESS);
-        return response;
-    }
-
-    private void buildImages(TransactionImagesDisplay dto) throws Exception {
-        dto.setCheckFrontImage(ImgConvTiffToPng.convertBlackAndWhiteImages(dto.getCheckFront()));
-        dto.setCheckBackImage(ImgConvTiffToPng.convertBlackAndWhiteImages(dto.getCheckBack()));
-
-        byte[] idFront = null, idBack = null;
-
-        System.out.println("TransactionManager.buildImages -> dto.isImagesConverted() = " + dto.isImagesConverted());
-        System.out.println("TransactionManager.buildImages -> dto.getShowIdImages() = " + dto.getShowIdImages());
-
-        if (dto.getShowIdImages()) {
-            if (dto.isImagesConverted()) {
-                idFront = ImgConvTiffToPng.getImage(dto.getIdFront());
-                idBack = ImgConvTiffToPng.getImage(dto.getIdBack());
-            } else {
-                idFront = ImgConvTiffToPng.convertGrayScaleImages(dto.getIdFront(), "idfront_" + dto.getClientId());
-                idBack = ImgConvTiffToPng.convertGrayScaleImages(dto.getIdBack(), "idback_" + dto.getClientId());
-
-                IDImagePngDAO.get().save(idFront, idBack, dto.getClientId());
-            }
-
-            Long remainingConvertions = IDImagePngDAO.get().getRemainingConvertions();
-            System.out.println("remainingConvertions = " + remainingConvertions);
-            dto.setRemainingConvertions(remainingConvertions);
-
-            dto.setIdFrontImage(getImageAsString(idFront));
-            dto.setIdBackImage(getImageAsString(idBack));
-        }
-    }
+//    private void buildImages(TransactionImagesDisplay dto) throws Exception {
+//        dto.setCheckFrontImage(ImgConvTiffToPng.convertBlackAndWhiteImages(dto.getCheckFront()));
+//        dto.setCheckBackImage(ImgConvTiffToPng.convertBlackAndWhiteImages(dto.getCheckBack()));
+//
+//        byte[] idFront = null, idBack = null;
+//
+//        System.out.println("TransactionManager.buildImages -> dto.isImagesConverted() = " + dto.isImagesConverted());
+//        System.out.println("TransactionManager.buildImages -> dto.getShowIdImages() = " + dto.getShowIdImages());
+//
+//        if (dto.getShowIdImages()) {
+//            if (dto.isImagesConverted()) {
+//                idFront = ImgConvTiffToPng.getImage(dto.getIdFront());
+//                idBack = ImgConvTiffToPng.getImage(dto.getIdBack());
+//            } else {
+//                idFront = ImgConvTiffToPng.convertGrayScaleImages(dto.getIdFront(), "idfront_" + dto.getClientId());
+//                idBack = ImgConvTiffToPng.convertGrayScaleImages(dto.getIdBack(), "idback_" + dto.getClientId());
+//
+//                IDImagePngDAO.get().save(idFront, idBack, dto.getClientId());
+//            }
+//
+//            Long remainingConvertions = IDImagePngDAO.get().getRemainingConvertions();
+//            System.out.println("remainingConvertions = " + remainingConvertions);
+//            dto.setRemainingConvertions(remainingConvertions);
+//
+//            dto.setIdFrontImage(getImageAsString(idFront));
+//            dto.setIdBackImage(getImageAsString(idBack));
+//        }
+//    }
 
     public String getImageAsString(byte[] image) {
         if (image != null) {
