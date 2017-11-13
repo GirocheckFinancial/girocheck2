@@ -1,0 +1,52 @@
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnSZChgPwdWSV1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:import0="mtvnCWSZChgPwdSvcReq"
+	xmlns:import1="mtvnCWSZChgPwdSvcRes"
+	targetNamespace="mtvnSZChgPwdWSV1" name="mtvnSZChgPwdWSV1" xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+	<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Connectware Web Service Interface</documentation>
+
+	<types>
+		<xsd:schema>
+			<xsd:import schemaLocation="./SZChgPwdWSV1SvcReq.xsd" namespace="mtvnCWSZChgPwdSvcReq" />
+			<xsd:import schemaLocation="./SZChgPwdWSV1SvcRes.xsd" namespace="mtvnCWSZChgPwdSvcRes" />
+		</xsd:schema>
+	</types>
+
+	<message name="SZChgPwdMtvnSvcReqMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import0:SZChgPwdMtvnSvcReq" />
+	</message>
+	<message name="SZChgPwdMtvnSvcResMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import1:SZChgPwdMtvnSvcRes" />
+	</message>
+
+	<portType name="mtvnCWSZChgPwdWSV1Interface">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">SZChgPwdWSV1</documentation>
+		<operation name="SZChgPwd">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+			<input message="tns:SZChgPwdMtvnSvcReqMsg" />
+			<output message="tns:SZChgPwdMtvnSvcResMsg" />
+		</operation>
+	</portType>
+
+	<binding name="mtvnCWSZChgPwdWSV1" type="tns:mtvnCWSZChgPwdWSV1Interface">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="SZChgPwd">
+			<soap:operation soapAction="SZChgPwdWSV1:SZChgPwdMtvnSvcReqMsg" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="mtvnCWSZChgPwdWSV1">
+		<port name="mtvnCWSZChgPwdWSV1Port" binding="tns:mtvnCWSZChgPwdWSV1">
+			<soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/SZChgPwdWSV1" />
+		</port>
+	</service>
+</definitions>
+

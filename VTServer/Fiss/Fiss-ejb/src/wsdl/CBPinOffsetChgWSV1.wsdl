@@ -1,0 +1,52 @@
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBPinOffsetChgWSV1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:import0="mtvnCWCBPinOffsetChgSvcReq"
+	xmlns:import1="mtvnCWCBPinOffsetChgSvcRes"
+	targetNamespace="mtvnCBPinOffsetChgWSV1" name="mtvnCBPinOffsetChgWSV1" xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+	<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Connectware Web Service Interface</documentation>
+
+	<types>
+		<xsd:schema>
+			<xsd:import schemaLocation="./CBPinOffsetChgWSV1SvcReq.xsd" namespace="mtvnCWCBPinOffsetChgSvcReq" />
+			<xsd:import schemaLocation="./CBPinOffsetChgWSV1SvcRes.xsd" namespace="mtvnCWCBPinOffsetChgSvcRes" />
+		</xsd:schema>
+	</types>
+
+	<message name="CBPinOffsetChgMtvnSvcReqMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import0:CBPinOffsetChgMtvnSvcReq" />
+	</message>
+	<message name="CBPinOffsetChgMtvnSvcResMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import1:CBPinOffsetChgMtvnSvcRes" />
+	</message>
+
+	<portType name="mtvnCWCBPinOffsetChgWSV1Interface">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">CBPinOffsetChgWSV1</documentation>
+		<operation name="CBPinOffsetChg">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+			<input message="tns:CBPinOffsetChgMtvnSvcReqMsg" />
+			<output message="tns:CBPinOffsetChgMtvnSvcResMsg" />
+		</operation>
+	</portType>
+
+	<binding name="mtvnCWCBPinOffsetChgWSV1" type="tns:mtvnCWCBPinOffsetChgWSV1Interface">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="CBPinOffsetChg">
+			<soap:operation soapAction="CBPinOffsetChgWSV1:CBPinOffsetChgMtvnSvcReqMsg" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="mtvnCWCBPinOffsetChgWSV1">
+		<port name="mtvnCWCBPinOffsetChgWSV1Port" binding="tns:mtvnCWCBPinOffsetChgWSV1">
+			<soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/CBPinOffsetChgWSV1" />
+		</port>
+	</service>
+</definitions>
+

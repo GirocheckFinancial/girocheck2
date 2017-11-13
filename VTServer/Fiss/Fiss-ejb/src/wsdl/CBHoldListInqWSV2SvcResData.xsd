@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="mtvnCWCBHoldListInqResData" xmlns="mtvnCWCBHoldListInqResData" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="CBHoldListInqResData">
+		<xs:annotation>
+		<xs:documentation>Cardbase Hold List Inquiry (CB650) - This function will return a list of all holds for the specified cardbase card number.  </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="E130013" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Card Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130679" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Hold Status Filter</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130680" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reposition Hold Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130681" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reposition Hold Time</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130682" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>System Error</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130683" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>More Holds Found Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130684" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Number of Holds</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130685" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Total Amount of Active Holds</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130709" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Last Hold Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130710" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Last Hold Time</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CBHoldListInqHoldDataLst" minOccurs="0" >
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CBHoldListInqHoldData" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="E130686" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Hold Date</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130687" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Hold Time</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130688" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Terminal Number</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130689" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Merchant Name</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130690" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Hold Amount</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130691" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Hold Expiration Date</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130692" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Hold Status</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130700" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Reference Number</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130698" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Hold Account Number</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130699" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Hold Account Type</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130701" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Hold Card Number</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130702" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Merchant Category Code</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130711" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Trace ID</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ErrCde" type="xs:string" minOccurs="0"/>
+				<xs:element name="ErrResnCde" type="xs:string" minOccurs="0"/>
+				<xs:element name="ApplMsgLst" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ApplMsg" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="ApplMsgApplId" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgNbr" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgTxt" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgErrInd" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgFld" type="xs:string" minOccurs="0"/>
+									</xs:all>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="mtvnCWCBPrpdLdUnldResData" xmlns="mtvnCWCBPrpdLdUnldResData" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="CBPrpdLdUnldResData">
+		<xs:annotation>
+		<xs:documentation>Cardbase Prepaid Load Unload (CB545) - This function is used to add or remove money from a prepaid debit card. </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="E130013" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Card Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130484" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Load Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130485" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Unload Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130582" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Balance Withdrawal Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131150" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Detailed Transaction Description ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ErrCde" type="xs:string" minOccurs="0"/>
+				<xs:element name="ErrResnCde" type="xs:string" minOccurs="0"/>
+				<xs:element name="ApplMsgLst" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ApplMsg" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="ApplMsgApplId" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgNbr" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgTxt" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgErrInd" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgFld" type="xs:string" minOccurs="0"/>
+									</xs:all>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

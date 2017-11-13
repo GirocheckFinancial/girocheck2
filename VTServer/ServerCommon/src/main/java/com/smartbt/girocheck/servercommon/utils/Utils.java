@@ -56,7 +56,7 @@ public class Utils {
         return rndstr(48);
     }
 
-    private static String rndstr(int len) {
+    public static String rndstr(int len) {
         Random r = new Random();
         StringBuilder sb = new StringBuilder();
 
@@ -66,6 +66,7 @@ public class Utils {
 
         return sb.toString();
     }
+     
 
     /**
      * Basic SHA-1 Password Encryption

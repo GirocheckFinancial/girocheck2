@@ -13,8 +13,7 @@
 package com.smartbt.girocheck.servercommon.manager;
 
 import com.smartbt.girocheck.servercommon.dao.EmailDAO;
-import com.smartbt.girocheck.servercommon.enums.EmailName;
-import com.smartbt.girocheck.servercommon.model.Country;
+import com.smartbt.girocheck.servercommon.enums.EmailName; 
 import com.smartbt.girocheck.servercommon.model.Email;
 
 /**
@@ -22,8 +21,7 @@ import com.smartbt.girocheck.servercommon.model.Email;
  * @author Roberto Rodriguez :: <roberto.rodriguez@smartbt.com>
  */
 public class EmailManager {
-    public static EmailManager INSTANCE;
-    EmailDAO dao = EmailDAO.get();
+    public static EmailManager INSTANCE; 
     
        public static EmailManager get() {
         if ( INSTANCE == null ) {
@@ -33,7 +31,7 @@ public class EmailManager {
     }
 
     public Email getByName( EmailName name ) {
-        return dao.getByName( name );
+        return EmailDAO.get().getByName( name );
     }
  
 }

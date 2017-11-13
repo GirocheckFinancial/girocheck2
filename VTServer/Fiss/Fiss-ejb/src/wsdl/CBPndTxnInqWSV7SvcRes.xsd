@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="mtvnCWCBPndTxnInqSvcRes" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cw000="mtvnCWCBPndTxnInqSvcRes"
+	xmlns:cw185="mtvnCWCBPndTxnInqResData"
+	elementFormDefault="qualified">
+	<xs:import namespace="mtvnCWCBPndTxnInqResData" schemaLocation="./CBPndTxnInqWSV7SvcResData.xsd"/>
+	<xs:element name="ErrCde" type="xs:string"/>
+	<xs:element name="ErrMsg" type="xs:string"/>
+	<xs:element name="CBPndTxnInqMtvnSvcRes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MtvnSvcVer">
+					<xs:annotation>
+						<xs:documentation>The version of this message.   Currently 1.0</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="1.0"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="MsgUUID" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Svc" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SvcParms">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ApplID">
+											<xs:annotation>
+												<xs:documentation>The application ID of the service.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="CB"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="SvcID">
+											<xs:annotation>
+												<xs:documentation>The service ID.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="CBPndTxnInq"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="SvcVer">
+											<xs:annotation>
+												<xs:documentation>The service version.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:enumeration value="7.0"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="RqstUUID" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="MsgData">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="DefaultResData" type="xs:string"/>
+										<xs:element ref="cw185:CBPndTxnInqResData"/>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+							<xs:element ref="cw000:ErrCde"/>
+							<xs:element ref="cw000:ErrMsg" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="cw000:ErrCde"/>
+				<xs:element ref="cw000:ErrMsg" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

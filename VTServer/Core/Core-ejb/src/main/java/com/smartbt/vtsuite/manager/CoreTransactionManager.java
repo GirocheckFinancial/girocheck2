@@ -60,8 +60,8 @@ public class CoreTransactionManager {
     public static List CARD_TO_BANK_BL_LIST;
     private Host cardHost;
     private static HostManager hostManager = new HostManager();
-    private ApplicationParameterManager applicationParameterManager = new ApplicationParameterManager();
-    private Map<EnumApplicationParameter, Double> amountAplicationParameters;
+    private static ApplicationParameterManager applicationParameterManager = new ApplicationParameterManager();
+    private static Map<EnumApplicationParameter, Double> amountAplicationParameters;
 
     //TODO move this to System Properties
     public static final String ID_SCAN_AUTH_KEY = "48fa49a3-8ca4-4fc5-9a60-93271739969d";

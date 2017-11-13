@@ -14,12 +14,12 @@
  **
  */
 package com.smartbt.vtsuite.manager;
- 
+
+import com.smartbt.vtsuite.connector.mock.MockFissTransactionHistoryHoldConnector;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.model.SubTransaction;
-import com.smartbt.vtsuite.mock.MockFissBusinessLogic;
 import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
 
 /**
@@ -51,16 +51,9 @@ public class FissHostManager {
         subTransaction.setHost(NomHost.FISS.getId());
 
         try {
-            String prodProperty = System.getProperty("PROD");
-            Boolean isProd = prodProperty != null && prodProperty.equalsIgnoreCase("true");
-            System.out.println("FissHostManager -> isProd = " + isProd);
-            
-            if (isProd) {
-                response = FissBusinessLogic.get().process(request);
-            } else {
-                response = MockFissBusinessLogic.get().process(request);
-            }
- 
+        
+            response = FissBusinessLogic.get().process(request);
+
             if (response.wasApproved()) {
                 subTransaction.setResultCode(response.getResultCode().getCode());
                 subTransaction.setResultMessage(response.getResultMessage());

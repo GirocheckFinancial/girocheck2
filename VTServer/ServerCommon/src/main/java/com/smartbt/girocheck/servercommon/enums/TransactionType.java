@@ -75,7 +75,10 @@ public enum TransactionType {
     CARD_LOAD(NomHost.FISS, 51),
     CARD_CASHING(NomHost.FISS, 52),
     
-    IDEOLOGY_VERYFY_CLIENT(NomHost.IDEOLOGY, 53);
+    IDEOLOGY_VERYFY_CLIENT(NomHost.IDEOLOGY, 53),
+    FISS_SET_PRODUCT_ID(NomHost.FISS, 54),
+    FISS_CHANGE_PASSWORD(NomHost.FISS, 55),
+    FISS_SET_PIN(NomHost.FISS, 56);
  
     private NomHost host;
 
@@ -192,9 +195,29 @@ public enum TransactionType {
                 return TransactionType.COMPLIANCE_NEW_BRANCH;
             case 46: 
                 return TransactionType.COMPLIANCE_POST_TRANSACTION;
+            case 47: 
+                return TransactionType.FISS_BALANCE_INQUIRY_CARD_VALIDATION;
+            case 48: 
+                return TransactionType.TRANSACTION_HISTORY;
+            case 49: 
+                return TransactionType.CARD_PERSONALIZATION;
+            case 50: 
+                return TransactionType.CARD_ACTIVATION;
+            case 51: 
+                return TransactionType.CARD_LOAD;
+            case 52: 
+                return TransactionType.CARD_CASHING;
+            case 53: 
+                return TransactionType.IDEOLOGY_VERYFY_CLIENT;
+            case 54: 
+                return TransactionType.FISS_SET_PRODUCT_ID;
+            case 55: 
+                return TransactionType.FISS_CHANGE_PASSWORD;
+            case 56: 
+                return TransactionType.FISS_SET_PIN;
             default:
                   return TransactionType.TRANSACTION_TYPE;
         }
     }
 
-    } 
+    }   

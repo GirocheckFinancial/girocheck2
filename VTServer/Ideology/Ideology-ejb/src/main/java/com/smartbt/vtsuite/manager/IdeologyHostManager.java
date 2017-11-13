@@ -48,30 +48,30 @@ public class IdeologyHostManager {
 
         SubTransaction subTransaction = new SubTransaction();
         subTransaction.setType(request.getTransactionType().getCode());
-        subTransaction.setHost(NomHost.FISS.getId());
+        subTransaction.setHost(NomHost.IDEOLOGY.getId());
 
         try {
             String prodProperty = System.getProperty("PROD");
-            Boolean isProd = prodProperty != null && prodProperty.equalsIgnoreCase("true");
-            System.out.println("IdeologyHostManager -> isProd = " + isProd);
+            Boolean isProd = true;// prodProperty != null && prodProperty.equalsIgnoreCase("true");
+            System.out.println("### IdeologyHostManager -> isProd = " + isProd);
             
-            if (isProd) {
+//            if (isProd) {
                 response = IdeologyBusinessLogic.get().process(request);
-            } else {
-                response = MockIdeologyBusinessLogic.get().process(request);
-            }
+//            } else {
+//                response = MockIdeologyBusinessLogic.get().process(request);
+//            }
  
-            if (response.wasApproved()) {
+//            if (response.wasApproved()) {
                 subTransaction.setResultCode(response.getResultCode().getCode());
                 subTransaction.setResultMessage(response.getResultMessage());
-            } else {
-                subTransaction.setResultCode(ResultCode.FISS_HOST_ERROR.getCode());
-                subTransaction.setResultMessage(response.getResultMessage());
-            }
+//            } else {
+//                subTransaction.setResultCode(ResultCode.IDEOLOGY_HOST_ERROR.getCode());
+//                subTransaction.setResultMessage(response.getResultMessage());
+//            }
         } catch (Exception e) {
             e.printStackTrace();
-            response = DirexTransactionResponse.forException(ResultCode.FISS_HOST_ERROR, e);
-            subTransaction.setResultCode(ResultCode.FISS_HOST_ERROR.getCode());
+            response = DirexTransactionResponse.forException(ResultCode.IDEOLOGY_HOST_ERROR, e);
+            subTransaction.setResultCode(ResultCode.IDEOLOGY_HOST_ERROR.getCode());
             subTransaction.setResultMessage(e.getMessage());
         }
 

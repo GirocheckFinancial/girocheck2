@@ -1,0 +1,52 @@
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBHoldListInqWSV2" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:import0="mtvnCWCBHoldListInqSvcReq"
+	xmlns:import1="mtvnCWCBHoldListInqSvcRes"
+	targetNamespace="mtvnCBHoldListInqWSV2" name="mtvnCBHoldListInqWSV2" xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+	<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Connectware Web Service Interface</documentation>
+
+	<types>
+		<xsd:schema>
+			<xsd:import schemaLocation="./CBHoldListInqWSV2SvcReq.xsd" namespace="mtvnCWCBHoldListInqSvcReq" />
+			<xsd:import schemaLocation="./CBHoldListInqWSV2SvcRes.xsd" namespace="mtvnCWCBHoldListInqSvcRes" />
+		</xsd:schema>
+	</types>
+
+	<message name="CBHoldListInqMtvnSvcReqMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import0:CBHoldListInqMtvnSvcReq" />
+	</message>
+	<message name="CBHoldListInqMtvnSvcResMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import1:CBHoldListInqMtvnSvcRes" />
+	</message>
+
+	<portType name="mtvnCWCBHoldListInqWSV2Interface">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">CBHoldListInqWSV2</documentation>
+		<operation name="CBHoldListInq">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+			<input message="tns:CBHoldListInqMtvnSvcReqMsg" />
+			<output message="tns:CBHoldListInqMtvnSvcResMsg" />
+		</operation>
+	</portType>
+
+	<binding name="mtvnCWCBHoldListInqWSV2" type="tns:mtvnCWCBHoldListInqWSV2Interface">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="CBHoldListInq">
+			<soap:operation soapAction="CBHoldListInqWSV2:CBHoldListInqMtvnSvcReqMsg" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="mtvnCWCBHoldListInqWSV2">
+		<port name="mtvnCWCBHoldListInqWSV2Port" binding="tns:mtvnCWCBHoldListInqWSV2">
+			<soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/CBHoldListInqWSV2" />
+		</port>
+	</service>
+</definitions>
+

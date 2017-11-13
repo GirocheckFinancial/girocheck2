@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="mtvnCWCBNmeAddrChgResData" xmlns="mtvnCWCBNmeAddrChgResData" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="CBNmeAddrChgResData">
+		<xs:annotation>
+		<xs:documentation>Cardbase Name/Address Change (CB230) - This function allows the user to change name, address, and other customer demographics for a particular card.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="E130015" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Institution Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130013" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Card Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130050" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Card Status Code</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130023" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Short Name - Last</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130024" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Short Name - First</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130025" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Card Name Line 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130027" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Card Name Line 2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130029" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Street Address Line 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130030" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Street Address Line 2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130031" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>City Name</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130032" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>State Abbreviation</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130033" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Country Code</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130034" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>ZIP Code</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130301" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>ZIP Code Area</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130138" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary Home Phone</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130145" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary SSN</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130146" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary Business Phone</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130147" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary Birth Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130149" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary Mother's Maiden Name</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130403" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reward Plan</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130404" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reward ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130554" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reference Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130555" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Rewards Member ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130556" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Rewards Enrollment Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130557" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Rewards Authorized Redeemer 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130558" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Rewards Authorized Redeemer 2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130559" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Rewards Member ID Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130411" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Emboss Name 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130412" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Emboss Name 2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130413" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Optional Emboss Line</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130639" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Image Key</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130405" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Foreign Address Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130406" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Foreign Address Line 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130407" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Foreign Address Line 2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130408" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Foreign Address Line 3</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130409" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Foreign Address Line 4</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130650" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Cell Phone</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130506" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>E-mail Address</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130652" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Employee Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130480" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Customer Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130657" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Print Statement Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130026" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>AML CIF Info Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131144" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Bad Address Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130132" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130133" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130134" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 3</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130135" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 4</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130136" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 5</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130018" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Branch Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130155" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Officer</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131632" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 6</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131633" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 7</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131634" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 8</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131635" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 9</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131636" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 10</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131637" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 11</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131638" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 12</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131639" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 13</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131640" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 14</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131641" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 15</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131642" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 16</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131643" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 17</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131644" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 18</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131645" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 19</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131646" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 20</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131647" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Sell Card</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131649" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Account on File Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131651" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Account on File Method</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131652" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Prevent Plastic</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131653" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Prevent Reissue Replacement</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ErrCde" type="xs:string" minOccurs="0"/>
+				<xs:element name="ErrResnCde" type="xs:string" minOccurs="0"/>
+				<xs:element name="ApplMsgLst" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ApplMsg" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="ApplMsgApplId" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgNbr" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgTxt" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgErrInd" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgFld" type="xs:string" minOccurs="0"/>
+									</xs:all>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

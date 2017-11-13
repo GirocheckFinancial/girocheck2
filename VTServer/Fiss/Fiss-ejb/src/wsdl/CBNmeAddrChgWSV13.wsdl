@@ -1,0 +1,52 @@
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBNmeAddrChgWSV13" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:import0="mtvnCWCBNmeAddrChgSvcReq"
+	xmlns:import1="mtvnCWCBNmeAddrChgSvcRes"
+	targetNamespace="mtvnCBNmeAddrChgWSV13" name="mtvnCBNmeAddrChgWSV13" xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+	<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Connectware Web Service Interface</documentation>
+
+	<types>
+		<xsd:schema>
+			<xsd:import schemaLocation="./CBNmeAddrChgWSV13SvcReq.xsd" namespace="mtvnCWCBNmeAddrChgSvcReq" />
+			<xsd:import schemaLocation="./CBNmeAddrChgWSV13SvcRes.xsd" namespace="mtvnCWCBNmeAddrChgSvcRes" />
+		</xsd:schema>
+	</types>
+
+	<message name="CBNmeAddrChgMtvnSvcReqMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import0:CBNmeAddrChgMtvnSvcReq" />
+	</message>
+	<message name="CBNmeAddrChgMtvnSvcResMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import1:CBNmeAddrChgMtvnSvcRes" />
+	</message>
+
+	<portType name="mtvnCWCBNmeAddrChgWSV13Interface">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">CBNmeAddrChgWSV13</documentation>
+		<operation name="CBNmeAddrChg">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+			<input message="tns:CBNmeAddrChgMtvnSvcReqMsg" />
+			<output message="tns:CBNmeAddrChgMtvnSvcResMsg" />
+		</operation>
+	</portType>
+
+	<binding name="mtvnCWCBNmeAddrChgWSV13" type="tns:mtvnCWCBNmeAddrChgWSV13Interface">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="CBNmeAddrChg">
+			<soap:operation soapAction="CBNmeAddrChgWSV13:CBNmeAddrChgMtvnSvcReqMsg" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="mtvnCWCBNmeAddrChgWSV13">
+		<port name="mtvnCWCBNmeAddrChgWSV13Port" binding="tns:mtvnCWCBNmeAddrChgWSV13">
+			<soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/CBNmeAddrChgWSV13" />
+		</port>
+	</service>
+</definitions>
+

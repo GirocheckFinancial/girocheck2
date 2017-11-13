@@ -21,19 +21,18 @@ import com.smartbt.girocheck.servercommon.enums.ResultCode;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
+import com.smartbt.girocheck.servercommon.manager.IdeologyResultManager;
+import com.smartbt.girocheck.servercommon.model.IdeologyResult;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
+import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import com.smartbt.vtsuite.entity.IdeologyResponse;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.http.MediaType;
-;
-import org.apache.cxf.jaxrs.client.WebClient;
-import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
+import org.springframework.http.MediaType; 
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -49,10 +48,10 @@ public class IdeologyBusinessLogic {
     public static String IDEOLOGY_URL = System.getProperty("IDEOLOGY_URL");
     public static String IDEOLOGY_USERNAME = System.getProperty("IDEOLOGY_USERNAME");
     public static String IDEOLOGY_PASSWORD = System.getProperty("IDEOLOGY_PASSWORD");
- 
+
     private static HttpHeaders headers = new HttpHeaders();
     private static RestTemplate restTemplate = new RestTemplate();
-    
+
     private static IdeologyBusinessLogic INSTANCE;
 
     public static synchronized IdeologyBusinessLogic get() {
@@ -65,7 +64,7 @@ public class IdeologyBusinessLogic {
     public IdeologyBusinessLogic() {
         List<Object> providers = new ArrayList<Object>();
         providers.add(new JacksonJaxbJsonProvider());
-        
+
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.add("Host", "web.ideologylive.com");
 
@@ -81,7 +80,7 @@ public class IdeologyBusinessLogic {
         if (IDEOLOGY_PASSWORD == null || IDEOLOGY_PASSWORD.isEmpty()) {
             IDEOLOGY_PASSWORD = "G!roCk@CbKc2~7Qr";
         }
- 
+
     }
 
     public DirexTransactionResponse process(DirexTransactionRequest request) throws Exception {
@@ -90,85 +89,91 @@ public class IdeologyBusinessLogic {
 
         TransactionType transactionType = request.getTransactionType();
 
-        Map responseMap = null;
+        IdeologyResponse response = null;
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[IdeologyBusinessLogic] proccessing:: " + transactionType, null);
 
         switch (transactionType) {
             case IDEOLOGY_VERYFY_CLIENT:
-                responseMap = verifyClient(transactionData);
+                response = verifyClient(transactionData);
 
                 break;
         }
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[IdeologyBusinessLogic] Finish " + transactionType, null);
 
-        direxTransactionResponse.setResultCode(ResultCode.SUCCESS);
-        direxTransactionResponse.setResultMessage(VTSuiteMessages.SUCCESS);
+        if (response != null && response.wasSuccess()) {
+            direxTransactionResponse.setResultCode(ResultCode.SUCCESS);
+            direxTransactionResponse.setResultMessage(VTSuiteMessages.SUCCESS);
+        } else {
+            direxTransactionResponse.setResultCode(ResultCode.IDEOLOGY_HOST_UNEXPECTED_RESULT_CODE);
 
-        if (responseMap != null) {
-            direxTransactionResponse.getTransactionData().putAll(responseMap);
+            String resultMessage = response != null ? response.getErrorMessage() : "Ideology response iwas null";
+            direxTransactionResponse.setResultMessage(resultMessage);
         }
 
         return direxTransactionResponse;
     }
 
-    public Map verifyClient(Map params) {
+    public IdeologyResponse verifyClient(Map params) {
         System.out.println("[IdeologyBusinessLogic] verifyClient");
-        
-        params = buildMockTransactionDataMap();
-        
-        MultiValueMap requestMap = buildRequestMap( params);
-         
+
+        // params = buildMockTransactionDataMap();
+        MultiValueMap requestMap = buildRequestMap(params);
+
+        System.out.println("------- IDEOLOGY REQUEST --------");
+        System.out.println(requestMap.toSingleValueMap().toString());
+
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(requestMap, headers);
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(IDEOLOGY_URL, request, String.class);
 
         String resp = responseEntity.getBody();
-        
+
         System.out.println("Calling Ideology...");
 
         IdeologyResponse response = IdeologyResponse.getFromXML(resp);
 
+        System.out.println("------- IDEOLOGY RESPONSE --------");
         if (response == null) {
             System.out.println("Response is NULL");
         } else {
-            System.out.println(response.toString());
-        } 
-        
-        return new HashMap(); 
+            System.out.println(resp);
+            persitResult(6, response.toEntity());
+        }
+
+        return response;//new HashMap();
     }
 
     private static MultiValueMap buildRequestMap(Map transactionData) {
         MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
 
         requestMap.add("username", IDEOLOGY_USERNAME);
-        requestMap.add("password", IDEOLOGY_PASSWORD); 
-        setpersonalInfo(requestMap, transactionData);
+        requestMap.add("password", IDEOLOGY_PASSWORD);
+
+        setPersonalInfo(requestMap, transactionData);
         setDOBFields(requestMap, transactionData);
-        setDateFields(requestMap, transactionData); 
+        setDateFields(requestMap, transactionData);
         return requestMap;
     }
-    
-    
 
-    private static void setpersonalInfo(MultiValueMap<String, String> requestMap, Map transactionData) {
-        requestMap.add("firstName", (String)transactionData.get(ParameterName.FIRST_NAME));
-        requestMap.add("lastName", (String)transactionData.get(ParameterName.LAST_NAME));
-        requestMap.add("ssn", (String)transactionData.get(ParameterName.SSN));
+    private static void setPersonalInfo(MultiValueMap<String, String> requestMap, Map transactionData) {
+        requestMap.add("firstName", (String) transactionData.get(ParameterName.FIRST_NAME));
+        requestMap.add("lastName", (String) transactionData.get(ParameterName.LAST_NAME));
+        requestMap.add("ssn", (String) transactionData.get(ParameterName.SSN));
     }
-    
+
     private static void setDateFields(MultiValueMap<String, String> requestMap, Map transactionData) {
-        requestMap.add("address", (String)transactionData.get(ParameterName.ADDRESS));
-        requestMap.add("city", (String)transactionData.get(ParameterName.CITY));
-        requestMap.add("state", (String)transactionData.get(ParameterName.STATE_ABBREVIATION));
-        requestMap.add("zip",  (String)transactionData.get(ParameterName.ZIPCODE));
+        requestMap.add("address", (String) transactionData.get(ParameterName.ADDRESS));
+        requestMap.add("city", (String) transactionData.get(ParameterName.CITY));
+        requestMap.add("state", (String) transactionData.get(ParameterName.STATE_ABBREVIATION));
+        requestMap.add("zip", (String) transactionData.get(ParameterName.ZIPCODE));
     }
-    
-    private static void setDOBFields(MultiValueMap<String, String> requestMap, Map transactionData) {
-        Date dob = (Date) transactionData.get(ParameterName.BORNDATE_AS_DATE);
 
-        if (dob != null) {
+    private static void setDOBFields(MultiValueMap<String, String> requestMap, Map transactionData) {
+
+        if (transactionData.containsKey(ParameterName.BORNDATE_AS_DATE)) {
+            Date dob = (Date) transactionData.get(ParameterName.BORNDATE_AS_DATE);
             Calendar c = Calendar.getInstance();
             c.setTime(dob);
             int day = dob.getDate();
@@ -178,65 +183,65 @@ public class IdeologyBusinessLogic {
             requestMap.add("dobDay", day + "");
             requestMap.add("dobMonth", month + "");
             requestMap.add("dobYear", year + "");
+        } else {
+            if (transactionData.containsKey(ParameterName.BORNDATE)) {
+                String dob = (String) transactionData.get(ParameterName.BORNDATE);
+
+                String[] dobParts = dob.split("-");
+
+                if (dobParts.length > 0) {
+                    requestMap.add("dobYear", dobParts[dobParts.length - 1]);
+                }
+
+                if (dobParts.length > 1) {
+                    requestMap.add("dobMonth", dobParts[dobParts.length - 2]);
+                }
+
+                if (dobParts.length > 2) {
+                    requestMap.add("dobDay", dobParts[dobParts.length - 3]);
+                }
+            }
         }
 
     }
 
-    public static void main(String[] args) throws Exception {
-        System.out.println((new IdeologyBusinessLogic()).verifyClient(headers));
+    public Integer persitResult(int clientId, IdeologyResult result) {
+        Integer id = 0;
+        try {
+            HibernateUtil.beginTransaction();
+
+            id = IdeologyResultManager.get().save(clientId, result);
+
+            HibernateUtil.commitTransaction();
+        } catch (Exception e) {
+            e.printStackTrace();
+            HibernateUtil.rollbackTransaction();
+        }
+
+        return id;
     }
 
-    // @RequestMapping(value = "/ideology", method = RequestMethod.GET)
-//    public static String ideology() throws Exception {
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//        headers.add("Host", "web.ideologylive.com");
-//
-//        MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-//        map.add("username", "GiroCheck.API.GPR");
-//        map.add("password", "G!roCk@CbKc2~7Qr");
-//        map.add("firstName", "Julio");
-//        map.add("lastName", "Cesar");
-//        map.add("address", "2323 Hidden Glen Dr");
-//        map.add("city", "Marieta");
-//        map.add("state", "GA");
-//        map.add("zip", "30067");
-//        map.add("dobMonth", "12");
-//        map.add("dobDay", "6");
-//        map.add("dobYear", "1983");
-//        map.add("ssn", "757374453");
-//
-//        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-//
-//        ResponseEntity<String> responseEntity = restTemplate.postForEntity("https://web.idologylive.com/api/idiq.svc", request, String.class);
-//
-//        String resp = responseEntity.getBody();
-//
-//        IdeologyResponse response = IdeologyResponse.getFromXML(resp);
-//
-//        if (response == null) {
-//            System.out.println("Response is NULL");
-//        } else {
-//            System.out.println(response.toString());
-//        }
-//
-//        return resp;
-//    }
-    
-    private static Map buildMockTransactionDataMap(){
+    public static void main(String[] args) throws Exception {
+        MultiValueMap map = buildRequestMap(buildMockTransactionDataMap());
+
+        System.out.println(" map.toString()= " + map.toString());
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
+    }
+
+    private static Map buildMockTransactionDataMap() {
         Map map = new HashMap();
-        
+
         map.put(ParameterName.FIRST_NAME, "Julio");
         map.put(ParameterName.LAST_NAME, "Cesar");
         map.put(ParameterName.ADDRESS, "2323 Hidden Glen Dr");
         map.put(ParameterName.CITY, "Marieta");
         map.put(ParameterName.STATE, "GA");
         map.put(ParameterName.ZIPCODE, "30067");
-        map.put(ParameterName.BORNDATE_AS_DATE,  new Date()); 
+        map.put(ParameterName.BORNDATE_AS_DATE, new Date());
         map.put(ParameterName.SSN, "757374453");
-        
+
         return map;
     }
 

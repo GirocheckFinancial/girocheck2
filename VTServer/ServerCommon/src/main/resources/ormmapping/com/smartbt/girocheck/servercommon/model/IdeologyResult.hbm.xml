@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class lazy="false" name="com.smartbt.girocheck.servercommon.model.IdeologyResult" table="ideology_result">
+    <id column="id" name="id" type="integer" unsaved-value="0">
+      <generator class="native">
+            </generator>
+    </id>
+    <property column="creation_date" lazy="false" name="creationDate" not-null="false" type="timestamp"/>
+    <property column="id_number" lazy="false" length="255" name="idNumber" not-null="false" type="string"/>
+    <property column="result_key" lazy="false" length="255" name="resultKey" not-null="false" type="string"/>
+    <property column="result_message" lazy="false" length="255" name="resultMessage" not-null="false" type="string"/>
+    <property column="summary_result_key" lazy="false" length="255" name="summaryResultKey" not-null="false" type="string"/>
+    <property column="summary_result_message" lazy="false" length="255" name="summaryResultMessage" not-null="false" type="string"/>
+    <property column="tag_failed_key" lazy="false" length="255" name="tagFailedKey" not-null="false" type="string"/>
+    <property column="tag_failed_message" lazy="false" length="255" name="tagFailedMessage" not-null="false" type="string"/>
+ 
+    <property column="tag_error_message" lazy="false" length="255" name="tagErrorMessage" not-null="false" type="string"/>
+    <property column="tag_restriction_key" lazy="false" length="255" name="tagRestrictionKey" not-null="false" type="string"/>
+    <property column="tag_restriction_message" lazy="false" length="255" name="tagRestrictionMessage" not-null="false" type="string"/>
+    <property column="tag_velocity_key" lazy="false" length="255" name="tagVelocityKey" not-null="false" type="string"/>
+    <property column="tag_velocity_message" lazy="false" length="255" name="tagVelocityMessage" not-null="false" type="string"/>
+    <property column="tag_id_live_error_key" lazy="false" length="255" name="tagIdLiveErrorKey" not-null="false" type="string"/>
+    <property column="tag_id_live_error_message" lazy="false" length="255" name="tagIdLiveErrorMessage" not-null="false" type="string"/>
+    <many-to-one cascade="lock" class="com.smartbt.girocheck.servercommon.model.Client" column="client" lazy="proxy" name="client" not-null="true">
+        </many-to-one>
+    <property column="qualifiers_count" lazy="false" name="qualifiersCount" type="integer"/>
+    <property column="velocity_results_count" lazy="false" name="velocityResultsCount" type="integer"/>
+    
+    <set cascade="all" inverse="true" lazy="true" name="qualifiers">
+      <key column="ideology_result" not-null="true"/>
+      <one-to-many class="com.smartbt.girocheck.servercommon.model.IdeologyResultInfo"/>
+    </set>
+  </class>
+</hibernate-mapping>

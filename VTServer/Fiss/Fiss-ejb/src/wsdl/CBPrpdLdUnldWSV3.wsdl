@@ -1,0 +1,52 @@
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBPrpdLdUnldWSV3" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:import0="mtvnCWCBPrpdLdUnldSvcReq"
+	xmlns:import1="mtvnCWCBPrpdLdUnldSvcRes"
+	targetNamespace="mtvnCBPrpdLdUnldWSV3" name="mtvnCBPrpdLdUnldWSV3" xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+	<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Connectware Web Service Interface</documentation>
+
+	<types>
+		<xsd:schema>
+			<xsd:import schemaLocation="./CBPrpdLdUnldWSV3SvcReq.xsd" namespace="mtvnCWCBPrpdLdUnldSvcReq" />
+			<xsd:import schemaLocation="./CBPrpdLdUnldWSV3SvcRes.xsd" namespace="mtvnCWCBPrpdLdUnldSvcRes" />
+		</xsd:schema>
+	</types>
+
+	<message name="CBPrpdLdUnldMtvnSvcReqMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import0:CBPrpdLdUnldMtvnSvcReq" />
+	</message>
+	<message name="CBPrpdLdUnldMtvnSvcResMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import1:CBPrpdLdUnldMtvnSvcRes" />
+	</message>
+
+	<portType name="mtvnCWCBPrpdLdUnldWSV3Interface">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">CBPrpdLdUnldWSV3</documentation>
+		<operation name="CBPrpdLdUnld">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+			<input message="tns:CBPrpdLdUnldMtvnSvcReqMsg" />
+			<output message="tns:CBPrpdLdUnldMtvnSvcResMsg" />
+		</operation>
+	</portType>
+
+	<binding name="mtvnCWCBPrpdLdUnldWSV3" type="tns:mtvnCWCBPrpdLdUnldWSV3Interface">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="CBPrpdLdUnld">
+			<soap:operation soapAction="CBPrpdLdUnldWSV3:CBPrpdLdUnldMtvnSvcReqMsg" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="mtvnCWCBPrpdLdUnldWSV3">
+		<port name="mtvnCWCBPrpdLdUnldWSV3Port" binding="tns:mtvnCWCBPrpdLdUnldWSV3">
+			<soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/CBPrpdLdUnldWSV3" />
+		</port>
+	</service>
+</definitions>
+

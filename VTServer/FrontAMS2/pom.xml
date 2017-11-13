@@ -285,12 +285,12 @@
             <version>1.0</version>
             <type>jar</type> 
         </dependency>
-<!--         <dependency>
+         <dependency>
             <groupId>com.smartbt.girocheck</groupId>
-            <artifactId>CloudConvert</artifactId>
-            <version>1.1</version>
+            <artifactId>Ideology-ejb</artifactId>
+            <version>1.0-SNAPSHOT</version>
             <type>ejb</type>
-        </dependency>-->
+        </dependency> 
     </dependencies>
 
     <build>

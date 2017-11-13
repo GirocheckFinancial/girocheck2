@@ -1,0 +1,51 @@
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBAcctInqWSV15" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:import0="mtvnCWCBAcctInqSvcReq"
+	xmlns:import1="mtvnCWCBAcctInqSvcRes"
+	targetNamespace="mtvnCBAcctInqWSV15" name="mtvnCBAcctInqWSV15" xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+	<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Connectware Web Service Interface</documentation>
+
+	<types>
+		<xsd:schema>
+			<xsd:import schemaLocation="./CBAcctInqWSV15SvcReq.xsd" namespace="mtvnCWCBAcctInqSvcReq" />
+			<xsd:import schemaLocation="./CBAcctInqWSV15SvcRes.xsd" namespace="mtvnCWCBAcctInqSvcRes" />
+		</xsd:schema>
+	</types>
+
+	<message name="CBAcctInqMtvnSvcReqMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import0:CBAcctInqMtvnSvcReq" />
+	</message>
+	<message name="CBAcctInqMtvnSvcResMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import1:CBAcctInqMtvnSvcRes" />
+	</message>
+
+	<portType name="mtvnCWCBAcctInqWSV15Interface">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">CBAcctInqWSV15</documentation>
+		<operation name="CBAcctInq">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+			<input message="tns:CBAcctInqMtvnSvcReqMsg" />
+			<output message="tns:CBAcctInqMtvnSvcResMsg" />
+		</operation>
+	</portType>
+
+	<binding name="mtvnCWCBAcctInqWSV15" type="tns:mtvnCWCBAcctInqWSV15Interface">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="CBAcctInq">
+			<soap:operation soapAction="CBAcctInqWSV15:CBAcctInqMtvnSvcReqMsg" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="mtvnCWCBAcctInqWSV15">
+		<port name="mtvnCWCBAcctInqWSV15Port" binding="tns:mtvnCWCBAcctInqWSV15">
+			<soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/CBAcctInqWSV15" />
+		</port>
+	</service>
+</definitions>

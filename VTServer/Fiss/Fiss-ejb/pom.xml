@@ -112,21 +112,21 @@
                 <artifactId>jaxws-maven-plugin</artifactId>
                 <version>2.3</version>
                 <executions>
-<!--                    <execution>
+                    <execution>
                         <goals>
                             <goal>wsimport</goal>
                         </goals>
                         <configuration>
                             <wsdlFiles>
-                                <wsdlFile>GC-APP-03/eFraudAPI/CheckService.asmx.wsdl</wsdlFile>
+                                <wsdlFile>CBPndTxnInqWSV7.wsdl</wsdlFile>
                             </wsdlFiles>
-                            <packageName></packageName>
-                            <wsdlLocation>http://GC-APP-03/eFraudAPI/CheckService.asmx?WSDL</wsdlLocation>
-                            <staleFile>${project.build.directory}/jaxws/stale/CheckService.asmx.stale</staleFile>
+                            <packageName>com.smartbt.vtsuite.ws.history.pending</packageName>
+                            <wsdlLocation>file:/C:/Glassfish/fiss_wsdl/history/pending/CBPndTxnInqWSV7.wsdl</wsdlLocation>
+                            <staleFile>${project.build.directory}/jaxws/stale/CBPndTxnInqWSV7.stale</staleFile>
                         </configuration>
-                        <id>wsimport-generate-CheckService.asmx</id>
+                        <id>wsimport-generate-CBPndTxnInqWSV7</id>
                         <phase>generate-sources</phase>
-                    </execution>-->
+                    </execution>
                 </executions>
                 <dependencies>
                     <dependency>

@@ -89,6 +89,12 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
                 response = complianceResponse;
             }
 
+            
+            //----------  IDEOLOGY ------------------
+            
+            sendToIdeology(request, transaction);
+            
+            
             //----------  TECNICARD VALIDATON ------------------
             String hostName = (String) request.getTransactionData().get(ParameterName.HOSTNAME);
 

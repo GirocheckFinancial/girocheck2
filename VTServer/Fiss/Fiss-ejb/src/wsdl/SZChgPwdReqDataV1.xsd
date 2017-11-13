@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="mtvnCWSZChgPwdReqData" xmlns="mtvnCWSZChgPwdReqData" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="SZChgPwdReqData">
+		<xs:annotation>
+		<xs:documentation>SZ Change Password (SZCHG) - This function will change the user id and password within the Metavante RACF security environment.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="E300205" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>New Password</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E300206" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Application ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E300207" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Terminal ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E300208" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Alternate Routing ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

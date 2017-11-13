@@ -1,0 +1,52 @@
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBNegFleMaintWSV1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:import0="mtvnCWCBNegFleMaintSvcReq"
+	xmlns:import1="mtvnCWCBNegFleMaintSvcRes"
+	targetNamespace="mtvnCBNegFleMaintWSV1" name="mtvnCBNegFleMaintWSV1" xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+	<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Connectware Web Service Interface</documentation>
+
+	<types>
+		<xsd:schema>
+			<xsd:import schemaLocation="./CBNegFleMaintWSV1SvcReq.xsd" namespace="mtvnCWCBNegFleMaintSvcReq" />
+			<xsd:import schemaLocation="./CBNegFleMaintWSV1SvcRes.xsd" namespace="mtvnCWCBNegFleMaintSvcRes" />
+		</xsd:schema>
+	</types>
+
+	<message name="CBNegFleMaintMtvnSvcReqMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import0:CBNegFleMaintMtvnSvcReq" />
+	</message>
+	<message name="CBNegFleMaintMtvnSvcResMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import1:CBNegFleMaintMtvnSvcRes" />
+	</message>
+
+	<portType name="mtvnCWCBNegFleMaintWSV1Interface">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">CBNegFleMaintWSV1</documentation>
+		<operation name="CBNegFleMaint">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+			<input message="tns:CBNegFleMaintMtvnSvcReqMsg" />
+			<output message="tns:CBNegFleMaintMtvnSvcResMsg" />
+		</operation>
+	</portType>
+
+	<binding name="mtvnCWCBNegFleMaintWSV1" type="tns:mtvnCWCBNegFleMaintWSV1Interface">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="CBNegFleMaint">
+			<soap:operation soapAction="CBNegFleMaintWSV1:CBNegFleMaintMtvnSvcReqMsg" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="mtvnCWCBNegFleMaintWSV1">
+		<port name="mtvnCWCBNegFleMaintWSV1Port" binding="tns:mtvnCWCBNegFleMaintWSV1">
+			<soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/CBNegFleMaintWSV1" />
+		</port>
+	</service>
+</definitions>
+

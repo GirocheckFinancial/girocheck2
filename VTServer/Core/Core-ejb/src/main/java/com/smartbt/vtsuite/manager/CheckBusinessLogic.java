@@ -133,6 +133,11 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
                 response = complianceResponse;
             }
             
+            
+            //----------  IDEOLOGY ------------------
+            
+            sendToIdeology(request, transaction);
+            
             //-------SEND TO CERTEGY ------
             request.setTransactionType(TransactionType.CERTEGY_AUTHENTICATION);
             DirexTransactionResponse certegyResponse = null;

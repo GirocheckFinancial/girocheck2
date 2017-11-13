@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="mtvnCWCBAcctInqResData" xmlns="mtvnCWCBAcctInqResData" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="CBAcctInqResData">
+		<xs:annotation>
+		<xs:documentation>Cardbase Account Inquiry (CBRFD) -  This function is used to view existing account information.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="E130013" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Card Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130643" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Card Proxy ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130018" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Branch Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130155" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Officer</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130053" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Expiration Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130058" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Date Last Used</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130019" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Date Last Changed</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130050" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Card Status Code</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130051" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Card Reason Code</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130023" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Short Name - Last</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130024" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Short Name - First</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130025" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Card Name Line 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130027" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Card Name Line 2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130029" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Street Address Line 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130030" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Street Address Line 2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130031" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB City Name</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130032" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB State Abbreviation</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130033" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Country</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130034" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB ZIP Code</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130035" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary Demand Deposit Account Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130036" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary Demand Deposit Account Status</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130037" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary  Demand Deposit Account Description</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130038" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary Savings Account Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130039" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary Savings Account Status</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130040" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary Savings Account Description</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130041" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary Credit Card Account Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130042" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Primary Credit Card Account Status</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130043" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Primary Credit Card Account Description</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130044" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Loan Account Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130045" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Loan Note Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130046" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Loan Account Status</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130048" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Loan Account Description</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130059" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB DR Usage - Cash Out Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130060" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB DR Usage - Cash Out Transactions</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130061" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB DR Usage - Purchase Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130062" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB DR Usage - Purchase Transactions</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130063" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB CRC Usage - Cash Out Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130064" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB CRC Usage - Cash Out Transactions</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130065" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB CRC Usage - Purchase Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130066" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB CRC Usage - Purchase Transactions</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130067" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB LOC Usage - Cash Out Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130068" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB LOC Usage - Cash Out Transactions</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130069" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB LOC Usage - Purchase Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130070" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB LOC Usage - Purchase Transactions</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130071" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Deposited Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130072" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Credit Transactions</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130073" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Valid Transactions</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130074" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Total Transactions</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130075" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Consecutive PIN Failures</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130076" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Consecutive Rejected Transactions</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130093" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Service Charge Plan</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130094" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Last Service Charge Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130095" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Next Service Charge Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130096" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Service Charge Waive Flag</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130102" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Optional Personal Limits</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130103" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB ATM Cash Out Dollar Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130104" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB ATM Cash Out Transaction Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130105" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB POS Purchase Amount Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130106" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB POS Purchase Transaction Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130107" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Cash Advance Dollar Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130108" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Cash Advance Transaction Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130109" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB VISA/Master Card Purchase Dollar Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130110" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB VISA/Master Card Purchase Transaction Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130111" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB LOC Cash Advance Dollar Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130112" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB LOC Cash Advance Transaction Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130113" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB LOC Purchase Dollar Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130114" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB LOC Purchase Transaction Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130115" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB ATM Deposit Cash Back Dollar Limit</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130132" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130133" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130134" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 3</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130135" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 4</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130136" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 5</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130139" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Optional Debit Pad</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130140" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Debit Pad Type</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130141" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Debit Pad Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130142" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Float Available</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130143" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Deposits Allowed</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130156" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Limits Reset Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130301" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>ZIP Code Plus 4</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130145" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB  SSN/TIN</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130138" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Primary Home Phone</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130146" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Primary Business Phone</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130054" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Original Issue Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130055" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Last Reissue Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130315" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Card Type</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130314" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Prefix Description</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130021" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>PIN Offset</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130147" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Primary Birth Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130405" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Foreign Address Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130406" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Foreign Address 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130407" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Foreign Address 2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130408" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Foreign Address 3</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130409" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Foreign Address 4</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130016" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Card Prefix Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130480" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Customer Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130491" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Total Accessible Balance</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130554" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reference Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130550" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Active Hold Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130297" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Savings Total Accessible Balance</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130403" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reward Plan</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130404" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Reward ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130555" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Rewards Member ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130556" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Rewards Enrollment Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130557" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Rewards Authorized Redeemer 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130558" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Rewards Authorized Redeemer 2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130584" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Account Available Balance</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130585" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Savings Account Available Balance</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130587" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>ACH Funding Direct Deposit Account Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131045" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>ACH Funding ABA Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130589" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Waive Service Charge Plan 1</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130590" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Waive Service Charge Plan 2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130651" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Previous Expiration Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130056" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Total Reissues</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130057" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>PIN Processed Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130100" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Negative File Add Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130296" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Available Deposit Balance</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130298" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Credit Card Authorization Balance</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130300" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Secondary Authorization Balance</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130713" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Card Mailed Date</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130717" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Tracking Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130650" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Cell Phone</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130506" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>E-mail Address</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131594" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Chip Card Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130149" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Maiden Name</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131632" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 6 </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131633" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 7</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131634" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 8</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131635" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 9</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131636" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 10</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131637" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 11</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131638" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 12</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131639" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 13</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131640" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 14</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131641" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 15</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131642" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 16</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131643" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 17</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131644" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 18</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131645" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 19</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131646" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB User Code 20</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ErrCde" type="xs:string" minOccurs="0"/>
+				<xs:element name="ErrResnCde" type="xs:string" minOccurs="0"/>
+				<xs:element name="ApplMsgLst" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ApplMsg" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="ApplMsgApplId" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgNbr" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgTxt" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgErrInd" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgFld" type="xs:string" minOccurs="0"/>
+									</xs:all>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

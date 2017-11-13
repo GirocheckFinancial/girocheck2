@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.smartbt.girocheck.servercommon.model.IdeologyResultInfo" table="ideology_result_info" lazy="false">
+        <id name="id" column="id" type="integer" unsaved-value="0">
+            <generator class="native">
+            </generator>
+        </id> 
+        <property name="key" column="info_key" type="string" length="255" not-null="false" lazy="false"/>
+        <property name="message" column="message" type="string" length="255" not-null="false" lazy="false"/>
+        <property name="type" column="info_type" type="integer" />
+        <many-to-one name="ideologyResult" cascade="lock" column="ideology_result" class="com.smartbt.girocheck.servercommon.model.IdeologyResult" not-null="true" lazy="proxy">
+        </many-to-one> 
+    </class>      
+  
+</hibernate-mapping>

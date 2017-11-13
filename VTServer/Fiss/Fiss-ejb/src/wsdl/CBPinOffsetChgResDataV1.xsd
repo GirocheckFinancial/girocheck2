@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="mtvnCWCBPinOffsetChgResData" xmlns="mtvnCWCBPinOffsetChgResData" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="CBPinOffsetChgResData">
+		<xs:annotation>
+		<xs:documentation>Cardbase PIN Offset Change (CB235) - This fuctions allows the user to change the PIN or PIN offset for a card.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="E130015" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Institution Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130013" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Card Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130021" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>PIN Offset</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130305" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>PIN</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ErrCde" type="xs:string" minOccurs="0"/>
+				<xs:element name="ErrResnCde" type="xs:string" minOccurs="0"/>
+				<xs:element name="ApplMsgLst" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ApplMsg" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="ApplMsgApplId" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgNbr" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgTxt" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgErrInd" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgFld" type="xs:string" minOccurs="0"/>
+									</xs:all>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

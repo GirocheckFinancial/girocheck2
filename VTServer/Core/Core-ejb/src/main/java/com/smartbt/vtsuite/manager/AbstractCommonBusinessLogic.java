@@ -60,6 +60,7 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
     protected static final long ISTREAM_HOST_WAIT_TIME = 30000;//30sec
     protected static final long WESTECH_HOST_WAIT_TIME = 30000;//30sec
     protected static final long COMPLIANCE_HOST_WAIT_TIME = 30000;//30sec
+    protected static final long IDEOLOGY_HOST_WAIT_TIME = 30000;//30sec
     protected static final long PERSONAL_INFO_WAIT_TIME = 420000;//7min 
     protected static final long CHOICE_WAIT_TIME = 300000;//5min 
     public static final long GENERIC_VALIDATION_WAIT_TIME = 60000;//1min
@@ -595,6 +596,32 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
 //                      
 //                     transaction.addSubTransaction(subTransaction);
                  }
+             } 
+         }
+        
+        return response;
+    }
+
+    
+    public DirexTransactionResponse sendToIdeology(DirexTransactionRequest request, Transaction transaction) throws Exception{
+       DirexTransactionResponse response = null;
+        
+        try{
+            request.setTransactionType(TransactionType.IDEOLOGY_VERYFY_CLIENT); 
+            response = sendMessageToHost(request, NomHost.IDEOLOGY, IDEOLOGY_HOST_WAIT_TIME, transaction);
+         }catch(Exception e){
+             String activateIdeology = System.getProperty("ACTIVATE_IDEOLOGY");
+             System.out.println("AbstractCommonBusinessLogic() -> activateIdeology = " + activateIdeology);
+             Boolean isIdeologyActive = activateIdeology != null && activateIdeology.equalsIgnoreCase("true");
+
+             System.out.println("[AbstractCommonBusinessLogic] Exception calling COMPLIANCE_POST_TRANSACTION");
+
+             e.printStackTrace();
+
+             if(isIdeologyActive){
+                 throw e;
+             }else{ //If is not active dont throw exception, just log the sub transaction
+                 
              } 
          }
         
