@@ -24,6 +24,7 @@ public enum FissParam {
     FIRST_NAME,
     LAST_NAME,
     STREET,
+    STREET2,
     CITY,
     STATE,
     COUNTRY,
@@ -42,6 +43,8 @@ public enum FissParam {
     //set_pin
     PIN,
     //history_pending
-    PENDING_TRANSACTION_FILTER
+    PENDING_TRANSACTION_FILTER,
+    //history_general
+    NUMBER_OF_OCCURS
     ;
 }

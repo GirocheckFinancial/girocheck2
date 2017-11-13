@@ -2,7 +2,6 @@ package com.smartbt.vtsuite.requestBuilder;
 
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.vtsuite.util.FissParam;
-import static com.smartbt.vtsuite.util.FissParam.PENDING_TRANSACTION_FILTER;
 import com.smartbt.vtsuite.util.FissUtil;
 import static com.smartbt.vtsuite.util.RequestMapBuilder.buildParamsMap;
 import com.smartbt.vtsuite.ws.balanceInquiry.CBAcctInqMtvnSvcReq;
@@ -10,6 +9,8 @@ import com.smartbt.vtsuite.ws.cardActivation.CBNegFleMaintMtvnSvcReq;
 import com.smartbt.vtsuite.ws.cardLoad.CBPrpdLdUnldMtvnSvcReq;
 import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgMtvnSvcReq;
 import com.smartbt.vtsuite.ws.changePassword.SZChgPwdMtvnSvcReq;
+import com.smartbt.vtsuite.ws.history.details.CBHistTxnDtlInqMtvnSvcReq;
+import com.smartbt.vtsuite.ws.history.general.CBHistTxnInqMtvnSvcReq;
 import com.smartbt.vtsuite.ws.history.hold.CBHoldListInqMtvnSvcReq;
 import com.smartbt.vtsuite.ws.history.pending.CBPndTxnInqMtvnSvcReq;
 import com.smartbt.vtsuite.ws.setPin.CBPinOffsetChgMtvnSvcReq;
@@ -46,6 +47,7 @@ public class RequestBuilder {
         fissParams.put(FissParam.FIRST_NAME, (String) params.get(ParameterName.FIRST_NAME));
         fissParams.put(FissParam.LAST_NAME, (String) params.get(ParameterName.LAST_NAME));
         fissParams.put(FissParam.STREET, (String) params.get(ParameterName.ADDRESS));
+        fissParams.put(FissParam.STREET2, " ");
         fissParams.put(FissParam.CITY, (String) params.get(ParameterName.CITY));
         fissParams.put(FissParam.STATE, (String) params.get(ParameterName.STATE_ABBREVIATION));
         fissParams.put(FissParam.COUNTRY, (String) params.get(ParameterName.COUNTRY));
@@ -121,7 +123,7 @@ public class RequestBuilder {
         fissParams.put(FissParam.APPLICATION_ID, "CB");
         fissParams.put(FissParam.SERVICE_ID, "CBHoldListInq");
         fissParams.put(FissParam.SERVICE_VERSION, "2.0");
-        fissParams.put(FissParam.HOLD_STATUS_FILTER, "02");
+        fissParams.put(FissParam.HOLD_STATUS_FILTER, FissUtil.HOLD_STATUS_FILTER);
         fissParams.put(FissParam.CARD_NUMBER, (String) params.get(ParameterName.CARD_NUMBER));
         return TransactionHistoryHoldReqBuilder.build(fissParams);
     }
@@ -135,4 +137,27 @@ public class RequestBuilder {
         fissParams.put(FissParam.PENDING_TRANSACTION_FILTER, FissUtil.PENDING_TRANSACTION_FILTER);
         return TransactionHistoryPendingReqBuilder.build(fissParams);
     }
+
+    public static CBHistTxnInqMtvnSvcReq buildTransactionHistoryGeneralRequest(Map<ParameterName, Object> params) {
+        Map<FissParam, String> fissParams = buildParamsMap(params);
+        fissParams.put(FissParam.APPLICATION_ID, "CB");
+        fissParams.put(FissParam.SERVICE_ID, "CBHistTxnInq");
+        fissParams.put(FissParam.SERVICE_VERSION, "7.0");
+        fissParams.put(FissParam.CARD_NUMBER, (String) params.get(ParameterName.CARD_NUMBER));
+        fissParams.put(FissParam.PENDING_TRANSACTION_FILTER, FissUtil.PENDING_TRANSACTION_FILTER);
+        fissParams.put(FissParam.NUMBER_OF_OCCURS, FissUtil.NUMBER_OF_OCCURS);
+        return TransactionHistoryGeneralReqBuilder.build(fissParams);
+    }
+    
+    
+    public static CBHistTxnDtlInqMtvnSvcReq buildTransactionHistoryDetailsRequest(Map<ParameterName, Object> params) {
+        Map<FissParam, String> fissParams = buildParamsMap(params);
+        fissParams.put(FissParam.APPLICATION_ID, "CB");
+        fissParams.put(FissParam.SERVICE_ID, "CBHistTxnDtlInq");
+        fissParams.put(FissParam.SERVICE_VERSION, "6.0");
+        fissParams.put(FissParam.CARD_NUMBER, (String) params.get(ParameterName.CARD_NUMBER));
+        fissParams.put(FissParam.PENDING_TRANSACTION_FILTER, FissUtil.PENDING_TRANSACTION_FILTER);
+        return TransactionHistoryDetailsReqBuilder.build(fissParams);
+    }
+
 }

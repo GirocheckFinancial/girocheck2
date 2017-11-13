@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="mtvnCWCBHistTxnDtlInqReqData" xmlns="mtvnCWCBHistTxnDtlInqReqData" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="CBHistTxnDtlInqReqData">
+		<xs:annotation>
+		<xs:documentation>Cardbase History Transaction Detail Inquiry (CBRFD) - This function is used to view the details of transactions for the specified Cardbase account.  </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="E130013" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Card Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130643" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Card Proxy ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130551" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Transaction Filter</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130202" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB History Date Complement</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130206" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB History Time Complement</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

@@ -16,6 +16,6 @@ Any value defined here will override the pom.xml file value but is only applicab
         <netbeans.compile.on.save>all</netbeans.compile.on.save>
         <org-netbeans-modules-maven-j2ee.netbeans_2e_hint_2e_deploy_2e_server>gfv3ee6</org-netbeans-modules-maven-j2ee.netbeans_2e_hint_2e_deploy_2e_server>
         <netbeans.hint.license>smartbt</netbeans.hint.license>
-        <org-netbeans-modules-maven-jaxws._5f_C_5f_CBPndTxnInqWSV7>file:/C:/Glassfish/fiss_wsdl/history/pending/CBPndTxnInqWSV7.wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_CBPndTxnInqWSV7>
+        <org-netbeans-modules-maven-jaxws._5f_C_5f_CBHistTxnDtlInqWSV6>file:/C:/Glassfish/fiss_wsdl/history/details/CBHistTxnDtlInqWSV6.wsdl</org-netbeans-modules-maven-jaxws._5f_C_5f_CBHistTxnDtlInqWSV6>
     </properties>
 </project-shared-configuration>

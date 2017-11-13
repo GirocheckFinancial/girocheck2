@@ -105,6 +105,7 @@ public class CardPersonalizationReqBuilder {
         reqData.setE130025(map.get(FissParam.FIRST_NAME));
         reqData.setE130027(map.get(FissParam.LAST_NAME));
         reqData.setE130029(map.get(FissParam.STREET));
+        reqData.setE130030(map.get(FissParam.STREET2));
         reqData.setE130031(map.get(FissParam.CITY));
         reqData.setE130032(map.get(FissParam.STATE));
         reqData.setE130033(map.get(FissParam.COUNTRY));
@@ -120,6 +121,7 @@ public class CardPersonalizationReqBuilder {
                 FissParam.FIRST_NAME,
                 FissParam.LAST_NAME,
                 FissParam.STREET,
+                FissParam.STREET2,
                 FissParam.CITY,
                 FissParam.STATE,
                 FissParam.COUNTRY,

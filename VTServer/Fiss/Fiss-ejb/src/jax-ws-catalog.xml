@@ -68,4 +68,14 @@
     <system systemId="file:/C:/Glassfish/fiss_wsdl/history/pending/CBPndTxnInqWSV7SvcRes.xsd" uri="wsdl/CBPndTxnInqWSV7SvcRes.xsd"/>
     <system systemId="file:/C:/Glassfish/fiss_wsdl/history/pending/CBPndTxnInqWSV7SvcReqData.xsd" uri="wsdl/CBPndTxnInqWSV7SvcReqData.xsd"/>
     <system systemId="file:/C:/Glassfish/fiss_wsdl/history/pending/CBPndTxnInqWSV7SvcResData.xsd" uri="wsdl/CBPndTxnInqWSV7SvcResData.xsd"/>
+    <system systemId="file:/C:/Glassfish/fiss_wsdl/history/general/CBHistTxnInqWSV7.wsdl" uri="wsdl/CBHistTxnInqWSV7.wsdl"/>
+    <system systemId="file:/C:/Glassfish/fiss_wsdl/history/general/CBHistTxnInqWSV7SvcReq.xsd" uri="wsdl/CBHistTxnInqWSV7SvcReq.xsd"/>
+    <system systemId="file:/C:/Glassfish/fiss_wsdl/history/general/CBHistTxnInqWSV7SvcRes.xsd" uri="wsdl/CBHistTxnInqWSV7SvcRes.xsd"/>
+    <system systemId="file:/C:/Glassfish/fiss_wsdl/history/general/CBHistTxnInqWSV7SvcReqData.xsd" uri="wsdl/CBHistTxnInqWSV7SvcReqData.xsd"/>
+    <system systemId="file:/C:/Glassfish/fiss_wsdl/history/general/CBHistTxnInqWSV7SvcResData.xsd" uri="wsdl/CBHistTxnInqWSV7SvcResData.xsd"/>
+    <system systemId="file:/C:/Glassfish/fiss_wsdl/history/details/CBHistTxnDtlInqWSV6.wsdl" uri="wsdl/CBHistTxnDtlInqWSV6.wsdl"/>
+    <system systemId="file:/C:/Glassfish/fiss_wsdl/history/details/CBHistTxnDtlInqWSV6SvcReq.xsd" uri="wsdl/CBHistTxnDtlInqWSV6SvcReq.xsd"/>
+    <system systemId="file:/C:/Glassfish/fiss_wsdl/history/details/CBHistTxnDtlInqWSV6SvcRes.xsd" uri="wsdl/CBHistTxnDtlInqWSV6SvcRes.xsd"/>
+    <system systemId="file:/C:/Glassfish/fiss_wsdl/history/details/CBHistTxnDtlInqWSV6SvcReqData.xsd" uri="wsdl/CBHistTxnDtlInqWSV6SvcReqData.xsd"/>
+    <system systemId="file:/C:/Glassfish/fiss_wsdl/history/details/CBHistTxnDtlInqWSV6SvcResData.xsd" uri="wsdl/CBHistTxnDtlInqWSV6SvcResData.xsd"/>
 </catalog>

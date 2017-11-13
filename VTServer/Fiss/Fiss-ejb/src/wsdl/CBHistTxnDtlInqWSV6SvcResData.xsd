@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="mtvnCWCBHistTxnDtlInqResData" xmlns="mtvnCWCBHistTxnDtlInqResData" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="CBHistTxnDtlInqResData">
+		<xs:annotation>
+		<xs:documentation>Cardbase History Transaction Detail Inquiry (CBRFD) - This function is used to view the details of transactions for the specified Cardbase account.  </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="E130013" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Card Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130643" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Card Proxy ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130551" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB Transaction Filter</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130202" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB History Date Complement</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130206" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>CB History Time Complement</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E304" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Number of Occurs</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E309" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>More Transaction Exist Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CBHistTxnDtlTxnInqDataLst" minOccurs="0" >
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CBHistTxnDtlTxnInqData" minOccurs="0" maxOccurs="35">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="E130203" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB History Date</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130207" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB History Time</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130210" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB History Dollar Terminal Sequence Number</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130211" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB History Dollar Terminal Indicator</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130379" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB History Dollar Transaction Type</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130213" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB History Dollar Transaction Amount</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130214" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB History Dollar Reject Reason</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130215" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB History Dollar Delay Reason (Authorization)</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130217" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB History Dollar Response Code</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130218" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB History Dollar National Indicator</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130478" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Terminal Description</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130307" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Transaction Description</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130200" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Prefix</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130205" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Original Date</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130208" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Transaction Code</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130209" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Terminal Time</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130219" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Network ID</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130220" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Account Description</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130369" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Service Charge Amount</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130370" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Service Charge Reason Code</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130371" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Service Charge Indicator</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130380" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Service Charge Original Transaction Code</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130416" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Merchant Service Charge Amount</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130419" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Denial Service Charge Indicator</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130420" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Denial Service Charge Amount</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130438" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>ISA Fee Amount</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130553" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>History Transaction Adjustment Reason</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E132009" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Sending ICA</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E132008" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Merchant ID</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E132002" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Approval Code</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E132001" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Authorization Balance</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E132005" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Merchant Category Code</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E132003" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>POS Entry Mode</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E132004" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Merchant ZIP</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E132007" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Acquiring Institution Country Code</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E132006" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Card Acceptor Terminal ID</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130382" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Transfer Funds</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130724" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Recurring Payment Indicator</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E130659" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>MCC Description</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131154" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Detailed Transaction Description - History</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131525" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Partial Indicator</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131526" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>AVS Result</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131524" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>PS2000 Transaction ID Number</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131527" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>POS Condition Code</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131580" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB Courtesy Amount</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131581" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB Account Age Indicator</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131582" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB Deposit Cash Amount </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131583" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB Deposit  Check Count </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131584" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB Deposit Check Amount</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131596" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB Chip Transaction Indicator</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131599" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB ARQC</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131600" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>CB CVM</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131654" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Merchant Name</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131655" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Merchant City and State</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131656" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Merchant Country</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131657" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Acquirer Reference Number</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="E131658" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Deposit Account Number Used </xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ErrCde" type="xs:string" minOccurs="0"/>
+				<xs:element name="ErrResnCde" type="xs:string" minOccurs="0"/>
+				<xs:element name="ApplMsgLst" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ApplMsg" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="ApplMsgApplId" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgNbr" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgTxt" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgErrInd" type="xs:string" minOccurs="0"/>
+										<xs:element name="ApplMsgFld" type="xs:string" minOccurs="0"/>
+									</xs:all>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

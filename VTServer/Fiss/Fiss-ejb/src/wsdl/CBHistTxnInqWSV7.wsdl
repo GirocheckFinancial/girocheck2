@@ -1,0 +1,52 @@
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBHistTxnInqWSV7" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:import0="mtvnCWCBHistTxnInqSvcReq"
+	xmlns:import1="mtvnCWCBHistTxnInqSvcRes"
+	targetNamespace="mtvnCBHistTxnInqWSV7" name="mtvnCBHistTxnInqWSV7" xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+	<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Connectware Web Service Interface</documentation>
+
+	<types>
+		<xsd:schema>
+			<xsd:import schemaLocation="./CBHistTxnInqWSV7SvcReq.xsd" namespace="mtvnCWCBHistTxnInqSvcReq" />
+			<xsd:import schemaLocation="./CBHistTxnInqWSV7SvcRes.xsd" namespace="mtvnCWCBHistTxnInqSvcRes" />
+		</xsd:schema>
+	</types>
+
+	<message name="CBHistTxnInqMtvnSvcReqMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import0:CBHistTxnInqMtvnSvcReq" />
+	</message>
+	<message name="CBHistTxnInqMtvnSvcResMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import1:CBHistTxnInqMtvnSvcRes" />
+	</message>
+
+	<portType name="mtvnCWCBHistTxnInqWSV7Interface">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">CBHistTxnInqWSV7</documentation>
+		<operation name="CBHistTxnInq">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+			<input message="tns:CBHistTxnInqMtvnSvcReqMsg" />
+			<output message="tns:CBHistTxnInqMtvnSvcResMsg" />
+		</operation>
+	</portType>
+
+	<binding name="mtvnCWCBHistTxnInqWSV7" type="tns:mtvnCWCBHistTxnInqWSV7Interface">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="CBHistTxnInq">
+			<soap:operation soapAction="CBHistTxnInqWSV7:CBHistTxnInqMtvnSvcReqMsg" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="mtvnCWCBHistTxnInqWSV7">
+		<port name="mtvnCWCBHistTxnInqWSV7Port" binding="tns:mtvnCWCBHistTxnInqWSV7">
+			<soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/CBHistTxnInqWSV7" />
+		</port>
+	</service>
+</definitions>
+

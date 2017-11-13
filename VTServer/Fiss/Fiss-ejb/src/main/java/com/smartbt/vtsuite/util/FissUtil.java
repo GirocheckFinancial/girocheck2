@@ -20,21 +20,31 @@ public class FissUtil {
     public static String FISS_PASSWORD  = "password_id_goes_here";    //TODO
     public static String INSTITUTION_NUMBER  = "institution_number_goes_here";    //TODO //card personalization
     public static String CARD_STATUS  = "card_status_goes_here";    //TODO //card personalization
-    public static String PRODUCT_ID  = "product_id_goes_here";    //TODO //card personalization
+    public static String PRODUCT_ID  = "product_id_goes_here";    //TODO //set product id
     
     
 
     //Indicates which holds to return. 
     //01 Return all holds. 
     //02 Return only active holds.
-    public static String HOLD_STATUS_FILTER = "02";    //TODO
+    
+    //use hold status of 02 to get active holds
+    public static String HOLD_STATUS_FILTER = "02";   
     
 
     //	Used to indicate that transaction filtering should be performed. 
     //01 Filter for a cardholder-facing API.
     //Returns settled transactions only; omits rejected transactions, 
     //authorizations, statement prints, and $0.00 transactions.
-    public static String PENDING_TRANSACTION_FILTER = "01";    //TODO
+    
+    //use trans filter 01 to get pending items
+    public static String PENDING_TRANSACTION_FILTER = "01";    
+    
+    //The maximum number of transactions to be returned. 
+    //If left blank, all transactions will be returned. 
+    //Output: The actual number of transactions returned. 
+    //If output is zero, no transactions exist
+    public static String NUMBER_OF_OCCURS = "40";
 
     //format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
     public static String generateUUID() {

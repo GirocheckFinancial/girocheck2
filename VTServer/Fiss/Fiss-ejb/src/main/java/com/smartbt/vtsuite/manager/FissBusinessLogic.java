@@ -133,6 +133,8 @@ public class FissBusinessLogic {
         Map result = new HashMap();
         ConnectorFactory.getTransactionHistoryHoldConnector().callWS(params);
         ConnectorFactory.getTransactionHistoryPendingConnector().callWS(params);
+        ConnectorFactory.getTransactionHistoryGeneralConnector().callWS(params);
+        ConnectorFactory.getTransactionHistoryDetailsConnector().callWS(params);
 
         return result;
     }

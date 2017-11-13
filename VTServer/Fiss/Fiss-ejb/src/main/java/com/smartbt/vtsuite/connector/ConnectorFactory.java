@@ -6,6 +6,8 @@ import com.smartbt.vtsuite.connector.mock.MockFissCardLoadConnector;
 import com.smartbt.vtsuite.connector.mock.MockFissCardPersonalizationConnector;
 import com.smartbt.vtsuite.connector.mock.MockFissChangePasswordConnector;
 import com.smartbt.vtsuite.connector.mock.MockFissSetProductIdConnector;
+import com.smartbt.vtsuite.connector.mock.MockFissTransactionHistoryDetailsConnector;
+import com.smartbt.vtsuite.connector.mock.MockFissTransactionHistoryGeneralConnector;
 import com.smartbt.vtsuite.connector.mock.MockFissTransactionHistoryHoldConnector;
 import com.smartbt.vtsuite.connector.mock.MockFissTransactionHistoryPendingConnector;
 import com.smartbt.vtsuite.connector.mock.MockSetPinConnector;
@@ -15,6 +17,8 @@ import com.smartbt.vtsuite.connector.prod.FissCardLoadConnector;
 import com.smartbt.vtsuite.connector.prod.FissCardPersonalizationConnector;
 import com.smartbt.vtsuite.connector.prod.FissChangePasswordConnector;
 import com.smartbt.vtsuite.connector.prod.FissSetProductIdConnector;
+import com.smartbt.vtsuite.connector.prod.FissTransactionHistoryDetailsConnector;
+import com.smartbt.vtsuite.connector.prod.FissTransactionHistoryGeneralConnector;
 import com.smartbt.vtsuite.connector.prod.FissTransactionHistoryHoldConnector;
 import com.smartbt.vtsuite.connector.prod.FissTransactionHistoryPendingConnector;
 import com.smartbt.vtsuite.connector.prod.SetPinConnector;
@@ -98,6 +102,22 @@ public class ConnectorFactory {
             return FissTransactionHistoryPendingConnector.get();
         } else {
             return MockFissTransactionHistoryPendingConnector.get();
+        }
+    }
+
+    public static Connector getTransactionHistoryGeneralConnector() {
+        if (PROD) {
+            return FissTransactionHistoryGeneralConnector.get();
+        } else {
+            return MockFissTransactionHistoryGeneralConnector.get();
+        }
+    }
+
+    public static Connector getTransactionHistoryDetailsConnector() {
+        if (PROD) {
+            return FissTransactionHistoryDetailsConnector.get();
+        } else {
+            return MockFissTransactionHistoryDetailsConnector.get();
         }
     }
 
