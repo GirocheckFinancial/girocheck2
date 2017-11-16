@@ -75,13 +75,15 @@ public class IdeologyTest {
         return params;
     }
 
-    public String sendSuccessTest(int i) throws Exception { 
+    public String sendSuccessTest(int j) throws Exception { 
         StringBuilder sb = new StringBuilder();
         
-    //    for (int i = 0; i < successRecords.length; i++) {
+      for (int i = 0; i < successRecords.length; i++) {
             sb.append(  IdeologyBusinessLogic.get().verifyClient(buildMap(successRecords[i])) );
             sb.append("                ");
-   //     }
+            sb.append("                ");
+            sb.append("                ");
+      }
 
         return sb.toString();
     }

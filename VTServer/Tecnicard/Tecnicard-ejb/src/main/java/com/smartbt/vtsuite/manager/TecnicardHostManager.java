@@ -24,6 +24,7 @@ import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
 import com.smartbt.girocheck.servercommon.enums.ResultMessage;
+import com.smartbt.girocheck.servercommon.manager.HostTxManager;
 import com.smartbt.girocheck.servercommon.model.SubTransaction;
 import com.smartbt.girocheck.servercommon.model.Transaction;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
@@ -38,7 +39,7 @@ import java.util.Map;
 /**
  * The Host Manager class
  */
-public class TecnicardHostManager {
+public class TecnicardHostManager implements HostTxManager{
 
     public static TecnicardHostManager INSTANCE;
 
@@ -142,7 +143,7 @@ public class TecnicardHostManager {
                     return DirexTransactionResponse.forException(ResultCode.TECNICARD_HOST_ERROR, e);
                 }
 
-            case GENERIC_HOST_VALIDATION:
+            case GENERIC_CARD_VALIDATION:
 
                 CustomeLogger.Output(CustomeLogger.OutputStates.Info, "--[TecnicardHostManager] Processing: TECNICARD_CARD_VALIDATION", null);
                 request.setTransactionType(TransactionType.TECNICARD_CARD_VALIDATION);
@@ -244,7 +245,7 @@ public class TecnicardHostManager {
                     return manageUnexpectedAnswer(sessionTagMapp, TransactionType.TECNICARD_CARD_VALIDATION);
                 }
 
-            case GENERIC_HOST_CARD_LOAD:
+            case GENERIC_CARD_LOAD:
                 CustomeLogger.Output(CustomeLogger.OutputStates.Info, "--[TecnicardHostManager] Processing: GENERIC_HOST_CARD_LOAD", null);
                 if (!request.getTransactionData().containsKey(ParameterName.OPERATION)) {
                     return manageExceptionAnswer(TransactionType.TECNICARD_CARD_LOAD_OR_CASH_TO_CARD, ResultMessage.TECNICARD_WRONG_ID_OPERATION.getMessage());

@@ -36,7 +36,7 @@ public class FissBusinessLogic {
 
     public static void main(String[] args) throws Exception {
         DirexTransactionRequest request = new DirexTransactionRequest();
-        request.setTransactionType(TransactionType.TRANSACTION_HISTORY);
+        request.setTransactionType(TransactionType.FISS_CHANGE_PASSWORD);
 //        request.setTransactionType(TransactionType.TRANSACTION_HISTORY);
 
         Map params = new HashMap();
@@ -53,7 +53,7 @@ public class FissBusinessLogic {
         params.put(ParameterName.TELEPHONE, "7864540209");
         params.put(ParameterName.FISS_PRODUCT_ID, FissUtil.PRODUCT_ID);
         params.put(ParameterName.AMMOUNT, 34.56);
-        params.put(ParameterName.PASSWORD, "#Aaaaaa1");
+        params.put(ParameterName.PASSWORD, "#Girocheck1");
         params.put(ParameterName.PIN, "1234");
 
         request.setTransactionData(params);
@@ -79,7 +79,8 @@ public class FissBusinessLogic {
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[FissBusinessLogic] proccessing:: " + transactionType, null);
 
         switch (transactionType) {
-            case FISS_BALANCE_INQUIRY_CARD_VALIDATION:
+            case TECNICARD_BALANCE_INQUIRY:
+            case GENERIC_CARD_VALIDATION:
                 responseMap = balanceInquiryCardValidation(transactionData);
                 break;
             case TRANSACTION_HISTORY:
@@ -91,10 +92,11 @@ public class FissBusinessLogic {
             case CARD_ACTIVATION:
                 responseMap = cardActivtion(transactionData);
                 break;
-            case CARD_LOAD:
+            case GENERIC_CARD_LOAD:
                 responseMap = cardLoad(transactionData);
-                break;
+                break; 
             case CARD_CASHING:
+            case TECNICARD_CARD_TO_BANK:
                 responseMap = cardCashing(transactionData);
                 break;
             case FISS_SET_PRODUCT_ID:

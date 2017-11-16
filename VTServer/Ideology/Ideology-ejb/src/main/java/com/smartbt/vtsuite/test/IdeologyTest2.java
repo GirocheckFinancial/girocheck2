@@ -1,12 +1,10 @@
 package com.smartbt.vtsuite.test;
 
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
-import com.smartbt.vtsuite.entity.IdeologyResponse;
 import com.smartbt.vtsuite.manager.IdeologyBusinessLogic;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,31 +68,33 @@ public class IdeologyTest2 {
         params.put(ParameterName.ADDRESS, raw[2]);
         params.put(ParameterName.CITY, raw[3]);
         params.put(ParameterName.STATE_ABBREVIATION, raw[4]);
-        params.put(ParameterName.ZIPCODE, raw[5]); 
-        params.put(ParameterName.BORNDATE, raw[6]); 
-        params.put(ParameterName.SSN, raw[7]);
+        params.put(ParameterName.ZIPCODE, raw[5]);
+        params.put(ParameterName.BORNDATE, raw[6]);
+        params.put(ParameterName.SSN, "11222" + raw[7].trim());
 
         return params;
     }
 
-    public String sendSuccessTest(int i) throws Exception {
+    public String sendSuccessTest(int j) throws Exception {
         StringBuilder sb = new StringBuilder();
 
-        //    for (int i = 0; i < successRecords.length; i++) {
-        sb.append(IdeologyBusinessLogic.get().verifyClient(buildMap(successRecords[i])));
-        sb.append("                ");
-        //     }
+        for (int i = 0; i < successRecords.length; i++) {
+            sb.append(IdeologyBusinessLogic.get().verifyClient(buildMap(successRecords[i])));
+            sb.append("                ");
+            sb.append("                ");
+            sb.append("                ");
+        }
 
         return sb.toString();
     }
 
     public static void main(String[] args) {
-           String[] rawRecords = successTestCases.split("\n");
+        String[] rawRecords = successTestCases.split("\n");
 
         successRecords = new String[rawRecords.length][8];
 
         for (int i = 0; i < rawRecords.length; i++) {
             System.out.println("" + rawRecords[i].split(",").length);
         }
-    } 
+    }
 }

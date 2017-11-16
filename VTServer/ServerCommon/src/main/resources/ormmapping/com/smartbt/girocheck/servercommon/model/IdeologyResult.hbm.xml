@@ -22,6 +22,9 @@
     <property column="tag_velocity_message" lazy="false" length="255" name="tagVelocityMessage" not-null="false" type="string"/>
     <property column="tag_id_live_error_key" lazy="false" length="255" name="tagIdLiveErrorKey" not-null="false" type="string"/>
     <property column="tag_id_live_error_message" lazy="false" length="255" name="tagIdLiveErrorMessage" not-null="false" type="string"/>
+    <property column="merchant" lazy="false" length="255" name="merchant" not-null="false" type="string"/>
+    <property column="disposition" lazy="false" length="255" name="disposition" not-null="false" type="string"/>
+   
     <many-to-one cascade="lock" class="com.smartbt.girocheck.servercommon.model.Client" column="client" lazy="proxy" name="client" not-null="true">
         </many-to-one>
     <property column="qualifiers_count" lazy="false" name="qualifiersCount" type="integer"/>

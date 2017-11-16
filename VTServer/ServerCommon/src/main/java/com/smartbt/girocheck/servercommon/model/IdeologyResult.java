@@ -35,6 +35,11 @@ public class IdeologyResult extends BaseEntity {
 
     private String tagIdLiveErrorKey;
     private String tagIdLiveErrorMessage;
+    
+    private String merchant;
+    private String disposition;
+    
+    
 
     private Set<IdeologyResultInfo> qualifiers = new HashSet();
 
@@ -314,6 +319,34 @@ public class IdeologyResult extends BaseEntity {
      */
     public void setVelocityResultsCount(Integer velocityResultsCount) {
         this.velocityResultsCount = velocityResultsCount;
+    }
+
+    /**
+     * @return the merchant
+     */
+    public String getMerchant() {
+        return merchant;
+    }
+
+    /**
+     * @param merchant the merchant to set
+     */
+    public void setMerchant(String merchant) {
+        this.merchant = merchant;
+    }
+
+    /**
+     * @return the disposition
+     */
+    public String getDisposition() {
+        return disposition;
+    }
+
+    /**
+     * @param disposition the disposition to set
+     */
+    public void setDisposition(String disposition) {
+        this.disposition = disposition;
     }
 
 }

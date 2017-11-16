@@ -5,6 +5,11 @@
  */
 package com.smartbt.vtsuite.util;
  
+import com.smartbt.vtsuite.util.jobs.GenerateCBKCDocumentJob;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -14,7 +19,8 @@ import javax.servlet.ServletContextListener;
  */
 public class MyContextListener
         implements ServletContextListener {
-
+    private Timer timer = new Timer();
+ 
     @Override
     public void contextDestroyed(ServletContextEvent arg0) {
         //do stuff
@@ -22,18 +28,20 @@ public class MyContextListener
 
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
-//        System.out.println("Creating ImageConvertionTask...");
-//        Calendar today = Calendar.getInstance();
-//        today.set(Calendar.HOUR_OF_DAY, 23);
-//        today.set(Calendar.MINUTE, 0);
-//        today.set(Calendar.SECOND, 0);
-//        today.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-//
-//        Timer timer = new Timer();
-//        timer.schedule(new ImageConvertionTask(), today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)); // 60*60*24*100 = 8640000ms
-//
-//        System.out.println("ImageConvertionTask created.");
+        System.out.println("Creating GenerateDocTask...");
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 9);
+        today.set(Calendar.MINUTE, 5);
+        today.set(Calendar.SECOND, 0);
+
+        //today.add(Calendar.DAY_OF_MONTH, 1);  //To avoid running this task when is created
+       // today.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+ 
+        timer.scheduleAtFixedRate(new GenerateCBKCDocumentJob(), today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS)); // 60*60*24*100 = 8640000ms
+
+        System.out.println("GenerateDocTask created.at " + (new Date()));
     }
+    
 }
 
 //class ImageConvertionTask extends TimerTask {

@@ -36,8 +36,8 @@ public enum TransactionType {
     TECNICARD_CASH_TO_CARD( NomHost.TECNICARD, 23 ),
     TECNICARD_CONFIRMATION( null, 24 ),
     
-    GENERIC_HOST_VALIDATION( null, 26 ),
-    GENERIC_HOST_CARD_LOAD( null, 27 ),
+    GENERIC_CARD_VALIDATION( null, 26 ),
+    GENERIC_CARD_LOAD( null, 27 ),
     
     FUZE_BILLER_SEARCH(NomHost.FUZE, 28),
     FUZE_PROCESS_PAYMENT(NomHost.FUZE, 29), 
@@ -152,9 +152,9 @@ public enum TransactionType {
             case 25:
                 return TransactionType.TECNICARD_CARD_TO_BANK_CONFIRMATION;
             case 26: 
-                return TransactionType.GENERIC_HOST_VALIDATION;
+                return TransactionType.GENERIC_CARD_VALIDATION;
             case 27: 
-                return TransactionType.GENERIC_HOST_CARD_LOAD;
+                return TransactionType.GENERIC_CARD_LOAD;
             case 28: 
                 return TransactionType.FUZE_BILLER_SEARCH;
             case 29: 

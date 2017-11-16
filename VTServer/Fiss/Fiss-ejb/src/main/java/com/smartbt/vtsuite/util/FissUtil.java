@@ -16,8 +16,8 @@ public class FissUtil {
     //Source ID:  For Connectware use, this will be the vendor ID.
     public static String SOURCE_ID = "source_id_goes_here";    //TODO
     public static String ROUTING_ID = "routing_id_goes_here";    //TODO
-    public static String FISS_USERNAME = "username_id_goes_here";    //TODO
-    public static String FISS_PASSWORD  = "password_id_goes_here";    //TODO
+    public static String FISS_USERNAME = "CG7V032";    //TODO
+    public static String FISS_PASSWORD  = "Monday@2";    //TODO
     public static String INSTITUTION_NUMBER  = "institution_number_goes_here";    //TODO //card personalization
     public static String CARD_STATUS  = "card_status_goes_here";    //TODO //card personalization
     public static String PRODUCT_ID  = "product_id_goes_here";    //TODO //set product id

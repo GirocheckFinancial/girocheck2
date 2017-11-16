@@ -14,10 +14,10 @@
  **
  */
 package com.smartbt.vtsuite.manager;
-
-//import com.smartbt.vtsuite.servercommon.manager.AuditManager;
+ 
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
 import com.smartbt.girocheck.servercommon.enums.ResultMessage;
+import com.smartbt.girocheck.servercommon.manager.HostTxManager;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.model.SubTransaction;
@@ -28,7 +28,7 @@ import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
 /**
  * The Host Manager class
  */
-public class IStream2HostManager {
+public class IStream2HostManager implements HostTxManager{
 
     private static IStream2HostManager INSTANCE;
 
@@ -49,7 +49,7 @@ public class IStream2HostManager {
      * @return DirexTransactionResponse The transaction response object
      * @throws Exception
      */
-    public DirexTransactionResponse processTransaction(DirexTransactionRequest request, byte[] checkBack, byte[] checkFront) throws Exception {
+    public DirexTransactionResponse processTransaction(DirexTransactionRequest request) throws Exception {
         DirexTransactionResponse response;
 
         SubTransaction subTransaction = new SubTransaction();
@@ -61,7 +61,7 @@ public class IStream2HostManager {
         System.out.println("IStream2HostManager -> isProd = " + isProd);
         
         if (isProd) {
-            response = IStream2BusinessLogic.get().process(request,checkBack,checkFront);
+            response = IStream2BusinessLogic.get().process(request,null,null);
         } else {
             response = MockIStream2BusinessLogic.get().process(request);
         }

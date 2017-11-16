@@ -105,6 +105,7 @@ public class IdeologyBusinessLogic {
         if (response != null && response.wasSuccess()) {
             direxTransactionResponse.setResultCode(ResultCode.SUCCESS);
             direxTransactionResponse.setResultMessage(VTSuiteMessages.SUCCESS);
+            direxTransactionResponse.getTransactionData().put(ParameterName.IDEOLOGY_RESULT_ID, response.getIdeologyResultId());
         } else {
             direxTransactionResponse.setResultCode(ResultCode.IDEOLOGY_HOST_UNEXPECTED_RESULT_CODE);
 
@@ -139,7 +140,11 @@ public class IdeologyBusinessLogic {
             System.out.println("Response is NULL");
         } else {
             System.out.println(resp);
-            persitResult(6, response.toEntity());
+            IdeologyResult entity = response.toEntity();
+            
+            entity.setMerchant(params.get(ParameterName.IDMERCHANT) + "");
+           Integer idIdeologyResult = persitResult(6, entity);
+           response.setIdeologyResultId(idIdeologyResult);
         }
 
         return response;//new HashMap();

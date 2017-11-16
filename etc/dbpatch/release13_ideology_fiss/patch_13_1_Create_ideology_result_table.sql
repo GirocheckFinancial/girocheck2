@@ -19,7 +19,9 @@ CREATE TABLE `ideology_result` (
   `qualifiers_count` int(10) DEFAULT 0,   
   `velocity_results_count` int(10) DEFAULT 0, 
   `client` int(10) NOT NULL,
-  `creation_date` timestamp NULL DEFAULT NULL,
+  `creation_date` timestamp NULL DEFAULT NULL
+  `merchant` varchar(255) DEFAULT NULL,
+  `disposition` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `zzsadsafs_idx` (`client`) USING BTREE, 
   CONSTRAINT `ideology_result_fk` FOREIGN KEY (`client`) REFERENCES `client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION

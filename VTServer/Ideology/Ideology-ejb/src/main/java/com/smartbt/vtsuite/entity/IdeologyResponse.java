@@ -26,6 +26,8 @@ public class IdeologyResponse {
 
     private QualifierList qualifiers;
     private VelocityResultList velocityResults;  //reproduced
+    
+    private Integer ideologyResultId; //id in our db
 
     public static IdeologyResponse getFromXML(String xml) {
         if (xml == null || xml.isEmpty()) {
@@ -63,7 +65,7 @@ public class IdeologyResponse {
     public IdeologyResult toEntity() {
         IdeologyResult result = new IdeologyResult();
         result.setCreationDate(new Date());
-
+         
         if (idNumber != null) {
             result.setIdNumber(idNumber);
         }
@@ -73,7 +75,7 @@ public class IdeologyResponse {
             result.setResultMessage(results.getMessage());
         }
 
-        if (summaryResult != null) {
+        if (summaryResult != null) { 
             result.setSummaryResultKey(summaryResult.getKey());
             result.setSummaryResultMessage(summaryResult.getMessage());
         }
@@ -263,5 +265,19 @@ public class IdeologyResponse {
     @XmlElement(name = "velocity-results")
     public void setVelocityResults(VelocityResultList velocityResults) {
         this.velocityResults = velocityResults;
+    }
+
+    /**
+     * @return the ideologyResultId
+     */
+    public Integer getIdeologyResultId() {
+        return ideologyResultId;
+    }
+
+    /**
+     * @param ideologyResultId the ideologyResultId to set
+     */
+    public void setIdeologyResultId(Integer ideologyResultId) {
+        this.ideologyResultId = ideologyResultId;
     }
 }

@@ -89,7 +89,7 @@ public class CheckResendManager {
             System.out.println("check.getCheckFront().length():: " + checkBack.length);
             System.out.println("check.getCheckBack().length():: " + checkFront.length);
 
-            DirexTransactionResponse iStream2Response = IStream2HostManager.get().processTransaction(direxTransactionRequest, checkBack, checkFront);
+            DirexTransactionResponse iStream2Response = IStream2BusinessLogic.get().process(direxTransactionRequest, checkBack, checkFront);
 
             CustomeLogger.Output(CustomeLogger.OutputStates.Info, "iStream2Response " + iStream2Response, null);
 

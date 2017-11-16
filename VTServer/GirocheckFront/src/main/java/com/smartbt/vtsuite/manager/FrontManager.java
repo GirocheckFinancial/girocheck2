@@ -21,8 +21,7 @@ import java.util.Map;
 public class FrontManager {
 
     public static FrontBusinessLogic businessLogic = new FrontBusinessLogic();
-    public static CancelTransactionBusinessLogic cancelBusinessLogic = new CancelTransactionBusinessLogic();
-
+  
     public FrontManager() {
     }
 
@@ -42,17 +41,12 @@ public class FrontManager {
         }
 
         direxTransactionRequest.setTransactionData(map);
-
-//        TransactionType transactionType = (TransactionType)transactionData.get( TransactionType.TRANSACTION_TYPE);
+ 
         try {
             DirexTransactionResponse response;
-
-//            if(transactionType == TransactionType.ISTREAM_CHECK_AUTH_SUBMIT){
-//                response = cancelBusinessLogic.handle( direxTransactionRequest );
-//            }else{
+ 
             response = businessLogic.handle(direxTransactionRequest);
-//            }
-
+ 
             transactionData = response.getTransactionData();
 
             transactionData.put(ParameterName.RESULT_CODE, String.valueOf(response.getResultCode().getCode()));

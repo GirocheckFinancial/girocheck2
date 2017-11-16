@@ -27,6 +27,7 @@ import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.connection.LastTransactionsResponse;
 import com.smartbt.vtsuite.connection.Transaction;
+import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -128,8 +129,16 @@ public class TecnicardBusinessLogic extends AbstractBusinessLogicModule {
                 response = wmCashToCard(transactionData);
                 break;
             case TECNICARD_RESTORE_CARD:
-                response = wmCardRestore(transactionData);
-                validateSucessfullProcessing(response);
+
+                NomHost genericHost = (NomHost) transactionData.get(ParameterName.HOSTNAME);
+
+                if (genericHost != null && genericHost == NomHost.TECNICARD) {
+                    response = wmCardRestore(transactionData);
+                    validateSucessfullProcessing(response);
+                }else{
+                    System.out.println("Tried to send wmCardRestore in a NON Tecnicard card");
+                }
+
                 break;
         }
 

@@ -112,21 +112,7 @@
                 <artifactId>jaxws-maven-plugin</artifactId>
                 <version>2.3</version>
                 <executions>
-                    <execution>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                        <configuration>
-                            <wsdlFiles>
-                                <wsdlFile>CBHistTxnDtlInqWSV6.wsdl</wsdlFile>
-                            </wsdlFiles>
-                            <packageName>com.smartbt.vtsuite.ws.history.details</packageName>
-                            <wsdlLocation>file:/C:/Glassfish/fiss_wsdl/history/details/CBHistTxnDtlInqWSV6.wsdl</wsdlLocation>
-                            <staleFile>${project.build.directory}/jaxws/stale/CBHistTxnDtlInqWSV6.stale</staleFile>
-                        </configuration>
-                        <id>wsimport-generate-CBHistTxnDtlInqWSV6</id>
-                        <phase>generate-sources</phase>
-                    </execution>
+                     
                 </executions>
                 <dependencies>
                     <dependency>

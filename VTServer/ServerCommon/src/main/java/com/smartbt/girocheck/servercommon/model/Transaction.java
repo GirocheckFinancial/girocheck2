@@ -41,34 +41,28 @@ public class Transaction extends BaseEntity{
     private com.smartbt.girocheck.servercommon.model.CreditCard data_sc1;
 
     private Integer transactionType;
-
-    private String key;
-
-    private String account;
-
+    private Integer ideologyResultId;
+    private String account; 
     private String requestId;
 
     private String istream_id;
 
-    private Boolean single;
+
     private String certegyApprovalNumber;
 
     private String errorCode;
 
-    private String orderExpressId;
+ 
 
     private boolean transactionFinished;
-
-//    private java.sql.Blob achForm;//quitar ach form
+ 
     private java.sql.Blob truncatedCheck;
 
     private Double ammount;
     private Double feeAmmount;
-    private Double payoutAmmount;
-//    private String cardNumber;
+    private Double payoutAmmount; 
 
-    private Boolean cancelated;
-    private Boolean cancelable = true;
+  
 
     private String balanceAfterLoad;
 
@@ -126,23 +120,7 @@ public class Transaction extends BaseEntity{
         }
         return false;
     }
-
-    public void setCancelable(Boolean cancelable) {
-        this.cancelable = cancelable;
-    }
-
-    public Boolean isCancelable() {
-        return cancelable;
-    }
-
-    public void setCancelated(Boolean cancelated) {
-        this.cancelated = cancelated;
-    }
-
-    public Boolean isCancelated() {
-        return cancelated;
-    }
-
+ 
     public void setTruncatedCheck(java.sql.Blob truncatedCheck) {
         this.truncatedCheck = truncatedCheck;
     }
@@ -150,14 +128,7 @@ public class Transaction extends BaseEntity{
     public java.sql.Blob getTruncatedCheck() {
         return truncatedCheck;
     }
-
-    //quitar ach form
-//    public void setAchForm(java.sql.Blob value) {
-//		this.achForm = value;
-//	}
-//	public java.sql.Blob getAchForm() {
-//		return achForm;
-//	}
+ 
     private void setId(int value) {
         this.id = value;
     }
@@ -165,14 +136,7 @@ public class Transaction extends BaseEntity{
     public int getId() {
         return id;
     }
-
-//    public void setCardNumber(String cardNumber) {
-//        this.cardNumber = cardNumber;
-//    }
-//
-//    public String getCardNumber() {
-//        return cardNumber;
-//    }
+ 
     public int getORMID() {
         return getId();
     }
@@ -227,14 +191,7 @@ public class Transaction extends BaseEntity{
     public Integer getTransactionType() {
         return transactionType;
     }
-
-    public void setKey(String value) {
-        this.key = value;
-    }
-
-    public String getKey() {
-        return key;
-    }
+ 
 
     public void setAccount(String value) {
         this.account = value;
@@ -263,15 +220,7 @@ public class Transaction extends BaseEntity{
     public void setSingle(boolean value) {
         setSingle(new Boolean(value));
     }
-
-    public void setSingle(Boolean value) {
-        this.single = value;
-    }
-
-    public Boolean getSingle() {
-        return single;
-    }
-
+ 
     public void setErrorCode(String value) {
         this.errorCode = value;
     }
@@ -279,15 +228,7 @@ public class Transaction extends BaseEntity{
     public String getErrorCode() {
         return errorCode;
     }
-
-    public void setOrderExpressId(String value) {
-        this.orderExpressId = value;
-    }
-
-    public String getOrderExpressId() {
-        return orderExpressId;
-    }
-
+ 
     public void setTerminal(com.smartbt.girocheck.servercommon.model.Terminal value) {
         this.terminal = value;
     }
@@ -434,6 +375,20 @@ public class Transaction extends BaseEntity{
      */
     public void setMerchant(com.smartbt.girocheck.servercommon.model.Merchant merchant) {
         this.merchant = merchant;
+    }
+
+    /**
+     * @return the ideologyResultId
+     */
+    public Integer getIdeologyResultId() {
+        return ideologyResultId;
+    }
+
+    /**
+     * @param ideologyResultId the ideologyResultId to set
+     */
+    public void setIdeologyResultId(Integer ideologyResultId) {
+        this.ideologyResultId = ideologyResultId;
     }
 
 }

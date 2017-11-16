@@ -16,6 +16,7 @@
 package com.smartbt.vtsuite.manager;
  
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
+import com.smartbt.girocheck.servercommon.manager.HostTxManager;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.model.SubTransaction;
@@ -25,7 +26,7 @@ import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
 /**
  * The Host Manager class
  */
-public class WestechHostManager {
+public class WestechHostManager implements HostTxManager{
 
     private static WestechHostManager INSTANCE;
 

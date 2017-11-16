@@ -12,14 +12,11 @@
  */
 package com.smartbt.girocheck.servercommon.manager;
 
-import com.smartbt.girocheck.servercommon.dao.IDImagePngDAO;
 import com.smartbt.girocheck.servercommon.dao.TransactionDAO;
-import com.smartbt.girocheck.servercommon.display.TransactionImagesDisplay;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.model.Transaction;
-import com.smartbt.girocheck.servercommon.utils.ImgConvTiffToPng;
 import com.smartbt.vtsuite.common.VTSuiteMessages;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.sql.SQLException;
@@ -109,15 +106,7 @@ public class TransactionManager {
     public Transaction findById(int id) {
         return transactionDAO.findById(id);
     }
-
-    public boolean isCanceled(String requestId, boolean cancelable) {
-        return transactionDAO.isCanceled(requestId, cancelable);
-    }
-
-    public boolean cancelTransaction(String requestId) {
-        return transactionDAO.cancelTransaction(requestId);
-    }
-
+ 
     public void saveOrUpdate(Transaction transaction) {
         transactionDAO.saveOrUpdate(transaction);
     }
@@ -151,55 +140,7 @@ public class TransactionManager {
 
         return transactionDAO.searchTransactions(searchFilter, startRangeDate, endRangeDate, pageNumber * rowsPerPage, rowsPerPage, transactionType, operation, filterAmmount, ammountType, opType, ammount, pending);
     }
-
-//    public ResponseData getTransactionImage(int idTransaction, boolean showIdImages) throws Exception {
-//
-//        ResponseData response = new ResponseData();
-//
-//        try {
-//            TransactionImagesDisplay result = transactionDAO.getTransactionImage(idTransaction, showIdImages);
-//
-//            buildImages(result);
-//
-//            response.setData(result);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        response.setStatus(Constants.CODE_SUCCESS);
-//        response.setStatusMessage(VTSuiteMessages.SUCCESS);
-//        return response;
-//    }
-
-//    private void buildImages(TransactionImagesDisplay dto) throws Exception {
-//        dto.setCheckFrontImage(ImgConvTiffToPng.convertBlackAndWhiteImages(dto.getCheckFront()));
-//        dto.setCheckBackImage(ImgConvTiffToPng.convertBlackAndWhiteImages(dto.getCheckBack()));
-//
-//        byte[] idFront = null, idBack = null;
-//
-//        System.out.println("TransactionManager.buildImages -> dto.isImagesConverted() = " + dto.isImagesConverted());
-//        System.out.println("TransactionManager.buildImages -> dto.getShowIdImages() = " + dto.getShowIdImages());
-//
-//        if (dto.getShowIdImages()) {
-//            if (dto.isImagesConverted()) {
-//                idFront = ImgConvTiffToPng.getImage(dto.getIdFront());
-//                idBack = ImgConvTiffToPng.getImage(dto.getIdBack());
-//            } else {
-//                idFront = ImgConvTiffToPng.convertGrayScaleImages(dto.getIdFront(), "idfront_" + dto.getClientId());
-//                idBack = ImgConvTiffToPng.convertGrayScaleImages(dto.getIdBack(), "idback_" + dto.getClientId());
-//
-//                IDImagePngDAO.get().save(idFront, idBack, dto.getClientId());
-//            }
-//
-//            Long remainingConvertions = IDImagePngDAO.get().getRemainingConvertions();
-//            System.out.println("remainingConvertions = " + remainingConvertions);
-//            dto.setRemainingConvertions(remainingConvertions);
-//
-//            dto.setIdFrontImage(getImageAsString(idFront));
-//            dto.setIdBackImage(getImageAsString(idBack));
-//        }
-//    }
-
+ 
     public String getImageAsString(byte[] image) {
         if (image != null) {
             return "data:image/png;base64," + DatatypeConverter.printBase64Binary(image);

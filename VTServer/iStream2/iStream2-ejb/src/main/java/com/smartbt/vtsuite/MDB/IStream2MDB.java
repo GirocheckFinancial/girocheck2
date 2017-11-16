@@ -83,7 +83,7 @@ public class IStream2MDB implements MessageListener {
 
                  CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[IStream2MDB] correelation :: "+ direxTransactionRequest.getCorrelation(),null);
                
-                direxTransactionResponse = hostManager.processTransaction(direxTransactionRequest, null,null);
+                direxTransactionResponse = hostManager.processTransaction(direxTransactionRequest);
   
             } else {
                  direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.CHOICE_HOST_RECEIVED_NULL, ResultMessage.HOST_RECEIVED_NULL);
