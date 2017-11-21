@@ -2,19 +2,13 @@ package com.smartbt.girocheck.scan;
 
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
-import com.smartbt.girocheck.servercommon.log.LogUtil;
-import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.girocheck.servercommon.utils.IMap;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  * <p>
@@ -108,7 +102,7 @@ public class CertegyInfoRequest implements IMap {
             map.put(ParameterName.VALIDATION_ERROR, errors);
         }
         
-        map.put(TransactionType.TRANSACTION_TYPE, TransactionType.CERTEGY_INFO);
+       // map.put(TransactionType.TRANSACTION_TYPE, TransactionType.CERTEGY_INFO);
         map.put(ParameterName.ADDITIONAL_INFO, getAdditionalInfo());
         map.put(ParameterName.ENTITY_ID, getEntityId());
   

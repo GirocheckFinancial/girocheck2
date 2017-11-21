@@ -19,10 +19,13 @@ import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
+import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.ws.cardLoad.CBPrpdLdUnldMtvnSvcReq;
 import com.smartbt.vtsuite.ws.cardLoad.CBPrpdLdUnldMtvnSvcRes;
+import com.smartbt.vtsuite.ws.cardLoad.CBPrpdLdUnldResData;
 import com.smartbt.vtsuite.ws.cardLoad.MtvnCWCBPrpdLdUnldWSV3;
 import com.smartbt.vtsuite.ws.cardLoad.MtvnCWCBPrpdLdUnldWSV3Interface;
+import java.util.HashMap;
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
@@ -60,12 +63,32 @@ public class FissCardLoadConnector implements Connector {
 
     }
 
-    public void callWS(Map<ParameterName, Object> params){
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params) {
         CBPrpdLdUnldMtvnSvcReq request = RequestBuilder.buildCardLoadRequest(params);
 
         CBPrpdLdUnldMtvnSvcRes response = port.cbPrpdLdUnld(request);
 
-        int a = 3;
+        Map<FissParam, Object> responseMap = new HashMap<>();
+
+        Boolean success = response != null && response.getSvc() != null
+                && !response.getSvc().isEmpty()
+                && response.getSvc().get(0).getErrCde().equals("0");
+
+        responseMap.put(FissParam.SUCCESS, success);
+
+        if (response.getSvc() != null && !response.getSvc().isEmpty()
+                && response.getSvc().get(0).getMsgData() != null
+                && response.getSvc().get(0).getMsgData().getCBPrpdLdUnldResData() != null) {
+
+            CBPrpdLdUnldResData data = response.getSvc().get(0).getMsgData().getCBPrpdLdUnldResData();
+
+            if (data.getApplMsgLst() != null && data.getApplMsgLst().getApplMsg() != null
+                    && !data.getApplMsgLst().getApplMsg().isEmpty()) {
+                responseMap.put(FissParam.RESULT_MESSAGE, data.getApplMsgLst().getApplMsg().get(0).getApplMsgTxt());
+            }
+        }
+
+        return responseMap;
     }
 
 }

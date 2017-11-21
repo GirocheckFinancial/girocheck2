@@ -14,7 +14,7 @@ package com.smartbt.girocheck.servercommon.dao;
 
 import com.smartbt.girocheck.servercommon.model.State;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
-import com.smartbt.vtsuite.servercommon.display.common.model.StateDisplay;
+import com.smartbt.girocheck.servercommon.display.StateDisplay;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;

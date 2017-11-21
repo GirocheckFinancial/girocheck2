@@ -1,6 +1,7 @@
 package com.smartbt.vtsuite.requestBuilder;
 
-import com.smartbt.girocheck.servercommon.enums.ParameterName;
+import com.smartbt.girocheck.servercommon.enums.ParameterName; 
+import com.smartbt.vtsuite.util.CardLoadType;
 import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.util.FissUtil;
 import static com.smartbt.vtsuite.util.RequestMapBuilder.buildParamsMap;
@@ -42,8 +43,8 @@ public class RequestBuilder {
         fissParams.put(FissParam.APPLICATION_ID, "CB");
         fissParams.put(FissParam.SERVICE_ID, "CBNmeAddrChg");
         fissParams.put(FissParam.SERVICE_VERSION, "13.0");
+
         fissParams.put(FissParam.CARD_NUMBER, (String) params.get(ParameterName.CARD_NUMBER));
-        fissParams.put(FissParam.INSTITUTION_NUMBER, FissUtil.INSTITUTION_NUMBER);
         fissParams.put(FissParam.FIRST_NAME, (String) params.get(ParameterName.FIRST_NAME));
         fissParams.put(FissParam.LAST_NAME, (String) params.get(ParameterName.LAST_NAME));
         fissParams.put(FissParam.STREET, (String) params.get(ParameterName.ADDRESS));
@@ -55,10 +56,15 @@ public class RequestBuilder {
         fissParams.put(FissParam.ZIPCODE, (String) params.get(ParameterName.ZIPCODE));
         fissParams.put(FissParam.TELEPHONE, (String) params.get(ParameterName.TELEPHONE));
 
-        Date dob = (Date) params.get(ParameterName.BORNDATE_AS_DATE);
+        if (params.containsKey(ParameterName.BORNDATE_AS_DATE)) {
+            Date dob = (Date) params.get(ParameterName.BORNDATE_AS_DATE);
 
-        if (dob != null) {
-            fissParams.put(FissParam.DOB, "21" + DOB_DATE_FORMAT.format(dob)); //start with century 21
+            if (dob != null) {
+                fissParams.put(FissParam.DOB, "21" + DOB_DATE_FORMAT.format(dob)); //start with century 21
+            }
+        } else {
+            //this is for restore card
+            fissParams.put(FissParam.DOB, (String) params.get(ParameterName.BORNDATE));
         }
 
         return CardPersonalizationReqBuilder.build(fissParams);
@@ -93,6 +99,20 @@ public class RequestBuilder {
         fissParams.put(FissParam.SERVICE_VERSION, "3.0");
         fissParams.put(FissParam.CARD_NUMBER, (String) params.get(ParameterName.CARD_NUMBER));
         fissParams.put(FissParam.AMOUNT, params.get(ParameterName.AMMOUNT) + "");
+        fissParams.put(FissParam.FEE_AMOUNT, params.get(ParameterName.FEE_AMMOUNT) + "");
+        
+        ParameterName requestType = (ParameterName)params.get(ParameterName.REQUEST_TYPE);
+        
+        String operation = (String)params.get(ParameterName.OPERATION);
+        Boolean isCheck = operation.equals("01");
+        
+        CardLoadType cardLoadType = null;
+        if(requestType == ParameterName.AMMOUNT){
+            cardLoadType = isCheck ? CardLoadType.CHECK : CardLoadType.CASH;
+        }else{
+            cardLoadType = isCheck ? CardLoadType.CHECK_FEE : CardLoadType.CASH_FEE;
+        }
+        fissParams.put(FissParam.CARD_LOAD_TYPE, cardLoadType.toString());
 
         return CardLoadReqBuilder.build(fissParams);
     }
@@ -112,7 +132,15 @@ public class RequestBuilder {
         fissParams.put(FissParam.APPLICATION_ID, "CB");
         fissParams.put(FissParam.SERVICE_ID, "CBPinOffsetChg");
         fissParams.put(FissParam.SERVICE_VERSION, "1.0");
-        fissParams.put(FissParam.PIN, params.get(ParameterName.PIN) + "");
+
+        String ssn = (String) params.get(ParameterName.SSN);
+        String pin = "";
+
+        if (ssn != null && ssn.length() >= 4) {
+            pin = ssn.substring(ssn.length() - 4);
+        }
+
+        fissParams.put(FissParam.PIN, pin);
         fissParams.put(FissParam.CARD_NUMBER, (String) params.get(ParameterName.CARD_NUMBER));
         fissParams.put(FissParam.INSTITUTION_NUMBER, FissUtil.INSTITUTION_NUMBER);
         return SetPinReqBuilder.build(fissParams);
@@ -148,8 +176,7 @@ public class RequestBuilder {
         fissParams.put(FissParam.NUMBER_OF_OCCURS, FissUtil.NUMBER_OF_OCCURS);
         return TransactionHistoryGeneralReqBuilder.build(fissParams);
     }
-    
-    
+
     public static CBHistTxnDtlInqMtvnSvcReq buildTransactionHistoryDetailsRequest(Map<ParameterName, Object> params) {
         Map<FissParam, String> fissParams = buildParamsMap(params);
         fissParams.put(FissParam.APPLICATION_ID, "CB");

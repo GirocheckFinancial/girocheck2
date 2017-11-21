@@ -6,76 +6,48 @@ import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
  *
  * @author Roberto
  */
-public enum TransactionType {
-
+public enum TransactionType { 
     TRANSACTION_TYPE( null, 0 ),
-    NEW_CARD_LOAD( NomHost.TECNICARD, 1 ),
-    CARD_RELOAD( NomHost.TECNICARD, 2 ),
-    CARD_RELOAD_WITH_DATA( NomHost.TECNICARD, 35 ),
-    PERSONAL_INFO( NomHost.WESTECH, 3 ),
-    CERTEGY_INFO( null, 4 ),
-    ISTREAM_CHECK_AUTH_LOCATION_CONFIG( NomHost.ISTREAM, 5 ),
-    ISTREAM_CHECK_AUTH( NomHost.ISTREAM, 6 ),
-    ISTREAM_ENHANCED_CASH_AUTH_POLL( NomHost.ISTREAM, 7 ),
-    ISTREAM_CHECK_AUTH_SUBMIT( NomHost.ISTREAM, 8 ),
-    ISTREAM_CHECK_AUTH_POLL( NomHost.ISTREAM, 9 ),
-    ISTREAM_ENHANCED_CHECK_AUTH_POLL( NomHost.ISTREAM, 10 ),
-    ISTREAM_CASH_AUTH_SUBMIT( NomHost.ISTREAM, 11 ),
-    ORDER_EXPRESS_CONTRATACIONES( NomHost.ORDER_EXPRESS, 12 ),
-    TECNICARD_CARD_LOAD_OR_CASH_TO_CARD( NomHost.TECNICARD, 13 ),
-    TECNICARD_CARD_ACTIVATION( NomHost.TECNICARD, 14 ),
-    TECNICARD_CARD_PERSONALIZATION( NomHost.TECNICARD, 15 ),
-    TECNICARD_CARD_VALIDATION( NomHost.TECNICARD, 16 ),
-    TECNICARD_CARD_LOAD( NomHost.TECNICARD, 17 ),
-    TECNICARD_BALANCE_INQUIRY( NomHost.TECNICARD, 18 ),
-    TECNICARD_CARD_TO_BANK( NomHost.TECNICARD, 19 ),
-    TECNICARD_CARD_TO_BANK_CONFIRMATION( NomHost.TECNICARD, 25 ),
-    TECNICARD_CARD_HOLDER_VALIDATION( NomHost.TECNICARD, 20 ),
-    TECNICARD_ECHO( NomHost.TECNICARD, 21 ),
-    TECNICARD_LAST_TRANSACTIONS( NomHost.TECNICARD, 22 ),
-    TECNICARD_CASH_TO_CARD( NomHost.TECNICARD, 23 ),
-    TECNICARD_CONFIRMATION( null, 24 ),
+     
+    NEW_CARD_LOAD(null, 1 ),
+    CARD_RELOAD(null, 2 ),
+    CHECK_AUTH(null, 6 ),
+    CARD_RELOAD_WITH_DATA(null, 35 ),
     
-    GENERIC_CARD_VALIDATION( null, 26 ),
-    GENERIC_CARD_LOAD( null, 27 ),
+    PERSONAL_INFO(null, 3 ), 
+    CHECK_INFO( NomHost.WESTECH, 43),
     
-    FUZE_BILLER_SEARCH(NomHost.FUZE, 28),
-    FUZE_PROCESS_PAYMENT(NomHost.FUZE, 29), 
-    FUZE_LOOKUP_TRANSACTION(NomHost.FUZE, 30),
-//    FUZE_HOST_LOOKUP_TRANSACTION(null, 31), 
-    CHECK_AUTH_LOCATION_CONFIG(NomHost.ISTREAM, 31),
-    ORDER_EXPRESS_DEVOLUCION( NomHost.ORDER_EXPRESS, 32 ),
-    ORDER_EXPRESS_REPORTAPAGO( NomHost.ORDER_EXPRESS, 33 ),
-    ORDER_EXPRESS_LOGS( NomHost.ORDER_EXPRESS, 34 ),
+    CHECK_AUTH_LOCATION_CONFIG( null, 5 ),
+     
+     
+    CARD_ACTIVATION( NomHost.GENERIC_HOST, 14 ),
+    CARD_PERSONALIZATION( NomHost.GENERIC_HOST, 15 ),
+    CARD_VALIDATION( NomHost.GENERIC_HOST, 16 ),
+    CARD_LOAD( NomHost.GENERIC_HOST, 17 ),
+    BALANCE_INQUIRY( NomHost.GENERIC_HOST, 18 ),
+    CARD_TO_BANK( NomHost.GENERIC_HOST, 19 ),
+    CARD_TO_BANK_CONFIRMATION( NomHost.GENERIC_HOST, 25 ),
+    TECNICARD_CARD_HOLDER_VALIDATION( NomHost.TECNICARD, 20 ), 
+    TRANSACTION_HISTORY( NomHost.GENERIC_HOST, 22 ),
     
+    TECNICARD_CASH_TO_CARD( NomHost.TECNICARD, 23 ), //This is just Tecnicard
+    RESTORE_CARD(NomHost.GENERIC_HOST, 44),
+    TERMINAL_CONFIRMATION( null, 24 ),
+     
     ACTIVITY_REPORT(null, 35 ), //no transactional
-    
-    CHOICE_INSERT_TRANSACTION(NomHost.CHOICE, 36 ),
-    CHOICE_CANCELATION_REQUEST(NomHost.CHOICE, 37 ),  
-    CHOICE_NOTIFY_PAYMENT(NomHost.CHOICE, 38 ), 
-    
+     
     WESTECH_CHECK_PROCESS(NomHost.WESTECH, 39 ),
     
     CERTEGY_AUTHENTICATION(NomHost.CERTEGY, 40),
     CERTEGY_REVERSE_REQUEST(NomHost.CERTEGY, 41),
     
     ISTREAM2_SEND_SINGLE_ICL(NomHost.ISTREAM2, 42),
-    CHECK_INFO(null, 43),
- 
-    TECNICARD_RESTORE_CARD(NomHost.TECNICARD, 44),
-    
+     
     COMPLIANCE_NEW_BRANCH(NomHost.COMPLIANCE, 45 ),
     COMPLIANCE_POST_TRANSACTION(NomHost.COMPLIANCE, 46 ),
- 
-    
-    FISS_BALANCE_INQUIRY_CARD_VALIDATION(NomHost.FISS, 47),
-    TRANSACTION_HISTORY(NomHost.FISS, 48),
-    CARD_PERSONALIZATION(NomHost.FISS, 49),
-    CARD_ACTIVATION(NomHost.FISS, 50),
-    CARD_LOAD(NomHost.FISS, 51),
-    CARD_CASHING(NomHost.FISS, 52),
-    
+  
     IDEOLOGY_VERYFY_CLIENT(NomHost.IDEOLOGY, 53),
+    
     FISS_SET_PRODUCT_ID(NomHost.FISS, 54),
     FISS_CHANGE_PASSWORD(NomHost.FISS, 55),
     FISS_SET_PIN(NomHost.FISS, 56);
@@ -106,79 +78,35 @@ public enum TransactionType {
             case 2:
                 return TransactionType.CARD_RELOAD;
             case 3:
-                return TransactionType.PERSONAL_INFO;
-            case 4:
-                return TransactionType.CERTEGY_INFO;
+                return TransactionType.PERSONAL_INFO; 
             case 5:
-                return TransactionType.ISTREAM_CHECK_AUTH_LOCATION_CONFIG;
+                return TransactionType.CHECK_AUTH_LOCATION_CONFIG;
             case 6:
-                return TransactionType.ISTREAM_CHECK_AUTH;
-            case 7:
-                return TransactionType.ISTREAM_ENHANCED_CASH_AUTH_POLL;
-            case 8:
-                return TransactionType.ISTREAM_CHECK_AUTH_SUBMIT;
-            case 9:
-                return TransactionType.ISTREAM_CHECK_AUTH_POLL;
-            case 10:
-                return TransactionType.ISTREAM_ENHANCED_CHECK_AUTH_POLL;
-            case 11:
-                return TransactionType.ISTREAM_CASH_AUTH_SUBMIT;
-            case 12:
-                return TransactionType.ORDER_EXPRESS_CONTRATACIONES;
-            case 13:
-                return TransactionType.TECNICARD_CARD_LOAD_OR_CASH_TO_CARD;
+                return TransactionType.CHECK_AUTH;  
             case 14:
-                return TransactionType.TECNICARD_CARD_ACTIVATION;
+                return TransactionType.CARD_ACTIVATION;
             case 15:
-                return TransactionType.TECNICARD_CARD_PERSONALIZATION;
+                return TransactionType.CARD_PERSONALIZATION;
             case 16:
-                return TransactionType.TECNICARD_CARD_VALIDATION;
+                return TransactionType.CARD_VALIDATION;
             case 17:
-                return TransactionType.TECNICARD_CARD_LOAD;
+                return TransactionType.CARD_LOAD;
             case 18:
-                return TransactionType.TECNICARD_BALANCE_INQUIRY;
+                return TransactionType.BALANCE_INQUIRY;
             case 19:
-                return TransactionType.TECNICARD_CARD_TO_BANK;            
+                return TransactionType.CARD_TO_BANK;            
             case 20:
-                return TransactionType.TECNICARD_CARD_HOLDER_VALIDATION;
-            case 21:
-                return TransactionType.TECNICARD_ECHO;
+                return TransactionType.TECNICARD_CARD_HOLDER_VALIDATION; 
             case 22:
-                return TransactionType.TECNICARD_LAST_TRANSACTIONS;
+                return TransactionType.TRANSACTION_HISTORY;
             case 23:
                 return TransactionType.TECNICARD_CASH_TO_CARD;
             case 24:
-                return TransactionType.TECNICARD_CONFIRMATION;
+                return TransactionType.TERMINAL_CONFIRMATION;
             case 25:
-                return TransactionType.TECNICARD_CARD_TO_BANK_CONFIRMATION;
-            case 26: 
-                return TransactionType.GENERIC_CARD_VALIDATION;
-            case 27: 
-                return TransactionType.GENERIC_CARD_LOAD;
-            case 28: 
-                return TransactionType.FUZE_BILLER_SEARCH;
-            case 29: 
-                return TransactionType.FUZE_PROCESS_PAYMENT;
-            case 30: 
-                return TransactionType.FUZE_LOOKUP_TRANSACTION;
-//            case 31: 
-//                return TransactionType.FUZE_HOST_LOOKUP_TRANSACTION;
-            case 31: 
-                return TransactionType.CHECK_AUTH_LOCATION_CONFIG;
-            case 32: 
-                return TransactionType.ORDER_EXPRESS_DEVOLUCION;
-            case 33: 
-                return TransactionType.ORDER_EXPRESS_REPORTAPAGO;
-            case 34: 
-                return TransactionType.ORDER_EXPRESS_LOGS;
+                return TransactionType.CARD_TO_BANK_CONFIRMATION; 
             case 35: 
-                return TransactionType.CARD_RELOAD_WITH_DATA;
-            case 36: 
-                return TransactionType.CHOICE_INSERT_TRANSACTION;
-            case 37: 
-                return TransactionType.CHOICE_CANCELATION_REQUEST;
-            case 38: 
-                return TransactionType.CHOICE_NOTIFY_PAYMENT;
+                return TransactionType.CARD_RELOAD_WITH_DATA; 
             case 39: 
                 return TransactionType.WESTECH_CHECK_PROCESS;
             case 40: 
@@ -190,23 +118,11 @@ public enum TransactionType {
             case 43: 
                 return TransactionType.CHECK_INFO;
             case 44: 
-                return TransactionType.TECNICARD_RESTORE_CARD;
+                return TransactionType.RESTORE_CARD;
             case 45: 
                 return TransactionType.COMPLIANCE_NEW_BRANCH;
             case 46: 
-                return TransactionType.COMPLIANCE_POST_TRANSACTION;
-            case 47: 
-                return TransactionType.FISS_BALANCE_INQUIRY_CARD_VALIDATION;
-            case 48: 
-                return TransactionType.TRANSACTION_HISTORY;
-            case 49: 
-                return TransactionType.CARD_PERSONALIZATION;
-            case 50: 
-                return TransactionType.CARD_ACTIVATION;
-            case 51: 
-                return TransactionType.CARD_LOAD;
-            case 52: 
-                return TransactionType.CARD_CASHING;
+                return TransactionType.COMPLIANCE_POST_TRANSACTION; 
             case 53: 
                 return TransactionType.IDEOLOGY_VERYFY_CLIENT;
             case 54: 

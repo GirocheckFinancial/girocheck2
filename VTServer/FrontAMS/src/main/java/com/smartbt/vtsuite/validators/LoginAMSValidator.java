@@ -11,7 +11,7 @@
  */
 package com.smartbt.vtsuite.validators;
 
-import com.smartbt.vtsuite.common.VTSuiteMessages;
+import com.smartbt.girocheck.common.VTSuiteMessages;
 import javax.xml.bind.ValidationException;
 import org.apache.log4j.Logger;
 

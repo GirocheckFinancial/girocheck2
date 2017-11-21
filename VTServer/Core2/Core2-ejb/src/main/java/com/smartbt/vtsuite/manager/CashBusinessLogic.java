@@ -34,7 +34,7 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
     @Override
     public void process(DirexTransactionRequest request, Transaction transaction) throws Exception {
 
-        NomHost hostName = (NomHost) request.getTransactionData().get(ParameterName.HOSTNAME);
+        NomHost bankHost = (NomHost) request.getTransactionData().get(ParameterName.HOSTNAME);
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CashBusinessLogic] Send answer to TERMINAL", null);
 
@@ -52,8 +52,6 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
 
         String correlationId = request.getCorrelation();
         Queue currentQueue = JMSManager.get().getCoreOutQueue();
-
-        transaction.setSingle(Boolean.FALSE);
 
         if (request.getTransactionData().containsKey(ParameterName.OPERATION)) {
             transaction.setOperation((String) request.getTransactionData().get(ParameterName.OPERATION));
@@ -92,7 +90,7 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
             }
 
             //----------  IDEOLOGY ------------------
-            if (hostName == NomHost.FISS) {
+            if (bankHost == NomHost.FISS) {
                 response = sendToIdeology(request, transaction);
 
                 if (response.getTransactionData().containsKey(ParameterName.IDEOLOGY_RESULT_ID)) {
@@ -102,12 +100,14 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
             }
 
             //----------  CARD VALIDATON ------------------ 
-            request.setTransactionType(TransactionType.GENERIC_CARD_VALIDATION);
+            request.setTransactionType(TransactionType.CARD_VALIDATION);
             request.getTransactionData().put(TransactionType.TRANSACTION_TYPE, originalTransaction);
 
-            response = callHost(request, hostName, GENERIC_VALIDATION_WAIT_TIME, transaction);
+            response = callHost(request, bankHost, transaction);
+            //important
+            request.getTransactionData().putAll(response.getTransactionData());
 
-            CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CashBusinessLogic] Recived message from " + hostName + " Validation", null);
+            CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CashBusinessLogic] Recived message from " + bankHost + " Validation", null);
 
             String estimatedPostingTime = response.getResultMessage();
 
@@ -117,21 +117,21 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
             //-------------- WAIT CONFIRMATION FROM TERMINAL -------------
             DirexTransactionRequest confirmationRequest = null;
 
-            confirmationRequest = receiveMessageFromFront(TransactionType.TECNICARD_CONFIRMATION, correlationId, transaction);
+            confirmationRequest = receiveMessageFromFront(TransactionType.TERMINAL_CONFIRMATION, correlationId, transaction);
 
             correlationId = confirmationRequest.getCorrelation();
             request.setCorrelation(correlationId);
             currentQueue = JMSManager.get().getCore2OutQueue();
 
             //------ CREATE TECNICARD_CONFIRMATION SUBTRANSACTION ------
-            addSuccessfulSubTransaction(transaction, TransactionType.TECNICARD_CONFIRMATION);
+            addSuccessfulSubTransaction(transaction, TransactionType.TERMINAL_CONFIRMATION);
 
             //-----  SEND TO GENERIC HOST -----------    GENERIC_HOST_CARD_LOAD
-            request.setTransactionType(TransactionType.GENERIC_CARD_LOAD);
+            request.setTransactionType(TransactionType.CARD_LOAD);
 
-            response = callHost(request, hostName, GENERIC_CARD_LOAD_WAIT_TIME, transaction);
+            response = callHost(request, bankHost, transaction);
 
-            sendAnswerToTerminal(TransactionType.TECNICARD_CONFIRMATION, response.getResultCode(), estimatedPostingTime, correlationId);
+            sendAnswerToTerminal(TransactionType.TERMINAL_CONFIRMATION, response.getResultCode(), estimatedPostingTime, correlationId);
 
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CashBusinessLogic] Before consuming choiceNotifyPayment " + transaction.getSub_Transaction().size(), null);
             transaction.setResultCode(ResultCode.SUCCESS.getCode());
@@ -149,11 +149,11 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
             if (transactionalException.getResponse() != null) {
                 // this is when  !response.approved()
                 System.out.println("Sending subTransactionFailed 1");
-                CoreTransactionUtil.subTransactionFailed(transaction, transactionalException.getResponse(), currentQueue, correlationId);
+                CoreTransactionUtil.subTransactionFailed(transaction, transactionalException.getResponse(), currentQueue, correlationId, bankHost);
             } else {
                 //this is when caughting Exception
                 System.out.println("Sending subTransactionFailed 2 -> transactionalException.getTransactionType()" + transactionalException.getTransactionType());
-                CoreTransactionUtil.subTransactionFailed(transaction, currentQueue, correlationId, transactionalException.getTransactionType(), transactionalException.getMessage(), transactionalException.getResultCode());
+                CoreTransactionUtil.subTransactionFailed(transaction, currentQueue, correlationId, transactionalException.getTransactionType(), transactionalException.getMessage(), transactionalException.getResultCode(), bankHost);
             }
 
         } catch (Exception e) {
@@ -168,7 +168,7 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
                 transaction.setResultMessage("Message Error was printed, Please check the server logs. ");
             }
 
-            CoreTransactionUtil.subTransactionFailed(transaction, currentQueue, correlationId, request.getTransactionType(), e.getMessage(), ResultCode.FAILED);
+            CoreTransactionUtil.subTransactionFailed(transaction, currentQueue, correlationId, request.getTransactionType(), e.getMessage(), ResultCode.FAILED, bankHost);
         }
     }
 
@@ -188,9 +188,9 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
 
         switch (transactionType) {
 
-            case TECNICARD_CONFIRMATION:
+            case TERMINAL_CONFIRMATION:
                 errorCode = ResultCode.TERMINAL_CONFIRMATION_TIME_EXCEED;
-                waitTime = TECNICARD_CONFIRMATION_WAIT_TIME;
+                waitTime = TERMINAL_CONFIRMATION_WAIT_TIME;
                 queue = JMSManager.get().getCore2InQueue();
                 break;
         }
@@ -204,7 +204,7 @@ public class CashBusinessLogic extends AbstractCommonBusinessLogic {
             // throw new TransactionalException(ResultCode.getFromHost(host), transactionType, e);
             response = DirexTransactionResponse.forException(errorCode, ResultMessage.FAILED, transactionType + " not received. ", "");
             response.setTransactionType(transactionType);
-            CoreTransactionUtil.subTransactionFailed(transaction, response, JMSManager.get().getCoreOutQueue(), correlationId);
+            CoreTransactionUtil.subTransactionFailed(transaction, response, JMSManager.get().getCoreOutQueue(), correlationId, null);
             throw new Exception();
         }
 

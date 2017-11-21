@@ -18,11 +18,13 @@ package com.smartbt.vtsuite.connector.mock;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
+import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.ws.changePassword.SZChgPwdMtvnSvcReq;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MockFissChangePasswordConnector implements Connector {
- 
+
     private static MockFissChangePasswordConnector INSTANCE;
 
     public static synchronized MockFissChangePasswordConnector get() {
@@ -30,12 +32,16 @@ public class MockFissChangePasswordConnector implements Connector {
             INSTANCE = new MockFissChangePasswordConnector();
         }
         return INSTANCE;
-    } 
+    }
 
-    public void callWS(Map<ParameterName, Object> params){
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params){
         SZChgPwdMtvnSvcReq request = RequestBuilder.buildChangePasswordRequest(params);
+        
+        Map<FissParam, Object> responseMap = new HashMap<>();
+        responseMap.put(FissParam.SUCCESS, true); 
+        responseMap.put(FissParam.RESULT_MESSAGE, "Fiss Success Message");
  
-        int a = 3;
+        return responseMap;
     }
 
 }

@@ -17,7 +17,7 @@ import com.smartbt.girocheck.servercommon.model.Terminal;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import com.smartbt.girocheck.servercommon.model.Merchant;
 import com.smartbt.girocheck.servercommon.model.Transaction;
-import com.smartbt.vtsuite.servercommon.display.common.model.TransactionDisplay;
+import com.smartbt.girocheck.servercommon.display.TransactionDisplay;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;

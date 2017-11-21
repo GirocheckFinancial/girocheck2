@@ -20,7 +20,7 @@ import com.smartbt.girocheck.servercommon.display.message.ResponseData;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
 import com.smartbt.girocheck.servercommon.model.Agrupation;
 import com.smartbt.girocheck.servercommon.model.Merchant;
-import com.smartbt.vtsuite.common.VTSuiteMessages;
+import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.girocheck.servercommon.display.AddressDisplay;
 import com.smartbt.girocheck.servercommon.display.message.BaseResponse;
 import com.smartbt.girocheck.servercommon.model.Address;

@@ -14,14 +14,10 @@
  **
  */
 package com.smartbt.girocheck.servercommon.display.report;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.smartbt.vtsuite.servercommon.display.common.model.*;
-import com.smartbt.vtsuite.servercommon.utils.CurrencySerializer;
+ 
 import java.io.Serializable;
 import java.util.Date;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import javax.xml.bind.annotation.XmlRootElement; 
 
 /**
  * The Transaction Display Class - containing all sets/gets

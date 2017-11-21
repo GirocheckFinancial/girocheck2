@@ -16,7 +16,7 @@
 package com.smartbt.vtsuite.dao;
 
 import com.smartbt.girocheck.servercommon.dao.BaseDAO;
-import com.smartbt.vtsuite.servercommon.model.State;
+import com.smartbt.girocheck.servercommon.model.State;
 
 
 

@@ -18,14 +18,11 @@ package com.smartbt.vtsuite.manager;
 import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.girocheck.servercommon.display.AMSSettingDisplay;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
-import com.smartbt.girocheck.servercommon.display.RolePrivilegeDisplay;
-import com.smartbt.vtsuite.servercommon.dao.ParameterValueDAO;
-import com.smartbt.girocheck.servercommon.dao.PrivilegesDAO;
-import com.smartbt.vtsuite.servercommon.model.ApplicationParameterValue;
+import com.smartbt.girocheck.servercommon.display.RolePrivilegeDisplay; 
+import com.smartbt.girocheck.servercommon.dao.PrivilegesDAO; 
 import com.smartbt.girocheck.servercommon.model.User;
 import com.smartbt.vtsuite.vtcommon.Constants;
-import com.smartbt.vtsuite.vtcommon.enums.EntityType;
-import com.smartbt.vtsuite.vtcommon.nomenclators.NomApplication;
+import com.smartbt.vtsuite.vtcommon.enums.EntityType; 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +31,7 @@ import java.util.Map;
  *
  * @author Ariel Saavedra
  */
-public class GeneralAMSManager extends com.smartbt.vtsuite.servercommon.manager.GeneralManager {
+public class GeneralAMSManager  {
 
     /**
      * Get AMS's settings
@@ -78,18 +75,5 @@ public class GeneralAMSManager extends com.smartbt.vtsuite.servercommon.manager.
         return rolePrivilegeMap;
     }
 
-    /**
-     * Gets merchant parameters
-     *
-     * @param parametersValueDisplay
-     * @return
-     */
-    public static Map getParameters(List<ApplicationParameterValue> parametersValueDisplay) {
-        Map parametersMap = new LinkedHashMap();
-
-        for (ApplicationParameterValue parameterValue : parametersValueDisplay) {
-             parametersMap.put(parameterValue.getId(), parameterValue.getValue());
-        }
-        return parametersMap;
-    }
+  
 }

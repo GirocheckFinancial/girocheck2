@@ -30,8 +30,8 @@ public class MyContextListener
     public void contextInitialized(ServletContextEvent arg0) {
         System.out.println("Creating GenerateDocTask...");
         Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 9);
-        today.set(Calendar.MINUTE, 5);
+        today.set(Calendar.HOUR_OF_DAY, 1);
+        today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
 
         //today.add(Calendar.DAY_OF_MONTH, 1);  //To avoid running this task when is created

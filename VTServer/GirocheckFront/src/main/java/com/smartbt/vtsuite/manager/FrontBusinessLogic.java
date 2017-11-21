@@ -98,7 +98,7 @@ public class FrontBusinessLogic {
 
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[FrontBusinessLogic]  Sending RequestId :: " + ((String) transactionData.get(ParameterName.REQUEST_ID)), null);
 
-            if (transactionType == TransactionType.TECNICARD_CONFIRMATION || transactionType == TransactionType.TECNICARD_CARD_TO_BANK_CONFIRMATION) {
+            if (transactionType == TransactionType.TERMINAL_CONFIRMATION || transactionType == TransactionType.CARD_TO_BANK_CONFIRMATION) {
                 queueIn = jmsManager.getCore2InQueue();
                 queueOut = jmsManager.getCore2OutQueue();
 

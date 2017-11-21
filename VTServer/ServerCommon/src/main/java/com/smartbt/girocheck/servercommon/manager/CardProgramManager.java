@@ -15,7 +15,7 @@ package com.smartbt.girocheck.servercommon.manager;
 import com.smartbt.girocheck.servercommon.dao.CardProgramDAO;
 import com.smartbt.girocheck.servercommon.display.CardProgramDisplay;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
-import com.smartbt.vtsuite.common.VTSuiteMessages;
+import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.util.List;
 

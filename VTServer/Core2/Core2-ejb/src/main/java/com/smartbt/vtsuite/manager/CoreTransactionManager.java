@@ -56,7 +56,7 @@ public class CoreTransactionManager {
     public static List COMPLEX_TRANSACTION_LIST;
     public static List LOCAL_TRANSACTION_LIST;
     public static List CARD_TO_BANK_BL_LIST;
- 
+
     private static ApplicationParameterManager applicationParameterManager = new ApplicationParameterManager();
     private static Map<EnumApplicationParameter, Double> amountAplicationParameters;
 
@@ -64,10 +64,10 @@ public class CoreTransactionManager {
     public static final String ID_SCAN_AUTH_KEY = "48fa49a3-8ca4-4fc5-9a60-93271739969d";
 
     static {
-        SINGLE_TRANSACTION_LIST = Arrays.asList(TransactionType.ISTREAM_CHECK_AUTH, TransactionType.TECNICARD_BALANCE_INQUIRY, TransactionType.ORDER_EXPRESS_CONTRATACIONES);
+        SINGLE_TRANSACTION_LIST = Arrays.asList(TransactionType.CHECK_AUTH, TransactionType.BALANCE_INQUIRY);
         COMPLEX_TRANSACTION_LIST = Arrays.asList(TransactionType.NEW_CARD_LOAD, TransactionType.CARD_RELOAD, TransactionType.CARD_RELOAD_WITH_DATA);
-        LOCAL_TRANSACTION_LIST = Arrays.asList(TransactionType.ISTREAM_CHECK_AUTH_LOCATION_CONFIG);
-        CARD_TO_BANK_BL_LIST = Arrays.asList(TransactionType.TECNICARD_CARD_TO_BANK);
+        LOCAL_TRANSACTION_LIST = Arrays.asList(TransactionType.CHECK_AUTH_LOCATION_CONFIG);
+        CARD_TO_BANK_BL_LIST = Arrays.asList(TransactionType.CARD_TO_BANK);
     }
 
     /**
@@ -91,11 +91,11 @@ public class CoreTransactionManager {
 
                 CustomeLogger.Output(CustomeLogger.OutputStates.Debug, ">[Core2TransactionManager] Processing: " + transactionType, null);
 
-                NomHost genericHost = getGenericHost( direxTransactionRequest);
+                NomHost genericHost = getGenericHost(direxTransactionRequest);
                 direxTransactionRequest.getTransactionData().put(ParameterName.HOSTNAME, genericHost);
-                
+
                 switch (transactionType) {
-                    case TECNICARD_BALANCE_INQUIRY:
+                    case BALANCE_INQUIRY:
                         businessLogic = new BalanceInquiryBusinessLogic();
                         break;
                     case CARD_RELOAD:
@@ -109,10 +109,10 @@ public class CoreTransactionManager {
                             businessLogic = new CheckBusinessLogic();
                         }
                         break;
-                    case ISTREAM_CHECK_AUTH_LOCATION_CONFIG:
+                    case CHECK_AUTH_LOCATION_CONFIG:
                         businessLogic = new CoreLocalTransactionBusinessLogic();
                         break;
-                    case TECNICARD_CARD_TO_BANK:
+                    case CARD_TO_BANK:
                         businessLogic = new CoreCardToBankBusinessLogic();
                         break;
                     default:
@@ -125,7 +125,7 @@ public class CoreTransactionManager {
 
                 Transaction transaction = null;
 
-                if (transactionType != TransactionType.TECNICARD_BALANCE_INQUIRY) {
+                if (transactionType != TransactionType.BALANCE_INQUIRY) {
 
                     transaction = createTransaction(direxTransactionRequest, transactionType);
 
@@ -176,7 +176,7 @@ public class CoreTransactionManager {
 
         try {
             HibernateUtil.beginTransaction();
- 
+
             //------------------------------
             if (direxTransactionRequest.getTransactionData().get(ParameterName.HOSTNAME) == null) {
                 transaction.setResultCode(900);
@@ -209,19 +209,19 @@ public class CoreTransactionManager {
 
                 if (client == null || client.getData_SD() == null || client.getData_SD().isEmpty()) {
                     System.out.println("[Core2TransactionManager] Card not exist. Sending Code 3");
-                
+
                     transaction.setResultCode(3);
                     return transaction;
                 } else {
                     System.out.println("[Core2TransactionManager] CARD_RELOAD_WITH_DATA -> Card exist");
                 }
- 
+
                 Address address = new Address();
                 State state = new State();
                 try {
                     address = client.getAddress();
                     state = address.getState();
-                } catch (Exception e) { 
+                } catch (Exception e) {
                     System.out.println("[Core2TransactionManager] createTransaction() ... address or state null.");
                     e.printStackTrace();
                 }
@@ -347,7 +347,6 @@ public class CoreTransactionManager {
 
             if (transactionType == TransactionType.NEW_CARD_LOAD || transactionType == TransactionType.CARD_RELOAD || transactionType == TransactionType.CARD_RELOAD_WITH_DATA) {
                 direxTransactionRequest.getTransactionData().put(ParameterName.MERCHANT_NAME, terminal.getMerchant().getLegalName());
-                //  direxTransactionRequest.getTransactionData().put(ParameterName.EMAIL, "girocheck@cardmarte.com");
             }
 
             direxTransactionRequest.getTransactionData().put(ParameterName.IDPOS, terminal.getMerchant().getIdPosOrderExp());
@@ -355,7 +354,7 @@ public class CoreTransactionManager {
             direxTransactionRequest.getTransactionData().put(ParameterName.IDTELLERPAGO, terminal.getMerchant().getIdTellerPagoOrderExp());
             direxTransactionRequest.getTransactionData().put(ParameterName.CERTEGY_LOCATION_ID, terminal.getMerchant().getIdIstreamFuzeCash()); //TODO create new parameter for this
 
-            if (transactionType == TransactionType.ISTREAM_CHECK_AUTH_LOCATION_CONFIG) {
+            if (transactionType == TransactionType.CHECK_AUTH_LOCATION_CONFIG) {
                 direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_ID_ISTREAM, terminal.getMerchant().getIdIstreamTecnicardCheck());
                 //todo remove this for version 2 (We eill take this from System Properties)
                 direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_USER_ISTREAM, terminal.getMerchant().getIstreamUser());
@@ -365,6 +364,9 @@ public class CoreTransactionManager {
             transaction.setTerminal(terminal);
             transaction.setClient(client);
 
+            if (client != null) {
+                direxTransactionRequest.getTransactionData().put(ParameterName.CLIENT_ID, client.getId());
+            }
             //Black List 
             if (client != null) {
                 System.out.println("client.getBlackListAll() = " + client.getBlackListAll());
@@ -398,8 +400,8 @@ public class CoreTransactionManager {
             }
 
             // ---------------------  CREDIT CARD LOGIC -------
-            if (transactionType != TransactionType.TECNICARD_CARD_TO_BANK
-                    && transactionType != TransactionType.ISTREAM_CHECK_AUTH_LOCATION_CONFIG) {
+            if (transactionType != TransactionType.CARD_TO_BANK
+                    && transactionType != TransactionType.CHECK_AUTH_LOCATION_CONFIG) {
                 if (direxTransactionRequest.getTransactionData().containsKey(ParameterName.CARD_NUMBER)) {
                     String cardNumber = (String) direxTransactionRequest.getTransactionData().get(ParameterName.CARD_NUMBER);
 
@@ -416,7 +418,7 @@ public class CoreTransactionManager {
                                 case CARD_RELOAD_WITH_DATA:
                                     creditCard = creditCardManager.createOrGet(cardNumber, client, terminal.getMerchant());
                                     break;
-                                case TECNICARD_BALANCE_INQUIRY:
+                                case BALANCE_INQUIRY:
                                     creditCard = creditCardManager.getCardByNumber(cardNumber);
                                     if (creditCard != null) {
                                         transaction.setClient(creditCard.getClient());
@@ -441,7 +443,7 @@ public class CoreTransactionManager {
                 }
             }
             // -----------------------------------------------------------------
- 
+
             //todo remove this for version 2 (We eill take this from System Properties)
             if (COMPLEX_TRANSACTION_LIST.contains(transactionType)) {
                 direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_USER_ISTREAM, terminal.getMerchant().getIstreamUser());
@@ -514,11 +516,7 @@ public class CoreTransactionManager {
 
         String cardNumber = (String) transactionData.get(ParameterName.CARD_NUMBER);
 
-        if (cardNumber != null && cardNumber.length() > 6) {
-            String binNumber = cardNumber.substring(0, 6);
-
-            host = binNumber.equals("544835") ? NomHost.TECNICARD : NomHost.FISS;
-        }
+        host = UtilOperations.getHostByCard(cardNumber);
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[Core2TransactionManager] Finding Host result: " + host, null);
         return host;

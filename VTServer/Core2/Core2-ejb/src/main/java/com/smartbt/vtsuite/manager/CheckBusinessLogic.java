@@ -41,7 +41,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
     public void process(DirexTransactionRequest request, Transaction transaction) throws Exception {
         String checkId = "";
         String correlationId = request.getCorrelation();
-        NomHost hostName = (NomHost) request.getTransactionData().get(ParameterName.HOSTNAME);
+        NomHost bankHost = (NomHost) request.getTransactionData().get(ParameterName.HOSTNAME);
         
         String lastName = (String)request.getTransactionData().get(ParameterName.LAST_NAME);
         
@@ -73,9 +73,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
                     idScanSuccess = false;
                 }
             }
-
-            transaction.setSingle(Boolean.FALSE);
-
+ 
             if (request.getTransactionData().containsKey(ParameterName.OPERATION)) {
                 transaction.setOperation((String) request.getTransactionData().get(ParameterName.OPERATION));
             }
@@ -87,7 +85,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
             //-------  go to HOST WEST TECH (checkAuth) -------
             request.setTransactionType(TransactionType.WESTECH_CHECK_PROCESS);
 
-            response = callHost(request, NomHost.WESTECH, WESTECH_HOST_WAIT_TIME, transaction);
+            response = callHost(request, NomHost.WESTECH,  transaction);
 
             //-----  WAIT CHECK INFO MESSAGE -------------- 
             checkId = (String) response.getTransactionData().get(ParameterName.CHECK_ID);
@@ -136,7 +134,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
             
             
             //----------  IDEOLOGY ------------------
-            if(hostName == NomHost.FISS){
+            if(bankHost == NomHost.FISS){
                 response = sendToIdeology(request, transaction);
                 
                 if(response.getTransactionData().containsKey(ParameterName.IDEOLOGY_RESULT_ID)){
@@ -149,7 +147,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
             request.setTransactionType(TransactionType.CERTEGY_AUTHENTICATION);
             DirexTransactionResponse certegyResponse = null;
             try {
-                certegyResponse = callHost(request, NomHost.CERTEGY, CERTEGY_WAIT_TIME, transaction);
+                certegyResponse = callHost(request, NomHost.CERTEGY,  transaction);
             } catch (Exception te) {
                 te.printStackTrace();
                 //TODO check here that it fails because Certegy denied the check
@@ -166,12 +164,14 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
             }
             sendCertegyReverseRequestIfFails = true;
 
-            //----------  TECNICARD VALIDATON ------------------
+            //----------  GENERIC VALIDATON ------------------
             
 
-            request.setTransactionType(TransactionType.GENERIC_CARD_VALIDATION);
+            request.setTransactionType(TransactionType.CARD_VALIDATION);
             request.getTransactionData().put(TransactionType.TRANSACTION_TYPE, originalTransaction);
-            response = callHost(request, hostName , GENERIC_VALIDATION_WAIT_TIME, transaction);
+            response = callHost(request, bankHost , transaction);
+            //important
+            
 
             String estimatedPostingTime = response.getResultMessage();
 
@@ -179,25 +179,25 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
 
             //-------------- WAIT CONFIRMATION FROM TERMINAL -------------
             DirexTransactionRequest confirmationRequest;
-            confirmationRequest = receiveMessageFromFront(TransactionType.TECNICARD_CONFIRMATION, transaction, checkId, correlationId);
+            confirmationRequest = receiveMessageFromFront(TransactionType.TERMINAL_CONFIRMATION, transaction, checkId, correlationId);
 
             extractTecnicardConfirmationInformation(confirmationRequest, transaction);
 
             //------ CREATE TECNICARD_CONFIRMATION SUBTRANSACTION ------
-            addSuccessfulSubTransaction(transaction, TransactionType.TECNICARD_CONFIRMATION);
+            addSuccessfulSubTransaction(transaction, TransactionType.TERMINAL_CONFIRMATION);
 
             correlationId = confirmationRequest.getCorrelation();
             request.setCorrelation(correlationId);
             currentQueue = JMSManager.get().getCore2OutQueue();
 
             //-----  SEND TO GENERIC HOST -------  GENERIC_HOST_CARD_LOAD
-            request.setTransactionType(TransactionType.GENERIC_CARD_LOAD);
+            request.setTransactionType(TransactionType.CARD_LOAD);
 
-            response = callHost(request, hostName, GENERIC_CARD_LOAD_WAIT_TIME, transaction);
+            response = callHost(request, bankHost,  transaction);
 
             if (response.wasApproved()) {
                 CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CheckBusinessLogic] Sending answer to Terminal -> correlationId = " + correlationId, null);
-                sendAnswerToTerminal(TransactionType.TECNICARD_CONFIRMATION, ResultCode.SUCCESS, estimatedPostingTime, correlationId);
+                sendAnswerToTerminal(TransactionType.TERMINAL_CONFIRMATION, ResultCode.SUCCESS, estimatedPostingTime, correlationId);
                 sendWestechSendSingleICL = true;
             }
 
@@ -209,7 +209,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
 
                 CheckStatus checkStatus = CheckStatus.COMPLETED;
                 try {
-                    response = callHost(request, NomHost.ISTREAM2, ISTREAM_HOST_WAIT_TIME, transaction);
+                    response = callHost(request, NomHost.ISTREAM2,  transaction);
                 } catch (TransactionalException e) {
                     System.out.println("ISTREAM2_SEND_SINCE_ICL was not approved. response.wasApproved() = " + response.wasApproved());
                     checkStatus = CheckStatus.HOLD;
@@ -238,10 +238,10 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
 
             if (transactionalException.getResponse() != null) {// this is when  !response.approved()
                 System.out.println("Sending subTransactionFailed 1");
-                CoreTransactionUtil.subTransactionFailed(transaction, transactionalException.getResponse(), currentQueue, correlationId);
+                CoreTransactionUtil.subTransactionFailed(transaction, transactionalException.getResponse(), currentQueue, correlationId, bankHost);
             } else {//this is when caughting Exception 
                 System.out.println("Sending subTransactionFailed 2 -> transactionalException.getTransactionType()" + transactionalException.getTransactionType());
-                CoreTransactionUtil.subTransactionFailed(transaction, currentQueue, correlationId, transactionalException.getTransactionType(), transactionalException.getMessage(), transactionalException.getResultCode());
+                CoreTransactionUtil.subTransactionFailed(transaction, currentQueue, correlationId, transactionalException.getTransactionType(), transactionalException.getMessage(), transactionalException.getResultCode(), bankHost);
             }
         } catch (Exception e) {
             System.out.println("!!!!!!!!!!!!!!!!  UNEXPECTED  EXCEPTION  !!!!!!!!!!!!!!!!!!!");
@@ -255,7 +255,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
                 transaction.setResultMessage("Message Error was printed, Please check the server logs. ");
             }
 
-            CoreTransactionUtil.subTransactionFailed(transaction, currentQueue, correlationId, request.getTransactionType(), e.getMessage(), ResultCode.FAILED);
+            CoreTransactionUtil.subTransactionFailed(transaction, currentQueue, correlationId, request.getTransactionType(), e.getMessage(), ResultCode.FAILED, bankHost);
 
         }
     }
@@ -288,11 +288,11 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
 //                waitTime = CERTEGY_INFO_WAIT_TIME;
 //                queue = JMSManager.get().getFrontIStreamOutQueue();
 //                break;
-            case TECNICARD_CONFIRMATION:
+            case TERMINAL_CONFIRMATION:
                 errorCode = ResultCode.TERMINAL_CONFIRMATION_TIME_EXCEED;
                 errorMessage = ResultMessage.TERMINAL_CONFIRMATION_TIME_EXCEED;
                 correlation = correlationId;
-                waitTime = TECNICARD_CONFIRMATION_WAIT_TIME;
+                waitTime = TERMINAL_CONFIRMATION_WAIT_TIME;
                 queue = JMSManager.get().getCore2InQueue();
                 CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CheckBusinessLogic] receiveMessageFromFront(...) queue = JMSManager.get().getCore2InQueue(); correlationId = " + correlationId, null);
                 break;
@@ -325,27 +325,14 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
             iStreamResponse.setApproved(false);
 
             JMSManager.get().send(iStreamResponse, JMSManager.get().getFrontIStreamInQueue(), checkId);
-            CoreTransactionUtil.subTransactionFailed(transaction, iStreamResponse, JMSManager.get().getCoreOutQueue(), correlationId);
+            CoreTransactionUtil.subTransactionFailed(transaction, iStreamResponse, JMSManager.get().getCoreOutQueue(), correlationId, null);
 
         }
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CheckBusinessLogic] Message received", null);
         return request;
     }
-
-    private void sendResponseToIStreamFront(boolean success, String checkId) throws JMSException {
-        CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CheckBusinessLogic] Send response back to IStreamFront with result :: " + (success ? "SUCCESS" : "FAILED"), null);
-
-        DirexTransactionResponse iStreamResponse = new DirexTransactionResponse();
-        iStreamResponse.getTransactionData().put(ParameterName.CHECK_ID, checkId);
-
-        iStreamResponse.setResultCode(success ? ResultCode.SUCCESS : ResultCode.FAILED);
-        iStreamResponse.setResultMessage(success ? ResultMessage.SUCCESS.getMessage() : ResultMessage.FAILED.getMessage());
-        iStreamResponse.setApproved(success);
-
-        JMSManager.get().send(iStreamResponse, JMSManager.get().getFrontIStreamInQueue(), checkId);
-    }
-
+ 
     private void extractTecnicardConfirmationInformation(DirexTransactionRequest request, Transaction transaction) throws Exception, SQLException {
         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CheckBusinessLogic] extractTecnicardConfirmationInformation(...) ", null);
         Map transactionData = request.getTransactionData();

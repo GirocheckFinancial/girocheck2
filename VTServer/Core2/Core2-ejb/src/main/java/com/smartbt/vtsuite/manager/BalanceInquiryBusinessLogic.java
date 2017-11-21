@@ -19,9 +19,7 @@ import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.jms.JMSManager;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
-import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
-import com.smartbt.girocheck.servercommon.enums.ResultMessage;
 import com.smartbt.girocheck.servercommon.manager.BalanceInquiryLogManager;
 import com.smartbt.girocheck.servercommon.manager.CreditCardManager;
 import com.smartbt.girocheck.servercommon.manager.HostTxManager;
@@ -32,7 +30,6 @@ import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil; 
 import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
 import java.util.Date;
-import java.util.Properties; 
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 
@@ -89,10 +86,8 @@ public class BalanceInquiryBusinessLogic extends CoreAbstractTransactionBusiness
             NomHost hostName = (NomHost) direxTransactionRequest.getTransactionData().get(ParameterName.HOSTNAME);
 
             CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[BalanceInquiryBusinessLogic] Send message generic host:: " + hostName, null);
-
-            HostTxManager hostManager = hostManagers.get(hostName);
  
-            direxTransactionResponse = hostManager.processTransaction(direxTransactionRequest);
+            direxTransactionResponse = hostManagers.get(hostName).processTransaction(direxTransactionRequest);
 
             direxTransactionResponse.getTransactionData().put(ParameterName.PRINTLOGO, "01");
          

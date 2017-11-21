@@ -63,7 +63,7 @@ public class BalanceInquiryRequest implements IMap {
     @Override
     public Map toMap() {
         Map map = new HashMap();
-        map.put( TransactionType.TRANSACTION_TYPE, TransactionType.TECNICARD_BALANCE_INQUIRY );
+        map.put(TransactionType.TRANSACTION_TYPE, TransactionType.BALANCE_INQUIRY );
 
         map.put(ParameterName.USER, getUser());
         map.put(ParameterName.PASSWORD, getPassword());

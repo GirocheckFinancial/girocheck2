@@ -14,10 +14,8 @@
  **
  */
 package com.smartbt.girocheck.servercommon.display;
-
-import com.smartbt.vtsuite.servercommon.display.common.model.*;
-import java.io.Serializable;
-import java.util.LinkedHashMap;
+ 
+import java.io.Serializable; 
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**

@@ -28,6 +28,7 @@ import static com.smartbt.vtsuite.manager.AbstractCommonBusinessLogic.stateManag
 import com.smartbt.vtsuite.util.CoreTransactionUtil;
 import static com.smartbt.vtsuite.util.CoreTransactionUtil.addSuccessfulSubTransaction;
 import com.smartbt.vtsuite.util.TransactionalException;
+import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Date;
@@ -41,7 +42,16 @@ import javax.sql.rowset.serial.SerialBlob;
  * @author rrodriguez
  */
 public class UtilOperations {
-    
+
+    public static NomHost getHostByCard(String cardNumber) {
+        if (cardNumber != null && cardNumber.length() > 6) {
+            String binNumber = cardNumber.substring(0, 6);
+
+            return binNumber.equals("544835") ? NomHost.TECNICARD : NomHost.FISS;
+        }
+        return NomHost.TECNICARD;
+    }
+
     public static void processPersonalInfo(Transaction transaction, DirexTransactionRequest request, Map personalInfoRequestMap) throws SQLException, Exception {
         //------ CREATE PERSONAL INFO SUBTRANSACTION ------
         addSuccessfulSubTransaction(transaction, TransactionType.PERSONAL_INFO);
@@ -111,8 +121,7 @@ public class UtilOperations {
         transaction.getClient().setData_SD(set);
     }
 
-    
-    private static  void fillOutClient(Map transactionMap, Transaction transaction) throws SQLException, Exception {
+    private static void fillOutClient(Map transactionMap, Transaction transaction) throws SQLException, Exception {
 
         if (transactionMap.containsKey(ParameterName.FIRST_NAME)) {
             transaction.getClient().setFirstName((String) transactionMap.get(ParameterName.FIRST_NAME));
@@ -168,7 +177,7 @@ public class UtilOperations {
         }
     }
 
-    private static  void fillOutClientAddress(Map transactionMap, Transaction transaction) {
+    private static void fillOutClientAddress(Map transactionMap, Transaction transaction) {
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[AbstractCommonBusinessLogic] fillOutClientAddress(...) ", null);
         if (transaction.getClient().getAddress() == null) {
@@ -189,7 +198,7 @@ public class UtilOperations {
     }
 
     //TODO Make sure this is not creating a new Personl Identification
-    private static  PersonalIdentification fillOutPersonalIdentification(Map transactionMap, Transaction transaction) throws SQLException {
+    private static PersonalIdentification fillOutPersonalIdentification(Map transactionMap, Transaction transaction) throws SQLException {
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[AbstractCommonBusinessLogic] fillOutPersonalIdentification(...) ", null);
 
@@ -220,7 +229,7 @@ public class UtilOperations {
         return identification;
     }
 
-    public static  void fillOutCheck(Map transactionMap, Transaction transaction) throws SQLException {
+    public static void fillOutCheck(Map transactionMap, Transaction transaction) throws SQLException {
         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[AbstractCommonBusinessLogic] fillOutCheck(...) ", null);
         Check check = new Check();
 
@@ -365,16 +374,13 @@ public class UtilOperations {
         }
     }
 
-    
-    private static  String filterAlphanumericAndDashes(String src) {
+    private static String filterAlphanumericAndDashes(String src) {
         if (src != null) {
             return src.replaceAll("[^a-zA-Z0-9 _-]", "");
         }
         return null;
     }
 
-    
-    
     public static void feeCalculator(DirexTransactionRequest request, Transaction transaction) throws TransactionalException {
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[AbstractCommonBusinessLogic] feeCalculator() start ...", null);

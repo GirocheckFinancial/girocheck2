@@ -19,7 +19,7 @@ import com.smartbt.girocheck.servercommon.display.message.ResponseData;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList; 
 import com.smartbt.girocheck.servercommon.manager.SubTransactionManager;
 import com.smartbt.girocheck.servercommon.manager.TransactionManager;
-import com.smartbt.vtsuite.servercommon.utils.DateUtils; 
+import com.smartbt.girocheck.servercommon.utils.DateUtils; 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;

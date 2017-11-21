@@ -14,8 +14,8 @@ import com.smartbt.girocheck.servercommon.model.Transaction;
 import com.smartbt.girocheck.servercommon.utils.ImgConvTiffToPng;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import com.smartbt.girocheck.servercommon.utils.bd.TransformerComplexBeans;
-import com.smartbt.vtsuite.common.VTSuiteMessages;
-import com.smartbt.vtsuite.servercommon.utils.DateUtils;
+import com.smartbt.girocheck.common.VTSuiteMessages;
+import com.smartbt.girocheck.servercommon.utils.DateUtils;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.util.Date;
 import java.util.HashMap;
@@ -112,7 +112,7 @@ public class TransactionDAO extends BaseDAO<Transaction> {
     }
 
     private Criteria getActivityCriteriaCard2Bank(String terminalId, Date dateStart, Date dateEnd, boolean isList) {
-        return getActivityCriteria(terminalId, dateStart, dateEnd, isList).add(Restrictions.eq("transactionType", TransactionType.TECNICARD_CARD_TO_BANK.getCode()));
+        return getActivityCriteria(terminalId, dateStart, dateEnd, isList).add(Restrictions.eq("transactionType", TransactionType.CARD_TO_BANK.getCode()));
     }
 
     private Criteria getActivityCriteria(String terminalId, Date dateStart, Date dateEnd, boolean isList) {
@@ -224,8 +224,7 @@ public class TransactionDAO extends BaseDAO<Transaction> {
                 .add(Projections.property("data_sc1.maskCardNumber").as("accountSuffix"))
                 .add(Projections.property("ammount").as("ammount"))
                 .add(Projections.property("feeAmmount").as("feeAmmount"))
-                .add(Projections.property("payoutAmmount").as("payoutAmmount"))
-                .add(Projections.property("single").as("single"))
+                .add(Projections.property("payoutAmmount").as("payoutAmmount")) 
                 .add(Projections.property("resultCode").as("resultCode"))
                 .add(Projections.property("resultMessage").as("resultMessage"))
                 .add(Projections.property("merchant.legalName").as("merchant"))

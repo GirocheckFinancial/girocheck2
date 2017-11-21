@@ -1,15 +1,13 @@
 package com.smartbt.girocheck.servercommon.manager;
 
-import com.smartbt.girocheck.servercommon.dao.ApplicationParameterDAO;
-import com.smartbt.girocheck.servercommon.display.AgrupationDisplay;
+import com.smartbt.girocheck.servercommon.dao.ApplicationParameterDAO; 
 import com.smartbt.girocheck.servercommon.display.ApplicationParameterDisplay;
 import com.smartbt.girocheck.servercommon.display.message.BaseResponse;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
 import com.smartbt.girocheck.servercommon.model.ApplicationParameter;
-import com.smartbt.vtsuite.common.VTSuiteMessages;
+import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
-import com.smartbt.girocheck.servercommon.enums.EnumApplicationParameter;
-import com.smartbt.vtsuite.servercommon.validators.ApplicationParameterValidator;
+import com.smartbt.girocheck.servercommon.enums.EnumApplicationParameter; 
 import com.smartbt.vtsuite.vtcommon.Constants;
 import com.smartbt.vtsuite.vtcommon.enums.ApplicationType;
 import java.util.HashMap;
@@ -57,7 +55,6 @@ public class ApplicationParameterManager {
     }
 
     public ResponseDataList search( String searchFilter, int pageNumber, int rowsPerPage ) throws Exception {
-        ApplicationParameterValidator.search( searchFilter, pageNumber, rowsPerPage );
         ResponseDataList response = new ResponseDataList();
         response.setStatus( Constants.CODE_SUCCESS );
         response.setStatusMessage( VTSuiteMessages.SUCCESS );

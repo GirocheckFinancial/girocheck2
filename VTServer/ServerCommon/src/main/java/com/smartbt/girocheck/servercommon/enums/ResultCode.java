@@ -106,17 +106,17 @@ public enum ResultCode {
         return code;
     }
 
-    public static ResultCode getFromHost(NomHost host) {
-        switch (host) {
-            case ISTREAM:
-                return ISTREAM_HOST_ERROR;
-            case TECNICARD:
-                return TECNICARD_HOST_ERROR; 
-            case CHOICE:
-                return CHOICE_HOST_ERROR;
-            default:
-                return CORE_ERROR;
-        }
-    }
+//    public static ResultCode getFromHost(NomHost host) {
+//        switch (host) {
+//            case ISTREAM:
+//                return ISTREAM_HOST_ERROR;
+//            case TECNICARD:
+//                return TECNICARD_HOST_ERROR; 
+//            case CHOICE:
+//                return CHOICE_HOST_ERROR;
+//            default:
+//                return CORE_ERROR;
+//        }
+//    }
 
 }

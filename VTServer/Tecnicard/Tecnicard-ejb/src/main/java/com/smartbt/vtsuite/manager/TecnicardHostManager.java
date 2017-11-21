@@ -64,9 +64,9 @@ public class TecnicardHostManager implements HostTxManager{
         TRANSACTION_SEQUENCE = new HashMap();
 
         TransactionType[] resp_000000 = new TransactionType[]{TransactionType.TECNICARD_CARD_HOLDER_VALIDATION};
-        TransactionType[] resp_100011 = new TransactionType[]{TransactionType.TECNICARD_CARD_ACTIVATION, TransactionType.TECNICARD_CARD_PERSONALIZATION, TransactionType.TECNICARD_CARD_HOLDER_VALIDATION};
-        TransactionType[] resp_100012 = new TransactionType[]{TransactionType.TECNICARD_CARD_ACTIVATION, TransactionType.TECNICARD_CARD_HOLDER_VALIDATION};
-        TransactionType[] resp_100015 = new TransactionType[]{TransactionType.TECNICARD_CARD_PERSONALIZATION, TransactionType.TECNICARD_CARD_HOLDER_VALIDATION};
+        TransactionType[] resp_100011 = new TransactionType[]{TransactionType.CARD_ACTIVATION, TransactionType.CARD_PERSONALIZATION, TransactionType.TECNICARD_CARD_HOLDER_VALIDATION};
+        TransactionType[] resp_100012 = new TransactionType[]{TransactionType.CARD_ACTIVATION, TransactionType.TECNICARD_CARD_HOLDER_VALIDATION};
+        TransactionType[] resp_100015 = new TransactionType[]{TransactionType.CARD_PERSONALIZATION, TransactionType.TECNICARD_CARD_HOLDER_VALIDATION};
 
         TRANSACTION_SEQUENCE.put(CODE_000000, resp_000000);
         TRANSACTION_SEQUENCE.put(CODE_100011, resp_100011);
@@ -130,7 +130,7 @@ public class TecnicardHostManager implements HostTxManager{
         String resultCode = "";
 
         switch (transactionType) {
-            case TECNICARD_LAST_TRANSACTIONS:
+            case TRANSACTION_HISTORY:
                 try {
                     response = (DirexTransactionResponse) bizLogic.handle(request);
                     Map responseData = response.getTransactionData();
@@ -143,17 +143,14 @@ public class TecnicardHostManager implements HostTxManager{
                     return DirexTransactionResponse.forException(ResultCode.TECNICARD_HOST_ERROR, e);
                 }
 
-            case GENERIC_CARD_VALIDATION:
-
-                CustomeLogger.Output(CustomeLogger.OutputStates.Info, "--[TecnicardHostManager] Processing: TECNICARD_CARD_VALIDATION", null);
-                request.setTransactionType(TransactionType.TECNICARD_CARD_VALIDATION);
-
+            case CARD_VALIDATION:
+ 
                 try {
                     response = (DirexTransactionResponse) bizLogic.handle(request);
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    return manageExceptionAnswer(TransactionType.TECNICARD_CARD_VALIDATION, e);
+                    return manageExceptionAnswer(TransactionType.CARD_VALIDATION, e);
                 }
 
                 Map sessionTagMap = (Map) response.getTransactionData().get(ParameterName.SESSION_TAG_MAP);
@@ -163,14 +160,9 @@ public class TecnicardHostManager implements HostTxManager{
                 CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[TecnicardHostManager] TECNICARD_CARD_VALIDATION resultCode = " + resultCode, null);
 
                 if (TRANSACTION_SEQUENCE.containsKey(resultCode)) {
-
-//                    if ( originalTransactionType == TransactionType.CARD_RELOAD && ( !resultCode.equals( CODE_100012 ) ) ) {
-//                        String message = "Tecnicard Exception: Card Validation result code: " + resultCode + " unacceptable for RELOAD";
-//                        return manageUnexpectedAnswer( CODE_100012, message, TransactionType.TECNICARD_CARD_VALIDATION );
-//                    } else {
-                    addSubTransaction(TransactionType.TECNICARD_CARD_VALIDATION, ResultCode.SUCCESS, ResultMessage.SUCCESS.getMessage(), resultCode);
-//                    }
-
+ 
+                    addSubTransaction(TransactionType.CARD_VALIDATION, ResultCode.SUCCESS, ResultMessage.SUCCESS.getMessage(), resultCode);
+ 
                     TransactionType[] transactionSequence = (TransactionType[]) TRANSACTION_SEQUENCE.get(resultCode);
 
                     for (TransactionType transactionTypeOfSecuence : transactionSequence) {
@@ -201,18 +193,18 @@ public class TecnicardHostManager implements HostTxManager{
                     response.setResultMessage(ResultMessage.SUCCESS.getMessage());
                     return response;
                 } else {
-                    return manageUnexpectedAnswer(sessionTagMap, TransactionType.TECNICARD_CARD_VALIDATION);
+                    return manageUnexpectedAnswer(sessionTagMap, TransactionType.CARD_VALIDATION);
                 }
-            case ISTREAM_CHECK_AUTH_LOCATION_CONFIG:
+            case CHECK_AUTH_LOCATION_CONFIG:
 
                 CustomeLogger.Output(CustomeLogger.OutputStates.Info, "--[TecnicardHostManager] Processing: ISTREAM_CHECK_AUTH_LOCATION_CONFIG", null);
-                request.setTransactionType(TransactionType.TECNICARD_CARD_VALIDATION);
+                request.setTransactionType(TransactionType.CARD_VALIDATION);
 
                 try {
                     response = (DirexTransactionResponse) bizLogic.handle(request);
                     // int a = 9/0;
                 } catch (Exception e) {
-                    return manageExceptionAnswer(TransactionType.TECNICARD_CARD_VALIDATION, e);
+                    return manageExceptionAnswer(TransactionType.CARD_VALIDATION, e);
                 }
 
                 Map sessionTagMapp = (Map) response.getTransactionData().get(ParameterName.SESSION_TAG_MAP);
@@ -223,7 +215,7 @@ public class TecnicardHostManager implements HostTxManager{
 
                 if (TRANSACTION_SEQUENCE.containsKey(resultCode)) {
 
-                    addSubTransaction(TransactionType.TECNICARD_CARD_VALIDATION, ResultCode.SUCCESS, ResultMessage.SUCCESS.getMessage(), resultCode);
+                    addSubTransaction(TransactionType.CARD_VALIDATION, ResultCode.SUCCESS, ResultMessage.SUCCESS.getMessage(), resultCode);
 
                     response.setTransactionData(sessionTagMapp);
 
@@ -242,20 +234,20 @@ public class TecnicardHostManager implements HostTxManager{
                     response.setResultMessage(ResultMessage.SUCCESS.getMessage());
                     return response;
                 } else {
-                    return manageUnexpectedAnswer(sessionTagMapp, TransactionType.TECNICARD_CARD_VALIDATION);
+                    return manageUnexpectedAnswer(sessionTagMapp, TransactionType.CARD_VALIDATION);
                 }
 
-            case GENERIC_CARD_LOAD:
+            case CARD_LOAD:
                 CustomeLogger.Output(CustomeLogger.OutputStates.Info, "--[TecnicardHostManager] Processing: GENERIC_HOST_CARD_LOAD", null);
                 if (!request.getTransactionData().containsKey(ParameterName.OPERATION)) {
-                    return manageExceptionAnswer(TransactionType.TECNICARD_CARD_LOAD_OR_CASH_TO_CARD, ResultMessage.TECNICARD_WRONG_ID_OPERATION.getMessage());
+                    return manageExceptionAnswer(TransactionType.CARD_LOAD, ResultMessage.TECNICARD_WRONG_ID_OPERATION.getMessage());
                 }
 
                 String idOperation = (String) request.getTransactionData().get(ParameterName.OPERATION);
 
                 switch (idOperation) {
                     case "01": {  //check
-                        transactionType = TransactionType.TECNICARD_CARD_LOAD;
+                        transactionType = TransactionType.CARD_LOAD;
                         break;
                     }
                     case "02": {  //cash
@@ -263,7 +255,7 @@ public class TecnicardHostManager implements HostTxManager{
                         break;
                     }
                     default:
-                        return manageExceptionAnswer(TransactionType.TECNICARD_CARD_LOAD_OR_CASH_TO_CARD, ResultMessage.TECNICARD_WRONG_ID_OPERATION.getMessage());
+                        return manageExceptionAnswer(TransactionType.CARD_LOAD, ResultMessage.TECNICARD_WRONG_ID_OPERATION.getMessage());
                 }
                 request.setTransactionType(transactionType);
             default:
@@ -282,8 +274,8 @@ public class TecnicardHostManager implements HostTxManager{
                     CustomeLogger.Output(CustomeLogger.OutputStates.Info, "--[TecnicardHostManager] success = " + success, null);
 
                     if (success) {
-                        if (transactionType != TransactionType.TECNICARD_RESTORE_CARD) {
-                            request.setTransactionType(TransactionType.TECNICARD_BALANCE_INQUIRY);
+                        if (transactionType != TransactionType.RESTORE_CARD) {
+                            request.setTransactionType(TransactionType.BALANCE_INQUIRY);
                             DirexTransactionResponse inquiryResponse = (DirexTransactionResponse) bizLogic.handle(request);
 
                             if (inquiryResponse.getTransactionData() != null) {

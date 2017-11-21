@@ -18,11 +18,13 @@ package com.smartbt.vtsuite.connector.mock;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
+import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.ws.history.details.CBHistTxnDtlInqMtvnSvcReq;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MockFissTransactionHistoryDetailsConnector implements Connector {
- 
+
     private static MockFissTransactionHistoryDetailsConnector INSTANCE;
 
     public static synchronized MockFissTransactionHistoryDetailsConnector get() {
@@ -31,12 +33,15 @@ public class MockFissTransactionHistoryDetailsConnector implements Connector {
         }
         return INSTANCE;
     }
- 
 
-    public void callWS(Map<ParameterName, Object> params) {
-        CBHistTxnDtlInqMtvnSvcReq request = RequestBuilder.buildTransactionHistoryDetailsRequest(params); 
-      
-        int a = 3;
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params) {
+        CBHistTxnDtlInqMtvnSvcReq request = RequestBuilder.buildTransactionHistoryDetailsRequest(params);
+        
+        Map<FissParam, Object> responseMap = new HashMap<>();
+        responseMap.put(FissParam.SUCCESS, true); 
+        responseMap.put(FissParam.RESULT_MESSAGE, "Fiss Success Message");
+ 
+        return responseMap;
     }
 
 }

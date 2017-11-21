@@ -1,6 +1,7 @@
 package com.smartbt.vtsuite.connector;
 
 import com.smartbt.girocheck.servercommon.enums.ParameterName; 
+import com.smartbt.vtsuite.util.FissParam;
 import java.util.Map;
 
 /**
@@ -9,5 +10,5 @@ import java.util.Map;
  */
 public interface Connector {
    
-    public void callWS(Map<ParameterName, Object> params);
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params);
 }

@@ -4,7 +4,7 @@ package com.smartbt.girocheck.servercommon.dao;
 
 import com.smartbt.girocheck.servercommon.model.Role;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
-import com.smartbt.vtsuite.servercommon.display.common.model.RoleDisplay;
+import com.smartbt.girocheck.servercommon.display.RoleDisplay;
 import com.smartbt.vtsuite.vtcommon.enums.EntityType;
 import java.util.LinkedList;
 import java.util.List;

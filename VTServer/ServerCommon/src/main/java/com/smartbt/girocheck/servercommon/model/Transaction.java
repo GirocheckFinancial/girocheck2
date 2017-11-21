@@ -216,10 +216,7 @@ public class Transaction extends BaseEntity{
     public String getIstream_id() {
         return istream_id;
     }
-
-    public void setSingle(boolean value) {
-        setSingle(new Boolean(value));
-    }
+ 
  
     public void setErrorCode(String value) {
         this.errorCode = value;

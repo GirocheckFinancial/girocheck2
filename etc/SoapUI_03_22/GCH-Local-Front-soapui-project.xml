@@ -854,6 +854,7 @@
             <password>omv168</password> 
             <requestId>2301151410</requestId> 
             <terminalId>soapui</terminalId> 
+            <amount>366</amount>
          </arg0>
       </scan:checkAuthLocationConfig>
    </soapenv:Body>

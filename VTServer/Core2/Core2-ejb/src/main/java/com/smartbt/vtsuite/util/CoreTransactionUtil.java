@@ -38,6 +38,7 @@ import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.jms.Queue;
@@ -48,10 +49,11 @@ import javax.jms.Queue;
  */
 public class CoreTransactionUtil {
 
-    public static void subTransactionFailed(Transaction transaction, DirexTransactionResponse response, Queue queue, String correlationId) throws Exception {
+    public static void subTransactionFailed(Transaction transaction, DirexTransactionResponse response, Queue queue, String correlationId, NomHost bankHost) throws Exception {
         if (queue != null) {
             response.setTransaction(null);
             System.out.println("CoreTransactionUtil :: subTransactionFailed  send(" + queue.getQueueName() + ", " + correlationId);
+           
             JMSManager.get().send(response, queue, correlationId);
         } else {
             System.out.println("CoreTransactionUtil :: subTransactionFailed  queue = null.");
@@ -66,7 +68,7 @@ public class CoreTransactionUtil {
         if (transaction != null && transaction.getSub_Transaction() != null) {
             for (SubTransaction subTransaction : transaction.getSub_Transaction()) {
                 //It should contain personalization and it should be success.
-                if (subTransaction.getType() == TransactionType.TECNICARD_CARD_PERSONALIZATION.getCode()
+                if (subTransaction.getType() == TransactionType.CARD_PERSONALIZATION.getCode()
                         && subTransaction.getResultCode() == ResultCode.SUCCESS.getCode()) {
                     sendCardRestoreBecauseCardPersonalizationFailed = true;
                 }
@@ -78,7 +80,7 @@ public class CoreTransactionUtil {
         }
 
         if (response != null
-                && !(response.getTransactionType() == TransactionType.GENERIC_CARD_VALIDATION && alreadyContainsFailedSubTransaction) //Avoid a second sub transaction register in this case
+                && !(response.getTransactionType() == TransactionType.CARD_VALIDATION && alreadyContainsFailedSubTransaction) //Avoid a second sub transaction register in this case
                 && response.getTransactionType() != null
                 && response.getTransactionType() != TransactionType.TRANSACTION_TYPE
                 && !transaction.containSubTransaction(response.getTransactionType())) { // si entra aki es pk alguna sub_transaccion especifica fallo.
@@ -89,7 +91,6 @@ public class CoreTransactionUtil {
             subTransaction.setErrorCode(response.getErrorCode());
             NomHost host = response.getTransactionType().getHost();
             subTransaction.setHost(host == null ? 0 : host.getId());
-            //subTransaction.setTransaction( transaction );
             transaction.addSubTransaction(subTransaction);
         }
 
@@ -99,16 +100,21 @@ public class CoreTransactionUtil {
 
         if (sendCardRestoreBecauseCardPersonalizationFailed && transaction.getData_sc1() != null) {
             System.out.println("Sending Tecnicard Restore because Personalization failed.");
-            Map data = new HashMap();
+            Map data = response.getTransactionData();//important
             data.put(ParameterName.CARD_NUMBER, transaction.getData_sc1().getCardNumber());
             data.put(ParameterName.REQUEST_ID, transaction.getRequestId());
 
             DirexTransactionRequest request = new DirexTransactionRequest();
             request.setTransactionData(data);
-            request.setTransactionType(TransactionType.TECNICARD_RESTORE_CARD);
+            request.setTransactionType(TransactionType.RESTORE_CARD);
             request.setCorrelation(transaction.getRequestId());
+
             try {
-                AbstractCommonBusinessLogic.callHost(request, NomHost.TECNICARD, AbstractCommonBusinessLogic.GENERIC_VALIDATION_WAIT_TIME, transaction);
+                if (bankHost == null) {
+                    bankHost = NomHost.FISS;
+                }
+                AbstractCommonBusinessLogic.callHost(request, bankHost, transaction);
+
             } catch (TransactionalException transactionalException) {
                 System.out.println("[CoreTransactionUtil].subTransactionFailed -> Caught TransactionalException");
                 if (transaction.getData_sc1() != null) {
@@ -124,7 +130,7 @@ public class CoreTransactionUtil {
                 //Two reasons for doing this:
                 //1-If personalization fails, Card needs to be removed from Data Base
                 //2-In the recursive call, this will avoid calling Texnicard's Restore Card Again
-                subTransactionFailed(transaction, transactionalException.getResponse(), null, null);
+                subTransactionFailed(transaction, transactionalException.getResponse(), null, null, null);
                 return;
             }
 
@@ -135,7 +141,7 @@ public class CoreTransactionUtil {
     }
 
     //For the case there is not Response
-    public static void subTransactionFailed(Transaction transaction, Queue queue, String correlationId, TransactionType transactionType, String exceptionMessage, ResultCode resultCode) throws Exception {
+    public static void subTransactionFailed(Transaction transaction, Queue queue, String correlationId, TransactionType transactionType, String exceptionMessage, ResultCode resultCode, NomHost bankHost) throws Exception {
         if (resultCode == null) {
             resultCode = ResultCode.FAILED;
         }
@@ -144,7 +150,7 @@ public class CoreTransactionUtil {
 
         response.setTransactionType(transactionType);
 
-        subTransactionFailed(transaction, response, queue, correlationId);
+        subTransactionFailed(transaction, response, queue, correlationId, bankHost);
     }
 
     public static void persistTransaction(Transaction transaction) throws Exception {
@@ -157,7 +163,7 @@ public class CoreTransactionUtil {
         ClientManager clientManager = ClientManager.get();
         transaction.setTransactionFinished(true);
         printTransaction(transaction);
-
+        Integer successfulLoads = null;
         boolean sendCardPersonalizeSMS = false;
         String smsMessage = null;
         Client client = null;
@@ -182,14 +188,14 @@ public class CoreTransactionUtil {
                         System.out.println("[CoreTransactionUtil] Successfull Check or Cash clientId = " + client.getId());
                         CreditCard card = transaction.getData_sc1();
 
-                        Integer successfulLoads = client.getSuccessfulLoads();
+                          successfulLoads = client.getSuccessfulLoads();
                         if (successfulLoads == null) {
                             successfulLoads = 0;
                         }
 
-                        client.setSuccessfulLoads(successfulLoads + 1);
+                        successfulLoads += 1;
 
-                        if (client.getSuccessfulLoads() == 2) {
+                        if (successfulLoads == 2) {
 
                             emailsToSend.add(EmailName.TWO_SUCCESSFUL_LOADS_TO_TECNICARD);
 
@@ -202,7 +208,7 @@ public class CoreTransactionUtil {
 
                         if (transaction.getSub_Transaction() != null) {
                             for (SubTransaction subTransaction : transaction.getSub_Transaction()) {
-                                if ((subTransaction.getType() == TransactionType.TECNICARD_CARD_PERSONALIZATION.getCode() || subTransaction.getType() == TransactionType.CARD_PERSONALIZATION.getCode())
+                                if (subTransaction.getType() == TransactionType.CARD_PERSONALIZATION.getCode()
                                         && subTransaction.getResultCode() == ResultCode.SUCCESS.getCode()) {
 
                                     if (persistentTerminal.getMerchant() != null) {
@@ -235,7 +241,7 @@ public class CoreTransactionUtil {
                     }
                 }
 
-                clientManager.saveOrUpdate(client);
+                clientManager.updateSuccessfulLoads(client.getId(), successfulLoads);
             }
 
             CreditCard cardToRemove = null;
@@ -253,12 +259,12 @@ public class CoreTransactionUtil {
                 CreditCardManager.get().delete(cardToRemove);
             }
 
-            if(transaction.getIdeologyResultId() != null && transaction.getIdeologyResultId() != 0) {
-                try{
+            if (transaction.getIdeologyResultId() != null && transaction.getIdeologyResultId() != 0) {
+                try {
                     IdeologyResultManager.get().setDisposition(transaction.getIdeologyResultId(), transaction.getResultCode() == ResultCode.SUCCESS.getCode());
-                }catch(Exception e){
+                } catch (Exception e) {
                     System.out.println("[CoreTransactionUtil] Failed to set IdeologyResult Disposition");
-                    e.printStackTrace(); 
+                    e.printStackTrace();
                 }
             }
 

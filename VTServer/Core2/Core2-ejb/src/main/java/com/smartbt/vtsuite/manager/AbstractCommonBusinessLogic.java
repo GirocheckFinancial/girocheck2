@@ -15,7 +15,6 @@ import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
 import com.smartbt.girocheck.servercommon.enums.ResultMessage;
 import com.smartbt.girocheck.servercommon.manager.CountryManager;
-import com.smartbt.girocheck.servercommon.manager.HostTxManager;
 import com.smartbt.girocheck.servercommon.manager.PersonalIdentificationManager;
 import com.smartbt.girocheck.servercommon.manager.StateManager;
 import com.smartbt.girocheck.servercommon.model.Transaction;
@@ -27,41 +26,36 @@ import javax.ejb.TransactionManagementType;
 import javax.jms.JMSException;
 import javax.jms.Queue;
 import com.smartbt.vtsuite.util.TransactionalException;
-import java.util.HashMap;
+import org.glassfish.grizzly.http.HttpServerFilter;
 
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactionBusinessLogic {
 
-//    protected int state = 0;
-    // WAITING TIMES
-    protected static final long TECNICARD_CONFIRMATION_WAIT_TIME = 180000;//3min
-    protected static final long ISTREAM_HOST_WAIT_TIME = 30000;//30sec
-    protected static final long WESTECH_HOST_WAIT_TIME = 30000;//30sec
-    protected static final long COMPLIANCE_HOST_WAIT_TIME = 30000;//30sec
-    protected static final long IDEOLOGY_HOST_WAIT_TIME = 30000;//30sec
-    protected static final long PERSONAL_INFO_WAIT_TIME = 420000;//7min 
-    protected static final long CHOICE_WAIT_TIME = 300000;//5min 
-    public static final long GENERIC_VALIDATION_WAIT_TIME = 60000;//1min
-    protected static final long GENERIC_CARD_LOAD_WAIT_TIME = 60000;//1min 
-    protected static final long CERTEGY_WAIT_TIME = 30000;//30sec
-    protected static final long CERTEGY_INFO_WAIT_TIME = 420000;//7min 
+    protected static final long TERMINAL_CONFIRMATION_WAIT_TIME = 180000;//3min 
+    protected static final long PERSONAL_INFO_WAIT_TIME = 420000;
 
     protected static CountryManager countryManager = CountryManager.get();
     protected static StateManager stateManager = StateManager.get();
     protected PersonalIdentificationManager personalIdentificationManager = PersonalIdentificationManager.get();
- 
-    public static DirexTransactionResponse callHost(DirexTransactionRequest request, NomHost host, long waitTime, Transaction transaction) throws JMSException, Exception {
+
+    public static DirexTransactionResponse callHost(DirexTransactionRequest request, NomHost host, Transaction transaction) throws JMSException, Exception {
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CORE2] Calling host:: " + host, null);
 
-        DirexTransactionResponse direxTransactionResponse = hostManagers.get(host).processTransaction(request);
+        DirexTransactionResponse response = hostManagers.get(host).processTransaction(request);
 
-        transaction.addSubTransactionList(direxTransactionResponse.getTransaction().getSub_Transaction());
+        transaction.addSubTransactionList(response.getTransaction().getSub_Transaction());
 
-        if (!direxTransactionResponse.wasApproved()) {
-            direxTransactionResponse.setTransactionType(request.getTransactionType());
-            throw new TransactionalException(direxTransactionResponse);
+        //important (make response data available fro subsequent request)
+        Map data = request.getTransactionData();
+        data.putAll(response.getTransactionData()); 
+        response.setTransactionData(data);
+
+        if (!response.wasApproved()) {
+            response.setTransactionType(request.getTransactionType());
+            throw new TransactionalException(response);
         }
-        return direxTransactionResponse;
+
+        return response;
     }
 
     protected void sendAnswerToTerminal(TransactionType transactionType, ResultCode resultCode, String estimated_posting_time, String correlationId) throws JMSException {
@@ -78,7 +72,7 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
 
         Queue queue;
 
-        if (transactionType == TransactionType.TECNICARD_CONFIRMATION) {
+        if (transactionType == TransactionType.TERMINAL_CONFIRMATION) {
             provissionalResponse.getTransactionData().put(ParameterName.PRINTLOGO, "01");
             queue = JMSManager.get().getCore2OutQueue();
         } else {
@@ -97,7 +91,7 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
         DirexTransactionRequest certegyRequest = request.clone();
         certegyRequest.setTransactionType(TransactionType.CERTEGY_REVERSE_REQUEST);
 
-        callHost(certegyRequest, NomHost.CERTEGY, CERTEGY_WAIT_TIME, transaction);
+        callHost(certegyRequest, NomHost.CERTEGY, transaction);
         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[AbstractCommonBusinessLogic] Response from CERTEGY, subTRANSACTION FINISHED. ", null);
 
     }
@@ -115,7 +109,7 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
 
         try {
             request.setTransactionType(TransactionType.COMPLIANCE_POST_TRANSACTION);
-            response = callHost(request, NomHost.COMPLIANCE, COMPLIANCE_HOST_WAIT_TIME, transaction);
+            response = callHost(request, NomHost.COMPLIANCE, transaction);
         } catch (Exception e) {
             String activateCompliance = System.getProperty("ACTIVATE_COMPLIANCE");
             System.out.println("AbstractCommonBusinessLogic() -> activateCompliance = " + activateCompliance);
@@ -141,7 +135,7 @@ public abstract class AbstractCommonBusinessLogic extends CoreAbstractTransactio
 
         try {
             request.setTransactionType(TransactionType.IDEOLOGY_VERYFY_CLIENT);
-            response = callHost(request, NomHost.IDEOLOGY, IDEOLOGY_HOST_WAIT_TIME, transaction);
+            response = callHost(request, NomHost.IDEOLOGY, transaction);
         } catch (Exception e) {
             String activateIdeology = System.getProperty("ACTIVATE_IDEOLOGY");
             System.out.println("AbstractCommonBusinessLogic() -> activateIdeology = " + activateIdeology);

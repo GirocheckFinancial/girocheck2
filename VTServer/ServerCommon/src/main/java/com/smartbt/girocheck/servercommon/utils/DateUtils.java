@@ -16,6 +16,7 @@
 package com.smartbt.girocheck.servercommon.utils;
 
 import com.smartbt.girocheck.servercommon.validators.utils.Validator;
+import com.smartbt.vtsuite.vtcommon.validator.RegExp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,6 +24,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
@@ -99,14 +102,29 @@ public class DateUtils {
         }
         return null;
     }
+ 
+    public static boolean isDate(String var) {
+        return matchPattern(var, RegExp.EXP_REG_DATE);
+    }
+
+    public static boolean isFullDate(String date) {
+        return matchPattern(date, RegExp.EXP_REG_FULL_DATE);
+    }
+
+    public static boolean matchPattern(String value, String regexpr) {
+        CharSequence inputStr = value;
+        Pattern pattern = Pattern.compile(regexpr);
+        Matcher matcher = pattern.matcher(inputStr);
+        return matcher.matches();
+    }
 
     public static String dateToISOFormat(Date date) {
         if (date == null) {
             return "";
         }
-        try { 
+        try {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            
+
             return df.format(date);
         } catch (Exception e) {
             return date.toString();

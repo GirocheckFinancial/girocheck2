@@ -19,20 +19,14 @@ import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.girocheck.servercommon.display.message.BaseResponse;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
 import com.smartbt.girocheck.servercommon.dao.PrivilegesDAO;
-import com.smartbt.girocheck.servercommon.validators.PrivilegesValidator;
-import com.smartbt.vtsuite.servercommon.utils.validators.SbtServerCommonValidators;
+import com.smartbt.girocheck.servercommon.validators.PrivilegesValidator; 
 import com.smartbt.vtsuite.vtcommon.Constants;
-import com.smartbt.vtsuite.vtcommon.enums.EntityType;
-import org.apache.log4j.Logger;
-
+import com.smartbt.vtsuite.vtcommon.enums.EntityType; 
 /**
  *
  * @author Ariel Saavedra
  */
-public class PrivilegesManager {
-
-//    private static final Logger log = Logger.getLogger(PrivilegesManager.class);
-    SbtServerCommonValidators validators = new SbtServerCommonValidators();
+public class PrivilegesManager { 
     private PrivilegesDAO privilegesDAO = PrivilegesDAO.get();
 
     public ResponseDataList searchRolePrivileges(EntityType entityType, boolean entityNotContain, int idRole, int pageNumber, int rowsPerPage) throws Exception {

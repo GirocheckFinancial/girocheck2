@@ -41,12 +41,12 @@ public class TransactionManager {
         try {
             Map map = new HashMap();
 
-            map.put(TransactionType.TRANSACTION_TYPE, TransactionType.TECNICARD_BALANCE_INQUIRY);
+            map.put(TransactionType.TRANSACTION_TYPE, TransactionType.BALANCE_INQUIRY);
             map.put(ParameterName.CARD_NUMBER, cardNumber);
             //This has to be unique
             map.put(ParameterName.REQUEST_ID, token);
             direxTransactionRequest.setTransactionData(map); 
-            direxTransactionRequest.setTransactionType(TransactionType.TECNICARD_BALANCE_INQUIRY);
+            direxTransactionRequest.setTransactionType(TransactionType.BALANCE_INQUIRY);
             System.out.println("[FrontMobile][TransactionManager:balanceEnquiry] -  card: ************" + cardNumber.substring(12));
 
             //DirexTransactionResponse technicardResponse = sendMessageToHost(direxTransactionRequest);
@@ -80,7 +80,7 @@ public class TransactionManager {
             if (card != null) {
                 System.out.println("[TransactionManager:transactionHistory] - CARD_MASK_NUMBER:- **********" + card.substring(12));
 
-                map.put(TransactionType.TRANSACTION_TYPE, TransactionType.TECNICARD_LAST_TRANSACTIONS);
+                map.put(TransactionType.TRANSACTION_TYPE, TransactionType.TRANSACTION_HISTORY);
                 map.put(ParameterName.CARD_NUMBER, card);
                 map.put(ParameterName.START_DATE, startDateStr);
                 map.put(ParameterName.END_DATE, endDateStr); 
@@ -90,7 +90,7 @@ public class TransactionManager {
                 map.put(ParameterName.MAX, limit);
 
                 direxTransactionRequest.setTransactionData(map); 
-                direxTransactionRequest.setTransactionType(TransactionType.TECNICARD_LAST_TRANSACTIONS);
+                direxTransactionRequest.setTransactionType(TransactionType.TRANSACTION_HISTORY);
 
                 System.out.println("Sending Transaction to Tecnicard HOST...");
                 technicardResponse = TecnicardHostManager.get().processTransaction(direxTransactionRequest);

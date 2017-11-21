@@ -19,6 +19,7 @@ import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
+import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.ws.history.hold.CBHoldListInqMtvnSvcReq;
 import com.smartbt.vtsuite.ws.history.hold.CBHoldListInqMtvnSvcRes;
 import com.smartbt.vtsuite.ws.history.hold.MtvnCWCBHoldListInqWSV2;
@@ -60,12 +61,12 @@ public class FissTransactionHistoryHoldConnector implements Connector {
 
     }
 
-    public void callWS(Map<ParameterName, Object> params) {
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params) {
         CBHoldListInqMtvnSvcReq request = RequestBuilder.buildTransactionHistoryHoldRequest(params);
 
         CBHoldListInqMtvnSvcRes response = port.cbHoldListInq(request);
 
-        int a = 3;
+        return null;
     }
 
 }

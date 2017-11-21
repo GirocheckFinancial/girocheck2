@@ -37,7 +37,7 @@ public class TecnicardConfirmationRequest implements IMap{
    public Map toMap() {
       Map map = new HashMap();
       
-        map.put(TransactionType.TRANSACTION_TYPE, TransactionType.TECNICARD_CONFIRMATION);
+        map.put(TransactionType.TRANSACTION_TYPE, TransactionType.TERMINAL_CONFIRMATION);
       
         map.put(ParameterName.USER, getUser());
         map.put(ParameterName.PASSWORD, getPassword());
@@ -54,7 +54,7 @@ public class TecnicardConfirmationRequest implements IMap{
      public Map mock() {
       Map map = new HashMap();
       
-        map.put(TransactionType.TRANSACTION_TYPE, TransactionType.TECNICARD_CONFIRMATION);
+        map.put(TransactionType.TRANSACTION_TYPE, TransactionType.TERMINAL_CONFIRMATION);
       
         map.put(ParameterName.USER, getUser());
         map.put(ParameterName.PASSWORD, getPassword());

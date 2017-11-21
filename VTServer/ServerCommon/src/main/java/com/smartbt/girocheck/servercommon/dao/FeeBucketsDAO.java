@@ -1,16 +1,11 @@
 package com.smartbt.girocheck.servercommon.dao;
 
-import com.smartbt.girocheck.servercommon.display.FeeScheduleDisplay;
-import com.smartbt.girocheck.servercommon.display.TerminalDisplay;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
 import com.smartbt.girocheck.servercommon.model.FeeBuckets;
 import com.smartbt.girocheck.servercommon.model.FeeBucketsDisplay;
 import com.smartbt.girocheck.servercommon.model.FeeSchedules;
-import com.smartbt.girocheck.servercommon.model.Merchant;
-import com.smartbt.girocheck.servercommon.model.Terminal;
-import com.smartbt.girocheck.servercommon.model.TransactionMethod;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
-import com.smartbt.vtsuite.common.VTSuiteMessages;
+import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;

@@ -33,6 +33,7 @@ public class RequestMapBuilder {
     public static Map<FissParam, String> buildParamsMap(Map<ParameterName, Object> params) {
         Map<FissParam, String> fissParams = new HashMap<>();
         fissParams.putAll(staticFissParams);
+        fissParams.put(FissParam.TRANSACTION_TYPE, params.get(ParameterName.TRANSACTION_TYPE).toString());
         fissParams.put(FissParam.MSG_UUID, FissUtil.generateUUID());
         fissParams.put(FissParam.REQUEST_ID, FissUtil.generateUUID());
         fissParams.put(FissParam.PASSWORD, FissUtil.FISS_PASSWORD);

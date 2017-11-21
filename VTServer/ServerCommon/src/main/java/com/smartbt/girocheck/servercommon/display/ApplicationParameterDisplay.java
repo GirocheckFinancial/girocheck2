@@ -14,12 +14,10 @@
  **
  */
 package com.smartbt.girocheck.servercommon.display;
-
-import com.smartbt.vtsuite.servercommon.display.common.model.*;
+ 
 import com.smartbt.vtsuite.vtcommon.enums.ApplicationType;
 import java.io.Serializable;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import javax.xml.bind.annotation.XmlRootElement; 
 
 /**
  * The Application Parameters Display Class - containing all sets/gets

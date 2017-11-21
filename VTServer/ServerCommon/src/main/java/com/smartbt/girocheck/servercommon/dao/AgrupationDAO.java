@@ -13,13 +13,10 @@
 package com.smartbt.girocheck.servercommon.dao;
 
 import com.smartbt.girocheck.servercommon.display.AgrupationDisplay;
-import com.smartbt.girocheck.servercommon.model.Agrupation;
-import com.smartbt.girocheck.servercommon.model.Merchant;
-import com.smartbt.girocheck.servercommon.model.Terminal;
+import com.smartbt.girocheck.servercommon.model.Agrupation; 
 import com.smartbt.girocheck.servercommon.model.Transaction;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
-import com.smartbt.vtsuite.servercommon.display.common.model.TransactionDisplay;
-import com.smartbt.vtsuite.vtcommon.enums.EntityType;
+import com.smartbt.girocheck.servercommon.display.TransactionDisplay; 
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;

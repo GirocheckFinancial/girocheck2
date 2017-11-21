@@ -16,18 +16,15 @@
 package com.smartbt.vtsuite.connector.mock;
 
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
-import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
+import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.ws.setPin.CBPinOffsetChgMtvnSvcReq;
-import com.smartbt.vtsuite.ws.setPin.CBPinOffsetChgMtvnSvcRes;
-import com.smartbt.vtsuite.ws.setPin.MtvnCWCBPinOffsetChgWSV1;
-import com.smartbt.vtsuite.ws.setPin.MtvnCWCBPinOffsetChgWSV1Interface;
+import java.util.HashMap;
 import java.util.Map;
-import javax.xml.ws.BindingProvider;
 
 public class MockSetPinConnector implements Connector {
- 
+
     private static MockSetPinConnector INSTANCE;
 
     public static synchronized MockSetPinConnector get() {
@@ -36,12 +33,16 @@ public class MockSetPinConnector implements Connector {
         }
         return INSTANCE;
     }
- 
 
-    public void callWS(Map<ParameterName, Object> params){
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params) {
         CBPinOffsetChgMtvnSvcReq request = RequestBuilder.buildSetPinRequest(params);
+
+        
+        Map<FissParam, Object> responseMap = new HashMap<>();
+        responseMap.put(FissParam.SUCCESS, true); 
+        responseMap.put(FissParam.RESULT_MESSAGE, "Fiss Success Message");
  
-        int a = 3;
+        return responseMap;
     }
 
 }

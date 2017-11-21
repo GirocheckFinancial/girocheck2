@@ -51,8 +51,7 @@ public class TransactionDisplay implements Serializable {
     private String accountSuffix;
     private Double ammount;
     private Double feeAmmount;
-    private Double payoutAmmount;
-    private Boolean single;
+    private Double payoutAmmount; 
     private Integer resultCode;
     private String resultMessage;
     
@@ -191,21 +190,7 @@ public class TransactionDisplay implements Serializable {
     public void setPayoutAmmount( Double payoutAmmount ) {
         this.payoutAmmount = payoutAmmount;
     }
-
-    /**
-     * @return the single
-     */
-    public Boolean getSingle() {
-        return single;
-    }
-
-    /**
-     * @param single the single to set
-     */
-    public void setSingle( Boolean single ) {
-        this.single = single;
-    }
-
+ 
     /**
      * @return the resultCode
      */

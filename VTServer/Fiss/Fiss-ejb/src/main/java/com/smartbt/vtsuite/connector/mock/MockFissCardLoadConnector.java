@@ -15,23 +15,16 @@
  */
 package com.smartbt.vtsuite.connector.mock;
 
-import com.smartbt.vtsuite.connector.prod.*;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
-import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
+import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.ws.cardLoad.CBPrpdLdUnldMtvnSvcReq;
-import com.smartbt.vtsuite.ws.cardLoad.CBPrpdLdUnldMtvnSvcRes;
-import com.smartbt.vtsuite.ws.cardLoad.MtvnCWCBPrpdLdUnldWSV3;
-import com.smartbt.vtsuite.ws.cardLoad.MtvnCWCBPrpdLdUnldWSV3Interface;
+import java.util.HashMap;
 import java.util.Map;
-import javax.xml.ws.BindingProvider;
 
 public class MockFissCardLoadConnector implements Connector {
-
-    private MtvnCWCBPrpdLdUnldWSV3Interface port;
-    private MtvnCWCBPrpdLdUnldWSV3 service;
-
+ 
     private static MockFissCardLoadConnector INSTANCE;
 
     public static synchronized MockFissCardLoadConnector get() {
@@ -40,33 +33,16 @@ public class MockFissCardLoadConnector implements Connector {
         }
         return INSTANCE;
     }
+ 
 
-    public MockFissCardLoadConnector() {
-        String url = "";
-        try {
-            service = new MtvnCWCBPrpdLdUnldWSV3();
-            port = service.getMtvnCWCBPrpdLdUnldWSV3Port();
-
-            url = "https://xmlgateway.metavante.org/ConnectwareWS/CBPrpdLdUnldWSV3";
-            CustomeLogger.Output(CustomeLogger.OutputStates.Debug, ">[FissCardLoadConnector] URL: " + url, null);
-
-            BindingProvider bindingProvider = (BindingProvider) port;
-            bindingProvider.getRequestContext().put(
-                    BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-                    url);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-    }
-
-    public void callWS(Map<ParameterName, Object> params){
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params) {
         CBPrpdLdUnldMtvnSvcReq request = RequestBuilder.buildCardLoadRequest(params);
+        Double amount = (Double)params.get(ParameterName.AMMOUNT);
+        Map<FissParam, Object> responseMap = new HashMap<>();
+        responseMap.put(FissParam.SUCCESS, false);
+        responseMap.put(FissParam.RESULT_MESSAGE, "Fiss Success Message");
 
-        CBPrpdLdUnldMtvnSvcRes response = port.cbPrpdLdUnld(request);
-
-        int a = 3;
+        return responseMap;
     }
 
 }

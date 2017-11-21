@@ -11,7 +11,7 @@ import com.smartbt.girocheck.servercommon.dao.TransactionDAO;
 import com.smartbt.girocheck.servercommon.display.TransactionImagesDisplay;
 import com.smartbt.girocheck.servercommon.display.message.ResponseData;
 import com.smartbt.girocheck.servercommon.utils.ImgConvTiffToPng;
-import com.smartbt.vtsuite.common.VTSuiteMessages;
+import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

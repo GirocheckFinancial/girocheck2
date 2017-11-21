@@ -14,8 +14,7 @@
  **
  */
 package com.smartbt.girocheck.servercommon.i18n;
-
-import com.smartbt.girocheck.servercommon.dao.SystemPropertyDAO;
+ 
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -36,7 +35,7 @@ public class I18N {
      * @return ResourceBundle
      */
     private static ResourceBundle createResourceBundle() {
-        String dbLocale = SystemPropertyDAO.get().searchSysProperty("LOCALE");
+        String dbLocale = null;// SystemPropertyDAO.get().searchSysProperty("LOCALE");
         currentLocale = (dbLocale == null || dbLocale.isEmpty()) ? Locale.getDefault() : Locale.forLanguageTag(dbLocale);
         return ResourceBundle.getBundle("com.smartbt.girocheck.servercommon.i18n.Messages", currentLocale);
     }

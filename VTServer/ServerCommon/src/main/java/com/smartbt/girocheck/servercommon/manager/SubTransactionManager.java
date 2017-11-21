@@ -16,7 +16,7 @@ package com.smartbt.girocheck.servercommon.manager;
 import com.smartbt.girocheck.servercommon.dao.SubTransactionDAO;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
 import com.smartbt.girocheck.servercommon.model.SubTransaction;
-import com.smartbt.vtsuite.common.VTSuiteMessages;
+import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.util.Date;
 

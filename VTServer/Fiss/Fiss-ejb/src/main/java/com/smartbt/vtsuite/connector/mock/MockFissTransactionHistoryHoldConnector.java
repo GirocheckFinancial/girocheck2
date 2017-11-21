@@ -16,9 +16,9 @@
 package com.smartbt.vtsuite.connector.mock;
 
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
-import com.smartbt.vtsuite.requestBuilder.TransactionHistoryHoldReqBuilder;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
+import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.ws.history.hold.CBHoldListInqMtvnSvcReq;
 import java.util.Map;
 
@@ -34,8 +34,9 @@ public class MockFissTransactionHistoryHoldConnector implements Connector {
     }
 
     @Override
-    public void callWS(Map<ParameterName, Object> params) {
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params) {
         CBHoldListInqMtvnSvcReq request = RequestBuilder.buildTransactionHistoryHoldRequest(params);
+        return null;
     }
 
 }

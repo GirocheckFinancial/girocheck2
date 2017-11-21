@@ -55,6 +55,10 @@ public class ClientManager {
         return clientDAO.createOrGet(ssn, addressForm);
     }
 
+    public void updateSuccessfulLoads(Integer clientId, Integer successfulLoads){
+        clientDAO.updateSuccessfulLoads(clientId, successfulLoads);
+    }
+    
     public void saveOrUpdate(Client client) {
         client.setBlacklistCard2bank(false);
         if (client.getAddress() != null) {
@@ -72,106 +76,9 @@ public class ClientManager {
                     client.getAddress().setState(null);
                 }
             }
-        }
-
-//        PersonalIdentification transientIdentification = null;
-//        if ( client.getData_SD().size() > 0 ) {
-//            transientIdentification = (PersonalIdentification) ( client.getData_SD().toArray()[0] );
-//
-//            personalIdentificationDAO.removeByClientAndType( client.getId(), transientIdentification.getIdType() );
-//            System.out.println( "after remove" );
-//
-//            if ( transientIdentification.getState() != null ) {
-//                System.out.println( "--------:: transientIdentification.getState().getAbbreviation() :: " + transientIdentification.getState().getAbbreviation() );
-//                State state = stateDAO.getByAbbreviation( transientIdentification.getState().getAbbreviation() );
-//                System.out.println( "STATE = " + ( state == null ? "NLL" : "NOT NULL" ) );
-//                if ( state != null ) {
-//                    transientIdentification.setState( state );
-//                } else {
-//                    transientIdentification.setState( null );
-//                }
-//            } else {
-//                System.out.println( "transientIdentification.getState() is NULL" );
-//            }
-//            transientIdentification.setClient( client );
-//        }
-
+        } 
         clientDAO.saveOrUpdate(client);
-    }
-//
-//    public void saveOrUpdate( Client client ) {
-//
-//        if ( client.getAddress() != null ) {
-//            if ( client.getAddress().getCountry() != null && client.getAddress().getCountry().getAbbreviation() != null ) {
-//                Country country = countryDAO.getByAbbreviation( client.getAddress().getCountry().getAbbreviation() );
-//                if ( country != null ) {
-//                    client.getAddress().setCountry( country );
-//                }
-//            }
-//            if ( client.getAddress().getState() != null && client.getAddress().getState().getAbbreviation() != null ) {
-//                State state = stateDAO.getByAbbreviation( client.getAddress().getState().getAbbreviation() );
-//                if ( state != null ) {
-//                    client.getAddress().setState( state );
-//                }
-//            }
-//        }
-//
-//        if ( client.getData_SD().size() > 0 ) {
-//            PersonalIdentification transientIdentification = (PersonalIdentification) ( client.getData_SD().toArray()[0] );
-//
-//           //PersonalIdentification identificationPointer = new PersonalIdentification();
-//            PersonalIdentification persistentPersonalIdentification = personalIdentificationDAO.getByClientAndType( client.getId(), transientIdentification.getIdType() );
-//
-//            
-//            System.out.println( "persistentPersonalIdentification :: " + (persistentPersonalIdentification == null ? "NLL " : "NOT NULL") );
-//            
-//            if ( persistentPersonalIdentification != null ) {
-//                
-//                if ( transientIdentification.getIdentification() != null ) {
-//                    persistentPersonalIdentification.setIdentification( transientIdentification.getIdentification() );
-//                }
-//                if ( transientIdentification.getState() != null ) {
-//                    State state = stateDAO.getByAbbreviation( transientIdentification.getState().getAbbreviation() );
-//                    if ( state != null ) {
-//                        persistentPersonalIdentification.setState( state );
-//                    }
-//                }
-//                if ( transientIdentification.getExpirationDate() != null ) {
-//                    persistentPersonalIdentification.setExpirationDate( transientIdentification.getExpirationDate() );
-//                }
-//                if ( transientIdentification.getIdFront() != null ) {
-//                    persistentPersonalIdentification.setIdFront( transientIdentification.getIdFront() );
-//                }
-//                if ( transientIdentification.getIdBack() != null ) {
-//                    persistentPersonalIdentification.setIdBack( transientIdentification.getIdBack() );
-//                }
-//                
-//                persistentPersonalIdentification.setClient( client );
-//                
-//                Set<PersonalIdentification> set  = new HashSet<PersonalIdentification>();
-//                set.add( persistentPersonalIdentification);
-//                
-//                client.setData_SD( set );
-//               // personalIdentificationDAO.saveOrUpdate( persistentPersonalIdentification );
-//            } else {
-//                if ( transientIdentification.getState() != null ) {
-//                    System.out.println( "--------:: transientIdentification.getState().getAbbreviation() :: " + transientIdentification.getState().getAbbreviation() );
-//                    State state = stateDAO.getByAbbreviation( transientIdentification.getState().getAbbreviation() );
-//                    System.out.println( "STATE = " + (state == null ? "NLL" : "NOT NULL")  );
-//                    if ( state != null ) {
-//                        transientIdentification.setState( state );
-//                    }
-//                }
-//                transientIdentification.setClient( client );
-//              //  personalIdentificationDAO.saveOrUpdate( transientIdentification );
-//            }
-//
-//        }
-//        
-//        System.out.println( ":: ClientManager :: cliet  = " + (client == null ? " NULL " : " NUT NULL") );
-////        clientDAO.saveOrUpdate( client );
-//        clientDAO.merge(client );
-//    }
+    } 
 
     public ResponseDataList searchClients(String searchFilter, int pageNumber, int rowsPerPage, Integer blackListCode, Boolean optOut) throws Exception {
 

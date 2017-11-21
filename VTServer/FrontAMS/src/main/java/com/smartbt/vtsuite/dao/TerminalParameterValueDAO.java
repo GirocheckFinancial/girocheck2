@@ -1,13 +1,9 @@
 package com.smartbt.vtsuite.dao;
 
-import com.smartbt.girocheck.servercommon.dao.BaseDAO;
-import com.smartbt.vtsuite.servercommon.model.MerchantParameterValue;
-import com.smartbt.vtsuite.servercommon.model.TerminalParameterValue;
+import com.smartbt.girocheck.servercommon.dao.BaseDAO; 
+import com.smartbt.girocheck.servercommon.model.TerminalParameterValue;
 
-import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
-import java.util.List;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
+import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil; 
 
 /**
  *

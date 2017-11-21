@@ -19,12 +19,11 @@ import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
+import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.ws.history.general.CBHistTxnInqMtvnSvcReq;
 import com.smartbt.vtsuite.ws.history.general.CBHistTxnInqMtvnSvcRes;
 import com.smartbt.vtsuite.ws.history.general.MtvnCWCBHistTxnInqWSV7;
 import com.smartbt.vtsuite.ws.history.general.MtvnCWCBHistTxnInqWSV7Interface;
-import com.smartbt.vtsuite.ws.history.hold.CBHoldListInqMtvnSvcReq;
-import com.smartbt.vtsuite.ws.history.hold.CBHoldListInqMtvnSvcRes;
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
@@ -62,11 +61,11 @@ public class FissTransactionHistoryGeneralConnector implements Connector {
 
     }
 
-    public void callWS(Map<ParameterName, Object> params) {
+    public   Map<FissParam, Object>  callWS(Map<ParameterName, Object> params) {
         CBHistTxnInqMtvnSvcReq request = RequestBuilder.buildTransactionHistoryGeneralRequest(params); 
         CBHistTxnInqMtvnSvcRes response = port.cbHistTxnInq(request);
 
-        int a = 3;
+        return null;
     }
 
 }

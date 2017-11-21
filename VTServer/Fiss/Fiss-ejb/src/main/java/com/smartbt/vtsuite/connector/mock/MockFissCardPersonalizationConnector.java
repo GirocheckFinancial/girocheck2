@@ -18,7 +18,9 @@ package com.smartbt.vtsuite.connector.mock;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
+import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgMtvnSvcReq;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MockFissCardPersonalizationConnector implements Connector {
@@ -33,10 +35,15 @@ public class MockFissCardPersonalizationConnector implements Connector {
     }
  
 
-    public void callWS(Map<ParameterName, Object> params){
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params){
         CBNmeAddrChgMtvnSvcReq request = RequestBuilder.buildCardPersonalizationRequest(params);
  
-        int a = 3;
+       
+        Map<FissParam, Object> responseMap = new HashMap<>();
+        responseMap.put(FissParam.SUCCESS, true); 
+        responseMap.put(FissParam.RESULT_MESSAGE, "Fiss Success Message");
+ 
+        return responseMap;
     }
 
 }

@@ -16,7 +16,7 @@ import com.smartbt.girocheck.servercommon.display.InventoryDisplay;
 import com.smartbt.girocheck.servercommon.model.Merchant;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
-import com.smartbt.vtsuite.common.VTSuiteMessages;
+import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.util.List;
 import org.hibernate.Criteria;

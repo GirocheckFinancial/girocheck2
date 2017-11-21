@@ -17,8 +17,7 @@ package com.smartbt.vtsuite.controller;
 
 import com.smartbt.girocheck.servercommon.display.message.BaseResponse;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
-import com.smartbt.girocheck.servercommon.manager.PrivilegesManager;
-import com.smartbt.vtsuite.utils.AuditLogMessage;
+import com.smartbt.girocheck.servercommon.manager.PrivilegesManager; 
 import com.smartbt.vtsuite.vtcommon.enums.EntityType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

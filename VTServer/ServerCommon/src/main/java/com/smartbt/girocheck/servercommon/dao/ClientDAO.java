@@ -50,6 +50,15 @@ public class ClientDAO extends BaseDAO<Client> {
         }
         return dao;
     }
+    
+    public void updateSuccessfulLoads(Integer clientId, Integer successfulLoads){ 
+        try {
+            HibernateUtil.getSession().createQuery("update Client set successfulLoads = " + successfulLoads + " where id = " + clientId).executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+          
+    }
 
     public Client createOrGet(String ssn, byte[] addressForm) throws SQLException {
 

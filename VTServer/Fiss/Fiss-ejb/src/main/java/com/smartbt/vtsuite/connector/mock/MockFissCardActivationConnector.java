@@ -15,21 +15,12 @@
  */
 package com.smartbt.vtsuite.connector.mock;
 
-import com.smartbt.vtsuite.connector.prod.*;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
-import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
-import com.smartbt.vtsuite.ws.balanceInquiry.CBAcctInqMtvnSvcReq;
-import com.smartbt.vtsuite.ws.balanceInquiry.CBAcctInqMtvnSvcRes;
-import com.smartbt.vtsuite.ws.balanceInquiry.MtvnCWCBAcctInqWSV15;
-import com.smartbt.vtsuite.ws.balanceInquiry.MtvnCWCBAcctInqWSV15Interface;
-import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgMtvnSvcReq;
-import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgMtvnSvcRes;
-import com.smartbt.vtsuite.ws.cardPersonalization.MtvnCWCBNmeAddrChgWSV13;
-import com.smartbt.vtsuite.ws.cardPersonalization.MtvnCWCBNmeAddrChgWSV13Interface;
+import com.smartbt.vtsuite.util.FissParam;
+import java.util.HashMap;
 import java.util.Map;
-import javax.xml.ws.BindingProvider;
 
 public class MockFissCardActivationConnector implements Connector {
 
@@ -42,10 +33,14 @@ public class MockFissCardActivationConnector implements Connector {
         return INSTANCE;
     }
 
-    public void callWS(Map<ParameterName, Object> params) {
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params) {
         RequestBuilder.buildCardActivationRequest(params);
 
-        int a = 3;
+        Map<FissParam, Object> responseMap = new HashMap<>();
+        responseMap.put(FissParam.SUCCESS, true); 
+        responseMap.put(FissParam.RESULT_MESSAGE, "Fiss Success Message");
+ 
+        return responseMap;
     }
 
 }

@@ -7,7 +7,7 @@ package com.smartbt.vtsuite.controller;
 import com.smartbt.girocheck.servercommon.display.message.BaseResponse;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
 import com.smartbt.vtsuite.manager.CheckResendManager;
-import com.smartbt.vtsuite.servercommon.utils.DateUtils;
+import com.smartbt.girocheck.servercommon.utils.DateUtils;
 import java.security.NoSuchAlgorithmException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,16 +27,9 @@ import javax.xml.bind.ValidationException;
  */
 @Path("VTAMS")
 public class CheckResendController {
-
-    @Context
-    private HttpHeaders context;
-    @Context
-    private HttpServletResponse response;
-    @Context
-    private HttpServletRequest request;
+ 
     private CheckResendManager manager = new CheckResendManager();
-    @Context
-    private SecurityContext securityContext;
+ 
     private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(com.smartbt.vtsuite.controller.CheckResendController.class);
 
     /**

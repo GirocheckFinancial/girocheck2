@@ -15,14 +15,15 @@
  */
 package com.smartbt.vtsuite.manager;
 
-import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.enums.ResultCode;
-import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
 import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.connector.ConnectorFactory;
+import com.smartbt.vtsuite.util.CardLoadType;
+import com.smartbt.vtsuite.util.FissParam;
+import com.smartbt.vtsuite.util.FissPrintUtil;
 import com.smartbt.vtsuite.util.FissUtil;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public class FissBusinessLogic {
 //        request.setTransactionType(TransactionType.TRANSACTION_HISTORY);
 
         Map params = new HashMap();
-        params.put(ParameterName.CARD_NUMBER, "1111111111111111");
+        params.put(ParameterName.CARD_NUMBER, "5400290040068571");
         params.put(ParameterName.FIRST_NAME, "Roberto");
         params.put(ParameterName.LAST_NAME, "Rodriguez");
         params.put(ParameterName.ADDRESS, "9842 Palmetto Club Dr");
@@ -58,7 +59,7 @@ public class FissBusinessLogic {
 
         request.setTransactionData(params);
 
-        FissBusinessLogic.get().process(request);
+        //  FissBusinessLogic.get().process(request);
     }
 
     public static synchronized FissBusinessLogic get() {
@@ -68,69 +69,80 @@ public class FissBusinessLogic {
         return INSTANCE;
     }
 
-    public DirexTransactionResponse process(DirexTransactionRequest request) throws Exception {
+    public Map<FissParam, Object> process(TransactionType transactionType, DirexTransactionRequest request) throws Exception {
         Map transactionData = request.getTransactionData();
-        DirexTransactionResponse direxTransactionResponse = new DirexTransactionResponse();
+        transactionData.put(ParameterName.TRANSACTION_TYPE, transactionType);
 
-        TransactionType transactionType = request.getTransactionType();
-
-        Map responseMap = null;
+        Map<FissParam, Object> responseMap = null;
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[FissBusinessLogic] proccessing:: " + transactionType, null);
 
         switch (transactionType) {
-            case TECNICARD_BALANCE_INQUIRY:
-            case GENERIC_CARD_VALIDATION:
+            case BALANCE_INQUIRY://ok
+            case CARD_VALIDATION:
                 responseMap = balanceInquiryCardValidation(transactionData);
                 break;
-            case TRANSACTION_HISTORY:
+            case TRANSACTION_HISTORY://to last
                 responseMap = transactionHistory(transactionData);
                 break;
-            case CARD_PERSONALIZATION:
+            case CARD_PERSONALIZATION://ok
                 responseMap = cardPersonalization(transactionData);
                 break;
-            case CARD_ACTIVATION:
-                responseMap = cardActivtion(transactionData);
+            case CARD_ACTIVATION://ok
+                responseMap = cardActivation(transactionData);
                 break;
-            case GENERIC_CARD_LOAD:
+            case CARD_LOAD://ok
                 responseMap = cardLoad(transactionData);
-                break; 
-            case CARD_CASHING:
-            case TECNICARD_CARD_TO_BANK:
+                break;
+            case CARD_TO_BANK:
                 responseMap = cardCashing(transactionData);
                 break;
-            case FISS_SET_PRODUCT_ID:
+            case FISS_SET_PRODUCT_ID://not need for now
                 responseMap = setProductId(transactionData);
                 break;
-            case FISS_CHANGE_PASSWORD:
+            case FISS_CHANGE_PASSWORD://need to do a job for this
                 responseMap = changePassword(transactionData);
                 break;
-            case FISS_SET_PIN:
+            case FISS_SET_PIN://ok
                 responseMap = setPin(transactionData);
+                break;
+            case RESTORE_CARD://ok
+                responseMap = restoreCard(transactionData);
                 break;
 
         }
 
-        CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[FissBusinessLogic] Finish " + transactionType, null);
+        return responseMap;
+    }
 
-        direxTransactionResponse.setResultCode(ResultCode.SUCCESS);
-        direxTransactionResponse.setResultMessage(VTSuiteMessages.SUCCESS);
+    private Map balanceInquiryCardValidation(Map params) {
+        System.out.println("balanceInquiryCardValidation...");
+        TransactionType transactionType = (TransactionType) params.get(ParameterName.TRANSACTION_TYPE);
+        Map<FissParam, Object> responseMap = ConnectorFactory.getBalanceInquiryConnector().callWS(params);
 
-        if (responseMap != null) {
-            direxTransactionResponse.getTransactionData().putAll(responseMap);
+        FissPrintUtil.printResponse(transactionType + "_RESPONSE", responseMap);
+
+        if ((Boolean) responseMap.get(FissParam.SUCCESS) == true) {
+            Map<ParameterName, Object> fissData = (Map<ParameterName, Object>) responseMap.get(FissParam.FISS_PERSONAL_INFO_DATA);
+
+            System.out.println("responseMap.containsKey(FissParam.RESULT_CODE) = " + responseMap.containsKey(FissParam.RESULT_CODE));
+            System.out.println("((Integer) responseMap.get(FissParam.RESULT_CODE) == 1 = " + (((Integer) responseMap.get(FissParam.RESULT_CODE)) == 1));
+            System.out.println("params.get(ParameterName.SSN) = " + params.get(ParameterName.SSN));
+            System.out.println("fissData.get(FissParam.SSN) = " + fissData.get(FissParam.SSN));
+            System.out.println("!params.get(ParameterName.SSN).equals(fissData.get(FissParam.SSN))) = " + !params.get(ParameterName.SSN).equals(fissData.get(FissParam.SSN)));
+
+            if (fissData == null
+                    || (responseMap.containsKey(FissParam.RESULT_CODE) && ((Integer) responseMap.get(FissParam.RESULT_CODE) == 1)
+                    && !params.get(ParameterName.SSN).equals(fissData.get(ParameterName.SSN)))) {
+                responseMap.put(FissParam.SUCCESS, false);
+                responseMap.put(FissParam.RESULT_CODE, ResultCode.FISS_HOST_UNEXPECTED_RESULT_CODE);
+                responseMap.put(FissParam.RESULT_MESSAGE, "Fiss Card Holder SSN doesn't match.");
+            }
         }
-
-        return direxTransactionResponse;
+        return responseMap;
     }
 
-    public Map balanceInquiryCardValidation(Map params) {
-        System.out.println("[FissBusinessLogic] balanceInquiryCardValidation");
-        Map result = new HashMap();
-        ConnectorFactory.getBalanceInquiryConnector().callWS(params);
-        return result;
-    }
-
-    public Map transactionHistory(Map params) {
+    private Map transactionHistory(Map params) {
         System.out.println("[FissBusinessLogic] transactionHistory");
         Map result = new HashMap();
         ConnectorFactory.getTransactionHistoryHoldConnector().callWS(params);
@@ -141,41 +153,68 @@ public class FissBusinessLogic {
         return result;
     }
 
-    public Map cardPersonalization(Map params) {
+    private Map cardPersonalization(Map params) {
         System.out.println("[FissBusinessLogic] cardPersonalization");
-        Map result = new HashMap();
-
-        ConnectorFactory.getCardPersonalizationConnector().callWS(params);
-
-        return result;
+        Map<FissParam, Object> responseMap = ConnectorFactory.getCardPersonalizationConnector().callWS(params);
+        FissPrintUtil.printResponse("CARD_PERSONALIZATION_RESPONSE", responseMap);
+        return responseMap;
     }
 
-    public Map setProductId(Map params) {
+    private Map restoreCard(Map params) {
+        System.out.println("[FissBusinessLogic] restoreCard");
+        Map<ParameterName, String> fissPersonalInfoData = (Map<ParameterName, String>) params.get(ParameterName.FISS_PERSONAL_INFO_DATA);
+
+        params.putAll(fissPersonalInfoData);
+
+        Map<FissParam, Object> responseMap = ConnectorFactory.getCardPersonalizationConnector().callWS(params);
+        FissPrintUtil.printResponse("RESTORE_CARD_RESPONSE", responseMap);
+        return responseMap;
+    }
+
+    private Map setProductId(Map params) {
         System.out.println("[FissBusinessLogic] setProductId");
-        Map result = new HashMap();
-
-        ConnectorFactory.getSetProductIdConnector().callWS(params);
-
-        return result;
+        Map<FissParam, Object> responseMap = ConnectorFactory.getSetProductIdConnector().callWS(params);
+        FissPrintUtil.printResponse("SET_PRODUCT_ID_RESPONSE", responseMap);
+        return responseMap;
     }
 
-    public Map cardActivtion(Map params) {
+    private Map cardActivation(Map params) {
         System.out.println("[FissBusinessLogic] cardActivtion");
-        Map result = new HashMap();
-
-        ConnectorFactory.getCardActivationConnector().callWS(params);
-        return result;
+        Map<FissParam, Object> responseMap = ConnectorFactory.getCardActivationConnector().callWS(params);
+        FissPrintUtil.printResponse("CARD_ACTIVATION_RESPONSE", responseMap);
+        return responseMap;
     }
 
-    public Map cardLoad(Map params) {
+    private Map cardLoad(Map params) {
         System.out.println("[FissBusinessLogic] cardLoad");
-        Map result = new HashMap();
 
-        ConnectorFactory.getCardLoadConnector().callWS(params);
-        return result;
+        String operation = (String) params.get(ParameterName.OPERATION);
+        Boolean isCheck = operation.equals("01");
+
+        Map<FissParam, Object> responseMap;
+
+        if (isCheck) {
+            params.put(ParameterName.REQUEST_TYPE, ParameterName.AMMOUNT);
+            responseMap = ConnectorFactory.getCardLoadConnector().callWS(params);
+        } else {
+            //TODO implement cash
+            responseMap = null;
+        }
+        FissPrintUtil.printResponse("CARD_LOAD_RESPONSE", responseMap);
+
+        if (responseMap != null && responseMap.containsKey(FissParam.SUCCESS)
+                && (Boolean) responseMap.get(FissParam.SUCCESS) == true) {
+
+            params.put(ParameterName.REQUEST_TYPE, ParameterName.FEE_AMMOUNT);
+
+            responseMap = ConnectorFactory.getCardLoadConnector().callWS(params);
+            FissPrintUtil.printResponse("CARD_LOAD_FEE_RESPONSE", responseMap);
+        }
+
+        return responseMap;
     }
 
-    public Map cardCashing(Map params) {
+    private Map cardCashing(Map params) {
         System.out.println("[FissBusinessLogic] cardCashing");
         Map result = new HashMap();
 
@@ -183,17 +222,15 @@ public class FissBusinessLogic {
     }
 
     private Map changePassword(Map transactionData) {
-        Map result = new HashMap();
-
-        ConnectorFactory.getChangePasswordConnector().callWS(transactionData);
-        return result;
+        Map<FissParam, Object> responseMap = ConnectorFactory.getChangePasswordConnector().callWS(transactionData);
+        FissPrintUtil.printResponse("CHANGE_PASSWORD_RESPONSE", responseMap);
+        return responseMap;
     }
 
     private Map setPin(Map transactionData) {
-        Map result = new HashMap();
-
-        ConnectorFactory.getSetPinConnector().callWS(transactionData);
-        return result;
+        Map<FissParam, Object> responseMap = ConnectorFactory.getSetPinConnector().callWS(transactionData);
+        FissPrintUtil.printResponse("SET_PIN_RESPONSE", responseMap);
+        return responseMap;
     }
 
 }

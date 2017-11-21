@@ -10,7 +10,7 @@ import com.smartbt.girocheck.servercommon.model.Merchant;
 import com.smartbt.girocheck.servercommon.model.TransactionMethod;
 import com.smartbt.girocheck.servercommon.model.User;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
-import com.smartbt.vtsuite.common.VTSuiteMessages;
+import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.vtsuite.vtcommon.Constants;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;

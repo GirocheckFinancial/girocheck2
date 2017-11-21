@@ -94,33 +94,30 @@ public class TecnicardBusinessLogic extends AbstractBusinessLogicModule {
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[TecnicardBusinessLogic] proccessing:: " + transactionType, null);
 
         switch (transactionType) {
-            case TECNICARD_CARD_ACTIVATION:
+            case CARD_ACTIVATION:
                 response = wmCardActivation(transactionData);
                 break;
-            case TECNICARD_CARD_PERSONALIZATION:
+            case CARD_PERSONALIZATION:
                 response = wmCardPersonalization(transactionData);
                 break;
-            case TECNICARD_CARD_LOAD:
+            case CARD_LOAD:
                 response = wmCardLoad(transactionData);
                 break;
-            case TECNICARD_BALANCE_INQUIRY:
+            case BALANCE_INQUIRY:
                 response = wmBalanceInquiry(transactionData);
                 validateSucessfullProcessing(response);
                 break;
-            case TECNICARD_CARD_TO_BANK:
+            case CARD_TO_BANK:
                 response = wmCardToBank(transactionData);
                 validateSucessfullProcessing(response);
                 break;
-            case TECNICARD_CARD_VALIDATION:
+            case CARD_VALIDATION:
                 response = wmCardValidation(transactionData);
                 break;
             case TECNICARD_CARD_HOLDER_VALIDATION:
                 response = wmCardHolderValidation(transactionData);
-                break;
-            case TECNICARD_ECHO:
-                response = wmEcho(transactionData);
-                break;
-            case TECNICARD_LAST_TRANSACTIONS:
+                break; 
+            case TRANSACTION_HISTORY:
                 response = wmLastTransactions(transactionData);
                 map = response.toMap();
                 direxTransactionResponse.setTransactionData(map);
@@ -128,7 +125,7 @@ public class TecnicardBusinessLogic extends AbstractBusinessLogicModule {
             case TECNICARD_CASH_TO_CARD:
                 response = wmCashToCard(transactionData);
                 break;
-            case TECNICARD_RESTORE_CARD:
+            case RESTORE_CARD:
 
                 NomHost genericHost = (NomHost) transactionData.get(ParameterName.HOSTNAME);
 

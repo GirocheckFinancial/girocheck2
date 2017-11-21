@@ -29,7 +29,7 @@ import com.smartbt.vtsuite.connector.prod.SetPinConnector;
  */
 public class ConnectorFactory {
 
-    public static boolean PROD = true;
+    public static boolean PROD = false;
 
  
 

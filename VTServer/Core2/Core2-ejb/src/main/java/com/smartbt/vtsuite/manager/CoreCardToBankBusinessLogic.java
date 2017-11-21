@@ -26,10 +26,8 @@ import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.girocheck.servercommon.utils.bd.HibernateUtil;
 import com.smartbt.vtsuite.util.CoreTransactionUtil;
 import com.smartbt.vtsuite.vtcommon.nomenclators.NomHost;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.jms.JMSException;
@@ -44,10 +42,7 @@ import javax.xml.bind.DatatypeConverter;
  */
 @TransactionManagement(value = TransactionManagementType.BEAN)
 public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusinessLogic {
-
-//    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CoreCardToBankBusinessLogic.class);
-    private Transaction transaction;
-
+ 
     private JMSManager jmsManager = JMSManager.get();
 
     private static TransactionManager transactionManager = new TransactionManager();
@@ -66,9 +61,8 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
 
     @Override
     public void process(DirexTransactionRequest direxTransactionRequest, Transaction transaction) throws Exception {
-
-        ObjectMessage tmsg;
-
+        NomHost host = (NomHost) direxTransactionRequest.getTransactionData().get(ParameterName.HOSTNAME);
+ 
         String clientBankName = "";
 
         String clientRoutingBankNumber = "";
@@ -82,11 +76,7 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
         Client client = null;
         String fullAddress = "";
         Merchant merchant = null;
-
-        long tecnicardWaitTime = 50000;
-
-        Properties tecnicardProps = new Properties();
-
+ 
         long tecnicardCardToBankConfirmationFrontWaitTime = 120000;
 
         DirexTransactionResponse direxTransactionResponse = new DirexTransactionResponse();
@@ -94,9 +84,7 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
         String terminalId = (String) direxTransactionRequest.getTransactionData().get(ParameterName.TERMINAL_ID);
 
         String cardNumber = (String) direxTransactionRequest.getTransactionData().get(ParameterName.CARD_NUMBER);
-
-        this.transaction = transaction;
-
+ 
         try {
 
             HibernateUtil.beginTransaction();
@@ -110,9 +98,9 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
                     CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] Client " + client.getFirstName() + " is in the black list.", null);
                     HibernateUtil.commitTransaction();
 
-                    direxTransactionResponse = direxTransactionResponse.forException(TransactionType.TECNICARD_CARD_TO_BANK, ResultCode.CLIENT_IN_BLACKLIST, ResultMessage.CLIENT_IN_CARD2BANK_BLACKLIST);
+                    direxTransactionResponse = direxTransactionResponse.forException(TransactionType.CARD_TO_BANK, ResultCode.CLIENT_IN_BLACKLIST, ResultMessage.CLIENT_IN_CARD2BANK_BLACKLIST);
                     direxTransactionResponse.setTransactionType(TransactionType.get(transaction.getTransactionType()));
-                    CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation());
+                    CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation(), host);
                     JMSManager.get().send(direxTransactionResponse, JMSManager.get().getCoreOutQueue(), direxTransactionRequest.getCorrelation());
                     return;
                 }
@@ -185,9 +173,9 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
                 direxTransactionResponse.setResultCode(ResultCode.SUCCESS);
                 direxTransactionResponse.setResultMessage(ResultMessage.SUCCESS.getMessage());
             } else {
-                direxTransactionResponse = direxTransactionResponse.forException(TransactionType.TECNICARD_CARD_TO_BANK, ResultCode.CORE_ERROR, ResultMessage.CARDTOBANK_CORE_MERCHANT_MISSING);
+                direxTransactionResponse = direxTransactionResponse.forException(TransactionType.CARD_TO_BANK, ResultCode.CORE_ERROR, ResultMessage.CARDTOBANK_CORE_MERCHANT_MISSING);
                 direxTransactionResponse.setTransactionType(TransactionType.get(transaction.getTransactionType()));
-                CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation());
+                CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation(), host);
                 JMSManager.get().send(direxTransactionResponse, JMSManager.get().getCoreOutQueue(), direxTransactionRequest.getCorrelation());
                 return;
             }
@@ -210,7 +198,7 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
                 CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CoreCardToBankBL::] JMSException Receiving from Front", null);
                 direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.CORE_RECEIVED_NULL, ResultMessage.CORE_RECEIVED_NULL);//cambiar los mensajes
                 direxTransactionResponse.setTransactionType(TransactionType.get(transaction.getTransactionType()));
-                CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation());
+                CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation(), host);
                 return;
             }
 
@@ -219,7 +207,7 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] JMSException waiting message from GirochekFront", e.getMessage());
             direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.CORE_RECEIVED_NULL, ResultMessage.CORE_RECEIVED_NULL);
             direxTransactionResponse.setTransactionType(TransactionType.get(transaction.getTransactionType()));
-            CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation());
+            CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation(), host);
             return;
         }
 
@@ -251,7 +239,7 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
                 CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] AchForm from the transaction IS NULL", null);
                 direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.CORE_ERROR, ResultMessage.CARDTOBANK_CORE_ACH_MISSING);
                 direxTransactionResponse.setTransactionType(TransactionType.get(transaction.getTransactionType()));
-                CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation());
+                CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCoreOutQueue(), direxTransactionRequest.getCorrelation(), host);
                 return;
             }
             try {
@@ -266,7 +254,7 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
                 CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "--[CoreCardToBankBL::] AchForm from the transaction IS NULL", null);
                 direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.CREDIT_CARD_NOT_EXIST, ResultMessage.CREDIT_CARD_NOT_EXIST);
                 direxTransactionResponse.setTransactionType(TransactionType.get(transaction.getTransactionType()));
-                CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCore2OutQueue(), direxTransactionRequest.getCorrelation());
+                CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCore2OutQueue(), direxTransactionRequest.getCorrelation(), host);
                 return;
             }
         }
@@ -281,14 +269,12 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
             request.getTransactionData().put(ParameterName.PAYOUT_AMMOUNT, (amount));
             request.getTransactionData().put(ParameterName.REQUEST_ID, request.getTransactionData().get(ParameterName.REQUEST_ID));
 
-            NomHost host = (NomHost) direxTransactionRequest.getTransactionData().get(ParameterName.HOSTNAME);
-
             CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CoreCardToBankBL::] Calling generic host ::" + host, null);
 
-            request.setTransactionType(TransactionType.TECNICARD_CARD_TO_BANK);
-            
+            request.setTransactionType(TransactionType.CARD_TO_BANK);
+
             direxTransactionResponse = hostManagers.get(host).processTransaction(request);
- 
+
             CustomeLogger.Output(CustomeLogger.OutputStates.Info, "1--[CoreCardToBankBL::] direxTransactionResponse.getResultCode().getCode() = " + direxTransactionResponse.getResultCode().getCode(), null);
             if (!direxTransactionResponse.getTransaction().getSub_Transaction().isEmpty()) {
                 transaction.addSubTransactionList(direxTransactionResponse.getTransaction().getSub_Transaction());
@@ -316,16 +302,16 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] TecnicardNotRespondException...", tnre.getMessage());
 
             direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.TECNICARD_RESPONSE_TIME_EXCEEDED, ResultMessage.RESPONSE_TIME_EXCEEDED, " Tecnicard", "");
-            direxTransactionResponse.setTransactionType(TransactionType.TECNICARD_CARD_TO_BANK_CONFIRMATION);
+            direxTransactionResponse.setTransactionType(TransactionType.CARD_TO_BANK_CONFIRMATION);
             JMSManager.get().send(direxTransactionResponse, jmsManager.getCore2OutQueue(), direxTransactionRequest.getCorrelation());
-            CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCore2OutQueue(), direxTransactionRequest.getCorrelation());
+            CoreTransactionUtil.subTransactionFailed(transaction, direxTransactionResponse, jmsManager.getCore2OutQueue(), direxTransactionRequest.getCorrelation(), host);
         } catch (Exception e) {
             e.printStackTrace();
 
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] Unhandled exception ", e.getMessage());
 
             direxTransactionResponse = DirexTransactionResponse.forException(ResultCode.CORE_ERROR, ResultMessage.FAILED, "Tecnicard ", e.getMessage());
-            direxTransactionResponse.setTransactionType(TransactionType.TECNICARD_CARD_TO_BANK_CONFIRMATION);
+            direxTransactionResponse.setTransactionType(TransactionType.CARD_TO_BANK_CONFIRMATION);
             JMSManager.get().send(direxTransactionResponse, jmsManager.getCore2OutQueue(), direxTransactionRequest.getCorrelation());
             transaction.setResultCode(ResultCode.CORE_ERROR.getCode());
             String msg = e.getMessage();

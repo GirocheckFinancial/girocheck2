@@ -66,7 +66,7 @@ public class CardToBankConfirmationRequest implements IMap{
     @Override
     public Map toMap() {
         Map map = new HashMap();
-        map.put( TransactionType.TRANSACTION_TYPE, TransactionType.TECNICARD_CARD_TO_BANK_CONFIRMATION );
+        map.put(TransactionType.TRANSACTION_TYPE, TransactionType.CARD_TO_BANK_CONFIRMATION );
 
         map.put(ParameterName.USER, getUser());
         map.put(ParameterName.PASSWORD, getPassword());

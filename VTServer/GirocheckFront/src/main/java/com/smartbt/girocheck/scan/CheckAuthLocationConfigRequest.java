@@ -63,7 +63,7 @@ public class CheckAuthLocationConfigRequest implements IMap {
 
         String errors = "";
 
-        map.put(TransactionType.TRANSACTION_TYPE, TransactionType.ISTREAM_CHECK_AUTH_LOCATION_CONFIG);
+        map.put(TransactionType.TRANSACTION_TYPE, TransactionType.CHECK_AUTH_LOCATION_CONFIG);
         map.put(ParameterName.USER, getUser());
         map.put(ParameterName.PASSWORD, getPassword());
         map.put(ParameterName.REQUEST_ID, getRequestId());

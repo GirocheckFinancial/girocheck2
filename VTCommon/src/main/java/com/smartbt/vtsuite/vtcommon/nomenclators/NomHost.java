@@ -20,26 +20,12 @@ package com.smartbt.vtsuite.vtcommon.nomenclators;
  * Nomenclature class
  */
 public enum NomHost {
-
-    /**
-     * HOST - IStream
-     */
-    ISTREAM(1),
+ 
     /**
      * HOST - TECNICARD
      */
     TECNICARD(2),
-    /**
-     * HOST - ORDEREXPRESS
-     */
-    ORDER_EXPRESS(3),
-    /**
-     * HOST - FUZE
-     */
-    FUZE(4),
-    
-    CHOICE(5),
-    
+      
     WESTECH(6),
     
     CERTEGY(7),
@@ -50,7 +36,9 @@ public enum NomHost {
     
     FISS(10),
     
-    IDEOLOGY(11);
+    IDEOLOGY(11),
+    
+    GENERIC_HOST(12);
  
 
     private NomHost(int id) {
@@ -67,29 +55,5 @@ public enum NomHost {
         return id;
     }
     
-    
-
-    /**
-     * getViewValue
-     *
-     * @return the value
-     */
-    
-    //TODO this is not needed  enum.toString gives this result
-    public String getViewValue() {
-        switch (this) {
-            case ISTREAM:
-                return "ISTREAM";
-            case TECNICARD:
-                return "TECNICARD";
-            case ORDER_EXPRESS:
-                return "ORDER_EXPRESS";
-            case FUZE:
-                return "FUZE";
-            case CHOICE:
-                return "CHOICE";
-            default:
-                return "";
-        }
-    }
+   
 }

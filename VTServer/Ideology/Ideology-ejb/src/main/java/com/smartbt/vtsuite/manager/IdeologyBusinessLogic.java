@@ -32,7 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.http.MediaType; 
+import org.springframework.http.MediaType;
 import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -40,8 +40,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-
 
 public class IdeologyBusinessLogic {
 
@@ -127,24 +125,25 @@ public class IdeologyBusinessLogic {
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(requestMap, headers);
 
+        System.out.println("Calling Ideology...");
+
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(IDEOLOGY_URL, request, String.class);
 
         String resp = responseEntity.getBody();
 
-        System.out.println("Calling Ideology...");
+        System.out.println("------- IDEOLOGY RESPONSE --------");
+        System.out.println(resp);
 
         IdeologyResponse response = IdeologyResponse.getFromXML(resp);
 
-        System.out.println("------- IDEOLOGY RESPONSE --------");
         if (response == null) {
             System.out.println("Response is NULL");
         } else {
-            System.out.println(resp);
             IdeologyResult entity = response.toEntity();
-            
-            entity.setMerchant(params.get(ParameterName.IDMERCHANT) + "");
-           Integer idIdeologyResult = persitResult(6, entity);
-           response.setIdeologyResultId(idIdeologyResult);
+
+            entity.setMerchant(params.get(ParameterName.MERCHANT_NAME) + "");
+            Integer idIdeologyResult = persitResult((Integer) params.get(ParameterName.CLIENT_ID), entity);
+            response.setIdeologyResultId(idIdeologyResult);
         }
 
         return response;//new HashMap();
@@ -227,12 +226,12 @@ public class IdeologyBusinessLogic {
     }
 
     public static void main(String[] args) throws Exception {
-        MultiValueMap map = buildRequestMap(buildMockTransactionDataMap());
+        String resp = "<?xml version=\"1.0\"?>\n"
+                + "<response><id-number>1774586189</id-number><summary-result><key>id.failure</key><message>FAIL</message></summary-result><results><key>result.match.restricted</key><message>result.match.restricted</message></results><qualifiers><qualifier><key>resultcode.coppa.alert</key><message>COPPA Alert</message></qualifier></qualifiers><idliveq-error><key>id.not.eligible.for.questions</key><message>Not Eligible For Questions</message></idliveq-error></response>";
 
-        System.out.println(" map.toString()= " + map.toString());
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
+        IdeologyResponse response = IdeologyResponse.getFromXML(resp);
+
+        System.out.println(response.toString());
     }
 
     private static Map buildMockTransactionDataMap() {

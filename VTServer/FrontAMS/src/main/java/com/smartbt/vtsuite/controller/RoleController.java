@@ -15,12 +15,11 @@
  */
 package com.smartbt.vtsuite.controller;
 
-import com.smartbt.vtsuite.common.VTSuiteMessages;
+import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.girocheck.servercommon.display.message.BaseResponse;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
 import com.smartbt.girocheck.servercommon.display.RoleDisplay;
-import com.smartbt.girocheck.servercommon.manager.RoleManager;
-import com.smartbt.vtsuite.utils.AuditLogMessage;
+import com.smartbt.girocheck.servercommon.manager.RoleManager; 
 import com.smartbt.vtsuite.vtcommon.Constants;
 import com.smartbt.vtsuite.vtcommon.enums.EntityType;
 import java.util.LinkedList;

@@ -19,10 +19,14 @@ import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
+import com.smartbt.vtsuite.util.FissParam;
+import com.smartbt.vtsuite.ws.balanceInquiry.CBAcctInqResData;
 import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgMtvnSvcReq;
 import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgMtvnSvcRes;
+import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgResData;
 import com.smartbt.vtsuite.ws.cardPersonalization.MtvnCWCBNmeAddrChgWSV13;
 import com.smartbt.vtsuite.ws.cardPersonalization.MtvnCWCBNmeAddrChgWSV13Interface;
+import java.util.HashMap;
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
@@ -60,12 +64,30 @@ public class FissCardPersonalizationConnector implements Connector {
 
     }
 
-    public void callWS(Map<ParameterName, Object> params){
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params) {
         CBNmeAddrChgMtvnSvcReq request = RequestBuilder.buildCardPersonalizationRequest(params);
 
+        Map<FissParam, Object> responseMap = new HashMap<>();
         CBNmeAddrChgMtvnSvcRes response = port.cbNmeAddrChg(request);
+        Boolean success = response != null && response.getSvc() != null
+                && !response.getSvc().isEmpty()
+                && response.getSvc().get(0).getErrCde().equals("0");
 
-        int a = 3;
+        responseMap.put(FissParam.SUCCESS, success);
+
+        if (response.getSvc() != null && !response.getSvc().isEmpty()
+                && response.getSvc().get(0).getMsgData() != null
+                && response.getSvc().get(0).getMsgData().getCBNmeAddrChgResData() != null) {
+
+            CBNmeAddrChgResData data = response.getSvc().get(0).getMsgData().getCBNmeAddrChgResData();
+
+            if (data.getApplMsgLst() != null && data.getApplMsgLst().getApplMsg() != null
+                    && !data.getApplMsgLst().getApplMsg().isEmpty()) {
+                responseMap.put(FissParam.RESULT_MESSAGE, data.getApplMsgLst().getApplMsg().get(0).getApplMsgTxt());
+            }
+        }
+
+        return responseMap;
     }
 
 }

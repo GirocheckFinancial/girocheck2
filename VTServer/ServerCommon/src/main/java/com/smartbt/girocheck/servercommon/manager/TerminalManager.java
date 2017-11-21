@@ -19,7 +19,7 @@ import com.smartbt.girocheck.servercommon.display.message.ResponseData;
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
 import com.smartbt.girocheck.servercommon.model.Merchant;
 import com.smartbt.girocheck.servercommon.model.Terminal;
-import com.smartbt.vtsuite.common.VTSuiteMessages;
+import com.smartbt.girocheck.common.VTSuiteMessages;
 import com.smartbt.girocheck.servercommon.dao.MerchantDAO;
 import com.smartbt.vtsuite.vtcommon.Constants;
 

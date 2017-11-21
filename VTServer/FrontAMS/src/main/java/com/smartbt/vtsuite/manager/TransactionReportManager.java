@@ -6,9 +6,8 @@
 package com.smartbt.vtsuite.manager;
 
 import com.smartbt.girocheck.servercommon.display.message.ResponseDataList;
-import com.smartbt.vtsuite.common.VTSuiteMessages;
-import com.smartbt.vtsuite.vtcommon.Constants;
-import java.io.InputStream;
+import com.smartbt.girocheck.common.VTSuiteMessages;
+import com.smartbt.vtsuite.vtcommon.Constants; 
 import java.util.Date;
 
 /**
