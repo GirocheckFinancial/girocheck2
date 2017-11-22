@@ -112,7 +112,7 @@ public class CheckInfoRequest implements IMap {
         map.put(ParameterName.CITY, getCity());
         map.put(ParameterName.STATE_ABBREVIATION, getState());
         map.put(ParameterName.FIRST_NAME, getFirstName());
-        map.put(ParameterName.AMMOUNT, checkCAR);
+        map.put(ParameterName.AMOUNT, checkCAR);
         map.put(ParameterName.PAYMENTCHECK, checkNumber);
 
         sb.append("CheckInfoRequest -> toMap() :: BORNDATE = " + getBornDate() + "<br>");
@@ -152,9 +152,7 @@ public class CheckInfoRequest implements IMap {
         map.put(ParameterName.MAKER_PHONE, getMakerPhone());
         map.put(ParameterName.MAKER_ADDRESS, getMakerAddress());
         map.put(ParameterName.PAYMENTCHECK, getPaymentCheck());
-
-        map.put(ParameterName.PAYMENTCHECK, getPaymentCheck());
-
+ 
         map.put(ParameterName.CHECK_ISSUE_DATE, getCheckIssueDate());
         map.put( ParameterName.ROUTING_BANK_NUMBER, micrRoutingNumber);
         map.put( ParameterName.ACCOUNT_NUMBER, micrAcountNumber);

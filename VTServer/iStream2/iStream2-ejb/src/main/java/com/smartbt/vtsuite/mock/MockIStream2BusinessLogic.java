@@ -57,7 +57,7 @@ public class MockIStream2BusinessLogic {
             String password = ISTREAM_PASSWORD; //"jpl500";  
             String locationIdStr = MapUtil.getStringValueFromMap(transactionData, ParameterName.TERMINAL_ID_ISTREAM, true);
             Integer locationId = Integer.parseInt(locationIdStr);
-            String ammount = MapUtil.getStringValueFromMap(transactionData, ParameterName.AMMOUNT, true);
+            String ammount = MapUtil.getStringValueFromMap(transactionData, ParameterName.AMOUNT, true);
             String depositName = "Deposit at " + (new Date());
             String micr = MapUtil.getStringValueFromMap(transactionData, ParameterName.MICR, true);
             String cutomerItemId = MapUtil.getStringValueFromMap(transactionData, ParameterName.CHECK_ID, true);

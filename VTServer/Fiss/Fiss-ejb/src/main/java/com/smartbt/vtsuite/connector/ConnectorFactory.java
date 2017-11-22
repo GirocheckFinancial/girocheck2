@@ -2,6 +2,8 @@ package com.smartbt.vtsuite.connector;
 
 import com.smartbt.vtsuite.connector.mock.MockFissBalanceInquiryConnector;
 import com.smartbt.vtsuite.connector.mock.MockFissCardActivationConnector;
+import com.smartbt.vtsuite.connector.mock.MockFissCardCashingConnector;
+import com.smartbt.vtsuite.connector.mock.MockFissCardLoadCashConnector;
 import com.smartbt.vtsuite.connector.mock.MockFissCardLoadConnector;
 import com.smartbt.vtsuite.connector.mock.MockFissCardPersonalizationConnector;
 import com.smartbt.vtsuite.connector.mock.MockFissChangePasswordConnector;
@@ -13,6 +15,8 @@ import com.smartbt.vtsuite.connector.mock.MockFissTransactionHistoryPendingConne
 import com.smartbt.vtsuite.connector.mock.MockSetPinConnector;
 import com.smartbt.vtsuite.connector.prod.FissBalanceInquiryConnector;
 import com.smartbt.vtsuite.connector.prod.FissCardActivationConnector;
+import com.smartbt.vtsuite.connector.prod.FissCardCashingConnector;
+import com.smartbt.vtsuite.connector.prod.FissCardLoadCashConnector;
 import com.smartbt.vtsuite.connector.prod.FissCardLoadConnector;
 import com.smartbt.vtsuite.connector.prod.FissCardPersonalizationConnector;
 import com.smartbt.vtsuite.connector.prod.FissChangePasswordConnector;
@@ -29,7 +33,7 @@ import com.smartbt.vtsuite.connector.prod.SetPinConnector;
  */
 public class ConnectorFactory {
 
-    public static boolean PROD = false;
+    public static boolean PROD = true;
 
  
 
@@ -70,6 +74,14 @@ public class ConnectorFactory {
             return FissCardLoadConnector.get();
         } else {
             return MockFissCardLoadConnector.get();
+        }
+    }
+
+    public static Connector getCardLoadCashConnector() {
+        if (PROD) {
+            return FissCardLoadCashConnector.get();
+        } else {
+            return MockFissCardLoadCashConnector.get();
         }
     }
 
@@ -118,6 +130,14 @@ public class ConnectorFactory {
             return FissTransactionHistoryDetailsConnector.get();
         } else {
             return MockFissTransactionHistoryDetailsConnector.get();
+        }
+    }
+
+    public static Connector getCardCashingConnector() {
+        if (PROD) {
+            return FissCardCashingConnector.get();
+        } else {
+            return MockFissCardCashingConnector.get();
         }
     }
 

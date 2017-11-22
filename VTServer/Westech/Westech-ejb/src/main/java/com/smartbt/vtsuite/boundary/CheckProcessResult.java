@@ -35,9 +35,9 @@ public class CheckProcessResult {
     
     public Map toMap(){
         Map map = new HashMap();
-        map.put(ParameterName.STATUS, status);
+        map.put(ParameterName.RESULT_CODE, status);
         map.put(ParameterName.CHECK_ID, transactionId);
-        map.put(ParameterName.MESSAGE, message); 
+        map.put(ParameterName.RESULT_MESSAGE, message); 
         return map;
     }
 

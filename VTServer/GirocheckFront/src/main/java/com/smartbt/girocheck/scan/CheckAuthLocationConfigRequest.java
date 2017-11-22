@@ -72,7 +72,7 @@ public class CheckAuthLocationConfigRequest implements IMap {
         errors += validateRequiredFields(map);
         
         if(amount != null && !amount.isEmpty()){
-             map.put(ParameterName.AMMOUNT, getAmount());
+             map.put(ParameterName.AMOUNT, getAmount());
         }
        
         if(cardNumber != null && !cardNumber.isEmpty()){

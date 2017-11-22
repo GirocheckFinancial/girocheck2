@@ -1,0 +1,1221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="fa307f92-a5b2-4683-846f-7e61f6100d18" activeEnvironment="Default" name="FISS_Card_Personalization" resourceRoot="" soapui-version="5.2.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="283100d4-ffc7-41d1-82ea-f8b01190401e" wsaVersion="NONE" name="mtvnCWCBNmeAddrChgWSV13" type="wsdl" bindingName="{mtvnCBNmeAddrChgWSV13}mtvnCWCBNmeAddrChgWSV13" soapVersion="1_1" anonymous="optional" definition="file:/C:/Glassfish/fiss_wsdl/cardPersonalization/CBNmeAddrChgWSV13.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Glassfish\fiss_wsdl\cardPersonalization\CBNmeAddrChgWSV13.wsdl"><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardPersonalization\CBNmeAddrChgWSV13.wsdl</con:url><con:content><![CDATA[<definitions targetNamespace="mtvnCBNmeAddrChgWSV13" name="mtvnCBNmeAddrChgWSV13" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBNmeAddrChgWSV13" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:import0="mtvnCWCBNmeAddrChgSvcReq" xmlns:import1="mtvnCWCBNmeAddrChgSvcRes" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <documentation>Connectware Web Service Interface</documentation>
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="./CBNmeAddrChgWSV13SvcReq.xsd" namespace="mtvnCWCBNmeAddrChgSvcReq"/>
+      <xsd:import schemaLocation="./CBNmeAddrChgWSV13SvcRes.xsd" namespace="mtvnCWCBNmeAddrChgSvcRes"/>
+    </xsd:schema>
+  </types>
+  <message name="CBNmeAddrChgMtvnSvcReqMsg">
+    <documentation/>
+    <part name="messagePart" element="import0:CBNmeAddrChgMtvnSvcReq"/>
+  </message>
+  <message name="CBNmeAddrChgMtvnSvcResMsg">
+    <documentation/>
+    <part name="messagePart" element="import1:CBNmeAddrChgMtvnSvcRes"/>
+  </message>
+  <portType name="mtvnCWCBNmeAddrChgWSV13Interface">
+    <documentation>CBNmeAddrChgWSV13</documentation>
+    <operation name="CBNmeAddrChg">
+      <documentation/>
+      <input message="tns:CBNmeAddrChgMtvnSvcReqMsg"/>
+      <output message="tns:CBNmeAddrChgMtvnSvcResMsg"/>
+    </operation>
+  </portType>
+  <binding name="mtvnCWCBNmeAddrChgWSV13" type="tns:mtvnCWCBNmeAddrChgWSV13Interface">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="CBNmeAddrChg">
+      <soap:operation soapAction="CBNmeAddrChgWSV13:CBNmeAddrChgMtvnSvcReqMsg" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="mtvnCWCBNmeAddrChgWSV13">
+    <port name="mtvnCWCBNmeAddrChgWSV13Port" binding="tns:mtvnCWCBNmeAddrChgWSV13">
+      <soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/CBNmeAddrChgWSV13"/>
+    </port>
+  </service>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardPersonalization\CBNmeAddrChgWSV13SvcReq.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBNmeAddrChgSvcReq" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cw000="mtvnCWCBNmeAddrChgSvcReq" xmlns:cw236="mtvnCWCBNmeAddrChgReqData">
+  <xs:import namespace="mtvnCWCBNmeAddrChgReqData" schemaLocation="./CBNmeAddrChgWSV13SvcReqData.xsd"/>
+  <xs:element name="CBNmeAddrChgMtvnSvcReq">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="MtvnSvcVer">
+          <xs:annotation>
+            <xs:documentation>The version of this message.   Currently 1.0</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="1.0"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="MsgUUID" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="PrcsParms">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SrcID" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>Connectware Vendor ID</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="TestInd" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>A value of Y will cause any database updates to be removed when the service completes.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Svc" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SvcParms">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ApplID">
+                      <xs:annotation>
+                        <xs:documentation>The application ID of the service.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CB"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcID">
+                      <xs:annotation>
+                        <xs:documentation>The service ID.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CBNmeAddrChg"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcVer">
+                      <xs:annotation>
+                        <xs:documentation>The service version.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="13.0"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcNme" type="xs:string" minOccurs="0"/>
+                    <xs:element name="RqstUUID" type="xs:string" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="RoutingID" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>FIS processing organization ID.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Src" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="FieldList" minOccurs="0">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Field" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="FieldNme" type="xs:string"/>
+                                      <xs:element name="FieldVal" type="xs:string"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="GrpBusFunc" type="xs:string" minOccurs="0"/>
+                          <xs:element name="TranInfo" type="xs:string" minOccurs="0"/>
+                          <xs:element name="CustDefMsgSrc1" type="xs:string" minOccurs="0"/>
+                          <xs:element name="CustDefMsgSrc2" type="xs:string" minOccurs="0"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Security">
+                <xs:complexType>
+                  <xs:choice>
+                    <xs:element name="NoAuth" type="xs:string"/>
+                    <xs:element name="BasicAuth">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="UsrID" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>FIS RACF user id.</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="Pwd" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>FIS RACF password.</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="SessionAuth">
+                      <xs:complexType>
+                        <xs:choice>
+                          <xs:element name="SessionID" type="xs:string"/>
+                          <xs:element name="HttpSessionID" type="xs:string"/>
+                        </xs:choice>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="SAMLAuth">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Assertion" type="xs:string" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:choice>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="MsgData">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element ref="cw236:CBNmeAddrChgReqData"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardPersonalization\CBNmeAddrChgWSV13SvcReqData.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBNmeAddrChgReqData" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="mtvnCWCBNmeAddrChgReqData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CBNmeAddrChgReqData">
+    <xs:annotation>
+      <xs:documentation>Cardbase Name/Address Change (CB230) - This function allows the user to change name, address, and other customer demographics for a particular card.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="E130015" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Institution Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130013" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Card Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130023" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Short Name - Last</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130024" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Short Name - First</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130025" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Card Name Line 1</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130027" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Card Name Line 2</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130029" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Street Address Line 1</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130030" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Street Address Line 2</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130031" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>City Name</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130032" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>State Abbreviation</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130033" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Country Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130034" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>ZIP Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130301" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>ZIP Code Area</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130138" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Primary Home Phone</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130145" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Primary SSN</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130146" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Primary Business Phone</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130147" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Primary Birth Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130149" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Primary Mother's Maiden Name</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130403" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Reward Plan</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130404" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Reward ID</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130554" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Reference Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130555" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Rewards Member ID</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130556" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Rewards Enrollment Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130557" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Rewards Authorized Redeemer 1</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130558" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Rewards Authorized Redeemer 2</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130559" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Rewards Member ID Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130411" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Emboss Name 1</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130412" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Emboss Name 2</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130413" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Optional Emboss Line</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130639" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Image Key</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130405" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Foreign Address Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130406" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Foreign Address Line 1</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130407" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Foreign Address Line 2</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130408" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Foreign Address Line 3</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130409" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Foreign Address Line 4</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130650" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Cell Phone</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130506" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>E-mail Address</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130652" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Employee Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130480" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Customer Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130657" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Print Statement Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130026" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>AML CIF Info Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131144" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Bad Address Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130132" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 1</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130133" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 2</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130134" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 3</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130135" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 4</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130136" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 5</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130018" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Branch Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130155" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Officer</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131632" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 6</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131633" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 7</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131634" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 8</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131635" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 9</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131636" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 10</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131637" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 11</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131638" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 12</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131639" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 13</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131640" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 14</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131641" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 15</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131642" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 16</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131643" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 17</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131644" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 18</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131645" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 19</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131646" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 20</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131647" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Sell Card</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131649" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Account on File Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131651" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Account on File Method</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131652" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Prevent Plastic</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131653" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Prevent Reissue Replacement</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardPersonalization\CBNmeAddrChgWSV13SvcRes.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBNmeAddrChgSvcRes" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cw000="mtvnCWCBNmeAddrChgSvcRes" xmlns:cw236="mtvnCWCBNmeAddrChgResData">
+  <xs:import namespace="mtvnCWCBNmeAddrChgResData" schemaLocation="./CBNmeAddrChgWSV13SvcResData.xsd"/>
+  <xs:element name="ErrCde" type="xs:string"/>
+  <xs:element name="ErrMsg" type="xs:string"/>
+  <xs:element name="CBNmeAddrChgMtvnSvcRes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="MtvnSvcVer">
+          <xs:annotation>
+            <xs:documentation>The version of this message.   Currently 1.0</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="1.0"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="MsgUUID" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="Svc" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SvcParms">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ApplID">
+                      <xs:annotation>
+                        <xs:documentation>The application ID of the service.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CB"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcID">
+                      <xs:annotation>
+                        <xs:documentation>The service ID.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CBNmeAddrChg"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcVer">
+                      <xs:annotation>
+                        <xs:documentation>The service version.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="13.0"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="RqstUUID" type="xs:string" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="MsgData">
+                <xs:complexType>
+                  <xs:choice>
+                    <xs:element name="DefaultResData" type="xs:string"/>
+                    <xs:element ref="cw236:CBNmeAddrChgResData"/>
+                  </xs:choice>
+                </xs:complexType>
+              </xs:element>
+              <xs:element ref="cw000:ErrCde"/>
+              <xs:element ref="cw000:ErrMsg" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="cw000:ErrCde"/>
+        <xs:element ref="cw000:ErrMsg" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardPersonalization\CBNmeAddrChgWSV13SvcResData.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBNmeAddrChgResData" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="mtvnCWCBNmeAddrChgResData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CBNmeAddrChgResData">
+    <xs:annotation>
+      <xs:documentation>Cardbase Name/Address Change (CB230) - This function allows the user to change name, address, and other customer demographics for a particular card.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="E130015" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Institution Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130013" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Card Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130050" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Card Status Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130023" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Short Name - Last</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130024" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Short Name - First</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130025" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Card Name Line 1</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130027" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Card Name Line 2</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130029" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Street Address Line 1</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130030" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Street Address Line 2</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130031" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>City Name</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130032" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>State Abbreviation</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130033" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Country Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130034" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>ZIP Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130301" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>ZIP Code Area</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130138" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Primary Home Phone</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130145" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Primary SSN</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130146" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Primary Business Phone</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130147" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Primary Birth Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130149" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Primary Mother's Maiden Name</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130403" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Reward Plan</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130404" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Reward ID</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130554" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Reference Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130555" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Rewards Member ID</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130556" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Rewards Enrollment Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130557" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Rewards Authorized Redeemer 1</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130558" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Rewards Authorized Redeemer 2</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130559" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Rewards Member ID Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130411" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Emboss Name 1</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130412" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Emboss Name 2</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130413" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Optional Emboss Line</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130639" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Image Key</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130405" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Foreign Address Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130406" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Foreign Address Line 1</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130407" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Foreign Address Line 2</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130408" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Foreign Address Line 3</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130409" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Foreign Address Line 4</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130650" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Cell Phone</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130506" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>E-mail Address</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130652" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Employee Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130480" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Customer Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130657" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Print Statement Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130026" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>AML CIF Info Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131144" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Bad Address Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130132" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 1</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130133" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 2</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130134" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 3</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130135" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 4</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130136" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 5</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130018" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Branch Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130155" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Officer</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131632" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 6</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131633" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 7</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131634" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 8</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131635" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 9</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131636" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 10</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131637" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 11</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131638" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 12</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131639" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 13</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131640" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 14</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131641" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 15</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131642" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 16</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131643" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 17</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131644" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 18</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131645" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 19</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131646" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB User Code 20</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131647" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Sell Card</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131649" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Account on File Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131651" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Account on File Method</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131652" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Prevent Plastic</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131653" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Prevent Reissue Replacement</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="ErrCde" type="xs:string" minOccurs="0"/>
+        <xs:element name="ErrResnCde" type="xs:string" minOccurs="0"/>
+        <xs:element name="ApplMsgLst" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ApplMsg" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="ApplMsgApplId" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgNbr" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgTxt" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgErrInd" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgFld" type="xs:string" minOccurs="0"/>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://xmlgateway.metavante.org/ConnectwareWS/CBNmeAddrChgWSV13</con:endpoint></con:endpoints><con:operation id="a7f86348-9ac9-4248-97d9-02b84e73eac3" isOneWay="false" action="CBNmeAddrChgWSV13:CBNmeAddrChgMtvnSvcReqMsg" name="CBNmeAddrChg" bindingOperationName="CBNmeAddrChg" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="1f7c4641-9c8d-4130-b927-c83f909a7b64" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://xmlgateway.metavante.org/ConnectwareWS/CBNmeAddrChgWSV13</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mtv="mtvnCWCBNmeAddrChgSvcReq" xmlns:mtv1="mtvnCWCBNmeAddrChgReqData">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mtv:CBNmeAddrChgMtvnSvcReq>
+         <mtv:MtvnSvcVer>1.0</mtv:MtvnSvcVer>
+         <mtv:MsgUUID>5BC766b1-7fd7-08A0-3bEc-E85Eaee1fdEC</mtv:MsgUUID>
+         <mtv:PrcsParms>
+            <mtv:SrcID>CRD008</mtv:SrcID>
+            <!--Optional:-->
+            <mtv:TestInd></mtv:TestInd>
+         </mtv:PrcsParms>
+         <!--1 or more repetitions:-->
+         <mtv:Svc>
+            <mtv:SvcParms>
+               <mtv:ApplID>CB</mtv:ApplID>
+               <mtv:SvcID>CBNmeAddrChg</mtv:SvcID>
+               <mtv:SvcVer>13.0</mtv:SvcVer>
+               <!--Optional:-->
+               <mtv:SvcNme></mtv:SvcNme>
+               <!--Optional:-->
+               <mtv:RqstUUID>131005e4-4258-9cec-CC99-0Cf84dEC7db4</mtv:RqstUUID>
+               <mtv:RoutingID>G7V</mtv:RoutingID>
+               <!--Optional:-->
+               <mtv:Src>
+                  <!--Optional:-->
+                  <mtv:FieldList>
+                     <!--1 or more repetitions:-->
+                     <mtv:Field>
+                        <mtv:FieldNme></mtv:FieldNme>
+                        <mtv:FieldVal></mtv:FieldVal>
+                     </mtv:Field>
+                  </mtv:FieldList>
+                  <!--Optional:-->
+                  <mtv:GrpBusFunc></mtv:GrpBusFunc>
+                  <!--Optional:-->
+                  <mtv:TranInfo></mtv:TranInfo>
+                  <!--Optional:-->
+                  <mtv:CustDefMsgSrc1></mtv:CustDefMsgSrc1>
+                  <!--Optional:-->
+                  <mtv:CustDefMsgSrc2></mtv:CustDefMsgSrc2>
+               </mtv:Src>
+            </mtv:SvcParms>
+            <mtv:Security>
+               <!--You have a CHOICE of the next 4 items at this level-->
+               <mtv:NoAuth></mtv:NoAuth>
+               <mtv:BasicAuth>
+                  <mtv:UsrID>CG7V032</mtv:UsrID>
+                  <mtv:Pwd>Monday@2</mtv:Pwd>
+               </mtv:BasicAuth>
+ 
+               <mtv:SAMLAuth>
+                  <!--1 or more repetitions:-->
+                  <mtv:Assertion></mtv:Assertion>
+               </mtv:SAMLAuth>
+            </mtv:Security>
+            <mtv:MsgData>
+               <mtv1:CBNmeAddrChgReqData>
+                  <!--Optional:-->
+                  <mtv1:E130015></mtv1:E130015>
+                  <mtv1:E130013>5400290040068571</mtv1:E130013>
+                  <!--Optional:-->
+                  <mtv1:E130023>JARAMILLO</mtv1:E130023>
+                  <!--Optional:-->
+                  <mtv1:E130024>Roberto</mtv1:E130024>
+                  <!--Optional:-->
+                  <mtv1:E130025></mtv1:E130025>
+                  <!--Optional:-->
+                  <mtv1:E130027></mtv1:E130027>
+                  <!--Optional:-->
+                  <mtv1:E130029>9840 Palmetto Club Dr</mtv1:E130029>
+                  <!--Optional:-->
+                  <mtv1:E130030> </mtv1:E130030>
+                  <!--Optional:-->
+                  <mtv1:E130031>FL</mtv1:E130031>
+                  <!--Optional:-->
+                  <mtv1:E130032></mtv1:E130032>
+                  <!--Optional:-->
+                  <mtv1:E130033>USA</mtv1:E130033>
+                  <!--Optional:-->
+                  <mtv1:E130034>33157</mtv1:E130034>
+                  <!--Optional:-->
+                  <mtv1:E130301></mtv1:E130301>
+                  <!--Optional:-->
+                  <mtv1:E130138>1085551212</mtv1:E130138>
+                  <!--Optional:-->
+                  <mtv1:E130145>900700001</mtv1:E130145>
+                  <!--Optional:-->
+                  <mtv1:E130146>1085551212</mtv1:E130146>
+                  <!--Optional:-->
+                  <mtv1:E130147>21170202</mtv1:E130147>
+                  <!--Optional:-->
+                  <mtv1:E130149></mtv1:E130149>
+                  <!--Optional:-->
+                  <mtv1:E130403></mtv1:E130403>
+                  <!--Optional:-->
+                  <mtv1:E130404></mtv1:E130404>
+                  <!--Optional:-->
+                  <mtv1:E130554></mtv1:E130554>
+                  <!--Optional:-->
+                  <mtv1:E130555></mtv1:E130555>
+                  <!--Optional:-->
+                  <mtv1:E130556></mtv1:E130556>
+                  <!--Optional:-->
+                  <mtv1:E130557></mtv1:E130557>
+                  <!--Optional:-->
+                  <mtv1:E130558></mtv1:E130558>
+                  <!--Optional:-->
+                  <mtv1:E130559></mtv1:E130559>
+                  <!--Optional:-->
+                  <mtv1:E130411></mtv1:E130411>
+                  <!--Optional:-->
+                  <mtv1:E130412></mtv1:E130412>
+                  <!--Optional:-->
+                  <mtv1:E130413></mtv1:E130413>
+                  <!--Optional:-->
+                  <mtv1:E130639></mtv1:E130639>
+                  <!--Optional:-->
+                  <mtv1:E130405></mtv1:E130405>
+                  <!--Optional:-->
+                  <mtv1:E130406></mtv1:E130406>
+                  <!--Optional:-->
+                  <mtv1:E130407></mtv1:E130407>
+                  <!--Optional:-->
+                  <mtv1:E130408></mtv1:E130408>
+                  <!--Optional:-->
+                  <mtv1:E130409></mtv1:E130409>
+                  <!--Optional:-->
+                  <mtv1:E130650></mtv1:E130650>
+                  <!--Optional:-->
+                  <mtv1:E130506></mtv1:E130506>
+                  <!--Optional:-->
+                  <mtv1:E130652></mtv1:E130652>
+                  <!--Optional:-->
+                  <mtv1:E130480></mtv1:E130480>
+                  <!--Optional:-->
+                  <mtv1:E130657></mtv1:E130657>
+                  <!--Optional:-->
+                  <mtv1:E130026></mtv1:E130026>
+                  <!--Optional:-->
+                  <mtv1:E131144></mtv1:E131144>
+                  <!--Optional:-->
+                  <mtv1:E130132></mtv1:E130132>
+                  <!--Optional:-->
+                  <mtv1:E130133></mtv1:E130133>
+                  <!--Optional:-->
+                  <mtv1:E130134></mtv1:E130134>
+                  <!--Optional:-->
+                  <mtv1:E130135></mtv1:E130135>
+                  <!--Optional:-->
+                  <mtv1:E130136></mtv1:E130136>
+                  <!--Optional:-->
+                  <mtv1:E130018></mtv1:E130018>
+                  <!--Optional:-->
+                  <mtv1:E130155></mtv1:E130155>
+                  <!--Optional:-->
+                  <mtv1:E131632></mtv1:E131632>
+                  <!--Optional:-->
+                  <mtv1:E131633></mtv1:E131633>
+                  <!--Optional:-->
+                  <mtv1:E131634></mtv1:E131634>
+                  <!--Optional:-->
+                  <mtv1:E131635></mtv1:E131635>
+                  <!--Optional:-->
+                  <mtv1:E131636></mtv1:E131636>
+                  <!--Optional:-->
+                  <mtv1:E131637></mtv1:E131637>
+                  <!--Optional:-->
+                  <mtv1:E131638></mtv1:E131638>
+                  <!--Optional:-->
+                  <mtv1:E131639></mtv1:E131639>
+                  <!--Optional:-->
+                  <mtv1:E131640></mtv1:E131640>
+                  <!--Optional:-->
+                  <mtv1:E131641></mtv1:E131641>
+                  <!--Optional:-->
+                  <mtv1:E131642></mtv1:E131642>
+                  <!--Optional:-->
+                  <mtv1:E131643></mtv1:E131643>
+                  <!--Optional:-->
+                  <mtv1:E131644></mtv1:E131644>
+                  <!--Optional:-->
+                  <mtv1:E131645></mtv1:E131645>
+                  <!--Optional:-->
+                  <mtv1:E131646></mtv1:E131646>
+                  <!--Optional:-->
+                  <mtv1:E131647></mtv1:E131647>
+                  <!--Optional:-->
+                  <mtv1:E131649></mtv1:E131649>
+                  <!--Optional:-->
+                  <mtv1:E131651></mtv1:E131651>
+                  <!--Optional:-->
+                  <mtv1:E131652></mtv1:E131652>
+                  <!--Optional:-->
+                  <mtv1:E131653></mtv1:E131653>
+               </mtv1:CBNmeAddrChgReqData>
+            </mtv:MsgData>
+         </mtv:Svc>
+      </mtv:CBNmeAddrChgMtvnSvcReq>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="CBNmeAddrChgWSV13:CBNmeAddrChgMtvnSvcReqMsg"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

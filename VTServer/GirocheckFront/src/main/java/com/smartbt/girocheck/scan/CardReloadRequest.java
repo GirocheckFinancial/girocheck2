@@ -3,16 +3,11 @@ package com.smartbt.girocheck.scan;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.utils.IMap;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * <p>
@@ -133,25 +128,25 @@ public class CardReloadRequest implements IMap {
 
         map.put(ParameterName.ADDRESS_CORRECT, "Y");
         map.put(ParameterName.OPERATION, getOperation());
-        map.put(ParameterName.AMMOUNT, amount);
+        map.put(ParameterName.AMOUNT, amount);
         map.put(ParameterName.BACK_TIFF, backTiff);
-        map.put(ParameterName.BATCH_NAME, batchName);
+     //   map.put(ParameterName.BATCH_NAME, batchName);
         map.put(ParameterName.CARD_NUMBER, cardNumber);
         map.put(ParameterName.CHECK_BACK, checkBack);
         map.put(ParameterName.CHECK_FRONT, checkFront);
         map.put(ParameterName.CRC, crc);
-        map.put(ParameterName.EMAIL_ADDRESS, emailAddress);
+        map.put(ParameterName.EMAIL, emailAddress);
         map.put(ParameterName.ENTITY_ID, entityNumber);
         map.put(ParameterName.FRONT_TIFF, frontTiff);
         map.put(ParameterName.IDBACK, idBack);
         map.put(ParameterName.IDFRONT, idFront);
         map.put(ParameterName.MICR, micr);
         map.put(ParameterName.PHONE, phone);
-        map.put(ParameterName.SCANNER_MANUFACTURER, scannerManufacturer);
-        map.put(ParameterName.SERIAL, serial);
+//        map.put(ParameterName.SCANNER_MANUFACTURER, scannerManufacturer);
+//        map.put(ParameterName.SERIAL, serial);
         map.put(ParameterName.SSN, ssn);
-        map.put(ParameterName.TRACK1, track1);
-        map.put(ParameterName.TRACK2, track2);
+//        map.put(ParameterName.TRACK1, track1);
+//        map.put(ParameterName.TRACK2, track2);
         map.put(ParameterName.DLDATASCAN, getDlDataScan());
         map.put(ParameterName.DLDATASWIPE, getDlDataSwipe());
         return map;

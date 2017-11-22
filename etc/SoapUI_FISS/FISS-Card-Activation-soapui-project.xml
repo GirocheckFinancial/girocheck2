@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="114d6dad-09f0-4e29-af99-37b862468a9e" activeEnvironment="Default" name="FISS_Card_Activation" resourceRoot="" soapui-version="5.2.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="d5482802-a70e-4d00-9233-052a72efa9c0" wsaVersion="NONE" name="mtvnCWCBNegFleMaintWSV1" type="wsdl" bindingName="{mtvnCBNegFleMaintWSV1}mtvnCWCBNegFleMaintWSV1" soapVersion="1_1" anonymous="optional" definition="file:/C:/Glassfish/fiss_wsdl/cardActivation/CBNegFleMaintWSV1.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Glassfish\fiss_wsdl\cardActivation\CBNegFleMaintWSV1.wsdl"><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardActivation\CBNegFleMaintWSV1.wsdl</con:url><con:content><![CDATA[<definitions targetNamespace="mtvnCBNegFleMaintWSV1" name="mtvnCBNegFleMaintWSV1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBNegFleMaintWSV1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:import0="mtvnCWCBNegFleMaintSvcReq" xmlns:import1="mtvnCWCBNegFleMaintSvcRes" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <documentation>Connectware Web Service Interface</documentation>
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="./CBNegFleMaintWSV1SvcReq.xsd" namespace="mtvnCWCBNegFleMaintSvcReq"/>
+      <xsd:import schemaLocation="./CBNegFleMaintWSV1SvcRes.xsd" namespace="mtvnCWCBNegFleMaintSvcRes"/>
+    </xsd:schema>
+  </types>
+  <message name="CBNegFleMaintMtvnSvcReqMsg">
+    <documentation/>
+    <part name="messagePart" element="import0:CBNegFleMaintMtvnSvcReq"/>
+  </message>
+  <message name="CBNegFleMaintMtvnSvcResMsg">
+    <documentation/>
+    <part name="messagePart" element="import1:CBNegFleMaintMtvnSvcRes"/>
+  </message>
+  <portType name="mtvnCWCBNegFleMaintWSV1Interface">
+    <documentation>CBNegFleMaintWSV1</documentation>
+    <operation name="CBNegFleMaint">
+      <documentation/>
+      <input message="tns:CBNegFleMaintMtvnSvcReqMsg"/>
+      <output message="tns:CBNegFleMaintMtvnSvcResMsg"/>
+    </operation>
+  </portType>
+  <binding name="mtvnCWCBNegFleMaintWSV1" type="tns:mtvnCWCBNegFleMaintWSV1Interface">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="CBNegFleMaint">
+      <soap:operation soapAction="CBNegFleMaintWSV1:CBNegFleMaintMtvnSvcReqMsg" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="mtvnCWCBNegFleMaintWSV1">
+    <port name="mtvnCWCBNegFleMaintWSV1Port" binding="tns:mtvnCWCBNegFleMaintWSV1">
+      <soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/CBNegFleMaintWSV1"/>
+    </port>
+  </service>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardActivation\CBNegFleMaintWSV1SvcReq.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBNegFleMaintSvcReq" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cw000="mtvnCWCBNegFleMaintSvcReq" xmlns:cw320="mtvnCWCBNegFleMaintReqData">
+  <xs:import namespace="mtvnCWCBNegFleMaintReqData" schemaLocation="./CBNegFleMaintReqDataV1.xsd"/>
+  <xs:element name="CBNegFleMaintMtvnSvcReq">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="MtvnSvcVer">
+          <xs:annotation>
+            <xs:documentation>The version of this message.   Currently 1.0</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="1.0"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="MsgUUID" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="PrcsParms">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SrcID" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>Connectware Vendor ID</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="TestInd" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>A value of Y will cause any database updates to be removed when the service completes.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Svc" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SvcParms">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ApplID">
+                      <xs:annotation>
+                        <xs:documentation>The application ID of the service.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CB"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcID">
+                      <xs:annotation>
+                        <xs:documentation>The service ID.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CBNegFleMaint"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcVer">
+                      <xs:annotation>
+                        <xs:documentation>The service version.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="1.0"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcNme" type="xs:string" minOccurs="0"/>
+                    <xs:element name="RqstUUID" type="xs:string" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="RoutingID" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>Metavante processing organization ID.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Src" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="FieldList" minOccurs="0">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Field" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="FieldNme" type="xs:string"/>
+                                      <xs:element name="FieldVal" type="xs:string"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="GrpBusFunc" type="xs:string" minOccurs="0"/>
+                          <xs:element name="TranInfo" type="xs:string" minOccurs="0"/>
+                          <xs:element name="CustDefMsgSrc1" type="xs:string" minOccurs="0"/>
+                          <xs:element name="CustDefMsgSrc2" type="xs:string" minOccurs="0"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Security">
+                <xs:complexType>
+                  <xs:choice>
+                    <xs:element name="NoAuth" type="xs:string"/>
+                    <xs:element name="BasicAuth">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="UsrID" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>Metavante RACF user id.</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="Pwd" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>Metavante RACF password.</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="SessionAuth">
+                      <xs:complexType>
+                        <xs:choice>
+                          <xs:element name="SessionID" type="xs:string"/>
+                          <xs:element name="HttpSessionID" type="xs:string"/>
+                        </xs:choice>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="SAMLAuth">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Assertion" type="xs:string" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:choice>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="MsgData">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element ref="cw320:CBNegFleMaintReqData"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardActivation\CBNegFleMaintReqDataV1.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBNegFleMaintReqData" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="mtvnCWCBNegFleMaintReqData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CBNegFleMaintReqData">
+    <xs:annotation>
+      <xs:documentation>Cardbase Negative File Maintenance (CB250) - This function will allow the user to add a card to the negative file, maintain a card on the negative file, or delete a card from the negative file.  It can also be used to change the status of a card.   A negative file is a reference file that maintains a list of all cardholder accounts that are not valid for transaction use (hot cards) or that are only valid for deposit (credit) transactions (warm cards).    MasterCard's Warning Bulletin is a list of invalid MasterCard account numbers, covering the U.S. and five worldwide regions, published weekly or bi-weekly depending on the region. The issuer is charged per account number and per region for each Bulletin listing.  In addition, MasterCard's Stand-In File is a worldwide database of account numbers of lost/stolen cards or other cards that issuers have designated for confiscation, referral to issuers, or other special handling. All transactions routed through the MasterCard network have their account numbers checked against the Stand-In File.   VISA's Exception File is a worldwide database of account numbers of lost/stolen cards or other cards that issuers have designated for confiscation, referral to issuers, or other special handling.  All transactions routed through the VISA Payment System have their account numbers checked against the Exception File.  In addition, VISA's Recovery Bulletin is an international printed list of lost/stolen, counterfeit, and other cards that issuers have listed for pickup. The Recovery Bulletin is only printed in countries outside the United States.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="E130013" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>CB Card Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130015" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Institution Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130050" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Card Status</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130051" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Reason Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130362" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Originator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130442" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Stand-In Update Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130443" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Stand-In Reason Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130444" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Update Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130445" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Reason Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130446" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Region 1 Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130447" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Region A Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130448" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Region B Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130449" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Region C Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130450" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Region D Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130451" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Region E Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130452" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Exception File Update Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130453" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Exception File Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130454" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Exception File Action Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130455" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Recovery Bulletin Region A Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130456" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Recovery Bulletin Region B Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130457" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Recovery Bulletin Region C Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130458" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Recovery Bulletin Region E Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130459" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Recovery Bulletin Region F Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130460" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Send to Negative File Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardActivation\CBNegFleMaintWSV1SvcRes.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBNegFleMaintSvcRes" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cw000="mtvnCWCBNegFleMaintSvcRes" xmlns:cw320="mtvnCWCBNegFleMaintResData">
+  <xs:import namespace="mtvnCWCBNegFleMaintResData" schemaLocation="./CBNegFleMaintResDataV1.xsd"/>
+  <xs:element name="ErrCde" type="xs:string"/>
+  <xs:element name="ErrMsg" type="xs:string"/>
+  <xs:element name="CBNegFleMaintMtvnSvcRes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="MtvnSvcVer">
+          <xs:annotation>
+            <xs:documentation>The version of this message.   Currently 1.0</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="1.0"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="MsgUUID" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="Svc" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SvcParms">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ApplID">
+                      <xs:annotation>
+                        <xs:documentation>The application ID of the service.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CB"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcID">
+                      <xs:annotation>
+                        <xs:documentation>The service ID.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CBNegFleMaint"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcVer">
+                      <xs:annotation>
+                        <xs:documentation>The service version.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="1.0"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="RqstUUID" type="xs:string" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="MsgData">
+                <xs:complexType>
+                  <xs:choice>
+                    <xs:element name="DefaultResData" type="xs:string"/>
+                    <xs:element ref="cw320:CBNegFleMaintResData"/>
+                  </xs:choice>
+                </xs:complexType>
+              </xs:element>
+              <xs:element ref="cw000:ErrCde"/>
+              <xs:element ref="cw000:ErrMsg" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="cw000:ErrCde"/>
+        <xs:element ref="cw000:ErrMsg" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardActivation\CBNegFleMaintResDataV1.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBNegFleMaintResData" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="mtvnCWCBNegFleMaintResData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CBNegFleMaintResData">
+    <xs:annotation>
+      <xs:documentation>Cardbase Negative File Maintenance (CB250) - This function will allow the user to add a card to the negative file, maintain a card on the negative file, or delete a card from the negative file.  It can also be used to change the status of a card.   A negative file is a reference file that maintains a list of all cardholder accounts that are not valid for transaction use (hot cards) or that are only valid for deposit (credit) transactions (warm cards).    MasterCard's Warning Bulletin is a list of invalid MasterCard account numbers, covering the U.S. and five worldwide regions, published weekly or bi-weekly depending on the region. The issuer is charged per account number and per region for each Bulletin listing.  In addition, MasterCard's Stand-In File is a worldwide database of account numbers of lost/stolen cards or other cards that issuers have designated for confiscation, referral to issuers, or other special handling. All transactions routed through the MasterCard network have their account numbers checked against the Stand-In File.   VISA's Exception File is a worldwide database of account numbers of lost/stolen cards or other cards that issuers have designated for confiscation, referral to issuers, or other special handling.  All transactions routed through the VISA Payment System have their account numbers checked against the Exception File.  In addition, VISA's Recovery Bulletin is an international printed list of lost/stolen, counterfeit, and other cards that issuers have listed for pickup. The Recovery Bulletin is only printed in countries outside the United States.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="E130013" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>CB Card Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130015" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Institution Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130050" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Card Status</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130051" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Reason Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130362" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>CB Originator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130442" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Stand-In Update Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130443" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Stand-In Reason Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130444" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Update Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130445" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Reason Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130446" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Region 1 Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130447" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Region A Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130448" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Region B Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130449" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Region C Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130450" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Region D Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130451" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Warning Bulletin Region E Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130452" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Exception File Update Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130453" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Exception File Purge Date</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130454" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Exception File Action Code</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130455" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Recovery Bulletin Region A Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130456" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Recovery Bulletin Region B Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130457" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Recovery Bulletin Region C Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130458" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Recovery Bulletin Region E Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130459" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Recovery Bulletin Region F Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130460" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Send to Negative File Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="ErrCde" type="xs:string" minOccurs="0"/>
+        <xs:element name="ErrResnCde" type="xs:string" minOccurs="0"/>
+        <xs:element name="ApplMsgLst" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ApplMsg" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="ApplMsgApplId" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgNbr" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgTxt" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgErrInd" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgFld" type="xs:string" minOccurs="0"/>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://xmlgateway.metavante.org/ConnectwareWS/CBNegFleMaintWSV1</con:endpoint></con:endpoints><con:operation id="e5788f2f-a502-442a-b6a5-76c4df71c348" isOneWay="false" action="CBNegFleMaintWSV1:CBNegFleMaintMtvnSvcReqMsg" name="CBNegFleMaint" bindingOperationName="CBNegFleMaint" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="cf938558-090b-42e2-9657-c98d344d9c35" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://xmlgateway.metavante.org/ConnectwareWS/CBNegFleMaintWSV1</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mtv="mtvnCWCBNegFleMaintSvcReq" xmlns:mtv1="mtvnCWCBNegFleMaintReqData">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mtv:CBNegFleMaintMtvnSvcReq>
+          <mtv:MtvnSvcVer>1.0</mtv:MtvnSvcVer>
+         <mtv:MsgUUID>5BC766b1-7fd7-08A0-3bEc-E85Eaee1fdED</mtv:MsgUUID>
+          <mtv:PrcsParms>
+            <mtv:SrcID>CRD008</mtv:SrcID>
+            <!--Optional:-->
+            <mtv:TestInd></mtv:TestInd>
+         </mtv:PrcsParms>
+         <!--1 or more repetitions:-->
+         <mtv:Svc>
+            <mtv:SvcParms>
+               <mtv:ApplID>CB</mtv:ApplID>
+               <mtv:SvcID>CBNegFleMaint</mtv:SvcID>
+               <mtv:SvcVer>1.0</mtv:SvcVer>
+               <!--Optional:-->
+                <mtv:SvcNme></mtv:SvcNme>
+               <!--Optional:-->
+               <mtv:RqstUUID>131005e4-4258-9cec-CC99-0Cf84dEC7db5</mtv:RqstUUID>
+               <mtv:RoutingID>G7V</mtv:RoutingID>
+               <!--Optional:-->
+               <mtv:Src>
+                  <!--Optional:-->
+                  <mtv:FieldList>
+                     <!--1 or more repetitions:-->
+                     <mtv:Field>
+                        <mtv:FieldNme></mtv:FieldNme>
+                        <mtv:FieldVal></mtv:FieldVal>
+                     </mtv:Field>
+                  </mtv:FieldList>
+                  <!--Optional:-->
+                  <mtv:GrpBusFunc></mtv:GrpBusFunc>
+                  <!--Optional:-->
+                  <mtv:TranInfo></mtv:TranInfo>
+                  <!--Optional:-->
+                  <mtv:CustDefMsgSrc1></mtv:CustDefMsgSrc1>
+                  <!--Optional:-->
+                  <mtv:CustDefMsgSrc2></mtv:CustDefMsgSrc2>
+               </mtv:Src>
+            </mtv:SvcParms>
+            <mtv:Security>
+               <!--You have a CHOICE of the next 4 items at this level-->
+               <mtv:NoAuth></mtv:NoAuth>
+               <mtv:BasicAuth>
+                  <mtv:UsrID>CG7V032</mtv:UsrID>
+                  <mtv:Pwd>Monday@2</mtv:Pwd>
+               </mtv:BasicAuth>
+                
+               <mtv:SAMLAuth>
+                  <!--1 or more repetitions:-->
+                  <mtv:Assertion></mtv:Assertion>
+               </mtv:SAMLAuth>
+            </mtv:Security>
+            <mtv:MsgData>
+               <mtv1:CBNegFleMaintReqData>
+                  <mtv1:E130013>5400290040068571</mtv1:E130013>
+                  <!--Optional:-->
+                  <mtv1:E130015></mtv1:E130015>
+                  <!--Optional:-->
+                  <mtv1:E130050>7</mtv1:E130050>
+                  <!--Optional:-->
+                  <mtv1:E130051></mtv1:E130051>
+                  <!--Optional:-->
+                  <mtv1:E130362></mtv1:E130362>
+                  <!--Optional:-->
+                  <mtv1:E130442></mtv1:E130442>
+                  <!--Optional:-->
+                  <mtv1:E130443></mtv1:E130443>
+                  <!--Optional:-->
+                  <mtv1:E130444></mtv1:E130444>
+                  <!--Optional:-->
+                  <mtv1:E130445></mtv1:E130445>
+                  <!--Optional:-->
+                  <mtv1:E130446></mtv1:E130446>
+                  <!--Optional:-->
+                  <mtv1:E130447></mtv1:E130447>
+                  <!--Optional:-->
+                  <mtv1:E130448></mtv1:E130448>
+                  <!--Optional:-->
+                  <mtv1:E130449></mtv1:E130449>
+                  <!--Optional:-->
+                  <mtv1:E130450></mtv1:E130450>
+                  <!--Optional:-->
+                  <mtv1:E130451></mtv1:E130451>
+                  <!--Optional:-->
+                  <mtv1:E130452></mtv1:E130452>
+                  <!--Optional:-->
+                  <mtv1:E130453></mtv1:E130453>
+                  <!--Optional:-->
+                  <mtv1:E130454></mtv1:E130454>
+                  <!--Optional:-->
+                  <mtv1:E130455></mtv1:E130455>
+                  <!--Optional:-->
+                  <mtv1:E130456></mtv1:E130456>
+                  <!--Optional:-->
+                  <mtv1:E130457></mtv1:E130457>
+                  <!--Optional:-->
+                  <mtv1:E130458></mtv1:E130458>
+                  <!--Optional:-->
+                  <mtv1:E130459></mtv1:E130459>
+                  <!--Optional:-->
+                  <mtv1:E130460></mtv1:E130460>
+               </mtv1:CBNegFleMaintReqData>
+            </mtv:MsgData>
+         </mtv:Svc>
+      </mtv:CBNegFleMaintMtvnSvcReq>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="CBNegFleMaintWSV1:CBNegFleMaintMtvnSvcReqMsg"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

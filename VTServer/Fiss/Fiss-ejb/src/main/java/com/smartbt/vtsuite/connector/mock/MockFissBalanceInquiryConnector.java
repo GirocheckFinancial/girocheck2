@@ -23,7 +23,7 @@ import com.smartbt.vtsuite.ws.balanceInquiry.CBAcctInqMtvnSvcReq;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MockFissBalanceInquiryConnector implements Connector {
+public class MockFissBalanceInquiryConnector extends Connector {
 
     private static MockFissBalanceInquiryConnector INSTANCE;
 
@@ -40,7 +40,7 @@ public class MockFissBalanceInquiryConnector implements Connector {
         Map<FissParam, Object> responseMap = new HashMap<>();
         responseMap.put(FissParam.SUCCESS, true);
 
-        Double amount = (Double) params.get(ParameterName.AMMOUNT);
+        Double amount = (Double) params.get(ParameterName.AMOUNT);
 
         int resultCode = 7;
 

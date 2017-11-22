@@ -22,7 +22,7 @@ import com.smartbt.vtsuite.util.FissParam;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MockFissCardActivationConnector implements Connector {
+public class MockFissCardActivationConnector extends Connector {
 
     private static MockFissCardActivationConnector INSTANCE;
 

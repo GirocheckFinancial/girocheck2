@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="efc56215-228f-4a76-8414-d407db8bff64" activeEnvironment="Default" name="FISS_Balance_Inquiry" resourceRoot="" soapui-version="5.2.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="d82b03c9-a3a5-43e9-8121-e9551765e601" wsaVersion="NONE" name="mtvnCWCBAcctInqWSV15" type="wsdl" bindingName="{mtvnCBAcctInqWSV15}mtvnCWCBAcctInqWSV15" soapVersion="1_1" anonymous="optional" definition="file:/C:/Glassfish/fiss_wsdl/balanceInquiry/CBAcctInqWSV15.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Glassfish\fiss_wsdl\balanceInquiry\CBAcctInqWSV15.wsdl"><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\balanceInquiry\CBAcctInqWSV15.wsdl</con:url><con:content><![CDATA[<definitions targetNamespace="mtvnCBAcctInqWSV15" name="mtvnCBAcctInqWSV15" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBAcctInqWSV15" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:import0="mtvnCWCBAcctInqSvcReq" xmlns:import1="mtvnCWCBAcctInqSvcRes" xmlns="http://schemas.xmlsoap.org/wsdl/">
+<con:soapui-project id="efc56215-228f-4a76-8414-d407db8bff64" activeEnvironment="Default" name="FISS_Balance_Inquiry" resourceRoot="" soapui-version="5.2.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="d82b03c9-a3a5-43e9-8121-e9551765e601" wsaVersion="NONE" name="mtvnCWCBAcctInqWSV15" type="wsdl" bindingName="{mtvnCBAcctInqWSV15}mtvnCWCBAcctInqWSV15" soapVersion="1_1" anonymous="optional" definition="file:/C:/Glassfish/fiss_wsdl/balanceInquiry/CBAcctInqWSV15.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Glassfish\fiss_wsdl\balanceInquiry\CBAcctInqWSV15.wsdl"><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\balanceInquiry\CBAcctInqWSV15.wsdl</con:url><con:content><![CDATA[<definitions targetNamespace="mtvnCBAcctInqWSV15" name="mtvnCBAcctInqWSV15" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBAcctInqWSV15" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:import0="mtvnCWCBAcctInqSvcReq" xmlns:import1="mtvnCWCBAcctInqSvcRes" xmlns="http://schemas.xmlsoap.org/wsdl/">
   <documentation>Connectware Web Service Interface</documentation>
   <types>
     <xsd:schema>
@@ -1039,11 +1039,9 @@
    <soapenv:Body>\r
       <mtv:CBAcctInqMtvnSvcReq>\r
          <mtv:MtvnSvcVer>1.0</mtv:MtvnSvcVer>\r
-         <mtv:MsgUUID>UzJQHBWR-U9z1-E1oR-6UVK-C2vQY5TtzguX</mtv:MsgUUID>\r
+         <mtv:MsgUUID>5BC766b1-7fd7-08A0-3bEc-E85Eaee1fdEB</mtv:MsgUUID>\r
          <mtv:PrcsParms>\r
-            <mtv:SrcID>CRD008</mtv:SrcID>\r
-            <!--Optional:-->\r
-            <mtv:TestInd></mtv:TestInd>\r
+            <mtv:SrcID>CRD008</mtv:SrcID>\r 
          </mtv:PrcsParms>\r
          <!--1 or more repetitions:-->\r
          <mtv:Svc>\r
@@ -1052,9 +1050,9 @@
                <mtv:SvcID>CBAcctInq</mtv:SvcID>\r
                <mtv:SvcVer>15.0</mtv:SvcVer>\r
                <!--Optional:-->\r
-               <mtv:SvcNme> </mtv:SvcNme>\r
+               <mtv:SvcNme></mtv:SvcNme>\r
                <!--Optional:-->\r
-               <mtv:RqstUUID>hemgyP6x-EPlF-LfGJ-Dj7H-Jq0QsP1h3ckA</mtv:RqstUUID>\r
+               <mtv:RqstUUID>131005e4-4258-9cec-CC99-0Cf84dEC7db3</mtv:RqstUUID>\r
                <mtv:RoutingID>G7V</mtv:RoutingID>\r
                <!--Optional:-->\r
                <mtv:Src>\r
@@ -1062,43 +1060,32 @@
                   <mtv:FieldList>\r
                      <!--1 or more repetitions:-->\r
                      <mtv:Field>\r
-                        <mtv:FieldNme>  </mtv:FieldNme>\r
-                        <mtv:FieldVal> </mtv:FieldVal>\r
+                        <mtv:FieldNme></mtv:FieldNme>\r
+                        <mtv:FieldVal></mtv:FieldVal>\r
                      </mtv:Field>\r
                   </mtv:FieldList>\r
                   <!--Optional:-->\r
-                  <mtv:GrpBusFunc> </mtv:GrpBusFunc>\r
+                  <mtv:GrpBusFunc></mtv:GrpBusFunc>\r
                   <!--Optional:-->\r
-                  <mtv:TranInfo> </mtv:TranInfo>\r
+                  <mtv:TranInfo></mtv:TranInfo>\r
                   <!--Optional:-->\r
-                  <mtv:CustDefMsgSrc1> </mtv:CustDefMsgSrc1>\r
+                  <mtv:CustDefMsgSrc1></mtv:CustDefMsgSrc1>\r
                   <!--Optional:-->\r
-                  <mtv:CustDefMsgSrc2> </mtv:CustDefMsgSrc2>\r
+                  <mtv:CustDefMsgSrc2></mtv:CustDefMsgSrc2>\r
                </mtv:Src>\r
             </mtv:SvcParms>\r
-            <mtv:Security>\r
-               <!--You have a CHOICE of the next 4 items at this level-->\r
-               <mtv:NoAuth> </mtv:NoAuth>\r
+            <mtv:Security>\r 
                <mtv:BasicAuth>\r
                   <mtv:UsrID>CG7V032</mtv:UsrID>\r
                   <mtv:Pwd>Monday@2</mtv:Pwd>\r
                </mtv:BasicAuth>\r
-               <mtv:SessionAuth>\r
-                  <!--You have a CHOICE of the next 2 items at this level-->\r
-                  <mtv:SessionID> </mtv:SessionID>\r
-                  <mtv:HttpSessionID> </mtv:HttpSessionID>\r
-               </mtv:SessionAuth>\r
-               <mtv:SAMLAuth>\r
-                  <!--1 or more repetitions:-->\r
-                  <mtv:Assertion> </mtv:Assertion>\r
-               </mtv:SAMLAuth>\r
+         
             </mtv:Security>\r
             <mtv:MsgData>\r
                <mtv1:CBAcctInqReqData>\r
                   <!--Optional:-->\r
                   <mtv1:E130013>5400290040068571</mtv1:E130013>\r
-                  <!--Optional:-->\r
-                  <mtv1:E130643></mtv1:E130643>\r
+             
                </mtv1:CBAcctInqReqData>\r
             </mtv:MsgData>\r
          </mtv:Svc>\r

@@ -81,12 +81,12 @@ public class FrontBusinessLogic {
                     && (((String) transactionData.get(ParameterName.SSN)) == null || ((String) transactionData.get(ParameterName.SSN)).isEmpty())) {
                 return DirexTransactionResponse.forException(ResultCode.SSN_REQUIRED, ResultMessage.SSN_REQUIRED);
             }
-            if (transactionData.containsKey(ParameterName.AMMOUNT)) {
-                String ammountString = (String) transactionData.get(ParameterName.AMMOUNT);
+            if (transactionData.containsKey(ParameterName.AMOUNT)) {
+                String ammountString = (String) transactionData.get(ParameterName.AMOUNT);
                 ammountString = ammountString.replace("$", "");
                 try {
                     double ammount = Double.parseDouble(ammountString);
-                    transactionData.put(ParameterName.AMMOUNT, ammount);
+                    transactionData.put(ParameterName.AMOUNT, ammount);
                 } catch (NumberFormatException e) {
                     return DirexTransactionResponse.forException(ResultCode.TERMINAL_WRONG_AMMOUNT_FORMAT, ResultMessage.TERMINAL_WRONG_AMMOUNT_FORMAT);
                 }

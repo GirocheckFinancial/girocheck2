@@ -20,7 +20,6 @@ import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
 import com.smartbt.vtsuite.util.FissParam;
-import com.smartbt.vtsuite.ws.balanceInquiry.CBAcctInqResData;
 import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgMtvnSvcReq;
 import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgMtvnSvcRes;
 import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgResData;
@@ -30,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
-public class FissCardPersonalizationConnector implements Connector {
+public class FissCardPersonalizationConnector extends Connector {
 
     private MtvnCWCBNmeAddrChgWSV13Interface port;
     private MtvnCWCBNmeAddrChgWSV13 service;
@@ -58,6 +57,7 @@ public class FissCardPersonalizationConnector implements Connector {
                     BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                     url);
 
+            addLogger(bindingProvider);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

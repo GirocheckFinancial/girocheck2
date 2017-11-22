@@ -28,7 +28,7 @@ public class NewBranchRequest {
         StringBuilder sb = new StringBuilder("{");
 
         sb.append("\"ID_COMPANY\" : \"1\",");  //TODO Which ID company should Girocheck use?
-        sb.append("\"ID_BRANCH\" : \"" + map.get(ParameterName.MERCHANT_ID) + "\",");
+        sb.append("\"ID_BRANCH\" : \"" + map.get(ParameterName.IDMERCHANT) + "\",");
         sb.append("\"NAME_BRANCH\" : \"" + map.get(ParameterName.MERCHANT_NAME) + "\",");
         sb.append("\"ADDRESS_BRANCH\" : \"" + map.get(ParameterName.ADDRESS) + "\",");
         sb.append("\"ID_CITY\" : \"" + map.get(ParameterName.ZIPCODE) + "\",");
@@ -45,7 +45,7 @@ public class NewBranchRequest {
         sb.append("\"ZIP_BRANCH\" : \"" + map.get(ParameterName.ZIPCODE) + "\",");
         sb.append("\"CURRENCY_PAY_BRANCH\" : \"3\",");
         sb.append("\"SUB_GRUPO_PAGADOR\" : \"\",");
-        sb.append("\"consecutivo_branch\" : \"" + map.get(ParameterName.MERCHANT_ID) + "\",");
+        sb.append("\"consecutivo_branch\" : \"" + map.get(ParameterName.IDMERCHANT) + "\",");
         sb.append("\"TITULO_RECIBO\" : \"\",");
         sb.append("\"encabezado\" : \"\"");
 

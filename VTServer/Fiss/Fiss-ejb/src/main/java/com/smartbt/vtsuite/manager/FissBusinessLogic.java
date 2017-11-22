@@ -21,7 +21,6 @@ import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionRequest;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.connector.ConnectorFactory;
-import com.smartbt.vtsuite.util.CardLoadType;
 import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.util.FissPrintUtil;
 import com.smartbt.vtsuite.util.FissUtil;
@@ -53,13 +52,13 @@ public class FissBusinessLogic {
         params.put(ParameterName.BORNDATE_AS_DATE, new Date());
         params.put(ParameterName.TELEPHONE, "7864540209");
         params.put(ParameterName.FISS_PRODUCT_ID, FissUtil.PRODUCT_ID);
-        params.put(ParameterName.AMMOUNT, 34.56);
+        params.put(ParameterName.AMOUNT, 34.56);
         params.put(ParameterName.PASSWORD, "#Girocheck1");
         params.put(ParameterName.PIN, "1234");
 
         request.setTransactionData(params);
 
-        //  FissBusinessLogic.get().process(request);
+        FissBusinessLogic.get().process(TransactionType.CARD_VALIDATION, request);
     }
 
     public static synchronized FissBusinessLogic get() {
@@ -97,9 +96,9 @@ public class FissBusinessLogic {
             case CARD_TO_BANK:
                 responseMap = cardCashing(transactionData);
                 break;
-            case FISS_SET_PRODUCT_ID://not need for now
-                responseMap = setProductId(transactionData);
-                break;
+//            case FISS_SET_PRODUCT_ID://not need for now
+//                responseMap = setProductId(transactionData);
+//                break;
             case FISS_CHANGE_PASSWORD://need to do a job for this
                 responseMap = changePassword(transactionData);
                 break;
@@ -122,15 +121,9 @@ public class FissBusinessLogic {
 
         FissPrintUtil.printResponse(transactionType + "_RESPONSE", responseMap);
 
-        if ((Boolean) responseMap.get(FissParam.SUCCESS) == true) {
+        if (wasSuccess(responseMap)) {
             Map<ParameterName, Object> fissData = (Map<ParameterName, Object>) responseMap.get(FissParam.FISS_PERSONAL_INFO_DATA);
-
-            System.out.println("responseMap.containsKey(FissParam.RESULT_CODE) = " + responseMap.containsKey(FissParam.RESULT_CODE));
-            System.out.println("((Integer) responseMap.get(FissParam.RESULT_CODE) == 1 = " + (((Integer) responseMap.get(FissParam.RESULT_CODE)) == 1));
-            System.out.println("params.get(ParameterName.SSN) = " + params.get(ParameterName.SSN));
-            System.out.println("fissData.get(FissParam.SSN) = " + fissData.get(FissParam.SSN));
-            System.out.println("!params.get(ParameterName.SSN).equals(fissData.get(FissParam.SSN))) = " + !params.get(ParameterName.SSN).equals(fissData.get(FissParam.SSN)));
-
+ 
             if (fissData == null
                     || (responseMap.containsKey(FissParam.RESULT_CODE) && ((Integer) responseMap.get(FissParam.RESULT_CODE) == 1)
                     && !params.get(ParameterName.SSN).equals(fissData.get(ParameterName.SSN)))) {
@@ -162,12 +155,21 @@ public class FissBusinessLogic {
 
     private Map restoreCard(Map params) {
         System.out.println("[FissBusinessLogic] restoreCard");
-        Map<ParameterName, String> fissPersonalInfoData = (Map<ParameterName, String>) params.get(ParameterName.FISS_PERSONAL_INFO_DATA);
 
-        params.putAll(fissPersonalInfoData);
+        params.put(ParameterName.STATUS_CODE, "7");
+        Map<FissParam, Object> responseMap = ConnectorFactory.getCardActivationConnector().callWS(params);
+        FissPrintUtil.printResponse("RESTORE_CARD_DEACTIVATION_RESPONSE", responseMap);
 
-        Map<FissParam, Object> responseMap = ConnectorFactory.getCardPersonalizationConnector().callWS(params);
-        FissPrintUtil.printResponse("RESTORE_CARD_RESPONSE", responseMap);
+        if (wasSuccess(responseMap)) {
+            Map<ParameterName, String> fissPersonalInfoData = (Map<ParameterName, String>) params.get(ParameterName.FISS_PERSONAL_INFO_DATA);
+
+            params.putAll(fissPersonalInfoData);
+
+            responseMap = ConnectorFactory.getCardPersonalizationConnector().callWS(params);
+            FissPrintUtil.printResponse("RESTORE_CARD_PERSONALIZATION_RESPONSE", responseMap);
+           
+        }
+
         return responseMap;
     }
 
@@ -180,6 +182,7 @@ public class FissBusinessLogic {
 
     private Map cardActivation(Map params) {
         System.out.println("[FissBusinessLogic] cardActivtion");
+        params.put(ParameterName.STATUS_CODE, "1");
         Map<FissParam, Object> responseMap = ConnectorFactory.getCardActivationConnector().callWS(params);
         FissPrintUtil.printResponse("CARD_ACTIVATION_RESPONSE", responseMap);
         return responseMap;
@@ -194,18 +197,16 @@ public class FissBusinessLogic {
         Map<FissParam, Object> responseMap;
 
         if (isCheck) {
-            params.put(ParameterName.REQUEST_TYPE, ParameterName.AMMOUNT);
+            params.put(ParameterName.REQUEST_TYPE, ParameterName.AMOUNT);
             responseMap = ConnectorFactory.getCardLoadConnector().callWS(params);
         } else {
-            //TODO implement cash
-            responseMap = null;
+            responseMap = ConnectorFactory.getCardLoadCashConnector().callWS(params); 
         }
         FissPrintUtil.printResponse("CARD_LOAD_RESPONSE", responseMap);
 
-        if (responseMap != null && responseMap.containsKey(FissParam.SUCCESS)
-                && (Boolean) responseMap.get(FissParam.SUCCESS) == true) {
+        if (wasSuccess(responseMap)) {
 
-            params.put(ParameterName.REQUEST_TYPE, ParameterName.FEE_AMMOUNT);
+            params.put(ParameterName.REQUEST_TYPE, ParameterName.FEE_AMOUNT);
 
             responseMap = ConnectorFactory.getCardLoadConnector().callWS(params);
             FissPrintUtil.printResponse("CARD_LOAD_FEE_RESPONSE", responseMap);
@@ -214,11 +215,11 @@ public class FissBusinessLogic {
         return responseMap;
     }
 
-    private Map cardCashing(Map params) {
+    private Map cardCashing(Map transactionData) {
         System.out.println("[FissBusinessLogic] cardCashing");
-        Map result = new HashMap();
-
-        return result;
+        Map<FissParam, Object> responseMap = ConnectorFactory.getCardCashingConnector().callWS(transactionData);
+        FissPrintUtil.printResponse("CARD_CASHING_RESPONSE", responseMap);
+        return responseMap;
     }
 
     private Map changePassword(Map transactionData) {
@@ -233,4 +234,8 @@ public class FissBusinessLogic {
         return responseMap;
     }
 
+    private boolean wasSuccess(Map<FissParam, Object> responseMap) {
+        return responseMap != null && responseMap.containsKey(FissParam.SUCCESS)
+                && (Boolean) responseMap.get(FissParam.SUCCESS) == true;
+    }
 }

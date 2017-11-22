@@ -59,10 +59,10 @@ public class Code implements IBuilder{
 
       @Override 
     public Code build(Map map) throws Exception{ 
-      extra=  MapUtil.getStringValueFromMap(map, ParameterName.EXTRA, false);
-      extra2=  MapUtil.getStringValueFromMap(map, ParameterName.EXTRA2, false);
-      label=  MapUtil.getStringValueFromMap(map, ParameterName.LABEL, false);
-      value=  MapUtil.getStringValueFromMap(map, ParameterName.VALUE, false);
+//      extra=  MapUtil.getStringValueFromMap(map, ParameterName.EXTRA, false);
+//      extra2=  MapUtil.getStringValueFromMap(map, ParameterName.EXTRA2, false);
+    //  label=  MapUtil.getStringValueFromMap(map, ParameterName.LABEL, false);
+      //value=  MapUtil.getStringValueFromMap(map, ParameterName.VALUE, false);
       return this; 
   } 
     

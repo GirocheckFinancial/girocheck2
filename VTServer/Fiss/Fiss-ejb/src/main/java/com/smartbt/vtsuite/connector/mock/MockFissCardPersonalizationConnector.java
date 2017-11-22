@@ -23,7 +23,7 @@ import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgMtvnSvcReq;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MockFissCardPersonalizationConnector implements Connector {
+public class MockFissCardPersonalizationConnector extends Connector {
  
     private static MockFissCardPersonalizationConnector INSTANCE;
 

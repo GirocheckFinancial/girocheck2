@@ -27,7 +27,7 @@ import com.smartbt.vtsuite.ws.history.hold.MtvnCWCBHoldListInqWSV2Interface;
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
-public class FissTransactionHistoryHoldConnector implements Connector {
+public class FissTransactionHistoryHoldConnector extends Connector {
 
     private MtvnCWCBHoldListInqWSV2Interface port;
     private MtvnCWCBHoldListInqWSV2 service;
@@ -54,6 +54,8 @@ public class FissTransactionHistoryHoldConnector implements Connector {
             bindingProvider.getRequestContext().put(
                     BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                     url);
+            
+            addLogger(bindingProvider);
 
         } catch (Exception ex) {
             ex.printStackTrace();

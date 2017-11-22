@@ -67,7 +67,7 @@ public class PostTransactionRequest {
         sb.append("\"NOTES_RECEIVER\" : \"\",");
         sb.append("\"DATE_RECEIVER\" : \"\",");
         sb.append("\"TIME_RECEIVER\" : \"\",");
-        sb.append("\"NET_AMOUNT_RECEIVER\" : \"" + map.get(ParameterName.AMMOUNT) + "\",");
+        sb.append("\"NET_AMOUNT_RECEIVER\" : \"" + map.get(ParameterName.AMOUNT) + "\",");
         sb.append("\"RATE_CHANGE_RECEIVER\" : \"2961\",");
         sb.append("\"TELEX_RECEIVER\" : \"12\",");
         sb.append("\"URGENCY_RECEIVER\" : \"0\",");

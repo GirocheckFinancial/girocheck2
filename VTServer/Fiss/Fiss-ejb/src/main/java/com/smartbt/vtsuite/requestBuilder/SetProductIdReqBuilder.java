@@ -13,7 +13,7 @@ import static com.smartbt.vtsuite.util.FissParam.ROUTING_ID;
 import static com.smartbt.vtsuite.util.FissParam.SERVICE_ID;
 import static com.smartbt.vtsuite.util.FissParam.SERVICE_VERSION;
 import static com.smartbt.vtsuite.util.FissParam.SOURCE_ID;
-import static com.smartbt.vtsuite.util.FissParam.TEST_INDICATOR;
+
 import static com.smartbt.vtsuite.util.FissParam.USER; 
 import com.smartbt.vtsuite.util.FissPrintUtil;
 import static com.smartbt.vtsuite.util.FissPrintUtil.buildXML;
@@ -55,10 +55,9 @@ public class SetProductIdReqBuilder {
 
     private static CBProdIDMaintMtvnSvcReq.PrcsParms buildPrcsParams(String space, Map<FissParam, String> map, StringBuilder sb) {
         CBProdIDMaintMtvnSvcReq.PrcsParms params = new CBProdIDMaintMtvnSvcReq.PrcsParms();
-        params.setSrcID(map.get(SOURCE_ID));
-        params.setTestInd(map.get(TEST_INDICATOR));
+        params.setSrcID(map.get(SOURCE_ID)); 
 
-        sb.append(buildXML("PRCS_PARAMS", map, space, SOURCE_ID, TEST_INDICATOR));
+        sb.append(buildXML("PRCS_PARAMS", map, space, SOURCE_ID));
         return params;
     }
 

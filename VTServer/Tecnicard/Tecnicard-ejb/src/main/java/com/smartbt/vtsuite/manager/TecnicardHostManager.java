@@ -104,18 +104,18 @@ public class TecnicardHostManager implements HostTxManager{
          */
         DirexTransactionResponse response;
 
-        if (request.getTransactionData().containsKey(ParameterName.AMMOUNT)) {
-            request.getTransactionData().put(ParameterName.AMMOUNT, FixUtil.fixAmmount(request.getTransactionData().get(ParameterName.AMMOUNT).toString()));
-            CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[TecnicardHostManager] Parsing  amount value :: " + request.getTransactionData().get(ParameterName.AMMOUNT), null);
+        if (request.getTransactionData().containsKey(ParameterName.AMOUNT)) {
+            request.getTransactionData().put(ParameterName.AMOUNT, FixUtil.fixAmmount(request.getTransactionData().get(ParameterName.AMOUNT).toString()));
+            CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[TecnicardHostManager] Parsing  amount value :: " + request.getTransactionData().get(ParameterName.AMOUNT), null);
         }
 
-        if (request.getTransactionData().containsKey(ParameterName.PAYOUT_AMMOUNT)) {
-            request.getTransactionData().put(ParameterName.PAYOUT_AMMOUNT, FixUtil.fixAmmount(request.getTransactionData().get(ParameterName.PAYOUT_AMMOUNT).toString()));
-            CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[TecnicardHostManager] Parsing  payOut_amount value :: " + request.getTransactionData().get(ParameterName.PAYOUT_AMMOUNT), null);
+        if (request.getTransactionData().containsKey(ParameterName.PAYOUT_AMOUNT)) {
+            request.getTransactionData().put(ParameterName.PAYOUT_AMOUNT, FixUtil.fixAmmount(request.getTransactionData().get(ParameterName.PAYOUT_AMOUNT).toString()));
+            CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[TecnicardHostManager] Parsing  payOut_amount value :: " + request.getTransactionData().get(ParameterName.PAYOUT_AMOUNT), null);
         }
-        if (request.getTransactionData().containsKey(ParameterName.FEE_AMMOUNT)) {
-            request.getTransactionData().put(ParameterName.FEE_AMMOUNT, FixUtil.fixAmmount(request.getTransactionData().get(ParameterName.FEE_AMMOUNT).toString()));
-            CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[TecnicardHostManager] Parsing  fee_amount value :: " + request.getTransactionData().get(ParameterName.FEE_AMMOUNT), null);
+        if (request.getTransactionData().containsKey(ParameterName.FEE_AMOUNT)) {
+            request.getTransactionData().put(ParameterName.FEE_AMOUNT, FixUtil.fixAmmount(request.getTransactionData().get(ParameterName.FEE_AMOUNT).toString()));
+            CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[TecnicardHostManager] Parsing  fee_amount value :: " + request.getTransactionData().get(ParameterName.FEE_AMOUNT), null);
         }
 
         TransactionType originalTransactionType = (TransactionType) request.getTransactionData().get(TransactionType.TRANSACTION_TYPE);

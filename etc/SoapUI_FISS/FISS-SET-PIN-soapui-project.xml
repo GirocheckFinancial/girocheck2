@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="5c41ccf1-8efa-4a67-a4d3-fcc2108d2af2" activeEnvironment="Default" name="FISS_SET_PIN" resourceRoot="" soapui-version="5.2.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="57cc348e-d56d-4287-b03c-d60403a6a83e" wsaVersion="NONE" name="mtvnCWCBPinOffsetChgWSV1" type="wsdl" bindingName="{mtvnCBPinOffsetChgWSV1}mtvnCWCBPinOffsetChgWSV1" soapVersion="1_1" anonymous="optional" definition="file:/C:/Glassfish/fiss_wsdl/setPin/CBPinOffsetChgWSV1.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Glassfish\fiss_wsdl\setPin\CBPinOffsetChgWSV1.wsdl"><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\setPin\CBPinOffsetChgWSV1.wsdl</con:url><con:content><![CDATA[<definitions targetNamespace="mtvnCBPinOffsetChgWSV1" name="mtvnCBPinOffsetChgWSV1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBPinOffsetChgWSV1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:import0="mtvnCWCBPinOffsetChgSvcReq" xmlns:import1="mtvnCWCBPinOffsetChgSvcRes" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <documentation>Connectware Web Service Interface</documentation>
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="./CBPinOffsetChgWSV1SvcReq.xsd" namespace="mtvnCWCBPinOffsetChgSvcReq"/>
+      <xsd:import schemaLocation="./CBPinOffsetChgWSV1SvcRes.xsd" namespace="mtvnCWCBPinOffsetChgSvcRes"/>
+    </xsd:schema>
+  </types>
+  <message name="CBPinOffsetChgMtvnSvcReqMsg">
+    <documentation/>
+    <part name="messagePart" element="import0:CBPinOffsetChgMtvnSvcReq"/>
+  </message>
+  <message name="CBPinOffsetChgMtvnSvcResMsg">
+    <documentation/>
+    <part name="messagePart" element="import1:CBPinOffsetChgMtvnSvcRes"/>
+  </message>
+  <portType name="mtvnCWCBPinOffsetChgWSV1Interface">
+    <documentation>CBPinOffsetChgWSV1</documentation>
+    <operation name="CBPinOffsetChg">
+      <documentation/>
+      <input message="tns:CBPinOffsetChgMtvnSvcReqMsg"/>
+      <output message="tns:CBPinOffsetChgMtvnSvcResMsg"/>
+    </operation>
+  </portType>
+  <binding name="mtvnCWCBPinOffsetChgWSV1" type="tns:mtvnCWCBPinOffsetChgWSV1Interface">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="CBPinOffsetChg">
+      <soap:operation soapAction="CBPinOffsetChgWSV1:CBPinOffsetChgMtvnSvcReqMsg" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="mtvnCWCBPinOffsetChgWSV1">
+    <port name="mtvnCWCBPinOffsetChgWSV1Port" binding="tns:mtvnCWCBPinOffsetChgWSV1">
+      <soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/CBPinOffsetChgWSV1"/>
+    </port>
+  </service>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\setPin\CBPinOffsetChgWSV1SvcReq.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBPinOffsetChgSvcReq" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cw000="mtvnCWCBPinOffsetChgSvcReq" xmlns:cw238="mtvnCWCBPinOffsetChgReqData">
+  <xs:import namespace="mtvnCWCBPinOffsetChgReqData" schemaLocation="./CBPinOffsetChgReqDataV1.xsd"/>
+  <xs:element name="CBPinOffsetChgMtvnSvcReq">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="MtvnSvcVer">
+          <xs:annotation>
+            <xs:documentation>The version of this message.   Currently 1.0</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="1.0"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="MsgUUID" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="PrcsParms">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SrcID" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>Connectware Vendor ID</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="TestInd" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>A value of Y will cause any database updates to be removed when the service completes.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Svc" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SvcParms">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ApplID">
+                      <xs:annotation>
+                        <xs:documentation>The application ID of the service.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CB"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcID">
+                      <xs:annotation>
+                        <xs:documentation>The service ID.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CBPinOffsetChg"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcVer">
+                      <xs:annotation>
+                        <xs:documentation>The service version.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="1.0"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcNme" type="xs:string" minOccurs="0"/>
+                    <xs:element name="RqstUUID" type="xs:string" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="RoutingID" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>Metavante processing organization ID.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Src" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="FieldList" minOccurs="0">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Field" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="FieldNme" type="xs:string"/>
+                                      <xs:element name="FieldVal" type="xs:string"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="GrpBusFunc" type="xs:string" minOccurs="0"/>
+                          <xs:element name="TranInfo" type="xs:string" minOccurs="0"/>
+                          <xs:element name="CustDefMsgSrc1" type="xs:string" minOccurs="0"/>
+                          <xs:element name="CustDefMsgSrc2" type="xs:string" minOccurs="0"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Security">
+                <xs:complexType>
+                  <xs:choice>
+                    <xs:element name="NoAuth" type="xs:string"/>
+                    <xs:element name="BasicAuth">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="UsrID" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>Metavante RACF user id.</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="Pwd" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>Metavante RACF password.</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="SessionAuth">
+                      <xs:complexType>
+                        <xs:choice>
+                          <xs:element name="SessionID" type="xs:string"/>
+                          <xs:element name="HttpSessionID" type="xs:string"/>
+                        </xs:choice>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="SAMLAuth">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Assertion" type="xs:string" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:choice>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="MsgData">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element ref="cw238:CBPinOffsetChgReqData"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\setPin\CBPinOffsetChgReqDataV1.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBPinOffsetChgReqData" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="mtvnCWCBPinOffsetChgReqData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CBPinOffsetChgReqData">
+    <xs:annotation>
+      <xs:documentation>Cardbase PIN Offset Change (CB235) - This fuctions allows the user to change the PIN or PIN offset for a card.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="E130015" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Institution Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130013" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Card Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130021" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>PIN Offset</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130305" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>PIN</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\setPin\CBPinOffsetChgWSV1SvcRes.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBPinOffsetChgSvcRes" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cw000="mtvnCWCBPinOffsetChgSvcRes" xmlns:cw238="mtvnCWCBPinOffsetChgResData">
+  <xs:import namespace="mtvnCWCBPinOffsetChgResData" schemaLocation="./CBPinOffsetChgResDataV1.xsd"/>
+  <xs:element name="ErrCde" type="xs:string"/>
+  <xs:element name="ErrMsg" type="xs:string"/>
+  <xs:element name="CBPinOffsetChgMtvnSvcRes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="MtvnSvcVer">
+          <xs:annotation>
+            <xs:documentation>The version of this message.   Currently 1.0</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="1.0"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="MsgUUID" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="Svc" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SvcParms">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ApplID">
+                      <xs:annotation>
+                        <xs:documentation>The application ID of the service.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CB"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcID">
+                      <xs:annotation>
+                        <xs:documentation>The service ID.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CBPinOffsetChg"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcVer">
+                      <xs:annotation>
+                        <xs:documentation>The service version.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="1.0"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="RqstUUID" type="xs:string" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="MsgData">
+                <xs:complexType>
+                  <xs:choice>
+                    <xs:element name="DefaultResData" type="xs:string"/>
+                    <xs:element ref="cw238:CBPinOffsetChgResData"/>
+                  </xs:choice>
+                </xs:complexType>
+              </xs:element>
+              <xs:element ref="cw000:ErrCde"/>
+              <xs:element ref="cw000:ErrMsg" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="cw000:ErrCde"/>
+        <xs:element ref="cw000:ErrMsg" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\setPin\CBPinOffsetChgResDataV1.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBPinOffsetChgResData" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="mtvnCWCBPinOffsetChgResData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CBPinOffsetChgResData">
+    <xs:annotation>
+      <xs:documentation>Cardbase PIN Offset Change (CB235) - This fuctions allows the user to change the PIN or PIN offset for a card.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="E130015" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Institution Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130013" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Card Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130021" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>PIN Offset</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130305" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>PIN</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="ErrCde" type="xs:string" minOccurs="0"/>
+        <xs:element name="ErrResnCde" type="xs:string" minOccurs="0"/>
+        <xs:element name="ApplMsgLst" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ApplMsg" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="ApplMsgApplId" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgNbr" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgTxt" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgErrInd" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgFld" type="xs:string" minOccurs="0"/>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://xmlgateway.metavante.org/ConnectwareWS/CBPinOffsetChgWSV1</con:endpoint></con:endpoints><con:operation id="e186ddf5-a2e9-4757-b7e6-953ddb1b9aa9" isOneWay="false" action="CBPinOffsetChgWSV1:CBPinOffsetChgMtvnSvcReqMsg" name="CBPinOffsetChg" bindingOperationName="CBPinOffsetChg" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="2eabc218-5ccd-4943-8dd1-5839be9695ad" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://xmlgateway.metavante.org/ConnectwareWS/CBPinOffsetChgWSV1</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mtv="mtvnCWCBPinOffsetChgSvcReq" xmlns:mtv1="mtvnCWCBPinOffsetChgReqData">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <mtv:CBPinOffsetChgMtvnSvcReq>\r
+         <mtv:MtvnSvcVer>1.0</mtv:MtvnSvcVer>\r
+         <mtv:MsgUUID>5BC766b1-7fd7-08A0-3bEc-E85Eaee1fdEC</mtv:MsgUUID>\r
+         <mtv:PrcsParms>\r
+            <mtv:SrcID>CRD008</mtv:SrcID>\r
+            <!--Optional:-->\r
+            <mtv:TestInd></mtv:TestInd>\r
+         </mtv:PrcsParms>\r
+         <!--1 or more repetitions:-->\r
+         <mtv:Svc>\r
+            <mtv:SvcParms>\r
+               <mtv:ApplID>CB</mtv:ApplID>\r
+               <mtv:SvcID>CBPinOffsetChg</mtv:SvcID>\r
+               <mtv:SvcVer>1.0</mtv:SvcVer>\r
+               <!--Optional:-->\r
+               <mtv:SvcNme></mtv:SvcNme>\r
+               <!--Optional:-->\r
+               <mtv:RqstUUID>131005e4-4258-9cec-CC99-0Cf84dEC7db4</mtv:RqstUUID>\r
+               <mtv:RoutingID>G7V</mtv:RoutingID>\r
+               <!--Optional:-->\r
+               <mtv:Src>\r
+                  <!--Optional:-->\r
+                  <mtv:FieldList>\r
+                     <!--1 or more repetitions:-->\r
+                     <mtv:Field>\r
+                        <mtv:FieldNme></mtv:FieldNme>\r
+                        <mtv:FieldVal></mtv:FieldVal>\r
+                     </mtv:Field>\r
+                  </mtv:FieldList>\r
+                  <!--Optional:-->\r
+                  <mtv:GrpBusFunc></mtv:GrpBusFunc>\r
+                  <!--Optional:-->\r
+                  <mtv:TranInfo></mtv:TranInfo>\r
+                  <!--Optional:-->\r
+                  <mtv:CustDefMsgSrc1></mtv:CustDefMsgSrc1>\r
+                  <!--Optional:-->\r
+                  <mtv:CustDefMsgSrc2></mtv:CustDefMsgSrc2>\r
+               </mtv:Src>\r
+            </mtv:SvcParms>\r
+            <mtv:Security>\r
+               <!--You have a CHOICE of the next 4 items at this level-->\r
+               <mtv:NoAuth></mtv:NoAuth>\r
+               <mtv:BasicAuth>\r
+                  <mtv:UsrID>CG7V032</mtv:UsrID>\r
+                  <mtv:Pwd>Monday@2</mtv:Pwd>\r
+               </mtv:BasicAuth>\r
+              
+               <mtv:SAMLAuth>\r
+                  <!--1 or more repetitions:-->\r
+                  <mtv:Assertion></mtv:Assertion>\r
+               </mtv:SAMLAuth>\r
+            </mtv:Security>\r
+            <mtv:MsgData>\r
+               <mtv1:CBPinOffsetChgReqData>\r
+                  <!--Optional:-->\r
+                  <mtv1:E130015></mtv1:E130015>\r
+                  <mtv1:E130013>5400290040068571</mtv1:E130013>\r
+                  <!--Optional:-->\r
+                  <mtv1:E130021></mtv1:E130021>\r
+                  <!--Optional:-->\r
+                  <mtv1:E130305>0001</mtv1:E130305>\r
+               </mtv1:CBPinOffsetChgReqData>\r
+            </mtv:MsgData>\r
+         </mtv:Svc>\r
+      </mtv:CBPinOffsetChgMtvnSvcReq>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="CBPinOffsetChgWSV1:CBPinOffsetChgMtvnSvcReqMsg"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

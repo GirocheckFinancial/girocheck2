@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="bf2c8fde-3557-4a2d-b8c4-770c03e89945" activeEnvironment="Default" name="GCH_Local_Front" resourceRoot="" soapui-version="5.0.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="5ecf6dbd-3457-4554-a43f-c05b6d77b124" wsaVersion="NONE" name="ScanPortBinding" type="wsdl" bindingName="{http://scan.girocheck.smartbt.com/}ScanPortBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8085/GirocheckFront/Scan?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8085/GirocheckFront/Scan?WSDL"><con:part><con:url>http://localhost:8085/GirocheckFront/Scan?WSDL</con:url><con:content><![CDATA[<!--Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown.-->
+<con:soapui-project id="bf2c8fde-3557-4a2d-b8c4-770c03e89945" activeEnvironment="Default" name="GCH_Local_Front" resourceRoot="" soapui-version="5.2.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="5ecf6dbd-3457-4554-a43f-c05b6d77b124" wsaVersion="NONE" name="ScanPortBinding" type="wsdl" bindingName="{http://scan.girocheck.smartbt.com/}ScanPortBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8085/GirocheckFront/Scan?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8085/GirocheckFront/Scan?WSDL"><con:part><con:url>http://localhost:8085/GirocheckFront/Scan?WSDL</con:url><con:content><![CDATA[<!--Published by JAX-WS RI (http://jax-ws.java.net). RI's version is Metro/2.3.1-b419 (branches/2.3.1.x-7937; 2014-08-04T08:11:03+0000) JAXWS-RI/2.2.10-b140803.1500 JAXWS-API/2.2.11 JAXB-RI/2.2.10-b140802.1033 JAXB-API/2.2.12-b140109.1041 svn-revision#unknown.-->
 <definitions targetNamespace="http://scan.girocheck.smartbt.com/" name="Scan" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://scan.girocheck.smartbt.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/">
   <types>
     <xsd:schema>
@@ -805,8 +805,9 @@
             <backTiff>cid:1323517839889</backTiff>
             <!--Optional:-->
             <batchName>?</batchName>
-            <!--Optional:-->
-            <cardNumber>5448353884100084</cardNumber>
+            <!--Fiss:  5400290040068571-->
+             <!--Tecn:  5448353884100084-->
+            <cardNumber>5400290040068571</cardNumber>
             <!--Optional:-->
             <checkBack>cid:502218066467</checkBack>
             <!--Optional:-->
@@ -824,7 +825,7 @@
             <!--Optional:-->
             <micr>?</micr>
             <!--Optional:-->
-            <phone>7864540209</phone>
+            <phone>1085551212</phone>
             <!--Optional:-->
             <scannerManufacturer>?</scannerManufacturer>
             <!--Optional:-->
@@ -845,7 +846,7 @@
          </arg0>
       </scan:checkAuth>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://scan.girocheck.smartbt.com/Scan/checkAuthRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="9a34a2c2-01eb-4e8d-a9bb-7187c6865672" isOneWay="false" action="" name="checkAuthLocationConfig" bindingOperationName="checkAuthLocationConfig" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f16106d7-e5c2-4656-878c-08452b2adc02" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8095/GirocheckFront/Scan</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scan="http://scan.girocheck.smartbt.com/">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://scan.girocheck.smartbt.com/Scan/checkAuthRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="9a34a2c2-01eb-4e8d-a9bb-7187c6865672" isOneWay="false" action="" name="checkAuthLocationConfig" bindingOperationName="checkAuthLocationConfig" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f16106d7-e5c2-4656-878c-08452b2adc02" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8085/GirocheckFront/Scan</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:scan="http://scan.girocheck.smartbt.com/">
    <soapenv:Header/>
    <soapenv:Body>
       <scan:checkAuthLocationConfig> 
@@ -854,6 +855,9 @@
             <password>omv168</password> 
             <requestId>2301151410</requestId> 
             <terminalId>soapui</terminalId> 
+            <amount>366</amount>
+            <cardNumber>5448353884100084</cardNumber>
+            <operation>01</operation>
          </arg0>
       </scan:checkAuthLocationConfig>
    </soapenv:Body>

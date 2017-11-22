@@ -1,12 +1,13 @@
 package com.smartbt.vtsuite.requestBuilder;
 
-import com.smartbt.girocheck.servercommon.enums.ParameterName; 
+import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.vtsuite.util.CardLoadType;
 import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.util.FissUtil;
 import static com.smartbt.vtsuite.util.RequestMapBuilder.buildParamsMap;
 import com.smartbt.vtsuite.ws.balanceInquiry.CBAcctInqMtvnSvcReq;
 import com.smartbt.vtsuite.ws.cardActivation.CBNegFleMaintMtvnSvcReq;
+import com.smartbt.vtsuite.ws.cardCashing.CBPrpdAdjMtvnSvcReq;
 import com.smartbt.vtsuite.ws.cardLoad.CBPrpdLdUnldMtvnSvcReq;
 import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgMtvnSvcReq;
 import com.smartbt.vtsuite.ws.changePassword.SZChgPwdMtvnSvcReq;
@@ -28,6 +29,20 @@ import java.util.Map;
 public class RequestBuilder {
 
     private static DateFormat DOB_DATE_FORMAT = new SimpleDateFormat("YYMMdd");
+
+    public static CBPrpdAdjMtvnSvcReq buildCardCashingRequest(Map<ParameterName, Object> params) {
+        Map<FissParam, String> fissParams = buildParamsMap(params);
+        fissParams.put(FissParam.APPLICATION_ID, "CB");
+        fissParams.put(FissParam.SERVICE_ID, "CBPrpdAdj");
+        fissParams.put(FissParam.SERVICE_VERSION, "5.0");
+        fissParams.put(FissParam.DETAILED_TRANSACTION_DESCRIPTION, "G5");
+        fissParams.put(FissParam.REASON_CODE, "99");
+        fissParams.put(FissParam.MERCHANT_NAME, (String) params.get(ParameterName.MERCHANT_NAME));
+        fissParams.put(FissParam.MERCHANT_CITY_STATE, (String) params.get(ParameterName.MERCHANT_CITY_STATE));
+        fissParams.put(FissParam.CARD_NUMBER, (String) params.get(ParameterName.CARD_NUMBER));
+        fissParams.put(FissParam.AMOUNT, params.get(ParameterName.AMOUNT) + "");
+        return CardCashingReqBuilder.build(fissParams);
+    }
 
     public static CBAcctInqMtvnSvcReq buildBalanceInquiryRequest(Map<ParameterName, Object> params) {
         Map<FissParam, String> fissParams = buildParamsMap(params);
@@ -51,7 +66,7 @@ public class RequestBuilder {
         fissParams.put(FissParam.STREET2, " ");
         fissParams.put(FissParam.CITY, (String) params.get(ParameterName.CITY));
         fissParams.put(FissParam.STATE, (String) params.get(ParameterName.STATE_ABBREVIATION));
-        fissParams.put(FissParam.COUNTRY, (String) params.get(ParameterName.COUNTRY));
+        fissParams.put(FissParam.COUNTRY, "USA");
         fissParams.put(FissParam.SSN, (String) params.get(ParameterName.SSN));
         fissParams.put(FissParam.ZIPCODE, (String) params.get(ParameterName.ZIPCODE));
         fissParams.put(FissParam.TELEPHONE, (String) params.get(ParameterName.TELEPHONE));
@@ -76,7 +91,7 @@ public class RequestBuilder {
         fissParams.put(FissParam.SERVICE_ID, "CBNegFleMaint");
         fissParams.put(FissParam.SERVICE_VERSION, "1.0");
         fissParams.put(FissParam.CARD_NUMBER, (String) params.get(ParameterName.CARD_NUMBER));
-        fissParams.put(FissParam.INSTITUTION_NUMBER, FissUtil.INSTITUTION_NUMBER);
+        fissParams.put(FissParam.RESULT_CODE, (String) params.get(ParameterName.STATUS_CODE));
 
         return CardActivationReqBuilder.build(fissParams);
     }
@@ -98,23 +113,38 @@ public class RequestBuilder {
         fissParams.put(FissParam.SERVICE_ID, "CBPrpdLdUnld");
         fissParams.put(FissParam.SERVICE_VERSION, "3.0");
         fissParams.put(FissParam.CARD_NUMBER, (String) params.get(ParameterName.CARD_NUMBER));
-        fissParams.put(FissParam.AMOUNT, params.get(ParameterName.AMMOUNT) + "");
-        fissParams.put(FissParam.FEE_AMOUNT, params.get(ParameterName.FEE_AMMOUNT) + "");
-        
-        ParameterName requestType = (ParameterName)params.get(ParameterName.REQUEST_TYPE);
-        
-        String operation = (String)params.get(ParameterName.OPERATION);
+        fissParams.put(FissParam.AMOUNT, params.get(ParameterName.AMOUNT) + "");
+        fissParams.put(FissParam.FEE_AMOUNT, params.get(ParameterName.FEE_AMOUNT) + "");
+
+        ParameterName requestType = (ParameterName) params.get(ParameterName.REQUEST_TYPE);
+
+        String operation = (String) params.get(ParameterName.OPERATION);
         Boolean isCheck = operation.equals("01");
-        
+
         CardLoadType cardLoadType = null;
-        if(requestType == ParameterName.AMMOUNT){
+        if (requestType == ParameterName.AMOUNT) {
             cardLoadType = isCheck ? CardLoadType.CHECK : CardLoadType.CASH;
-        }else{
+        } else {
             cardLoadType = isCheck ? CardLoadType.CHECK_FEE : CardLoadType.CASH_FEE;
         }
         fissParams.put(FissParam.CARD_LOAD_TYPE, cardLoadType.toString());
 
         return CardLoadReqBuilder.build(fissParams);
+    }
+
+    public static CBPrpdAdjMtvnSvcReq buildCardLoadCashRequest(Map<ParameterName, Object> params) {
+        Map<FissParam, String> fissParams = buildParamsMap(params);
+        fissParams.put(FissParam.APPLICATION_ID, "CB");
+        fissParams.put(FissParam.SERVICE_ID, "CBPrpdAdj");
+        fissParams.put(FissParam.SERVICE_VERSION, "5.0");
+        fissParams.put(FissParam.DETAILED_TRANSACTION_DESCRIPTION, "G2");
+        fissParams.put(FissParam.REASON_CODE, "04");
+        fissParams.put(FissParam.CARD_NUMBER, (String) params.get(ParameterName.CARD_NUMBER));
+        fissParams.put(FissParam.AMOUNT, params.get(ParameterName.AMOUNT) + "");
+        fissParams.put(FissParam.MERCHANT_NAME, (String) params.get(ParameterName.MERCHANT_NAME));
+        fissParams.put(FissParam.MERCHANT_CITY_STATE, (String) params.get(ParameterName.MERCHANT_CITY_STATE));
+
+        return CardLoadCashReqBuilder.build(fissParams);
     }
 
     public static SZChgPwdMtvnSvcReq buildChangePasswordRequest(Map<ParameterName, Object> params) {

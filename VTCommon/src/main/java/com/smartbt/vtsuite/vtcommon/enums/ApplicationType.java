@@ -17,12 +17,12 @@ package com.smartbt.vtsuite.vtcommon.enums;
  *
  * @author Roberto Rodriguez   :: <roberto.rodriguez@smartbt.com>
  */
-public enum ApplicationType {
-
+public enum ApplicationType { 
     GLOBAL(1),
     ISTREAM(2),
     ORDER_EXPRESS(3),
-    TECNICARD(4);
+    TECNICARD(4),
+    CBKC(5);
     
     private int id;
     
@@ -42,6 +42,7 @@ public enum ApplicationType {
             case 2:return "ISTREAM";
             case 3:return "ORDER_EXPRESS";
             case 4:return "TECNICARD";
+            case 5:return "CBKC";
             default:  return "GLOBAL";
         }
        

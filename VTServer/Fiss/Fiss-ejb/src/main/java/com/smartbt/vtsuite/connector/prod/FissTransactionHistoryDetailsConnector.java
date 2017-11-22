@@ -27,7 +27,7 @@ import com.smartbt.vtsuite.ws.history.details.MtvnCWCBHistTxnDtlInqWSV6Interface
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
-public class FissTransactionHistoryDetailsConnector implements Connector {
+public class FissTransactionHistoryDetailsConnector extends Connector {
 
     private MtvnCWCBHistTxnDtlInqWSV6Interface port;
     private MtvnCWCBHistTxnDtlInqWSV6 service;
@@ -55,14 +55,15 @@ public class FissTransactionHistoryDetailsConnector implements Connector {
                     BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                     url);
 
+            addLogger(bindingProvider);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
     }
 
-    public   Map<FissParam, Object>  callWS(Map<ParameterName, Object> params) {
-        CBHistTxnDtlInqMtvnSvcReq request = RequestBuilder.buildTransactionHistoryDetailsRequest(params); 
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params) {
+        CBHistTxnDtlInqMtvnSvcReq request = RequestBuilder.buildTransactionHistoryDetailsRequest(params);
         CBHistTxnDtlInqMtvnSvcRes response = port.cbHistTxnDtlInq(request);
 
         return null;

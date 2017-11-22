@@ -23,7 +23,7 @@ import com.smartbt.vtsuite.ws.cardLoad.CBPrpdLdUnldMtvnSvcReq;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MockFissCardLoadConnector implements Connector {
+public class MockFissCardLoadConnector extends Connector {
  
     private static MockFissCardLoadConnector INSTANCE;
 
@@ -37,7 +37,7 @@ public class MockFissCardLoadConnector implements Connector {
 
     public Map<FissParam, Object> callWS(Map<ParameterName, Object> params) {
         CBPrpdLdUnldMtvnSvcReq request = RequestBuilder.buildCardLoadRequest(params);
-        Double amount = (Double)params.get(ParameterName.AMMOUNT);
+        Double amount = (Double)params.get(ParameterName.AMOUNT);
         Map<FissParam, Object> responseMap = new HashMap<>();
         responseMap.put(FissParam.SUCCESS, false);
         responseMap.put(FissParam.RESULT_MESSAGE, "Fiss Success Message");

@@ -8,8 +8,7 @@ public enum FissParam {
     TRANSACTION_TYPE(null),
     FISS_SERVICE_VERSION(null),
     MSG_UUID(null),
-    SOURCE_ID(null),
-    TEST_INDICATOR(null),
+    SOURCE_ID(null), 
     APPLICATION_ID(null),
     SERVICE_ID(null),
     SERVICE_VERSION(null),
@@ -21,8 +20,8 @@ public enum FissParam {
     HOLD_STATUS_FILTER("130679"),
     //card personalization
     INSTITUTION_NUMBER(null),
-    FIRST_NAME("130025"),
-    LAST_NAME("30027"),
+    FIRST_NAME("130024"),
+    LAST_NAME("30023"),
     STREET("130029"),
     STREET2("130030"),
     CITY("130031"),
@@ -49,6 +48,10 @@ public enum FissParam {
     PENDING_TRANSACTION_FILTER("130551"),
     //history_general
     NUMBER_OF_OCCURS("304"), 
+    //card_cashing
+    REASON_CODE("E130486"),
+    MERCHANT_NAME("E202272"),
+    MERCHANT_CITY_STATE("E202273"),
     
     //Responses
     SUCCESS(null),

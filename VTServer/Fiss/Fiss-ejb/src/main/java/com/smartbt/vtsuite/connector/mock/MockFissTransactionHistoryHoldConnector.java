@@ -22,7 +22,7 @@ import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.ws.history.hold.CBHoldListInqMtvnSvcReq;
 import java.util.Map;
 
-public class MockFissTransactionHistoryHoldConnector implements Connector {
+public class MockFissTransactionHistoryHoldConnector extends Connector {
 
     private static MockFissTransactionHistoryHoldConnector INSTANCE;
 

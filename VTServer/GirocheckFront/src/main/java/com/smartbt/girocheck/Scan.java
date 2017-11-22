@@ -25,17 +25,11 @@ import com.smartbt.girocheck.scan.CheckAuthSubmitRequest;
 import com.smartbt.girocheck.scan.CheckAuthSubmitRes;
 import com.smartbt.girocheck.scan.TecnicardConfirmationRequest;
 import com.smartbt.girocheck.scan.TecnicardConfirmationRes;
-import com.smartbt.girocheck.scan.Transaction;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.manager.FrontManager;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
+import com.smartbt.vtsuite.util.jobs.GenerateCBKCDocumentJob;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 import javax.jws.WebService;
 
 /**
@@ -84,7 +78,10 @@ public class Scan {
     }
 
     public CheckAuthSubmitRes checkAuthSubmit( CheckAuthSubmitRequest arg0 ) throws Exception {
-//        return new CheckAuthSubmitRes().build( FrontManager.processTransaction( arg0 ) );  made for the cancel functionality that is not used.
+
+        GenerateCBKCDocumentJob job = new GenerateCBKCDocumentJob();
+        job.run();
+        
         return new CheckAuthSubmitRes().mock();
     }
 

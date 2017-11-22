@@ -1,0 +1,52 @@
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBPrpdAdjWSV5" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:import0="mtvnCWCBPrpdAdjSvcReq"
+	xmlns:import1="mtvnCWCBPrpdAdjSvcRes"
+	targetNamespace="mtvnCBPrpdAdjWSV5" name="mtvnCBPrpdAdjWSV5" xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+	<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Connectware Web Service Interface</documentation>
+
+	<types>
+		<xsd:schema>
+			<xsd:import schemaLocation="./CBPrpdAdjWSV5SvcReq.xsd" namespace="mtvnCWCBPrpdAdjSvcReq" />
+			<xsd:import schemaLocation="./CBPrpdAdjWSV5SvcRes.xsd" namespace="mtvnCWCBPrpdAdjSvcRes" />
+		</xsd:schema>
+	</types>
+
+	<message name="CBPrpdAdjMtvnSvcReqMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import0:CBPrpdAdjMtvnSvcReq" />
+	</message>
+	<message name="CBPrpdAdjMtvnSvcResMsg">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+		<part name="messagePart" element="import1:CBPrpdAdjMtvnSvcRes" />
+	</message>
+
+	<portType name="mtvnCWCBPrpdAdjWSV5Interface">
+		<documentation xmlns="http://schemas.xmlsoap.org/wsdl/">CBPrpdAdjWSV5</documentation>
+		<operation name="CBPrpdAdj">
+			<documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+			<input message="tns:CBPrpdAdjMtvnSvcReqMsg" />
+			<output message="tns:CBPrpdAdjMtvnSvcResMsg" />
+		</operation>
+	</portType>
+
+	<binding name="mtvnCWCBPrpdAdjWSV5" type="tns:mtvnCWCBPrpdAdjWSV5Interface">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+		<operation name="CBPrpdAdj">
+			<soap:operation soapAction="CBPrpdAdjWSV5:CBPrpdAdjMtvnSvcReqMsg" style="document" />
+			<input>
+				<soap:body use="literal" />
+			</input>
+			<output>
+				<soap:body use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="mtvnCWCBPrpdAdjWSV5">
+		<port name="mtvnCWCBPrpdAdjWSV5Port" binding="tns:mtvnCWCBPrpdAdjWSV5">
+			<soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/CBPrpdAdjWSV5" />
+		</port>
+	</service>
+</definitions>
+

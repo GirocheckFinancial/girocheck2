@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="mtvnCWCBPrpdAdjReqData" xmlns="mtvnCWCBPrpdAdjReqData" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="CBPrpdAdjReqData">
+		<xs:annotation>
+		<xs:documentation>Cardbase Prepaid Adjustments (CB550) - This function is used to perform a debit or credit adjustment on a prepaid debit card.  Only active cards can be adjusted.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="E130013" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Card Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130643" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Card Proxy ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130487" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Credit Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130488" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Debit Amount</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130486" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Reason Code</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E130582" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Balance Withdrawal Indicator</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E131150" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Detailed Transaction Description ID</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E202270" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Terminal Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E202271" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Terminal Sequence Number</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E202272" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Merchant Name</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E202273" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Merchant City and State</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="E202274" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Merchant Country</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

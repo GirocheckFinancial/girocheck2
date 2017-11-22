@@ -13,8 +13,7 @@ import static com.smartbt.vtsuite.util.FissParam.REQUEST_ID;
 import static com.smartbt.vtsuite.util.FissParam.ROUTING_ID;
 import static com.smartbt.vtsuite.util.FissParam.SERVICE_ID;
 import static com.smartbt.vtsuite.util.FissParam.SERVICE_VERSION;
-import static com.smartbt.vtsuite.util.FissParam.SOURCE_ID;
-import static com.smartbt.vtsuite.util.FissParam.TEST_INDICATOR;
+import static com.smartbt.vtsuite.util.FissParam.SOURCE_ID; 
 import static com.smartbt.vtsuite.util.FissParam.USER; 
 import com.smartbt.vtsuite.util.FissPrintUtil;
 import static com.smartbt.vtsuite.util.FissPrintUtil.buildXML;
@@ -57,10 +56,9 @@ public class CardLoadReqBuilder {
 
     private static CBPrpdLdUnldMtvnSvcReq.PrcsParms buildPrcsParams(String space, Map<FissParam, String> map, StringBuilder sb) {
         CBPrpdLdUnldMtvnSvcReq.PrcsParms params = new CBPrpdLdUnldMtvnSvcReq.PrcsParms();
-        params.setSrcID(map.get(SOURCE_ID));
-        params.setTestInd(map.get(TEST_INDICATOR));
+        params.setSrcID(map.get(SOURCE_ID)); 
 
-        sb.append(buildXML("PRCS_POARAMS", map, space, SOURCE_ID, TEST_INDICATOR));
+        sb.append(buildXML("PRCS_POARAMS", map, space, SOURCE_ID));
         return params;
     }
 

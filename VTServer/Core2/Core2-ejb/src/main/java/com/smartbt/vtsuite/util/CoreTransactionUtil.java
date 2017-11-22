@@ -53,7 +53,7 @@ public class CoreTransactionUtil {
         if (queue != null) {
             response.setTransaction(null);
             System.out.println("CoreTransactionUtil :: subTransactionFailed  send(" + queue.getQueueName() + ", " + correlationId);
-           
+
             JMSManager.get().send(response, queue, correlationId);
         } else {
             System.out.println("CoreTransactionUtil :: subTransactionFailed  queue = null.");
@@ -118,13 +118,28 @@ public class CoreTransactionUtil {
             } catch (TransactionalException transactionalException) {
                 System.out.println("[CoreTransactionUtil].subTransactionFailed -> Caught TransactionalException");
                 if (transaction.getData_sc1() != null) {
+
+                    CreditCard cardToRemove = null;
+
                     try {
                         HibernateUtil.beginTransaction();
-                        CreditCardManager.get().delete(transaction.getData_sc1());//(If personalization fails, Card needs to be removed from Data Base)
+
+                        if (transaction.getResultCode() != 0
+                                && transaction.getData_sc1() != null
+                                && CreditCardManager.get().canDeleteCard(transaction.getData_sc1().getId(), transaction.getId())) {
+                            cardToRemove = transaction.getData_sc1();
+                            transaction.setData_sc1(null);
+                        }
+
+                        if (cardToRemove != null) {
+                            CreditCardManager.get().delete(cardToRemove);
+                        }
+
                         HibernateUtil.commitTransaction();
                     } catch (Exception e) {
                         HibernateUtil.rollbackTransaction();
                     }
+                    
                     transaction.setData_sc1(null);
                 }
                 //Two reasons for doing this:
@@ -188,7 +203,7 @@ public class CoreTransactionUtil {
                         System.out.println("[CoreTransactionUtil] Successfull Check or Cash clientId = " + client.getId());
                         CreditCard card = transaction.getData_sc1();
 
-                          successfulLoads = client.getSuccessfulLoads();
+                        successfulLoads = client.getSuccessfulLoads();
                         if (successfulLoads == null) {
                             successfulLoads = 0;
                         }

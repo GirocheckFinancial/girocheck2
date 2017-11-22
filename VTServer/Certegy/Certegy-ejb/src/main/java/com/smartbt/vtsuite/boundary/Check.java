@@ -53,7 +53,7 @@ public class Check {
 
     public static Check build(Map map) {
         Check _this = new Check();
-        Double amount = (Double) map.get(ParameterName.AMMOUNT);
+        Double amount = (Double) map.get(ParameterName.AMOUNT);
         
         DecimalFormat twoPlaces = new DecimalFormat("0.00");
         String amountString = twoPlaces.format(amount);

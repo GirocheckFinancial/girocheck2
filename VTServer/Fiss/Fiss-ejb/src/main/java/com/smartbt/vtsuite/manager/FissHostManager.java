@@ -92,7 +92,8 @@ public class FissHostManager implements HostTxManager {
                     response.getTransactionData().put(ParameterName.FISS_PERSONAL_INFO_DATA, responseMap.get(FissParam.FISS_PERSONAL_INFO_DATA));
                     response.getTransactionData().put(ParameterName.BALANCE, responseMap.get(FissParam.BALANCE));
 
-                    if (responseMap.containsKey(FissParam.RESULT_CODE)
+                    if (transactionType == CARD_VALIDATION && 
+                            responseMap.containsKey(FissParam.RESULT_CODE)
                             && (Integer) responseMap.get(FissParam.RESULT_CODE) == 7) {
 
                         for (TransactionType personalizationTransaction : PERSONALIZATION) {

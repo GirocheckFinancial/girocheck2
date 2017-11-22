@@ -75,7 +75,7 @@ public class MerchantController {
 
     private void registerMerchantInCompliance(MerchantDisplay merchantDisplay) {
         Map map = new HashMap();
-        map.put(ParameterName.MERCHANT_ID, merchantDisplay.getId());
+        map.put(ParameterName.IDMERCHANT, merchantDisplay.getId());
         map.put(ParameterName.MERCHANT_NAME, merchantDisplay.getLegalName());
 
         if (merchantDisplay.getPhone() != null) {

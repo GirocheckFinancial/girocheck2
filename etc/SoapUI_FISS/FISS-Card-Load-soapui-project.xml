@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="91f15b4d-b8bf-49f8-93b9-25979effb75b" activeEnvironment="Default" name="FISS_Card_Load" resourceRoot="" soapui-version="5.2.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="a50ef51f-89b6-4066-9837-9ba298011799" wsaVersion="NONE" name="mtvnCWCBPrpdLdUnldWSV3" type="wsdl" bindingName="{mtvnCBPrpdLdUnldWSV3}mtvnCWCBPrpdLdUnldWSV3" soapVersion="1_1" anonymous="optional" definition="file:/C:/Glassfish/fiss_wsdl/cardLoad/CBPrpdLdUnldWSV3.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Glassfish\fiss_wsdl\cardLoad\CBPrpdLdUnldWSV3.wsdl"><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardLoad\CBPrpdLdUnldWSV3.wsdl</con:url><con:content><![CDATA[<definitions targetNamespace="mtvnCBPrpdLdUnldWSV3" name="mtvnCBPrpdLdUnldWSV3" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="mtvnCBPrpdLdUnldWSV3" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:import0="mtvnCWCBPrpdLdUnldSvcReq" xmlns:import1="mtvnCWCBPrpdLdUnldSvcRes" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <documentation>Connectware Web Service Interface</documentation>
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="./CBPrpdLdUnldWSV3SvcReq.xsd" namespace="mtvnCWCBPrpdLdUnldSvcReq"/>
+      <xsd:import schemaLocation="./CBPrpdLdUnldWSV3SvcRes.xsd" namespace="mtvnCWCBPrpdLdUnldSvcRes"/>
+    </xsd:schema>
+  </types>
+  <message name="CBPrpdLdUnldMtvnSvcReqMsg">
+    <documentation/>
+    <part name="messagePart" element="import0:CBPrpdLdUnldMtvnSvcReq"/>
+  </message>
+  <message name="CBPrpdLdUnldMtvnSvcResMsg">
+    <documentation/>
+    <part name="messagePart" element="import1:CBPrpdLdUnldMtvnSvcRes"/>
+  </message>
+  <portType name="mtvnCWCBPrpdLdUnldWSV3Interface">
+    <documentation>CBPrpdLdUnldWSV3</documentation>
+    <operation name="CBPrpdLdUnld">
+      <documentation/>
+      <input message="tns:CBPrpdLdUnldMtvnSvcReqMsg"/>
+      <output message="tns:CBPrpdLdUnldMtvnSvcResMsg"/>
+    </operation>
+  </portType>
+  <binding name="mtvnCWCBPrpdLdUnldWSV3" type="tns:mtvnCWCBPrpdLdUnldWSV3Interface">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <operation name="CBPrpdLdUnld">
+      <soap:operation soapAction="CBPrpdLdUnldWSV3:CBPrpdLdUnldMtvnSvcReqMsg" style="document"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="mtvnCWCBPrpdLdUnldWSV3">
+    <port name="mtvnCWCBPrpdLdUnldWSV3Port" binding="tns:mtvnCWCBPrpdLdUnldWSV3">
+      <soap:address location="https://xmlgateway.metavante.org/ConnectwareWS/CBPrpdLdUnldWSV3"/>
+    </port>
+  </service>
+</definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardLoad\CBPrpdLdUnldWSV3SvcReq.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBPrpdLdUnldSvcReq" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cw000="mtvnCWCBPrpdLdUnldSvcReq" xmlns:cw347="mtvnCWCBPrpdLdUnldReqData">
+  <xs:import namespace="mtvnCWCBPrpdLdUnldReqData" schemaLocation="./CBPrpdLdUnldWSV3SvcReqData.xsd"/>
+  <xs:element name="CBPrpdLdUnldMtvnSvcReq">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="MtvnSvcVer">
+          <xs:annotation>
+            <xs:documentation>The version of this message.   Currently 1.0</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="1.0"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="MsgUUID" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="PrcsParms">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SrcID" type="xs:string">
+                <xs:annotation>
+                  <xs:documentation>Connectware Vendor ID</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="TestInd" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>A value of Y will cause any database updates to be removed when the service completes.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Svc" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SvcParms">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ApplID">
+                      <xs:annotation>
+                        <xs:documentation>The application ID of the service.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CB"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcID">
+                      <xs:annotation>
+                        <xs:documentation>The service ID.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CBPrpdLdUnld"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcVer">
+                      <xs:annotation>
+                        <xs:documentation>The service version.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="3.0"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcNme" type="xs:string" minOccurs="0"/>
+                    <xs:element name="RqstUUID" type="xs:string" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="RoutingID" type="xs:string">
+                      <xs:annotation>
+                        <xs:documentation>FIS processing organization ID.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                    <xs:element name="Src" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="FieldList" minOccurs="0">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Field" maxOccurs="unbounded">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="FieldNme" type="xs:string"/>
+                                      <xs:element name="FieldVal" type="xs:string"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="GrpBusFunc" type="xs:string" minOccurs="0"/>
+                          <xs:element name="TranInfo" type="xs:string" minOccurs="0"/>
+                          <xs:element name="CustDefMsgSrc1" type="xs:string" minOccurs="0"/>
+                          <xs:element name="CustDefMsgSrc2" type="xs:string" minOccurs="0"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Security">
+                <xs:complexType>
+                  <xs:choice>
+                    <xs:element name="NoAuth" type="xs:string"/>
+                    <xs:element name="BasicAuth">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="UsrID" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>FIS RACF user id.</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                          <xs:element name="Pwd" type="xs:string">
+                            <xs:annotation>
+                              <xs:documentation>FIS RACF password.</xs:documentation>
+                            </xs:annotation>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="SessionAuth">
+                      <xs:complexType>
+                        <xs:choice>
+                          <xs:element name="SessionID" type="xs:string"/>
+                          <xs:element name="HttpSessionID" type="xs:string"/>
+                        </xs:choice>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="SAMLAuth">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Assertion" type="xs:string" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:choice>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="MsgData">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element ref="cw347:CBPrpdLdUnldReqData"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardLoad\CBPrpdLdUnldWSV3SvcReqData.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBPrpdLdUnldReqData" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="mtvnCWCBPrpdLdUnldReqData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CBPrpdLdUnldReqData">
+    <xs:annotation>
+      <xs:documentation>Cardbase Prepaid Load Unload (CB545) - This function is used to add or remove money from a prepaid debit card.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="E130013" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Card Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130484" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Load Amount</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130485" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Unload Amount</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130582" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Balance Withdrawal Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131150" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Detailed Transaction Description ID</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardLoad\CBPrpdLdUnldWSV3SvcRes.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBPrpdLdUnldSvcRes" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cw000="mtvnCWCBPrpdLdUnldSvcRes" xmlns:cw347="mtvnCWCBPrpdLdUnldResData">
+  <xs:import namespace="mtvnCWCBPrpdLdUnldResData" schemaLocation="./CBPrpdLdUnldWSV3SvcResData.xsd"/>
+  <xs:element name="ErrCde" type="xs:string"/>
+  <xs:element name="ErrMsg" type="xs:string"/>
+  <xs:element name="CBPrpdLdUnldMtvnSvcRes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="MtvnSvcVer">
+          <xs:annotation>
+            <xs:documentation>The version of this message.   Currently 1.0</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="1.0"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="MsgUUID" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="Svc" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SvcParms">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ApplID">
+                      <xs:annotation>
+                        <xs:documentation>The application ID of the service.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CB"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcID">
+                      <xs:annotation>
+                        <xs:documentation>The service ID.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="CBPrpdLdUnld"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SvcVer">
+                      <xs:annotation>
+                        <xs:documentation>The service version.</xs:documentation>
+                      </xs:annotation>
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:enumeration value="3.0"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="RqstUUID" type="xs:string" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>A UUID in the format XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.</xs:documentation>
+                      </xs:annotation>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="MsgData">
+                <xs:complexType>
+                  <xs:choice>
+                    <xs:element name="DefaultResData" type="xs:string"/>
+                    <xs:element ref="cw347:CBPrpdLdUnldResData"/>
+                  </xs:choice>
+                </xs:complexType>
+              </xs:element>
+              <xs:element ref="cw000:ErrCde"/>
+              <xs:element ref="cw000:ErrMsg" minOccurs="0"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="cw000:ErrCde"/>
+        <xs:element ref="cw000:ErrMsg" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>file:\C:\Glassfish\fiss_wsdl\cardLoad\CBPrpdLdUnldWSV3SvcResData.xsd</con:url><con:content><![CDATA[<xs:schema targetNamespace="mtvnCWCBPrpdLdUnldResData" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="mtvnCWCBPrpdLdUnldResData" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="CBPrpdLdUnldResData">
+    <xs:annotation>
+      <xs:documentation>Cardbase Prepaid Load Unload (CB545) - This function is used to add or remove money from a prepaid debit card.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="E130013" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Card Number</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130484" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Load Amount</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130485" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Unload Amount</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E130582" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Balance Withdrawal Indicator</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="E131150" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Detailed Transaction Description ID</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="ErrCde" type="xs:string" minOccurs="0"/>
+        <xs:element name="ErrResnCde" type="xs:string" minOccurs="0"/>
+        <xs:element name="ApplMsgLst" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ApplMsg" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="ApplMsgApplId" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgNbr" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgTxt" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgErrInd" type="xs:string" minOccurs="0"/>
+                    <xs:element name="ApplMsgFld" type="xs:string" minOccurs="0"/>
+                  </xs:all>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://xmlgateway.metavante.org/ConnectwareWS/CBPrpdLdUnldWSV3</con:endpoint></con:endpoints><con:operation id="65a26078-c85e-479e-a520-95d8387129b1" isOneWay="false" action="CBPrpdLdUnldWSV3:CBPrpdLdUnldMtvnSvcReqMsg" name="CBPrpdLdUnld" bindingOperationName="CBPrpdLdUnld" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f03058fa-ee07-4c18-be2b-d7bb3a209fb1" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://xmlgateway.metavante.org/ConnectwareWS/CBPrpdLdUnldWSV3</con:endpoint><con:request><![CDATA[<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+	<SOAP-ENV:Header/>
+	<S:Body>
+		<CBPrpdLdUnldMtvnSvcReq xmlns="mtvnCWCBPrpdLdUnldSvcReq" xmlns:ns2="mtvnCWCBPrpdLdUnldReqData" xmlns:ns3="mtvnCWCBPrpdLdUnldSvcRes" xmlns:ns4="mtvnCWCBPrpdLdUnldResData">
+			<MtvnSvcVer>1.0</MtvnSvcVer>
+			<MsgUUID>e15a8bf9-2Cd6-9483-3B06-0D8bC7dd15b7</MsgUUID>
+			<PrcsParms>
+				<SrcID>CRD008</SrcID>
+			</PrcsParms>
+			<Svc>
+				<SvcParms>
+					<ApplID>CB</ApplID>
+					<SvcID>CBPrpdLdUnld</SvcID>
+					<SvcVer>3.0</SvcVer>
+					<RqstUUID>D3Ef616d-Bb41-73Cf-48b3-fAC25CD0E734</RqstUUID>
+					<RoutingID>G7V</RoutingID>
+				</SvcParms>
+				<Security>
+					<BasicAuth>
+						<UsrID>CG7V032</UsrID>
+						<Pwd>Monday@2</Pwd>
+					</BasicAuth>
+				</Security>
+				<MsgData>
+					<ns2:CBPrpdLdUnldReqData>
+						<ns2:E130013>5400290040068571</ns2:E130013>
+						<ns2:E130484>12.88</ns2:E130484>
+						<ns2:E131150>G4</ns2:E131150>
+					</ns2:CBPrpdLdUnldReqData>
+				</MsgData>
+			</Svc>
+		</CBPrpdLdUnldMtvnSvcReq>
+	</S:Body>
+</S:Envelope>
+]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="CBPrpdLdUnldWSV3:CBPrpdLdUnldMtvnSvcReqMsg"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

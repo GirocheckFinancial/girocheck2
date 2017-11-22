@@ -55,7 +55,7 @@ public class CheckAuthSubmitRequest implements IMap {
         Map map = new HashMap();
       //  map.put(TransactionType.TRANSACTION_TYPE, TransactionType.ISTREAM_CHECK_AUTH_SUBMIT);
 
-        map.put(ParameterName.ACTION, getAction());
+      //  map.put(ParameterName.ACTION, getAction());
         map.put(ParameterName.USER, getUser());
         map.put(ParameterName.PASSWORD, getPassword());
         map.put(ParameterName.REQUEST_ID, getRequestId());

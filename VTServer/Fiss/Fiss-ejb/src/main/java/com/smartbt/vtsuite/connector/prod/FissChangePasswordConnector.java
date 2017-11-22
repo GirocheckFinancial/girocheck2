@@ -19,8 +19,7 @@ import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
-import com.smartbt.vtsuite.util.FissParam;
-import com.smartbt.vtsuite.ws.cardActivation.CBNegFleMaintResData;
+import com.smartbt.vtsuite.util.FissParam; 
 import com.smartbt.vtsuite.ws.changePassword.MtvnCWSZChgPwdWSV1;
 import com.smartbt.vtsuite.ws.changePassword.MtvnCWSZChgPwdWSV1Interface;
 import com.smartbt.vtsuite.ws.changePassword.SZChgPwdMtvnSvcReq;
@@ -30,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
-public class FissChangePasswordConnector implements Connector {
+public class FissChangePasswordConnector extends Connector {
 
     private MtvnCWSZChgPwdWSV1Interface port;
     private MtvnCWSZChgPwdWSV1 service;
@@ -57,6 +56,8 @@ public class FissChangePasswordConnector implements Connector {
             bindingProvider.getRequestContext().put(
                     BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                     url);
+            
+            addLogger(bindingProvider);
 
         } catch (Exception ex) {
             ex.printStackTrace();

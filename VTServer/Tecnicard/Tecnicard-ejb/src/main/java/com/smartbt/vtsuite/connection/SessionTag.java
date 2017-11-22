@@ -74,11 +74,11 @@ public class SessionTag {
         Map sessionTagMap = new HashMap();
           sessionTagMap.put(ParameterName.SUCESSFULL_PROCESSING , sucessfullProcessing);
           sessionTagMap.put(ParameterName.REQUEST_ID , requestID);
-          sessionTagMap.put(ParameterName.SYSTEM_NAME , systemName);
-          sessionTagMap.put(ParameterName.OPERATION_NAME , operationName);
-          sessionTagMap.put(ParameterName.TIME , time);
-          sessionTagMap.put(ParameterName.GMT_TIME_ZONE , gmtTimeZone);
-          sessionTagMap.put(ParameterName.OPERATION_ID , operationID);
+         // sessionTagMap.put(ParameterName.SYSTEM_NAME , systemName);
+       //   sessionTagMap.put(ParameterName.OPERATION_NAME , operationName);
+//          sessionTagMap.put(ParameterName.TIME , time);
+        //  sessionTagMap.put(ParameterName.GMT_TIME_ZONE , gmtTimeZone);
+     //     sessionTagMap.put(ParameterName.OPERATION_ID , operationID);
           sessionTagMap.put(ParameterName.RESULT_CODE , resultCode);
           sessionTagMap.put(ParameterName.RESULT_MESSAGE , resultMessage);
           

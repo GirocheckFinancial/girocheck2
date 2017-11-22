@@ -55,7 +55,7 @@ public class CashToCardResponse
         Map map = super.getMap(EXPECTED_RESULT_CODE);
       map.put(ParameterName.TRANSACTION_NUMBER, transactionNumber);
       map.put(ParameterName.DATE, date);
-      map.put(ParameterName.AMMOUNT, amount);
+      map.put(ParameterName.AMOUNT, amount);
     return map;
     }
    

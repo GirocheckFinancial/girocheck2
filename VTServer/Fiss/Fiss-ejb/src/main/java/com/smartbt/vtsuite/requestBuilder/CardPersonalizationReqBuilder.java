@@ -4,7 +4,7 @@ import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.vtsuite.util.FissParam;
 import static com.smartbt.vtsuite.util.FissParam.APPLICATION_ID;
 import static com.smartbt.vtsuite.util.FissParam.CARD_NUMBER;
-import static com.smartbt.vtsuite.util.FissParam.FISS_SERVICE_VERSION; 
+import static com.smartbt.vtsuite.util.FissParam.FISS_SERVICE_VERSION;
 import static com.smartbt.vtsuite.util.FissParam.MSG_UUID;
 import static com.smartbt.vtsuite.util.FissParam.PASSWORD;
 import static com.smartbt.vtsuite.util.FissParam.REQUEST_ID;
@@ -12,13 +12,13 @@ import static com.smartbt.vtsuite.util.FissParam.ROUTING_ID;
 import static com.smartbt.vtsuite.util.FissParam.SERVICE_ID;
 import static com.smartbt.vtsuite.util.FissParam.SERVICE_VERSION;
 import static com.smartbt.vtsuite.util.FissParam.SOURCE_ID;
-import static com.smartbt.vtsuite.util.FissParam.TEST_INDICATOR;
-import static com.smartbt.vtsuite.util.FissParam.USER; 
+
+import static com.smartbt.vtsuite.util.FissParam.USER;
 import com.smartbt.vtsuite.util.FissPrintUtil;
 import static com.smartbt.vtsuite.util.FissPrintUtil.buildXML;
 import static com.smartbt.vtsuite.util.FissPrintUtil.endTag;
 import static com.smartbt.vtsuite.util.FissPrintUtil.startTag;
- 
+
 import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgMtvnSvcReq;
 import com.smartbt.vtsuite.ws.cardPersonalization.CBNmeAddrChgReqData;
 import java.util.Map;
@@ -30,7 +30,7 @@ import java.util.Map;
 public class CardPersonalizationReqBuilder {
 
     public static CBNmeAddrChgMtvnSvcReq build(Map<FissParam, String> map) {
-  
+
         CBNmeAddrChgMtvnSvcReq request = new CBNmeAddrChgMtvnSvcReq();
 
         TransactionType transactionType = TransactionType.valueOf(map.get(FissParam.TRANSACTION_TYPE));
@@ -56,9 +56,8 @@ public class CardPersonalizationReqBuilder {
     private static CBNmeAddrChgMtvnSvcReq.PrcsParms buildPrcsParams(String space, Map<FissParam, String> map, StringBuilder sb) {
         CBNmeAddrChgMtvnSvcReq.PrcsParms params = new CBNmeAddrChgMtvnSvcReq.PrcsParms();
         params.setSrcID(map.get(SOURCE_ID));
-        params.setTestInd(map.get(TEST_INDICATOR));
 
-        sb.append(buildXML("PRCS_POARAMS", map, space, SOURCE_ID, TEST_INDICATOR));
+        sb.append(buildXML("PRCS_POARAMS", map, space, SOURCE_ID));
         return params;
     }
 
@@ -104,9 +103,15 @@ public class CardPersonalizationReqBuilder {
         CBNmeAddrChgMtvnSvcReq.Svc.MsgData data = new CBNmeAddrChgMtvnSvcReq.Svc.MsgData();
 
         CBNmeAddrChgReqData reqData = new CBNmeAddrChgReqData();
-        reqData.setE130013(map.get(CARD_NUMBER)); 
-        reqData.setE130025(map.get(FissParam.FIRST_NAME));
-        reqData.setE130027(map.get(FissParam.LAST_NAME));
+        reqData.setE130013(map.get(CARD_NUMBER));
+
+        String fullName = map.get(FissParam.FIRST_NAME) + " " + map.get(FissParam.LAST_NAME);
+
+        fullName = trim(fullName, 26);
+
+        reqData.setE130025(fullName);
+        reqData.setE130024(trim(map, FissParam.FIRST_NAME, 10));
+        reqData.setE130023(trim(map, FissParam.LAST_NAME, 15));
         reqData.setE130029(map.get(FissParam.STREET));
         reqData.setE130030(map.get(FissParam.STREET2));
         reqData.setE130031(map.get(FissParam.CITY));
@@ -120,7 +125,7 @@ public class CardPersonalizationReqBuilder {
 
         data.setCBNmeAddrChgReqData(reqData);
 
-        sb.append(buildXML("MSG_DATA/REQUEST_DATA", map, space, CARD_NUMBER, 
+        sb.append(buildXML("MSG_DATA/REQUEST_DATA", map, space, CARD_NUMBER,
                 FissParam.FIRST_NAME,
                 FissParam.LAST_NAME,
                 FissParam.STREET,
@@ -136,4 +141,14 @@ public class CardPersonalizationReqBuilder {
         return data;
     }
 
+    public static String trim(Map<FissParam, String> map, FissParam param, int length) {
+        return trim(map.get(param), length);
+    }
+
+    public static String trim(String str, int length) {
+        if (str != null && str.length() > length) {
+            return str.substring(0, length);
+        }
+        return str;
+    }
 }

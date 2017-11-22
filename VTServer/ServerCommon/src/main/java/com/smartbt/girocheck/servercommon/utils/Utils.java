@@ -33,7 +33,7 @@ import java.util.Random;
  */
 public class Utils {
 
-    private static String token_alphabet = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static String token_alphabet = "abcdef1234567890ABCDEF";
 
     public static List collectionToList(Collection coll) {
         List list;

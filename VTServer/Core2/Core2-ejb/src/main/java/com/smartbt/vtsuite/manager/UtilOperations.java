@@ -391,18 +391,18 @@ public class UtilOperations {
             FeeBucketsManager feeBucketsManager = new FeeBucketsManager();
             Map map = (Map) feeBucketsManager.getFees(request.getTransactionData().get(ParameterName.IDMERCHANT) + "",
                     request.getTransactionData().get(ParameterName.OPERATION) + "",
-                    request.getTransactionData().get(ParameterName.AMMOUNT) + "");
+                    request.getTransactionData().get(ParameterName.AMOUNT) + "");
 
             String finalFee = map.get(ParameterName.CRDLDF) + "";
             Double feeAmount = Double.parseDouble(finalFee);
 
-            Double amount = (Double) request.getTransactionData().get(ParameterName.AMMOUNT);
+            Double amount = (Double) request.getTransactionData().get(ParameterName.AMOUNT);
 
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[AbstractCommonBusinessLogic] FEE_AMOUNT applied: " + feeAmount, null);
             Double payOut = amount - feeAmount;//No se le resta ese fee a peticion de carlos aparicio dic/04/2014
 
-            request.getTransactionData().put(ParameterName.PAYOUT_AMMOUNT, payOut);
-            request.getTransactionData().put(ParameterName.FEE_AMMOUNT, feeAmount);
+            request.getTransactionData().put(ParameterName.PAYOUT_AMOUNT, payOut);
+            request.getTransactionData().put(ParameterName.FEE_AMOUNT, feeAmount);
 
             transaction.setFeeAmmount(feeAmount);
             transaction.setPayoutAmmount(payOut);

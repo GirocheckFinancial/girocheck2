@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
-public class FissBalanceInquiryConnector implements Connector {
+public class FissBalanceInquiryConnector extends Connector {
 
     private MtvnCWCBAcctInqWSV15Interface port;
     private MtvnCWCBAcctInqWSV15 service;
@@ -56,6 +56,8 @@ public class FissBalanceInquiryConnector implements Connector {
             bindingProvider.getRequestContext().put(
                     BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                     url);
+
+            addLogger(bindingProvider);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -102,19 +104,19 @@ public class FissBalanceInquiryConnector implements Connector {
                     || responseMap.get(FissParam.RESULT_MESSAGE) == null
                     || ((String) responseMap.get(FissParam.RESULT_MESSAGE)).isEmpty())) {
                 responseMap.put(FissParam.RESULT_MESSAGE, "Fiss returned unexpected Card Status Code: " + resultCode);
-            } 
-
+            }
+             
             Map<ParameterName, String> fissData = new HashMap<>();
             fissData.put(ParameterName.CARD_NUMBER, data.getE130013());
-            fissData.put(ParameterName.FIRST_NAME, data.getE130025());
-            fissData.put(ParameterName.LAST_NAME, data.getE130027());
-            fissData.put(ParameterName.STREET, data.getE130029()); 
+            fissData.put(ParameterName.FIRST_NAME, data.getE130024());
+            fissData.put(ParameterName.LAST_NAME, data.getE130023());
+            fissData.put(ParameterName.STREET, data.getE130029());
             fissData.put(ParameterName.CITY, data.getE130031());
             fissData.put(ParameterName.STATE, data.getE130032());
             fissData.put(ParameterName.COUNTRY, data.getE130033());
             fissData.put(ParameterName.ZIPCODE, data.getE130034());
             fissData.put(ParameterName.TELEPHONE, data.getE130138());
-            fissData.put(ParameterName.SSN, data.getE130145()); 
+            fissData.put(ParameterName.SSN, data.getE130145());
             fissData.put(ParameterName.BORNDATE, data.getE130147());
 
             responseMap.put(FissParam.FISS_PERSONAL_INFO_DATA, fissData);

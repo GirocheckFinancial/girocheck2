@@ -65,7 +65,7 @@ public class CardToBankConfirmationRes extends MainResponseContainer implements 
     @Override
     public CardToBankConfirmationRes build( Map map ) throws Exception {
         transactionNumber = MapUtil.getStringValueFromMap(map, ParameterName.TRANSACTION_NUMBER);
-        amount = MapUtil.getStringValueFromMap(map, ParameterName.AMMOUNT);
+        amount = MapUtil.getStringValueFromMap(map, ParameterName.AMOUNT);
         printLogo = MapUtil.getStringValueFromMap(map, ParameterName.PRINTLOGO);
         date = MapUtil.getStringValueFromMap(map, ParameterName.DATE);
         setResultCode( (String)map.get(ParameterName.RESULT_CODE));

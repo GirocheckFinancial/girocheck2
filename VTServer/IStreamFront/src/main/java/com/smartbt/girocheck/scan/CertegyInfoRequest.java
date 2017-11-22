@@ -89,24 +89,24 @@ public class CertegyInfoRequest implements IMap {
     public Map toMap() {
         Map map = new HashMap();
 
-        String errors = "";
-        
-        map.put(ParameterName.USER, getUser());
-        map.put(ParameterName.PASSWORD, getPassword());
-        map.put(ParameterName.CHECK_ID, getCheckId());
-        map.put(ParameterName.CERTEGY_CODE, getCertegyCode());
-        
-        errors += validateRequiredFields(map);
-        
-        if(!errors.isEmpty()){
-            map.put(ParameterName.VALIDATION_ERROR, errors);
-        }
-        
-       // map.put(TransactionType.TRANSACTION_TYPE, TransactionType.CERTEGY_INFO);
-        map.put(ParameterName.ADDITIONAL_INFO, getAdditionalInfo());
-        map.put(ParameterName.ENTITY_ID, getEntityId());
-  
-        map.put(ParameterName.DEPOSIT_ID, getDepositId());
+//        String errors = "";
+//        
+//        map.put(ParameterName.USER, getUser());
+//        map.put(ParameterName.PASSWORD, getPassword());
+//        map.put(ParameterName.CHECK_ID, getCheckId());
+//        map.put(ParameterName.CERTEGY_CODE, getCertegyCode());
+//        
+//        errors += validateRequiredFields(map);
+//        
+//        if(!errors.isEmpty()){
+//            map.put(ParameterName.VALIDATION_ERROR, errors);
+//        }
+//        
+//       // map.put(TransactionType.TRANSACTION_TYPE, TransactionType.CERTEGY_INFO);
+//        map.put(ParameterName.ADDITIONAL_INFO, getAdditionalInfo());
+//        map.put(ParameterName.ENTITY_ID, getEntityId());
+//  
+//        map.put(ParameterName.DEPOSIT_ID, getDepositId());
         
         return map;
     }

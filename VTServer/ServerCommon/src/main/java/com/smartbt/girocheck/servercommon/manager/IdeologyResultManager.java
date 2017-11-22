@@ -59,4 +59,8 @@ public class IdeologyResultManager {
 
         return IdeologyResultDAO.get().save(ideologyResult);
     }
+    
+    public String getCBKCIndex(){
+        return IdeologyResultDAO.get().getCBKCIndex();
+    }
 }

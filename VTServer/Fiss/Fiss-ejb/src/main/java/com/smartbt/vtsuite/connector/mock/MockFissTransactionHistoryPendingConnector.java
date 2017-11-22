@@ -22,7 +22,7 @@ import com.smartbt.vtsuite.util.FissParam;
 import com.smartbt.vtsuite.ws.history.pending.CBPndTxnInqMtvnSvcReq;
 import java.util.Map;
 
-public class MockFissTransactionHistoryPendingConnector implements Connector {
+public class MockFissTransactionHistoryPendingConnector extends Connector {
 
     private static MockFissTransactionHistoryPendingConnector INSTANCE;
 

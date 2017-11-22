@@ -61,7 +61,7 @@ public class TecnicardConfirmationRequest implements IMap{
         map.put(ParameterName.REQUEST_ID, getRequestId());
         map.put(ParameterName.TERMINAL_ID, getTerminalId());
         
-        map.put(ParameterName.TRUNCATED_CHECK, ParameterName.IMAGE);
+//        map.put(ParameterName.TRUNCATED_CHECK, ParameterName.IMAGE);
 //        map.put(ParameterName.ACH_FORM, ParameterName.IMAGE);
 
        

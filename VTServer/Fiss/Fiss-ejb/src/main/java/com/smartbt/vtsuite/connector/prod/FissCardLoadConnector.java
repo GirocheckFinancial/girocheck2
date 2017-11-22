@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
-public class FissCardLoadConnector implements Connector {
+public class FissCardLoadConnector extends Connector {
 
     private MtvnCWCBPrpdLdUnldWSV3Interface port;
     private MtvnCWCBPrpdLdUnldWSV3 service;
@@ -57,6 +57,7 @@ public class FissCardLoadConnector implements Connector {
                     BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                     url);
 
+            addLogger(bindingProvider);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -23,7 +23,7 @@ import com.smartbt.vtsuite.ws.setPin.CBPinOffsetChgMtvnSvcReq;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MockSetPinConnector implements Connector {
+public class MockSetPinConnector extends Connector {
 
     private static MockSetPinConnector INSTANCE;
 

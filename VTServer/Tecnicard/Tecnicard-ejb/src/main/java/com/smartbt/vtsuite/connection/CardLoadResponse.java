@@ -57,7 +57,7 @@ public class CardLoadResponse
         
         map.put(ParameterName.TRANSACTION_NUMBER, transactionNumber);
         map.put(ParameterName.DATE, date);
-        map.put(ParameterName.AMMOUNT, amount);
+        map.put(ParameterName.AMOUNT, amount);
         return map;
     }
     public String getTransactionNumber() {

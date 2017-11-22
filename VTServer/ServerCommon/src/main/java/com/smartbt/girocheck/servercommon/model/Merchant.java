@@ -127,7 +127,18 @@ public class Merchant implements Serializable {
         this.id = id;
     }
 
-    
+    public String getCityState(){
+        StringBuilder sb = new StringBuilder();
+
+        if(address != null){
+            sb.append(address.getCity());
+            
+            if(address.getState() != null){
+                sb.append(address.getState().getAbbreviation());
+            }
+        }
+        return sb.toString();
+    }
     
     public void setId( int value ) {
         this.id = value;

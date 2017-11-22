@@ -61,10 +61,10 @@ public class CardCreationResponse
      Map map = super.getMap(EXPECTED_RESULT_CODE);
        
          map.put(ParameterName.CARD_NUMBER, cardNumber);
-         map.put(ParameterName.ACTUAL_CARD_NUMBER, actualCardNumber);
+     //    map.put(ParameterName.ACTUAL_CARD_NUMBER, actualCardNumber);
          map.put(ParameterName.EMBOSSED_NAME, embossedName);
          map.put(ParameterName.EXPIRATION_DATE, expirationDate);
-         map.put(ParameterName.VERIFICATION_CODE, verificationCode);
+//         map.put(ParameterName.VERIFICATION_CODE, verificationCode);
        return map;
     }
     public String getCardNumber() {

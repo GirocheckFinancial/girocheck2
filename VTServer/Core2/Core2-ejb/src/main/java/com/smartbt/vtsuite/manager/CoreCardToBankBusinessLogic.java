@@ -261,12 +261,12 @@ public class CoreCardToBankBusinessLogic extends CoreAbstractTransactionBusiness
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CoreCardToBankBL::] Sending to Tecnicard", null);
         try {
-            Double amount = (Double) request.getTransactionData().get(ParameterName.AMMOUNT);
+            Double amount = (Double) request.getTransactionData().get(ParameterName.AMOUNT);
 
             request.getTransactionData().put(ParameterName.CARD_NUMBER, cardNumber);
             request.getTransactionData().put(ParameterName.ACCOUNT_NUMBER, merchantAccountNumber);
             request.getTransactionData().put(ParameterName.ROUTING_BANK_NUMBER, merchantRoutingNumber);
-            request.getTransactionData().put(ParameterName.PAYOUT_AMMOUNT, (amount));
+            request.getTransactionData().put(ParameterName.PAYOUT_AMOUNT, (amount));
             request.getTransactionData().put(ParameterName.REQUEST_ID, request.getTransactionData().get(ParameterName.REQUEST_ID));
 
             CustomeLogger.Output(CustomeLogger.OutputStates.Info, "[CoreCardToBankBL::] Calling generic host ::" + host, null);

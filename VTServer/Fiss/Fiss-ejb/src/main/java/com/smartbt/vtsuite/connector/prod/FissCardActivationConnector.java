@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
-public class FissCardActivationConnector implements Connector {
+public class FissCardActivationConnector extends Connector {
 
     private MtvnCWCBNegFleMaintWSV1Interface port;
     private MtvnCWCBNegFleMaintWSV1 service;
@@ -57,6 +57,7 @@ public class FissCardActivationConnector implements Connector {
                     BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                     url);
 
+            addLogger(bindingProvider);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -78,7 +79,7 @@ public class FissCardActivationConnector implements Connector {
 
         if (response.getSvc() != null && !response.getSvc().isEmpty()
                 && response.getSvc().get(0).getMsgData() != null
-                && response.getSvc().get(0).getMsgData().getCBNegFleMaintResData()!= null) {
+                && response.getSvc().get(0).getMsgData().getCBNegFleMaintResData() != null) {
 
             CBNegFleMaintResData data = response.getSvc().get(0).getMsgData().getCBNegFleMaintResData();
 

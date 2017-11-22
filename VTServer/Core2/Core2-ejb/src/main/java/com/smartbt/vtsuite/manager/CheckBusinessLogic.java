@@ -362,12 +362,12 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
         Double westechAmount = 0D;
         String westechAmountString = "";
         try {
-            westechAmountString = (String) checkInfoRequestMap.get(ParameterName.AMMOUNT);
+            westechAmountString = (String) checkInfoRequestMap.get(ParameterName.AMOUNT);
             westechAmount = Double.parseDouble(westechAmountString);
         } catch (Exception e) {
         }
 
-        Double amount = (Double) request.getTransactionData().get(ParameterName.AMMOUNT);
+        Double amount = (Double) request.getTransactionData().get(ParameterName.AMOUNT);
 
         if (!amount.equals(westechAmount)) {
             System.out.println("Amounts doesn't match:");
@@ -377,7 +377,7 @@ public class CheckBusinessLogic extends AbstractCommonBusinessLogic {
             throw new TransactionalException(ResultCode.TERMINAL_WRONG_AMMOUNT, TransactionType.CHECK_INFO, ResultMessage.TERMINAL_WRONG_AMMOUNT.getMessage());
         }
 
-        checkInfoRequestMap.remove(ParameterName.AMMOUNT);
+        checkInfoRequestMap.remove(ParameterName.AMOUNT);
 
         String makerName = (String) checkInfoRequestMap.get(ParameterName.MAKER_NAME);
         String routingNumber = (String) checkInfoRequestMap.get(ParameterName.ROUTING_BANK_NUMBER);

@@ -147,7 +147,7 @@ public class CoreLocalTransactionBusinessLogic extends CoreAbstractTransactionBu
             FeeBucketsManager feeBucketsManager = new FeeBucketsManager();
             responseMap = (Map) feeBucketsManager.getFees((direxTransactionRequest.getTransactionData().get(ParameterName.IDMERCHANT)) + "",
                     (direxTransactionRequest.getTransactionData().get(ParameterName.OPERATION)) + "",
-                    (direxTransactionRequest.getTransactionData().get(ParameterName.AMMOUNT)) + "");
+                    (direxTransactionRequest.getTransactionData().get(ParameterName.AMOUNT)) + "");
 
             response.setTransactionData(responseMap);
             HibernateUtil.commitTransaction();
@@ -166,16 +166,16 @@ public class CoreLocalTransactionBusinessLogic extends CoreAbstractTransactionBu
 
     private void payOutAmountCalculator(DirexTransactionRequest request, Transaction transaction) {
 
-        CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreLocalTransactionBusinessLogic] feeCalculator() start ... amount = " + request.getTransactionData().get(ParameterName.AMMOUNT), null);
-        Double amount = (Double) request.getTransactionData().get(ParameterName.AMMOUNT);
+        CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreLocalTransactionBusinessLogic] feeCalculator() start ... amount = " + request.getTransactionData().get(ParameterName.AMOUNT), null);
+        Double amount = (Double) request.getTransactionData().get(ParameterName.AMOUNT);
 
         Float feeAmount = (Float) request.getTransactionData().get(ParameterName.CRDLDF);
 
         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreLocalTransactionBusinessLogic] amount =" + amount + " ,FEE_AMOUNT applied: " + feeAmount, null);
         Double payOut = amount - feeAmount;
 
-        request.getTransactionData().put(ParameterName.PAYOUT_AMMOUNT, payOut);
-        request.getTransactionData().put(ParameterName.FEE_AMMOUNT, feeAmount);
+        request.getTransactionData().put(ParameterName.PAYOUT_AMOUNT, payOut);
+        request.getTransactionData().put(ParameterName.FEE_AMOUNT, feeAmount);
 
         transaction.setPayoutAmmount(payOut);
         CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreLocalTransactionBusinessLogic] feeCalculator() done with PAYOUT_AMOUNT: " + payOut, null);

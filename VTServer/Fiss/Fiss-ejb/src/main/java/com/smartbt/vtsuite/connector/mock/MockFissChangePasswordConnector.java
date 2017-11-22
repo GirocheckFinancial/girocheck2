@@ -23,7 +23,7 @@ import com.smartbt.vtsuite.ws.changePassword.SZChgPwdMtvnSvcReq;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MockFissChangePasswordConnector implements Connector {
+public class MockFissChangePasswordConnector extends Connector {
 
     private static MockFissChangePasswordConnector INSTANCE;
 

@@ -76,7 +76,7 @@ public class CardToBankConfirmationRequest implements IMap{
         map.put( ParameterName.ACH_FORM, getAchForm());
         map.put( ParameterName.EXISTACH, getExistAch() );
 //        map.put( ParameterName.APPROVED, getApproved());
-        map.put( ParameterName.AMMOUNT, getAmount());
+        map.put(ParameterName.AMOUNT, getAmount());
 
         return map;
 

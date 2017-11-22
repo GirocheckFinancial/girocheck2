@@ -12,8 +12,7 @@ import static com.smartbt.vtsuite.util.FissParam.REQUEST_ID;
 import static com.smartbt.vtsuite.util.FissParam.ROUTING_ID;
 import static com.smartbt.vtsuite.util.FissParam.SERVICE_ID;
 import static com.smartbt.vtsuite.util.FissParam.SERVICE_VERSION;
-import static com.smartbt.vtsuite.util.FissParam.SOURCE_ID;
-import static com.smartbt.vtsuite.util.FissParam.TEST_INDICATOR;
+import static com.smartbt.vtsuite.util.FissParam.SOURCE_ID; 
 import static com.smartbt.vtsuite.util.FissParam.USER;
 import com.smartbt.vtsuite.util.FissPrintUtil;
 import static com.smartbt.vtsuite.util.FissPrintUtil.endTag;
@@ -55,10 +54,8 @@ public class BalanceInquiryReqBuilder {
 
     private static CBAcctInqMtvnSvcReq.PrcsParms buildPrcsParams(String space, Map<FissParam, String> map, StringBuilder sb) {
         CBAcctInqMtvnSvcReq.PrcsParms params = new CBAcctInqMtvnSvcReq.PrcsParms();
-        params.setSrcID(map.get(SOURCE_ID));
-        params.setTestInd(map.get(TEST_INDICATOR));
-
-        sb.append(buildXML("PRCS_PARAMS", map, space, SOURCE_ID, TEST_INDICATOR));
+        params.setSrcID(map.get(SOURCE_ID)); 
+        sb.append(buildXML("PRCS_PARAMS", map, space, SOURCE_ID));
         return params;
     }
 
@@ -80,6 +77,7 @@ public class BalanceInquiryReqBuilder {
         params.setSvcVer(map.get(SERVICE_VERSION));
         params.setRqstUUID(map.get(REQUEST_ID));
         params.setRoutingID(map.get(ROUTING_ID));
+        params.setSrc(new CBAcctInqMtvnSvcReq.Svc.SvcParms.Src());
 
         sb.append(buildXML("SVC_POARAMS", map, space, APPLICATION_ID, SERVICE_ID, SERVICE_VERSION, REQUEST_ID, ROUTING_ID));
 
@@ -93,7 +91,7 @@ public class BalanceInquiryReqBuilder {
         basicAuth.setUsrID(map.get(USER));
         basicAuth.setPwd(map.get(PASSWORD));
 
-        security.setBasicAuth(basicAuth);
+        security.setBasicAuth(basicAuth); 
 
         sb.append(buildXML("SECURITY/BASIC_AUTH", map, space, USER, PASSWORD));
 
@@ -106,7 +104,7 @@ public class BalanceInquiryReqBuilder {
         CBAcctInqReqData reqData = new CBAcctInqReqData();
         reqData.setE130013(map.get(CARD_NUMBER));
 
-        data.setCBAcctInqReqData(null);
+        data.setCBAcctInqReqData(reqData);
 
         sb.append(buildXML("MSG_DATA/REQUEST_DATA", map, space, CARD_NUMBER));
 

@@ -27,7 +27,7 @@ import com.smartbt.vtsuite.ws.history.pending.MtvnCWCBPndTxnInqWSV7Interface;
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
-public class FissTransactionHistoryPendingConnector implements Connector {
+public class FissTransactionHistoryPendingConnector extends Connector {
 
     private MtvnCWCBPndTxnInqWSV7Interface port;
     private MtvnCWCBPndTxnInqWSV7 service;
@@ -55,6 +55,7 @@ public class FissTransactionHistoryPendingConnector implements Connector {
                     BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                     url);
 
+            addLogger(bindingProvider);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

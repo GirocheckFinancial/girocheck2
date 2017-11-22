@@ -1,30 +1,17 @@
 package com.smartbt.girocheck.scan;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.smartbt.girocheck.servercommon.enums.ParameterName;
-import com.smartbt.girocheck.servercommon.enums.ResultCode;
-import com.smartbt.girocheck.servercommon.enums.ResultMessage;
 import com.smartbt.girocheck.servercommon.enums.TransactionType;
-import com.smartbt.girocheck.servercommon.log.LogUtil;
-import com.smartbt.girocheck.servercommon.messageFormat.DirexTransactionResponse;
-import com.smartbt.girocheck.servercommon.messageFormat.IdType;
-import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.girocheck.servercommon.utils.IMap;
-import com.smartbt.vtsuite.util.CustomDateDeserializer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.log4j.Priority;
 
 /**
  * <p>
@@ -187,8 +174,8 @@ public class PersonalInfoRequest implements IMap {
             map.put(ParameterName.MAKER_PHONE, getMakerPhone());
             map.put(ParameterName.MAKER_ADDRESS, getMakerAddress());
 
-            map.put(ParameterName.LOCATION_ID, getLocationId());
-            map.put(ParameterName.PAYMENTCHECK, getPaymentCheck());
+      //      map.put(ParameterName.LOCATION_ID, getLocationId());
+      //      map.put(ParameterName.PAYMENTCHECK, getPaymentCheck());
         }
         else
         {

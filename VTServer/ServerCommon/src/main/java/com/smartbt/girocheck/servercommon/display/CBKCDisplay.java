@@ -1,36 +1,67 @@
 package com.smartbt.girocheck.servercommon.display;
-  
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date; 
+import java.util.Date;
+
 /**
  *
  * @author Roberto
  */
- 
-public class CBKCDisplay {  
-    private static final DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-     private String source; 
-     private String cipid;
-     private String ideologyResult;
-     private String idNotes; 
-     private String applicationDisposition; 
-     private Date enrollmentDate;   
-      
-   public String toString() {
+public class CBKCDisplay {
+
+    private static final DateFormat df = new SimpleDateFormat("yyyyMMdd");
+    private String source;
+    private String cipid;
+    private String ideologyResult;
+    private String idNotes;
+    private String applicationDisposition;
+    private Date enrollmentDate;
+
+    //address
+    private String address;
+    private String city;
+    private String state;
+    private String zipcode;
+
+    private String phone;
+    private Date dob;
+    private String ssn;
+
+    public String toString() {
         StringBuilder sb = new StringBuilder();
-        if (enrollmentDate != null) {
-            sb.append("enrollmentDate=" + df.format(enrollmentDate) + ",");
-        }
-        sb.append("source=" + source + ",");
-        sb.append("cipId=" + cipid + ",");
-        sb.append("ideologyResult=" + ideologyResult + ",");
-        sb.append("idNotes=" + idNotes + ",");
-        sb.append("applicationDisposition=" + applicationDisposition);
+        sb.append("|");  //This is for the email that we don't collect;
+        sb.append(getFullAddress() + "|");  //This is for the email that we don't collect;
+        sb.append("|");  //This is for the ip address;
+        sb.append("|");  //This is for the device id;
+        sb.append(phone + "|");
+        sb.append(getDateString(dob) + "|");
+        sb.append(ssn + "|");
+        sb.append(getDateString(enrollmentDate) + "|");
+        sb.append(source + "|");
+        sb.append(cipid + "|");
+        sb.append(ideologyResult + "|");
+        sb.append(idNotes + "|");
+        sb.append(applicationDisposition + "|");
 
         return sb.toString();
     }
- 
+
+    private String getDateString(Date date) {
+        String dateStr = "";
+        if (date != null) {
+            try {
+                dateStr = df.format(date);
+            } catch (Exception e) {
+            }
+        }
+        return dateStr;
+    }
+
+    private String getFullAddress() {
+        return address + ", " + city + ", " + state + ", " + zipcode;
+    }
+
     /**
      * @return the source
      */
@@ -114,6 +145,103 @@ public class CBKCDisplay {
     public void setEnrollmentDate(Date enrollmentDate) {
         this.enrollmentDate = enrollmentDate;
     }
- 
-     
+
+    /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    /**
+     * @return the city
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * @param city the city to set
+     */
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    /**
+     * @return the state
+     */
+    public String getState() {
+        return state;
+    }
+
+    /**
+     * @param state the state to set
+     */
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    /**
+     * @return the zipcode
+     */
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    /**
+     * @param zipcode the zipcode to set
+     */
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+    /**
+     * @return the phone
+     */
+    public String getPhone() {
+        return phone;
+    }
+
+    /**
+     * @param phone the phone to set
+     */
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    /**
+     * @return the dob
+     */
+    public Date getDob() {
+        return dob;
+    }
+
+    /**
+     * @param dob the dob to set
+     */
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    /**
+     * @return the ssn
+     */
+    public String getSsn() {
+        return ssn;
+    }
+
+    /**
+     * @param ssn the ssn to set
+     */
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
+    }
+
 }

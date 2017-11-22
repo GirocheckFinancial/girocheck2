@@ -4,16 +4,14 @@ import com.smartbt.girocheck.servercommon.enums.TransactionType;
 import com.smartbt.vtsuite.util.FissParam;
 import static com.smartbt.vtsuite.util.FissParam.APPLICATION_ID;
 import static com.smartbt.vtsuite.util.FissParam.CARD_NUMBER;
-import static com.smartbt.vtsuite.util.FissParam.FISS_SERVICE_VERSION;
-import static com.smartbt.vtsuite.util.FissParam.INSTITUTION_NUMBER;
+import static com.smartbt.vtsuite.util.FissParam.FISS_SERVICE_VERSION; 
 import static com.smartbt.vtsuite.util.FissParam.MSG_UUID;
 import static com.smartbt.vtsuite.util.FissParam.PASSWORD;
 import static com.smartbt.vtsuite.util.FissParam.REQUEST_ID;
 import static com.smartbt.vtsuite.util.FissParam.ROUTING_ID;
 import static com.smartbt.vtsuite.util.FissParam.SERVICE_ID;
 import static com.smartbt.vtsuite.util.FissParam.SERVICE_VERSION;
-import static com.smartbt.vtsuite.util.FissParam.SOURCE_ID;
-import static com.smartbt.vtsuite.util.FissParam.TEST_INDICATOR;
+import static com.smartbt.vtsuite.util.FissParam.SOURCE_ID; 
 import static com.smartbt.vtsuite.util.FissParam.USER; 
 import com.smartbt.vtsuite.util.FissPrintUtil;
 import static com.smartbt.vtsuite.util.FissPrintUtil.buildXML;
@@ -54,10 +52,9 @@ public class CardActivationReqBuilder {
 
     private static CBNegFleMaintMtvnSvcReq.PrcsParms buildPrcsParams(String space, Map<FissParam, String> map, StringBuilder sb) {
         CBNegFleMaintMtvnSvcReq.PrcsParms params = new CBNegFleMaintMtvnSvcReq.PrcsParms();
-        params.setSrcID(map.get(SOURCE_ID));
-        params.setTestInd(map.get(TEST_INDICATOR));
+        params.setSrcID(map.get(SOURCE_ID)); 
 
-        sb.append(buildXML("PRCS_POARAMS", map, space, SOURCE_ID, TEST_INDICATOR));
+        sb.append(buildXML("PRCS_POARAMS", map, space, SOURCE_ID));
         return params;
     }
 
@@ -104,8 +101,9 @@ public class CardActivationReqBuilder {
 
         CBNegFleMaintReqData reqData = new CBNegFleMaintReqData();
         reqData.setE130013(map.get(CARD_NUMBER)); 
+        reqData.setE130050(map.get(FissParam.RESULT_CODE)); 
          
-        data.setCBNegFleMaintReqData(null);
+        data.setCBNegFleMaintReqData(reqData);
 
         sb.append(buildXML("MSG_DATA/REQUEST_DATA", map, space, CARD_NUMBER ));
 

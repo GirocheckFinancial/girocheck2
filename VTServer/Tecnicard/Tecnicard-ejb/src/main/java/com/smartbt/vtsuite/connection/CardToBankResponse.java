@@ -53,7 +53,7 @@ public class CardToBankResponse
     public Map toMap() {
       Map map = super.getMap(EXPECTED_RESULT_CODE);
       map.put(ParameterName.TRANSACTION_NUMBER, transactionNumber);
-      map.put(ParameterName.AMMOUNT, amount);
+      map.put(ParameterName.AMOUNT, amount);
       map.put(ParameterName.DATE, date);
     return map;
     }

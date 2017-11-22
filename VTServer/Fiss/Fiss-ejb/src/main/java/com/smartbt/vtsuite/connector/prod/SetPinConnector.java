@@ -19,8 +19,7 @@ import com.smartbt.girocheck.servercommon.enums.ParameterName;
 import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
-import com.smartbt.vtsuite.util.FissParam;
-import com.smartbt.vtsuite.ws.changePassword.SZChgPwdResData;
+import com.smartbt.vtsuite.util.FissParam; 
 import com.smartbt.vtsuite.ws.setPin.CBPinOffsetChgMtvnSvcReq;
 import com.smartbt.vtsuite.ws.setPin.CBPinOffsetChgMtvnSvcRes;
 import com.smartbt.vtsuite.ws.setPin.CBPinOffsetChgResData;
@@ -30,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
-public class SetPinConnector implements Connector {
+public class SetPinConnector extends Connector {
 
     private MtvnCWCBPinOffsetChgWSV1Interface port;
     private MtvnCWCBPinOffsetChgWSV1 service;
@@ -58,6 +57,7 @@ public class SetPinConnector implements Connector {
                     BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                     url);
 
+            addLogger(bindingProvider);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

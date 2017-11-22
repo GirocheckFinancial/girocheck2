@@ -61,7 +61,7 @@ public class CheckResendManager {
             } else {
                 map.put(ParameterName.USER, "GCTLS");
                 map.put(ParameterName.PASSWORD, "sts283");
-                map.put(ParameterName.DEPOSIT, "4pm Deposit");
+             //   map.put(ParameterName.DEPOSIT, "4pm Deposit");
             }
             map.put(ParameterName.TERMINAL_ID_ISTREAM, check.getLocationId());
 
@@ -71,7 +71,7 @@ public class CheckResendManager {
             String originalMICR = check.getMicr();
             String translatedMICR = translateMICR(originalMICR);
 
-            map.put(ParameterName.AMMOUNT, amountString);
+            map.put(ParameterName.AMOUNT, amountString);
             map.put(ParameterName.MICR, translatedMICR);
             map.put(ParameterName.CHECK_ID, check.getId());
 

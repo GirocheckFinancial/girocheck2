@@ -20,7 +20,6 @@ import com.smartbt.girocheck.servercommon.utils.CustomeLogger;
 import com.smartbt.vtsuite.requestBuilder.RequestBuilder;
 import com.smartbt.vtsuite.connector.Connector;
 import com.smartbt.vtsuite.util.FissParam;
-import com.smartbt.vtsuite.ws.cardLoad.CBPrpdLdUnldResData;
 import com.smartbt.vtsuite.ws.setProductId.CBProdIDMaintMtvnSvcReq;
 import com.smartbt.vtsuite.ws.setProductId.CBProdIDMaintMtvnSvcRes;
 import com.smartbt.vtsuite.ws.setProductId.CBProdIDMaintResData;
@@ -30,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.xml.ws.BindingProvider;
 
-public class FissSetProductIdConnector implements Connector {
+public class FissSetProductIdConnector extends Connector {
 
     private MtvnCWCBProdIDMaintWSV1Interface port;
     private MtvnCWCBProdIDMaintWSV1 service;
@@ -58,18 +57,20 @@ public class FissSetProductIdConnector implements Connector {
                     BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
                     url);
 
+            addLogger(bindingProvider);
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
     }
 
-    public Map<FissParam, Object>  callWS(Map<ParameterName, Object> params){
+    public Map<FissParam, Object> callWS(Map<ParameterName, Object> params) {
         CBProdIDMaintMtvnSvcReq request = RequestBuilder.buildSetProductIdRequest(params);
 
         CBProdIDMaintMtvnSvcRes response = port.cbProdIDMaint(request);
 
-           Map<FissParam, Object> responseMap = new HashMap<>();
+        Map<FissParam, Object> responseMap = new HashMap<>();
 
         Boolean success = response != null && response.getSvc() != null
                 && !response.getSvc().isEmpty()
@@ -79,7 +80,7 @@ public class FissSetProductIdConnector implements Connector {
 
         if (response.getSvc() != null && !response.getSvc().isEmpty()
                 && response.getSvc().get(0).getMsgData() != null
-                && response.getSvc().get(0).getMsgData().getCBProdIDMaintResData()!= null) {
+                && response.getSvc().get(0).getMsgData().getCBProdIDMaintResData() != null) {
 
             CBProdIDMaintResData data = response.getSvc().get(0).getMsgData().getCBProdIDMaintResData();
 

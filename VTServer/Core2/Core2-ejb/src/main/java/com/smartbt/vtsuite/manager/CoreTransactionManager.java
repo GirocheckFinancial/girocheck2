@@ -32,6 +32,7 @@ import com.smartbt.girocheck.servercommon.messageFormat.IdType;
 import com.smartbt.girocheck.servercommon.model.Address;
 import com.smartbt.girocheck.servercommon.model.Client;
 import com.smartbt.girocheck.servercommon.model.CreditCard;
+import com.smartbt.girocheck.servercommon.model.Merchant;
 import com.smartbt.girocheck.servercommon.model.PersonalIdentification;
 import com.smartbt.girocheck.servercommon.model.State;
 import com.smartbt.girocheck.servercommon.model.Terminal;
@@ -83,16 +84,16 @@ public class CoreTransactionManager {
      * @throws Exception
      */
     public void processTransaction(DirexTransactionRequest direxTransactionRequest) throws Exception {
+        TransactionType transactionType = direxTransactionRequest.getTransactionType();
+        Map txData = direxTransactionRequest.getTransactionData();
 
         try {
-            if (direxTransactionRequest.getTransactionData() != null && direxTransactionRequest.getTransactionData().containsKey(TransactionType.TRANSACTION_TYPE)) {
-
-                TransactionType transactionType = direxTransactionRequest.getTransactionType();
+            if (txData != null && txData.containsKey(TransactionType.TRANSACTION_TYPE)) {
 
                 CustomeLogger.Output(CustomeLogger.OutputStates.Debug, ">[Core2TransactionManager] Processing: " + transactionType, null);
 
                 NomHost genericHost = getGenericHost(direxTransactionRequest);
-                direxTransactionRequest.getTransactionData().put(ParameterName.HOSTNAME, genericHost);
+                txData.put(ParameterName.HOSTNAME, genericHost);
 
                 switch (transactionType) {
                     case BALANCE_INQUIRY:
@@ -101,7 +102,7 @@ public class CoreTransactionManager {
                     case CARD_RELOAD:
                     case CARD_RELOAD_WITH_DATA:
                     case NEW_CARD_LOAD:
-                        String operation = (String) direxTransactionRequest.getTransactionData().get(ParameterName.OPERATION);
+                        String operation = (String) txData.get(ParameterName.OPERATION);
 
                         if (operation.contains("02")) {
                             businessLogic = new CashBusinessLogic();
@@ -173,12 +174,12 @@ public class CoreTransactionManager {
         ClientManager clientManager = new ClientManager();
         CreditCardManager creditCardManager = new CreditCardManager();
         Transaction transaction = new Transaction();
-
+        Map txData = direxTransactionRequest.getTransactionData();
         try {
             HibernateUtil.beginTransaction();
 
             //------------------------------
-            if (direxTransactionRequest.getTransactionData().get(ParameterName.HOSTNAME) == null) {
+            if (txData.get(ParameterName.HOSTNAME) == null) {
                 transaction.setResultCode(900);
                 return transaction;
             }
@@ -191,7 +192,7 @@ public class CoreTransactionManager {
             Date currentDate = new Date();
             transaction.setDateTime(currentDate);
 
-            String terminalId = (String) direxTransactionRequest.getTransactionData().get(ParameterName.TERMINAL_ID);
+            String terminalId = (String) txData.get(ParameterName.TERMINAL_ID);
 
             Client client = null;
 
@@ -203,7 +204,7 @@ public class CoreTransactionManager {
              */
             if (transactionType == TransactionType.CARD_RELOAD_WITH_DATA) {
                 System.out.println("[Core2TransactionManager] transactionType == TransactionType.CARD_RELOAD_WITH_DATA");
-                String cardNumberCR = (String) direxTransactionRequest.getTransactionData().get(ParameterName.CARD_NUMBER);
+                String cardNumberCR = (String) txData.get(ParameterName.CARD_NUMBER);
 
                 client = creditCardManager.getClient(cardNumberCR);
 
@@ -250,89 +251,91 @@ public class CoreTransactionManager {
                     idBack = idFront;
                 }
 
-                direxTransactionRequest.getTransactionData().put(ParameterName.IDBACK, idBack);
-                direxTransactionRequest.getTransactionData().put(ParameterName.IDFRONT, idFront);
+                txData.put(ParameterName.IDBACK, idBack);
+                txData.put(ParameterName.IDFRONT, idFront);
 
                 String phone = client.getTelephone() != null ? client.getTelephone() : "3055551212";
 
-                direxTransactionRequest.getTransactionData().put(ParameterName.PHONE, phone);
-                direxTransactionRequest.getTransactionData().put(ParameterName.TELEPHONE, phone);
+                txData.put(ParameterName.PHONE, phone);
+                txData.put(ParameterName.TELEPHONE, phone);
 
-                direxTransactionRequest.getTransactionData().put(ParameterName.SSN, client.getSsn());
-                direxTransactionRequest.getTransactionData().put(ParameterName.IDTYPE, IdType.getIdType(identification.getIdType()));
-                direxTransactionRequest.getTransactionData().put(ParameterName.ID, identification.getIdentification());
-                direxTransactionRequest.getTransactionData().put(ParameterName.EXPIRATION_DATE_AS_DATE, identification.getExpirationDate());
+                txData.put(ParameterName.SSN, client.getSsn());
+                txData.put(ParameterName.IDTYPE, IdType.getIdType(identification.getIdType()));
+                txData.put(ParameterName.ID, identification.getIdentification());
+                txData.put(ParameterName.EXPIRATION_DATE_AS_DATE, identification.getExpirationDate());
 
-                direxTransactionRequest.getTransactionData().put(ParameterName.BORNDATE_AS_DATE, client.getBornDate());
-                direxTransactionRequest.getTransactionData().put(ParameterName.FIRST_NAME, client.getFirstName());
-                direxTransactionRequest.getTransactionData().put(ParameterName.LAST_NAME, client.getLastName());
+                txData.put(ParameterName.BORNDATE_AS_DATE, client.getBornDate());
+                txData.put(ParameterName.FIRST_NAME, client.getFirstName());
+                txData.put(ParameterName.LAST_NAME, client.getLastName());
 
                 System.out.println("Putting LAST_NAME = " + client.getLastName());
 
-                direxTransactionRequest.getTransactionData().put(ParameterName.ADDRESS, address.getAddress());
-                direxTransactionRequest.getTransactionData().put(ParameterName.CITY, address.getCity());
-                direxTransactionRequest.getTransactionData().put(ParameterName.STATE, state.getCode());
+                txData.put(ParameterName.ADDRESS, address.getAddress());
+                txData.put(ParameterName.CITY, address.getCity());
+                txData.put(ParameterName.STATE, state.getCode());
 
-                direxTransactionRequest.getTransactionData().put(ParameterName.STATE_ABBREVIATION, state.getAbbreviation());
-                direxTransactionRequest.getTransactionData().put(ParameterName.ZIPCODE, address.getZipcode());
+                txData.put(ParameterName.STATE_ABBREVIATION, state.getAbbreviation());
+                txData.put(ParameterName.ZIPCODE, address.getZipcode());
 
             }
 
             Terminal terminal = terminalManager.findBySerialNumber(terminalId);
-
-            transaction.setMerchant(terminal.getMerchant());
+            Merchant merchant = terminal.getMerchant();
+            
+            transaction.setMerchant(merchant);
 
             CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[Core2TransactionManager] (terminalId) :: " + terminalId, null);
             if (terminal == null) {
                 CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[Core2TransactionManager] Terminal with id : " + terminalId + " doesn't exist. ", null);
                 throw new LoggingValidationException(ResultCode.TERMINAL_ID_NOT_EXIST, " Terminal with id : " + terminalId + " doesn't exist. ", transaction);
             } else {
-                String user = (String) direxTransactionRequest.getTransactionData().get(ParameterName.USER);
-                String password = (String) direxTransactionRequest.getTransactionData().get(ParameterName.PASSWORD);
+                String user = (String) txData.get(ParameterName.USER);
+                String password = (String) txData.get(ParameterName.PASSWORD);
                 CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[Core2TransactionManager] createTransaction(...) (user/passw) :: (" + user + "/" + password + "). Originals (" + terminal.getGirocheckUser() + "/" + terminal.getGirocheckPassword() + ")", null);
                 if (!terminal.getGirocheckUser().equals(user) || !terminal.getGirocheckPassword().equals(password)) {
                     throw new LoggingValidationException(ResultCode.LOGIN_FAILED, "Login Failed. For this terminal is (" + terminal.getGirocheckUser() + "/" + terminal.getGirocheckPassword() + "). Received(" + user + "/" + password + ")", transaction);
                 }
             }
 
-            direxTransactionRequest.getTransactionData().put(ParameterName.IDMERCHANT, terminal.getMerchant().getId());
-
-            direxTransactionRequest.getTransactionData().put(ParameterName.LOCATION_ID, terminal.getMerchant().getIdIstreamTecnicardCheck());
-
-            if (direxTransactionRequest.getTransactionData().containsKey(ParameterName.AMMOUNT)) {
-                double ammount = (Double) direxTransactionRequest.getTransactionData().get(ParameterName.AMMOUNT);
+            txData.put(ParameterName.IDMERCHANT, merchant.getId()); 
+            txData.put(ParameterName.MERCHANT_NAME, merchant.getLegalName());
+            txData.put(ParameterName.TERMINAL_ID_ISTREAM, merchant.getIdIstreamTecnicardCheck());
+            txData.put(ParameterName.MERCHANT_CITY_STATE, merchant.getCityState());
+           
+            if (txData.containsKey(ParameterName.AMOUNT)) {
+                double ammount = (Double) txData.get(ParameterName.AMOUNT);
 
                 transaction.setAmmount(ammount);
 
-                String operation = (String) direxTransactionRequest.getTransactionData().get(ParameterName.OPERATION);
+                String operation = (String) txData.get(ParameterName.OPERATION);
 
                 if (amountAplicationParameters == null) {
                     amountAplicationParameters = applicationParameterManager.getAmountAplicationParameters();
                 }
 
                 Double activationFeeConfig = amountAplicationParameters.get(EnumApplicationParameter.ACTIVATION_FEE);
-                direxTransactionRequest.getTransactionData().put(ParameterName.ACTIVATION_FEE_CONFIG, activationFeeConfig);
+                txData.put(ParameterName.ACTIVATION_FEE_CONFIG, activationFeeConfig);
 
                 validateAmount(ammount, operation, transaction, amountAplicationParameters);
             }
 
-            if (direxTransactionRequest.getTransactionData().containsKey(ParameterName.SSN)) {
-                String ssn = (String) direxTransactionRequest.getTransactionData().get(ParameterName.SSN);
+            if (txData.containsKey(ParameterName.SSN)) {
+                String ssn = (String) txData.get(ParameterName.SSN);
 
                 byte[] addressForm = null;
 
                 if (transactionType == TransactionType.NEW_CARD_LOAD
-                        && direxTransactionRequest.getTransactionData().containsKey(ParameterName.ADDRESS_CORRECT)
-                        && (direxTransactionRequest.getTransactionData().get(ParameterName.ADDRESS_CORRECT) != null)
-                        && (((String) direxTransactionRequest.getTransactionData().get(ParameterName.ADDRESS_CORRECT)).contains("n") || ((String) direxTransactionRequest.getTransactionData().get(ParameterName.ADDRESS_CORRECT)).contains("N"))
-                        && direxTransactionRequest.getTransactionData().containsKey(ParameterName.ADDRESS_FORM) && direxTransactionRequest.getTransactionData().get(ParameterName.ADDRESS_FORM) != null) {
-                    addressForm = (byte[]) direxTransactionRequest.getTransactionData().get(ParameterName.ADDRESS_FORM);
+                        && txData.containsKey(ParameterName.ADDRESS_CORRECT)
+                        && (txData.get(ParameterName.ADDRESS_CORRECT) != null)
+                        && (((String) txData.get(ParameterName.ADDRESS_CORRECT)).contains("n") || ((String) txData.get(ParameterName.ADDRESS_CORRECT)).contains("N"))
+                        && txData.containsKey(ParameterName.ADDRESS_FORM) && txData.get(ParameterName.ADDRESS_FORM) != null) {
+                    addressForm = (byte[]) txData.get(ParameterName.ADDRESS_FORM);
                 }
                 System.out.println("[Core2TransactionManager] client = clientManager.createOrGet( ssn, addressForm );");
                 client = clientManager.createOrGet(ssn, addressForm);
 
                 if (client.getEmail() != null && !client.getEmail().isEmpty()) {
-                    direxTransactionRequest.getTransactionData().put(ParameterName.EMAIL, client.getEmail());
+                    txData.put(ParameterName.EMAIL, client.getEmail());
                 }
             }
 
@@ -340,32 +343,19 @@ public class CoreTransactionManager {
                 /*
                  * ITIN value 100
                  */
-                direxTransactionRequest.getTransactionData().put(ParameterName.IDTYPE, IdType.OTHERS);
+                txData.put(ParameterName.IDTYPE, IdType.OTHERS);
             } else {
-                direxTransactionRequest.getTransactionData().put(ParameterName.IDTYPE, IdType.SSN);
+                txData.put(ParameterName.IDTYPE, IdType.SSN);
             }
-
-            if (transactionType == TransactionType.NEW_CARD_LOAD || transactionType == TransactionType.CARD_RELOAD || transactionType == TransactionType.CARD_RELOAD_WITH_DATA) {
-                direxTransactionRequest.getTransactionData().put(ParameterName.MERCHANT_NAME, terminal.getMerchant().getLegalName());
-            }
-
-            direxTransactionRequest.getTransactionData().put(ParameterName.IDPOS, terminal.getMerchant().getIdPosOrderExp());
-            direxTransactionRequest.getTransactionData().put(ParameterName.IDTELLER, terminal.getMerchant().getIdTellerOrderExp());
-            direxTransactionRequest.getTransactionData().put(ParameterName.IDTELLERPAGO, terminal.getMerchant().getIdTellerPagoOrderExp());
-            direxTransactionRequest.getTransactionData().put(ParameterName.CERTEGY_LOCATION_ID, terminal.getMerchant().getIdIstreamFuzeCash()); //TODO create new parameter for this
-
-            if (transactionType == TransactionType.CHECK_AUTH_LOCATION_CONFIG) {
-                direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_ID_ISTREAM, terminal.getMerchant().getIdIstreamTecnicardCheck());
-                //todo remove this for version 2 (We eill take this from System Properties)
-                direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_USER_ISTREAM, terminal.getMerchant().getIstreamUser());
-                direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_PASSWORD_ISTREAM, terminal.getMerchant().getIstreamPassword());
-            }
+  
+            txData.put(ParameterName.CERTEGY_LOCATION_ID, merchant.getIdIstreamFuzeCash()); //TODO create new parameter for this
+ 
 
             transaction.setTerminal(terminal);
             transaction.setClient(client);
 
             if (client != null) {
-                direxTransactionRequest.getTransactionData().put(ParameterName.CLIENT_ID, client.getId());
+                txData.put(ParameterName.CLIENT_ID, client.getId());
             }
             //Black List 
             if (client != null) {
@@ -373,37 +363,37 @@ public class CoreTransactionManager {
 
                 if (client.getBlackListAll() != null && client.getBlackListAll() == true) {
                     CustomeLogger.Output(CustomeLogger.OutputStates.Debug, "[CoreCardToBankBL::] Client " + client.getFirstName() + " is in the black list for All Transactions.", null);
-                    transaction.setResultMessage("Client is in Black List.");
+                 
                     transaction.setResultCode(ResultCode.CLIENT_IN_BLACKLIST.getCode());
                     transaction.setTransactionFinished(true);
                     throw new TransactionException(transaction, ResultCode.CLIENT_IN_BLACKLIST, "Girocheck Decline-Please call customer service");
                 }
             }
 
-            if (direxTransactionRequest.getTransactionData().containsKey(ParameterName.PHONE)
-                    && direxTransactionRequest.getTransactionData().get(ParameterName.PHONE) != null
-                    && !((String) direxTransactionRequest.getTransactionData().get(ParameterName.PHONE)).isEmpty()
-                    && ((String) direxTransactionRequest.getTransactionData().get(ParameterName.PHONE)).length() >= 3) {
-                String cell_area_code = (String) direxTransactionRequest.getTransactionData().get(ParameterName.PHONE);
-                direxTransactionRequest.getTransactionData().put(ParameterName.CELL_PHONE_AREA, cell_area_code.substring(0, 3));
+            if (txData.containsKey(ParameterName.PHONE)
+                    && txData.get(ParameterName.PHONE) != null
+                    && !((String) txData.get(ParameterName.PHONE)).isEmpty()
+                    && ((String) txData.get(ParameterName.PHONE)).length() >= 3) {
+                String cell_area_code = (String) txData.get(ParameterName.PHONE);
+                txData.put(ParameterName.CELL_PHONE_AREA, cell_area_code.substring(0, 3));
 
-                String cell_phone = (String) direxTransactionRequest.getTransactionData().get(ParameterName.PHONE);
-                direxTransactionRequest.getTransactionData().put(ParameterName.CELL_PHONE, cell_phone.substring(3));
+                String cell_phone = (String) txData.get(ParameterName.PHONE);
+                txData.put(ParameterName.CELL_PHONE, cell_phone.substring(3));
 
             }
-            if (!direxTransactionRequest.getTransactionData().containsKey(ParameterName.ACCOUNT_NUMBER)) {
+            if (!txData.containsKey(ParameterName.ACCOUNT_NUMBER)) {
                 String account = terminalManager.getAccountFromMerchantByTerminalSerialNumber(terminal.getSerialNumber());
                 transaction.setAccount(account);
-                direxTransactionRequest.getTransactionData().put(ParameterName.ACCOUNT_NUMBER, account);
+                txData.put(ParameterName.ACCOUNT_NUMBER, account);
             } else {
-                transaction.setAccount((String) direxTransactionRequest.getTransactionData().get(ParameterName.ACCOUNT_NUMBER));
+                transaction.setAccount((String) txData.get(ParameterName.ACCOUNT_NUMBER));
             }
 
             // ---------------------  CREDIT CARD LOGIC -------
             if (transactionType != TransactionType.CARD_TO_BANK
                     && transactionType != TransactionType.CHECK_AUTH_LOCATION_CONFIG) {
-                if (direxTransactionRequest.getTransactionData().containsKey(ParameterName.CARD_NUMBER)) {
-                    String cardNumber = (String) direxTransactionRequest.getTransactionData().get(ParameterName.CARD_NUMBER);
+                if (txData.containsKey(ParameterName.CARD_NUMBER)) {
+                    String cardNumber = (String) txData.get(ParameterName.CARD_NUMBER);
 
                     if (cardNumber != null && !cardNumber.isEmpty() && cardNumber.length() >= 12) {
                         System.out.println("[Core2TransactionManager] cardNumberCR == *******" + cardNumber.substring(12));
@@ -416,7 +406,7 @@ public class CoreTransactionManager {
                                 case NEW_CARD_LOAD:
                                 case CARD_RELOAD:
                                 case CARD_RELOAD_WITH_DATA:
-                                    creditCard = creditCardManager.createOrGet(cardNumber, client, terminal.getMerchant());
+                                    creditCard = creditCardManager.createOrGet(cardNumber, client, merchant);
                                     break;
                                 case BALANCE_INQUIRY:
                                     creditCard = creditCardManager.getCardByNumber(cardNumber);
@@ -443,26 +433,17 @@ public class CoreTransactionManager {
                 }
             }
             // -----------------------------------------------------------------
-
-            //todo remove this for version 2 (We eill take this from System Properties)
-            if (COMPLEX_TRANSACTION_LIST.contains(transactionType)) {
-                direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_USER_ISTREAM, terminal.getMerchant().getIstreamUser());
-                direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_PASSWORD_ISTREAM, terminal.getMerchant().getIstreamPassword());
-            }
-
-            if (direxTransactionRequest.getTransactionData().containsKey(ParameterName.OPERATION)) {
-                String operation = (String) direxTransactionRequest.getTransactionData().get(ParameterName.OPERATION);
+ 
+            if (txData.containsKey(ParameterName.OPERATION)) {
+                String operation = (String) txData.get(ParameterName.OPERATION);
                 transaction.setOperation(operation);
                 if (operation.contains("01")) {// check 
-                    direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_ID_ISTREAM, terminal.getMerchant().getIdIstreamTecnicardCheck());
-
-                    direxTransactionRequest.getTransactionData().put(ParameterName.IDSERVICE, "1");
-                    direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_ID_TECNICARD, terminal.getMerchant().getIdTecnicardCheck());
+                    txData.put(ParameterName.TERMINAL_ID_ISTREAM, merchant.getIdIstreamTecnicardCheck());
+ 
+                    txData.put(ParameterName.TERMINAL_ID_TECNICARD, merchant.getIdTecnicardCheck());
                 } else {  // if operation == 02 cash 
-                    direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_ID_ISTREAM, terminal.getMerchant().getIdIstreamTecnicardCash());
-
-                    direxTransactionRequest.getTransactionData().put(ParameterName.IDSERVICE, "2");
-                    direxTransactionRequest.getTransactionData().put(ParameterName.TERMINAL_ID_TECNICARD, terminal.getMerchant().getIdTecnicardCash());
+                    txData.put(ParameterName.TERMINAL_ID_ISTREAM, merchant.getIdIstreamTecnicardCash());
+                    txData.put(ParameterName.TERMINAL_ID_TECNICARD, merchant.getIdTecnicardCash());
                 }
             }
 
@@ -470,7 +451,7 @@ public class CoreTransactionManager {
 
             transactionManager.saveOrUpdate(transaction);
 
-            direxTransactionRequest.getTransactionData().put(ParameterName.REQUEST_ID, transaction.getId());
+            txData.put(ParameterName.REQUEST_ID, transaction.getId());
 
 //            HibernateUtil.commitTransaction();
         } catch (AmountException amountException) {

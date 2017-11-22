@@ -23,7 +23,7 @@ import com.smartbt.vtsuite.ws.setProductId.CBProdIDMaintMtvnSvcReq;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MockFissSetProductIdConnector implements Connector {
+public class MockFissSetProductIdConnector extends Connector {
 
     private static MockFissSetProductIdConnector INSTANCE;
 
